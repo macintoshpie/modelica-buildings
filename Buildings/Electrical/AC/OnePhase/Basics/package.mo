@@ -1,9 +1,8 @@
 within Buildings.Electrical.AC.OnePhase;
-package Basics "Package with basic models"
-extends Modelica.Icons.BasesPackage;
-
-
-annotation (Documentation(info="<html>
+package Basics
+  "Package with basic models"
+  extends Modelica.Icons.BasesPackage;
+  annotation(Documentation(info="<html>
 <p>
 This package contains simple models used in AC single phase networks.
 </p>

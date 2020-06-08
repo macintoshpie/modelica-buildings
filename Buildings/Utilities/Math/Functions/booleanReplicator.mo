@@ -1,14 +1,16 @@
 within Buildings.Utilities.Math.Functions;
-function booleanReplicator "Replicates Boolean signals"
+function booleanReplicator
+  "Replicates Boolean signals"
   extends Modelica.Icons.Function;
-  input Integer nout=1 "Number of outouts";
-  input Boolean u "Boolean input signal";
-  output Boolean y[nout] "Boolean output signals";
-
+  input Integer nout=1
+    "Number of outouts";
+  input Boolean u
+    "Boolean input signal";
+  output Boolean y[nout]
+    "Boolean output signals";
 algorithm
-  y :=fill(u, nout);
-
-  annotation (Documentation(info="<html>
+  y := fill(u, nout);
+  annotation(Documentation(info="<html>
 <p>This function replicates the boolean input signal to an array of <code>nout</code> identical output signals. </p>
 </html>", revisions="<html>
 <ul>

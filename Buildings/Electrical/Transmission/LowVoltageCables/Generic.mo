@@ -1,19 +1,19 @@
 within Buildings.Electrical.Transmission.LowVoltageCables;
-record Generic "Data record for a generic low voltage cable"
+record Generic
+  "Data record for a generic low voltage cable"
   extends Modelica.Icons.MaterialProperty;
   extends Buildings.Electrical.Transmission.BaseClasses.BaseCable;
   parameter Buildings.Electrical.Types.CharacteristicResistance RCha(start=0)
     "Characteristic resistance of the cable";
   parameter Buildings.Electrical.Types.CharacteristicReactance XCha(start=0)
     "Characteristic reactance of the cable";
-
   redeclare function extends lineResistance
     "Function that computes the resistance of a cable"
-   input Buildings.Electrical.Transmission.LowVoltageCables.Generic cable
+    input Buildings.Electrical.Transmission.LowVoltageCables.Generic cable
       "Record that contains cable properties";
   algorithm
-      R :=cable.RCha*l;
-      annotation(Inline=true, Documentation(revisions="<html>
+    R := cable.RCha*l;
+    annotation(Inline=true, Documentation(revisions="<html>
 <ul>
 <li>
 September 23, 2014, by Marco Bonvini:<br/>
@@ -38,14 +38,13 @@ where <i>R<sub>CHA</sub></i> is the characteristic resistance per unit length, a
 </p>
 </html>"));
   end lineResistance;
-
   redeclare function extends lineInductance
     "Function that computes the resistance of a cable"
-   input Buildings.Electrical.Transmission.LowVoltageCables.Generic cable
+    input Buildings.Electrical.Transmission.LowVoltageCables.Generic cable
       "Record that contains cable properties";
   algorithm
-      L := l*(cable.XCha/omega);
-      annotation(Inline=true, Documentation(revisions="<html>
+    L := l*(cable.XCha/omega);
+    annotation(Inline=true, Documentation(revisions="<html>
 <ul>
 <li>
 September 23, 2014, by Marco Bonvini:<br/>
@@ -71,14 +70,13 @@ the length of the cable.
 </p>
 </html>"));
   end lineInductance;
-
   redeclare function extends lineCapacitance
     "Function that computes the capacitance of a cable"
-   input Buildings.Electrical.Transmission.LowVoltageCables.Generic cable
+    input Buildings.Electrical.Transmission.LowVoltageCables.Generic cable
       "Record that contains cable properties";
   algorithm
-      C := 0.0;
-      annotation(Inline=true, Documentation(revisions="<html>
+    C := 0.0;
+    annotation(Inline=true, Documentation(revisions="<html>
 <ul>
 <li>
 September 23, 2014, by Marco Bonvini:<br/>
@@ -97,8 +95,7 @@ C = 0.
 </p>
 </html>"));
   end lineCapacitance;
-
-  annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This is a base record for specifying physical properties for low
 voltage commercial cables. New cables can be added by extending the

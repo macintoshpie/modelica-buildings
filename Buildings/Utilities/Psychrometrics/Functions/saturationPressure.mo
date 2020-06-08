@@ -2,21 +2,13 @@ within Buildings.Utilities.Psychrometrics.Functions;
 function saturationPressure
   "Saturation curve valid for 223.16 <= T <= 373.16 (and slightly outside with less accuracy)"
   extends Modelica.Icons.Function;
-  input Modelica.SIunits.Temperature TSat(displayUnit="degC",
-                                          nominal=300) "Saturation temperature";
-  output Modelica.SIunits.AbsolutePressure pSat(
-                                          displayUnit="Pa",
-                                          nominal=1000) "Saturation pressure";
-
+  input Modelica.SIunits.Temperature TSat(displayUnit="degC", nominal=300)
+    "Saturation temperature";
+  output Modelica.SIunits.AbsolutePressure pSat(displayUnit="Pa", nominal=1000)
+    "Saturation pressure";
 algorithm
-  pSat := Buildings.Utilities.Math.Functions.regStep(
-             y1=Buildings.Utilities.Psychrometrics.Functions.saturationPressureLiquid(TSat),
-             y2=Buildings.Utilities.Psychrometrics.Functions.sublimationPressureIce(TSat),
-             x=TSat-273.16,
-             x_small=1.0);
-  annotation(Inline=true,
-    smoothOrder=1,
-    Documentation(info="<html>
+  pSat := Buildings.Utilities.Math.Functions.regStep(y1=Buildings.Utilities.Psychrometrics.Functions.saturationPressureLiquid(TSat), y2=Buildings.Utilities.Psychrometrics.Functions.sublimationPressureIce(TSat), x=TSat-273.16, x_small=1.0);
+  annotation(Inline=true, smoothOrder=1, Documentation(info="<html>
 <p>
 Saturation pressure of water, computed from temperature,
 according to Wagner <i>et al.</i> (1993).
@@ -31,8 +23,7 @@ equation 3.5. 1993.
 <a href=\"http://aip.scitation.org/doi/pdf/10.1063/1.555947?class=pdf\">
 http://aip.scitation.org/doi/pdf/10.1063/1.555947?class=pdf</a>.
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 March 15, 2016, by Michael Wetter:<br/>

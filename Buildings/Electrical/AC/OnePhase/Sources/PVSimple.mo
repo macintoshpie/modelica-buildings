@@ -1,43 +1,27 @@
 within Buildings.Electrical.AC.OnePhase.Sources;
-model PVSimple "Simple PV model"
+model PVSimple
+  "Simple PV model"
   extends Buildings.Electrical.Interfaces.PartialAcDcParameters;
-  extends Buildings.Electrical.Interfaces.PartialPV(
-    redeclare package PhaseSystem = Buildings.Electrical.PhaseSystems.OnePhase,
-    redeclare replaceable Interfaces.Terminal_p terminal,
-    V_nominal(start = 110));
+  extends Buildings.Electrical.Interfaces.PartialPV(redeclare package PhaseSystem=Buildings.Electrical.PhaseSystems.OnePhase, redeclare replaceable Interfaces.Terminal_p terminal, V_nominal(start=110));
   parameter Boolean linearized=false
     "If =true, introduce a linearization in the load";
-  replaceable Buildings.Electrical.AC.OnePhase.Loads.Capacitive load(
-    mode=Buildings.Electrical.Types.Load.VariableZ_P_input,
-    final pf=pf,
-    final V_nominal=V_nominal,
-    final P_nominal = 0,
-    final linearized=linearized) "Load model"
-    annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
+  replaceable Buildings.Electrical.AC.OnePhase.Loads.Capacitive load(mode=Buildings.Electrical.Types.Load.VariableZ_P_input, final pf=pf, final V_nominal=V_nominal, final P_nominal=0, final linearized=linearized)
+    "Load model"
+    annotation(Placement(transformation(extent={{-40,-10}, {-20, 10}})));
 protected
   Modelica.Blocks.Math.Gain gain_DCAC(final k=eta_DCAC)
     "Gain that represents the DCAC conversion losses"
-    annotation (Placement(
-        transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=180,
-        origin={36,0})));
+    annotation(Placement(transformation(extent={{-10,-10}, {10, 10}}, rotation=180, origin={36, 0})));
 equation
-  connect(load.terminal, terminal) annotation (Line(
-      points={{-40,0},{-100,0}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  connect(gain_DCAC.y, load.Pow) annotation (Line(
-      points={{25,1.33227e-15},{2,1.33227e-15},{2,0},{-20,0}},
-      color={0,0,127},
-      smooth=Smooth.None));
+  connect(load.terminal, terminal)
+    annotation(Line(points={{-40, 0}, {-100, 0}}, color={0, 120, 120}, smooth=Smooth.None));
+  connect(gain_DCAC.y, load.Pow)
+    annotation(Line(points={{25, 1.33227e-15}, {2, 1.33227e-15}, {2, 0}, {-20, 0}}, color={0, 0, 127}, smooth=Smooth.None));
   connect(gain_DCAC.u, solarPower.y)
-    annotation (Line(points={{48,0},{70,0}}, color={0,0,127}));
-  connect(gain_DCAC.y, P) annotation (Line(points={{25,1.33227e-15},{20,1.33227e-15},
-          {20,70},{110,70}}, color={0,0,127}));
-  annotation (
-defaultComponentName="pv",
-Documentation(info="<html>
+    annotation(Line(points={{48, 0}, {70, 0}}, color={0, 0, 127}));
+  connect(gain_DCAC.y, P)
+    annotation(Line(points={{25, 1.33227e-15}, {20, 1.33227e-15}, {20, 70}, {110, 70}}, color={0, 0, 127}));
+  annotation(defaultComponentName="pv", Documentation(info="<html>
 <p>
 Model of a simple photovoltaic array.
 </p>

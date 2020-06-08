@@ -1,8 +1,8 @@
 within Buildings.Applications.DataCenters.ChillerCooled.Examples;
-package BaseClasses "Base classes for examples"
+package BaseClasses
+  "Base classes for examples"
   extends Modelica.Icons.BasesPackage;
-
-annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This package contains base models for the examples in
 <a href=\"modelica://Buildings.Applications.DataCenters.ChillerCooled.Examples\">

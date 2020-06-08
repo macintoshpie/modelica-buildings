@@ -1,16 +1,13 @@
 within Buildings.ThermalZones.Detailed.BaseClasses;
-record OpaqueSurface "Record for exterior constructions that have no window"
+record OpaqueSurface
+  "Record for exterior constructions that have no window"
   extends Buildings.HeatTransfer.Data.OpaqueSurfaces.Generic;
-  parameter String name = ""
+  parameter String name=""
     "Surface name. Optional for MixedAir, required for CFD.";
-
-  parameter Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions boundaryCondition=
-    Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature
+  parameter Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions boundaryCondition=Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature
     "Boundary condition used in the CFD simulation"
     annotation(Dialog(group="Boundary condition"));
-
-  annotation (
-Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This data record is used to set the parameters of opaque surfaces.
 </p>
@@ -26,5 +23,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-
 end OpaqueSurface;

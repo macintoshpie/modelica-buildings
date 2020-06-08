@@ -1,9 +1,9 @@
 within Buildings.Electrical.Types;
-type LoadConnection = enumeration(
-    wye_to_wyeg "Wye to wye grounded",
-    wye_to_delta "Wye to delta")
+type LoadConnection=enumeration(wye_to_wyeg
+  "Wye to wye grounded", wye_to_delta
+  "Wye to delta")
   "Enumeration that defines the type of connection can be used for three-phase unbalanced systems"
-  annotation (Documentation(revisions="<html>
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 March 19, 2015, by Marco Bonvini:<br/>

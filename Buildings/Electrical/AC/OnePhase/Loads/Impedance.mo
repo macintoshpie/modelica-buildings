@@ -1,45 +1,24 @@
 within Buildings.Electrical.AC.OnePhase.Loads;
-model Impedance "Model of a generic impedance"
-  extends Buildings.Electrical.Interfaces.Impedance(
-    redeclare replaceable package PhaseSystem = PhaseSystems.OnePhase,
-    redeclare replaceable Interfaces.Terminal_n terminal);
-
+model Impedance
+  "Model of a generic impedance"
+  extends Buildings.Electrical.Interfaces.Impedance(redeclare replaceable package PhaseSystem=PhaseSystems.OnePhase, redeclare replaceable Interfaces.Terminal_n terminal);
 protected
-  Modelica.SIunits.Angle theRef "Absolute angle of rotating reference system";
+  Modelica.SIunits.Angle theRef
+    "Absolute angle of rotating reference system";
   Modelica.SIunits.AngularVelocity omega
     "Frequency of the quasi-stationary sine waves";
-  Modelica.SIunits.Reactance X(start = 1) "Complex component of the impedance";
+  Modelica.SIunits.Reactance X(start=1)
+    "Complex component of the impedance";
 equation
-  theRef = PhaseSystem.thetaRef(terminal.theta);
-  omega = der(theRef);
-
+  theRef=PhaseSystem.thetaRef(terminal.theta);
+  omega=der(theRef);
   if inductive then
-    X = omega*L_internal;
+    X=omega*L_internal;
   else
-    X = -1/(omega*C_internal);
+    X=-1/(omega*C_internal);
   end if;
-
-  terminal.v = {{R_internal,-X}*terminal.i, {X,R_internal}*terminal.i};
-  annotation (
-    defaultComponentName="imp",
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-            {100,100}}), graphics={Rectangle(extent={{-100,100},{100,-100}},
-            lineColor={255,255,255}),
-          Rectangle(
-            extent={{-80,40},{80,-40}},
-            lineColor={0,0,0},
-            fillColor={255,255,255},
-            fillPattern=FillPattern.Solid,
-          origin={0,3.55271e-15},
-          rotation=180),
-          Line(points={{0,0},{12,0}},  color={0,0,0},
-          origin={-80,0},
-          rotation=180),
-        Text(
-          extent={{-120,-40},{120,-80}},
-          lineColor={0,0,0},
-          textString="%name")}),
-          Documentation(info="<html>
+  terminal.v={{R_internal,-X}*terminal.i, {X, R_internal}*terminal.i};
+  annotation(defaultComponentName="imp", Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {100, 100}}), graphics={Rectangle(extent={{-100, 100}, {100,-100}}, lineColor={255, 255, 255}), Rectangle(extent={{-80, 40}, {80,-40}}, lineColor={0, 0, 0}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid, origin={0, 3.55271e-15}, rotation=180), Line(points={{0, 0}, {12, 0}}, color={0, 0, 0}, origin={-80, 0}, rotation=180), Text(extent={{-120,-40}, {120,-80}}, lineColor={0, 0, 0}, textString="%name")}), Documentation(info="<html>
 <p>
 Model of an impedance. This model can be used to represent any type
 of resistive, inductive or capacitive load.

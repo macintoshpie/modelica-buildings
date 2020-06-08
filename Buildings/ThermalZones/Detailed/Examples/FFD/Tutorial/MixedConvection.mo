@@ -1,131 +1,74 @@
 within Buildings.ThermalZones.Detailed.Examples.FFD.Tutorial;
-model MixedConvection "Tutorial for Mixed Convection case"
+model MixedConvection
+  "Tutorial for Mixed Convection case"
   extends Modelica.Icons.Example;
-  package MediumA = Buildings.Media.Air (
-        T_default=283.15) "Medium model";
-  parameter Integer nConExtWin=0 "Number of constructions with a window";
+  package MediumA=Buildings.Media.Air(T_default=283.15)
+    "Medium model";
+  parameter Integer nConExtWin=0
+    "Number of constructions with a window";
   parameter Integer nConBou=0
     "Number of surface that are connected to constructions that are modeled inside the room";
   parameter Integer nSurBou=6
     "Number of surface that are connected to the room air volume";
   parameter Integer nConExt=0
     "Number of exterior constructions withour a window";
-  parameter Integer nConPar=0 "Number of partition constructions";
-  Modelica.Blocks.Sources.Constant qRadGai_flow(k=0) "Radiative heat gain"
-    annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
-  Modelica.Blocks.Sources.Constant qConGai_flow(k=0) "Convective heat gain"
-    annotation (Placement(transformation(extent={{-40,-20},{-20,0}})));
-  Modelica.Blocks.Sources.Constant qLatGai_flow(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{-40,-60},{-20,-40}})));
+  parameter Integer nConPar=0
+    "Number of partition constructions";
+  Modelica.Blocks.Sources.Constant qRadGai_flow(k=0)
+    "Radiative heat gain"
+    annotation(Placement(transformation(extent={{-40, 20}, {-20, 40}})));
+  Modelica.Blocks.Sources.Constant qConGai_flow(k=0)
+    "Convective heat gain"
+    annotation(Placement(transformation(extent={{-40,-20}, {-20, 0}})));
+  Modelica.Blocks.Sources.Constant qLatGai_flow(k=0)
+    "Latent heat gain"
+    annotation(Placement(transformation(extent={{-40,-60}, {-20,-40}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_1
-    annotation (Placement(transformation(extent={{20,-20},{40,0}})));
-  BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
-    Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
-    TDryBul=293.15)
-    annotation (Placement(transformation(extent={{140,80},{160,100}})));
-  Buildings.ThermalZones.Detailed.CFD roo(
-    redeclare package Medium = MediumA,
-    surBou(
-     name={"East Wall","West Wall","North Wall","South Wall","Ceiling","Floor"},
-     A={0.9,0.9,1,1,1,1},
-     til={Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,
-        Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,
-        Buildings.Types.Tilt.Ceiling,Buildings.Types.Tilt.Floor},
-     each absIR=1e-5,
-     each absSol=1e-5,
-     each boundaryCondition=Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature),
-    lat = 0.012787839282646,
-    AFlo = 1*1,
-    hRoo = 1,
-    linearizeRadiation = false,
-    useCFD = true,
-    sensorName = {"Occupied zone air temperature", "Velocity"},
-    cfdFilNam = "modelica://Buildings/Resources/Data/ThermalZones/Detailed/Examples/FFD/Tutorial/MixedConvection.ffd",
-    nConExt = nConExt,
-    nConExtWin = nConExtWin,
-    nConPar = nConPar,
-    nConBou = nConBou,
-    nSurBou = nSurBou,
-    nPorts=2,
-    portName={"Inlet","Outlet"},
-    samplePeriod = 6)
-  annotation (Placement(transformation(extent={{80,-38},{120,2}})));
+    annotation(Placement(transformation(extent={{20,-20}, {40, 0}})));
+  BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"), TDryBul=293.15)
+    annotation(Placement(transformation(extent={{140, 80}, {160, 100}})));
+  Buildings.ThermalZones.Detailed.CFD roo(redeclare package Medium=MediumA, surBou(name={"East Wall", "West Wall", "North Wall", "South Wall", "Ceiling", "Floor"}, A={0.9, 0.9, 1, 1, 1, 1}, til={Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Ceiling, Buildings.Types.Tilt.Floor}, each absIR=1e-5, each absSol=1e-5, each boundaryCondition=Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature), lat=0.012787839282646, AFlo=1*1, hRoo=1, linearizeRadiation=false, useCFD=true, sensorName={"Occupied zone air temperature", "Velocity"}, cfdFilNam="modelica://Buildings/Resources/Data/ThermalZones/Detailed/Examples/FFD/Tutorial/MixedConvection.ffd", nConExt=nConExt, nConExtWin=nConExtWin, nConPar=nConPar, nConBou=nConBou, nSurBou=nSurBou, nPorts=2, portName={"Inlet", "Outlet"}, samplePeriod=6)
+    annotation(Placement(transformation(extent={{80,-38}, {120, 2}})));
   HeatTransfer.Sources.FixedTemperature TOthWal[nSurBou-1](each T=283.15)
-    "Temperature for other walls"          annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        origin={150,-50})));
-  HeatTransfer.Sources.FixedTemperature TFlo(T=303.15) "Temperature of floor"
-    annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        origin={150,-90})));
-  Fluid.Sources.MassFlowSource_T bouIn(
-    nPorts=1,
-    redeclare package Medium = MediumA,
-    m_flow=0.1,
-    T=283.15)
+    "Temperature for other walls"
+    annotation(Placement(transformation(extent={{10,-10}, {-10, 10}}, origin={150,-50})));
+  HeatTransfer.Sources.FixedTemperature TFlo(T=303.15)
+    "Temperature of floor"
+    annotation(Placement(transformation(extent={{10,-10}, {-10, 10}}, origin={150,-90})));
+  Fluid.Sources.MassFlowSource_T bouIn(nPorts=1, redeclare package Medium=MediumA, m_flow=0.1, T=283.15)
     "Mass flow boundary condition"
-    annotation (Placement(transformation(extent={{40,-54},{60,-34}})));
-  Buildings.Fluid.Sources.Boundary_pT bouOut(
-    nPorts=1,
-    redeclare package Medium = MediumA)
+    annotation(Placement(transformation(extent={{40,-54}, {60,-34}})));
+  Buildings.Fluid.Sources.Boundary_pT bouOut(nPorts=1, redeclare package Medium=MediumA)
     "Pressure boundary condition"
-    annotation (Placement(transformation(extent={{40,-84},{60,-64}})));
+    annotation(Placement(transformation(extent={{40,-84}, {60,-64}})));
 equation
-  connect(qRadGai_flow.y,multiplex3_1. u1[1]) annotation (Line(
-      points={{-19,30},{10,30},{10,-3},{18,-3}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(qConGai_flow.y,multiplex3_1. u2[1]) annotation (Line(
-      points={{-19,-10},{18,-10}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(qLatGai_flow.y,multiplex3_1. u3[1]) annotation (Line(
-      points={{-19,-50},{8,-50},{8,-17},{18,-17}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(multiplex3_1.y,roo. qGai_flow) annotation (Line(
-      points={{41,-10},{78.4,-10}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(weaDat.weaBus,roo. weaBus) annotation (Line(
-      points={{160,90},{176,90},{176,-0.1},{117.9,-0.1}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None));
-  connect(TFlo.port, roo.surf_surBou[6]) annotation (Line(
-      points={{140,-90},{96.2,-90},{96.2,-32}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(TOthWal[1].port, roo.surf_surBou[1]) annotation (Line(
-      points={{140,-50},{96.2,-50},{96.2,-32}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(TOthWal[2].port, roo.surf_surBou[2]) annotation (Line(
-      points={{140,-50},{96.2,-50},{96.2,-32}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(TOthWal[3].port, roo.surf_surBou[3]) annotation (Line(
-      points={{140,-50},{96.2,-50},{96.2,-32}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(TOthWal[4].port, roo.surf_surBou[4]) annotation (Line(
-      points={{140,-50},{96.2,-50},{96.2,-32}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(TOthWal[5].port, roo.surf_surBou[5]) annotation (Line(
-      points={{140,-50},{96.2,-50},{96.2,-32}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(bouIn.ports[1], roo.ports[1]) annotation (Line(
-      points={{60,-44},{74,-44},{74,-26},{84,-26},{84,-26},{84,-26},{84,-30},{85,
-          -30}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(bouOut.ports[1], roo.ports[2]) annotation (Line(
-      points={{60,-74},{74,-74},{74,-26},{85,-26}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  annotation (Documentation(info="<html>
+  connect(qRadGai_flow.y, multiplex3_1.u1[1])
+    annotation(Line(points={{-19, 30}, {10, 30}, {10,-3}, {18,-3}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(qConGai_flow.y, multiplex3_1.u2[1])
+    annotation(Line(points={{-19,-10}, {18,-10}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(qLatGai_flow.y, multiplex3_1.u3[1])
+    annotation(Line(points={{-19,-50}, {8,-50}, {8,-17}, {18,-17}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(multiplex3_1.y, roo.qGai_flow)
+    annotation(Line(points={{41,-10}, {78.4,-10}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(weaDat.weaBus, roo.weaBus)
+    annotation(Line(points={{160, 90}, {176, 90}, {176,-0.1}, {117.9,-0.1}}, color={255, 204, 51}, thickness=0.5, smooth=Smooth.None));
+  connect(TFlo.port, roo.surf_surBou[6])
+    annotation(Line(points={{140,-90}, {96.2,-90}, {96.2,-32}}, color={191, 0, 0}, smooth=Smooth.None));
+  connect(TOthWal[1].port, roo.surf_surBou[1])
+    annotation(Line(points={{140,-50}, {96.2,-50}, {96.2,-32}}, color={191, 0, 0}, smooth=Smooth.None));
+  connect(TOthWal[2].port, roo.surf_surBou[2])
+    annotation(Line(points={{140,-50}, {96.2,-50}, {96.2,-32}}, color={191, 0, 0}, smooth=Smooth.None));
+  connect(TOthWal[3].port, roo.surf_surBou[3])
+    annotation(Line(points={{140,-50}, {96.2,-50}, {96.2,-32}}, color={191, 0, 0}, smooth=Smooth.None));
+  connect(TOthWal[4].port, roo.surf_surBou[4])
+    annotation(Line(points={{140,-50}, {96.2,-50}, {96.2,-32}}, color={191, 0, 0}, smooth=Smooth.None));
+  connect(TOthWal[5].port, roo.surf_surBou[5])
+    annotation(Line(points={{140,-50}, {96.2,-50}, {96.2,-32}}, color={191, 0, 0}, smooth=Smooth.None));
+  connect(bouIn.ports[1], roo.ports[1])
+    annotation(Line(points={{60,-44}, {74,-44}, {74,-26}, {84,-26}, {84,-26}, {84,-26}, {84,-30}, {85,-30}}, color={0, 127, 255}, smooth=Smooth.None));
+  connect(bouOut.ports[1], roo.ports[2])
+    annotation(Line(points={{60,-74}, {74,-74}, {74,-26}, {85,-26}}, color={0, 127, 255}, smooth=Smooth.None));
+  annotation(Documentation(info="<html>
 <p>
 This tutorial gives step by step instructions on building and simulating a mixed convection model.
 The model tests the coupled simulation of
@@ -364,7 +307,7 @@ that will generate the temperature contour and velocity vectors shown in the Fig
 Note: Tecplot is needed for this.
 </li>
 </ol>
-</html>",revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 September 07, 2017, by Thierry Nouidui:<br/>
@@ -381,10 +324,6 @@ June 27, 2014, by Wei Tian, Thomas Sevilla, Wangda Zuo:<br/>
 First implementation.
 </li>
 </ul>
-</html>"),
-    experiment(Tolerance=1e-06, StopTime=180),
-    __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Examples/FFD/Tutorial/MixedConvection.mos"
-        "Simulate and plot"),
-    Diagram(coordinateSystem(extent={{-80,-160},{200,120}}, preserveAspectRatio=false),
-        graphics));
+</html>"), experiment(Tolerance=1e-06, StopTime=180), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Examples/FFD/Tutorial/MixedConvection.mos"
+    "Simulate and plot"), Diagram(coordinateSystem(extent={{-80,-160}, {200, 120}}, preserveAspectRatio=false), graphics));
 end MixedConvection;

@@ -1,20 +1,16 @@
 within Buildings.Media.Refrigerants;
-package R410A "Refrigerant R410A"
+package R410A
+  "Refrigerant R410A"
   extends Modelica.Icons.VariantsPackage;
-
-  final constant Modelica.SIunits.SpecificEntropy R = 114.55
+  final constant Modelica.SIunits.SpecificEntropy R=114.55
     "Gas constant for use in Martin-Hou equation of state";
-
-  final constant Modelica.SIunits.Temperature TCri = 345.25
+  final constant Modelica.SIunits.Temperature TCri=345.25
     "Critical temperature";
-
-  final constant Modelica.SIunits.Temperature T_min = 173.15
+  final constant Modelica.SIunits.Temperature T_min=173.15
     "Minimum temperature for correlated properties";
-
-  final constant Modelica.SIunits.AbsolutePressure pCri = 4926.1e3
+  final constant Modelica.SIunits.AbsolutePressure pCri=4926.1e3
     "Critical pressure";
-
-annotation (preferredView="info",Documentation(info="<HTML>
+  annotation(preferredView="info", Documentation(info="<HTML>
 <p>
 This package contains function definitions for thermodynamic properties of R410A
 based on data for commercial refrigerant Dupont Suva 410A. The methodology used
@@ -45,5 +41,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-
 end R410A;

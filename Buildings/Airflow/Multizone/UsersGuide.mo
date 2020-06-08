@@ -1,9 +1,8 @@
 within Buildings.Airflow.Multizone;
-package UsersGuide "User's Guide"
+package UsersGuide
+  "User's Guide"
   extends Modelica.Icons.Information;
-
-  annotation (preferredView="info",
-  Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 The package <code>Buildings.Airflow.Multizone</code> contains models for
 multizone airflow and contaminant transport.
@@ -85,5 +84,4 @@ Multizone Airflow Model in Modelica.</a>
 Proc. of the 5th International Modelica Conference, p. 431-440. Vienna, Austria, September 2006.
 </p>
 </html>"));
-
 end UsersGuide;

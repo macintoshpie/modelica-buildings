@@ -2,9 +2,8 @@ within Buildings.Fluid.Geothermal.Borefields.BaseClasses.HeatTransfer.LoadAggreg
 model AggregationWeightingFactors
   "This validation case verifies the calculation of the weighting factors kappa"
   extends Modelica.Icons.Example;
-
-  parameter Real[6,2] timSer=
-    [0, 0;
+  parameter Real[6, 2] timSer=[
+    0, 0;
     0.999999999999999, 7.96581783184631e-06;
     2.30986142530843, 1.36683711896241e-05;
     4.02559837881946, 1.89652463558340e-05;
@@ -13,18 +12,10 @@ model AggregationWeightingFactors
     "Complete time matrix with TStep";
   Modelica.SIunits.ThermalResistance[10] kappa
     "Weight factor for each aggregation cell";
-
 equation
-  kappa = Buildings.Fluid.Geothermal.Borefields.BaseClasses.HeatTransfer.LoadAggregation.aggregationWeightingFactors(
-    i=10,
-    nTimTot=6,
-    TStep=timSer,
-    nu=cat(1,linspace(0.4,2,5),linspace(2.8,6,5)));
-
-annotation (experiment(Tolerance=1e-6, StopTime=1.0),
-__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/Geothermal/Borefields/BaseClasses/HeatTransfer/LoadAggregation/Validation/AggregationWeightingFactors.mos"
-        "Simulate and plot"),
-Documentation(info="<html>
+  kappa=Buildings.Fluid.Geothermal.Borefields.BaseClasses.HeatTransfer.LoadAggregation.aggregationWeightingFactors(i=10, nTimTot=6, TStep=timSer, nu=cat(1, linspace(0.4, 2, 5), linspace(2.8, 6, 5)));
+  annotation(experiment(Tolerance=1e-6, StopTime=1.0), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/Geothermal/Borefields/BaseClasses/HeatTransfer/LoadAggregation/Validation/AggregationWeightingFactors.mos"
+    "Simulate and plot"), Documentation(info="<html>
 <p>
 This validation case uses the first few values of a borehole temperature reponse
 time series to construct the weighting factors <code>kappa</code>. The aggregation

@@ -1,13 +1,12 @@
 within Buildings.ThermalZones.ReducedOrder;
-package EquivalentAirTemperature "Package with models for equivalent air temperatures according to VDI 6007
+package EquivalentAirTemperature
+  "Package with models for equivalent air temperatures according to VDI 6007
   Part 1"
-extends Modelica.Icons.VariantsPackage;
-
-
-package UsersGuide "User's Guide"
-  extends Modelica.Icons.Information;
-
-annotation (Documentation(info="<html>
+  extends Modelica.Icons.VariantsPackage;
+  package UsersGuide
+    "User's Guide"
+    extends Modelica.Icons.Information;
+    annotation(Documentation(info="<html>
 <p>This package package contains models for
 calculating an equivalent air temperature. There are two common ways to
 consider solar radiation hitting exterior surfaces. One way is to consider
@@ -91,12 +90,8 @@ International Modelica Conference</i>, p. 125-133, Lund, Sweden. Mar. 10-12,
 2014. <a href=\"http://www.ep.liu.se/ecp/096/013/ecp14096013.pdf\">
 http://www.ep.liu.se/ecp/096/013/ecp14096013.pdf</a></p>
 </html>"));
-end UsersGuide;
-
-
-
-
-  annotation (Documentation(info="<html>
+  end UsersGuide;
+  annotation(Documentation(info="<html>
 <p>
 This package contains models to calculate an equivalent air temperature
 taking into account short-wave and long-wave radiation on exterior surfaces.

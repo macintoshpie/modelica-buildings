@@ -1,9 +1,8 @@
 within Buildings.Utilities;
-package Cryptographics "Package with cryptographic functions"
+package Cryptographics
+  "Package with cryptographic functions"
   extends Modelica.Icons.VariantsPackage;
-
-  annotation (
-preferredView="info", Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 This package contains utility models for performing cryptographic operations.
 </p>

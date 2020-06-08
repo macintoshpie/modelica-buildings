@@ -1,9 +1,8 @@
 within Buildings.Electrical.Transmission;
-package BaseClasses "Package that contains partial models for lines and cables"
+package BaseClasses
+  "Package that contains partial models for lines and cables"
   extends Modelica.Icons.BasesPackage;
-
-
-annotation (Documentation(revisions="<html>
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 June 3, 2014, by Marco Bonvini:<br/>

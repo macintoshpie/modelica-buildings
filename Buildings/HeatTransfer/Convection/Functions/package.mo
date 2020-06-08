@@ -1,6 +1,7 @@
 within Buildings.HeatTransfer.Convection;
-package Functions "Functions for convective heat transfer"
-  annotation (Documentation(revisions="<html>
+package Functions
+  "Functions for convective heat transfer"
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 March 8 2010, by Michael Wetter:<br/>

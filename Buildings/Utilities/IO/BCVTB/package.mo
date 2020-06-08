@@ -1,11 +1,11 @@
 within Buildings.Utilities.IO;
-package BCVTB "Package with functions to communicate with the Building Controls Virtual Test Bed"
+package BCVTB
+  "Package with functions to communicate with the Building Controls Virtual Test Bed"
   extends Modelica.Icons.VariantsPackage;
-
-
-package UsersGuide "User's Guide"
-  extends Modelica.Icons.Information;
-annotation (Documentation(info="<html>
+  package UsersGuide
+    "User's Guide"
+    extends Modelica.Icons.Information;
+    annotation(Documentation(info="<html>
 This package contains an interface to the
 <a href=\"http://simulationresearch.lbl.gov/bcvtb\">Building Controls Virtual Test Bed</a>
 (BCVTB).
@@ -23,6 +23,5 @@ the BCVTB needs to be installed. The BCVTB installation
 contains these examples and the C libraries that are required
 by this package.
 </html>"));
-end UsersGuide;
-
+  end UsersGuide;
 end BCVTB;

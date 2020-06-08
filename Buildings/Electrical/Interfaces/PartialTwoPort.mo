@@ -1,25 +1,14 @@
 within Buildings.Electrical.Interfaces;
-model PartialTwoPort "Model of a generic two port component with phase systems"
-
-  replaceable package PhaseSystem_p =
-      Buildings.Electrical.PhaseSystems.PartialPhaseSystem constrainedby
-    Buildings.Electrical.PhaseSystems.PartialPhaseSystem
+model PartialTwoPort
+  "Model of a generic two port component with phase systems"
+  replaceable package PhaseSystem_p=Buildings.Electrical.PhaseSystems.PartialPhaseSystem constrainedby Buildings.Electrical.PhaseSystems.PartialPhaseSystem
     "Phase system of terminal p"
-    annotation (choicesAllMatching=true);
-
-  replaceable package PhaseSystem_n =
-      Buildings.Electrical.PhaseSystems.PartialPhaseSystem constrainedby
-    Buildings.Electrical.PhaseSystems.PartialPhaseSystem
+    annotation(choicesAllMatching=true);
+  replaceable package PhaseSystem_n=Buildings.Electrical.PhaseSystems.PartialPhaseSystem constrainedby Buildings.Electrical.PhaseSystems.PartialPhaseSystem
     "Phase system of terminal n"
-    annotation (choicesAllMatching=true);
-
-  extends Buildings.Electrical.Interfaces.PartialBaseTwoPort(
-    redeclare replaceable Buildings.Electrical.Interfaces.Terminal
-      terminal_n(redeclare replaceable package PhaseSystem = PhaseSystem_n),
-    redeclare replaceable Buildings.Electrical.Interfaces.Terminal
-      terminal_p(redeclare replaceable package PhaseSystem=PhaseSystem_p));
-
-  annotation (Documentation(revisions="<html>
+    annotation(choicesAllMatching=true);
+  extends Buildings.Electrical.Interfaces.PartialBaseTwoPort(redeclare replaceable Buildings.Electrical.Interfaces.Terminal terminal_n(redeclare replaceable package PhaseSystem=PhaseSystem_n), redeclare replaceable Buildings.Electrical.Interfaces.Terminal terminal_p(redeclare replaceable package PhaseSystem=PhaseSystem_p));
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 May 15, 2014, by Marco Bonvini:<br/>

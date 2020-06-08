@@ -1,9 +1,8 @@
 within Buildings.Electrical.AC.ThreePhasesBalanced;
-package Sources "Package with source models for three-phase balanced AC systems"
+package Sources
+  "Package with source models for three-phase balanced AC systems"
   extends Modelica.Icons.SourcesPackage;
-
-
-annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This package contains models for three-phase balanced AC sources.
 </p>

@@ -1,11 +1,8 @@
 within Buildings.Electrical.Transmission.LowVoltageCables;
-record PvcAl50 "Aluminum cable 50 mm^2"
-  extends Buildings.Electrical.Transmission.LowVoltageCables.Generic(
-    material=Types.Material.Al,
-    M = 228.1 + 273.15,
-    RCha=0.641e-003,
-    XCha=0.073e-003);
-  annotation (Documentation(info="<html>
+record PvcAl50
+  "Aluminum cable 50 mm^2"
+  extends Buildings.Electrical.Transmission.LowVoltageCables.Generic(material=Types.Material.Al, M=228.1 + 273.15, RCha=0.641e-003, XCha=0.073e-003);
+  annotation(Documentation(info="<html>
 <p>
 Aluminium cable with a cross-sectional area of 50mm^2.
 This type of cable has the following properties

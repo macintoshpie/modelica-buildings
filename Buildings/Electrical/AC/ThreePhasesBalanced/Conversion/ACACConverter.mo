@@ -1,11 +1,8 @@
 within Buildings.Electrical.AC.ThreePhasesBalanced.Conversion;
-model ACACConverter "AC AC converter three phase balanced systems"
-  extends Buildings.Electrical.AC.OnePhase.Conversion.ACACConverter(
-    redeclare Interfaces.Terminal_n terminal_n,
-    redeclare Interfaces.Terminal_p terminal_p);
-  annotation (
-  defaultComponentName="conACAC",
-  Documentation(info="<html>
+model ACACConverter
+  "AC AC converter three phase balanced systems"
+  extends Buildings.Electrical.AC.OnePhase.Conversion.ACACConverter(redeclare Interfaces.Terminal_n terminal_n, redeclare Interfaces.Terminal_p terminal_p);
+  annotation(defaultComponentName="conACAC", Documentation(info="<html>
 <p>
 This model represents a simplified conversion between two AC
 three-phase balanced systems. The conversion losses are represented by a

@@ -1,10 +1,8 @@
 within Buildings.Fluid.MixingVolumes.Validation;
 model MixingVolumeTraceSubstanceReverseFlowPrescribedHeatFlowRate
   "Validation model for mixing volume with trace substance input and flow reversal, and prescribed heat flow rate"
-  extends MixingVolumeTraceSubstanceReverseFlow(
-    prescribedHeatFlowRate=true);
-  annotation (Documentation(
-info="<html>
+  extends MixingVolumeTraceSubstanceReverseFlow(prescribedHeatFlowRate=true);
+  annotation(Documentation(info="<html>
 <p>
 This model is identical to
 <a href=\"modelica://Buildings.Fluid.MixingVolumes.Validation.MixingVolumeTraceSubstanceReverseFlow\">
@@ -24,8 +22,6 @@ March 9, 2016, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
-</html>"),
- __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/MixingVolumes/Validation/MixingVolumeTraceSubstanceReverseFlowPrescribedHeatFlowRate.mos"
-        "Simulate and plot"),
-    experiment(Tolerance=1e-6, StopTime=10));
+</html>"), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/MixingVolumes/Validation/MixingVolumeTraceSubstanceReverseFlowPrescribedHeatFlowRate.mos"
+    "Simulate and plot"), experiment(Tolerance=1e-6, StopTime=10));
 end MixingVolumeTraceSubstanceReverseFlowPrescribedHeatFlowRate;

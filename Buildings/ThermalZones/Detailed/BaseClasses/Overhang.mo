@@ -1,27 +1,23 @@
 within Buildings.ThermalZones.Detailed.BaseClasses;
-record Overhang "Record for window overhang"
+record Overhang
+  "Record for window overhang"
   extends Modelica.Icons.Record;
-
   parameter Modelica.SIunits.Length wL(min=0)
     "Overhang width left to the window, measured from the window corner"
-    annotation(Dialog(tab="General",group="Overhang"));
+    annotation(Dialog(tab="General", group="Overhang"));
   parameter Modelica.SIunits.Length wR(min=0)
     "Overhang width right to the window, measured from the window corner"
-    annotation(Dialog(tab="General",group="Overhang"));
-
+    annotation(Dialog(tab="General", group="Overhang"));
   parameter Modelica.SIunits.Length dep(min=0)
     "Overhang depth (measured perpendicular to the wall plane)"
-    annotation(Dialog(tab="General",group="Overhang"));
+    annotation(Dialog(tab="General", group="Overhang"));
   parameter Modelica.SIunits.Length gap(min=0)
     "Distance between window upper edge and overhang lower edge"
-    annotation(Dialog(tab="General",group="Overhang"));
-
-  final parameter Boolean haveOverhang= dep > Modelica.Constants.eps
+    annotation(Dialog(tab="General", group="Overhang"));
+  final parameter Boolean haveOverhang=dep > Modelica.Constants.eps
     "Flag, true if the window has an overhang"
     annotation(Evaluate=true);
-
-  annotation (
-Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This record declares parameters for window overhangs.
 </p>
@@ -53,5 +49,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-
 end Overhang;

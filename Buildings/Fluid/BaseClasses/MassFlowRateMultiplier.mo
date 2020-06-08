@@ -1,30 +1,25 @@
 within Buildings.Fluid.BaseClasses;
-model MassFlowRateMultiplier "Model that multiplies the mass flow rate"
+model MassFlowRateMultiplier
+  "Model that multiplies the mass flow rate"
   extends Buildings.Fluid.Interfaces.PartialTwoPort;
-
-  parameter Real k "Gain for mass flow rate";
-
+  parameter Real k
+    "Gain for mass flow rate";
 initial equation
-  assert(k > Modelica.Constants.small or -k < -Modelica.Constants.small,
-    "Gain must not be zero. Received k = " + String(k));
+  assert(k > Modelica.Constants.small or-k <-Modelica.Constants.small, "Gain must not be zero. Received k = " + String(k));
 equation
-    // Pressure drop in design flow direction
-  port_a.p = port_b.p;
-
+  // Pressure drop in design flow direction
+  port_a.p=port_b.p;
   // Mass balance (mass is not conserved by this model!)
-  port_b.m_flow = -k*port_a.m_flow;
-
+  port_b.m_flow=-k*port_a.m_flow;
   // Specific enthalpy flow rate
-  port_a.h_outflow = inStream(port_b.h_outflow);
-  port_b.h_outflow = inStream(port_a.h_outflow);
+  port_a.h_outflow=inStream(port_b.h_outflow);
+  port_b.h_outflow=inStream(port_a.h_outflow);
   // Transport of substances
-  port_a.Xi_outflow = inStream(port_b.Xi_outflow);
-  port_b.Xi_outflow = inStream(port_a.Xi_outflow);
-
-  port_a.C_outflow = inStream(port_b.C_outflow);
-  port_b.C_outflow = inStream(port_a.C_outflow);
-
-  annotation (Documentation(info="<html>
+  port_a.Xi_outflow=inStream(port_b.Xi_outflow);
+  port_b.Xi_outflow=inStream(port_a.Xi_outflow);
+  port_a.C_outflow=inStream(port_b.C_outflow);
+  port_b.C_outflow=inStream(port_a.C_outflow);
+  annotation(Documentation(info="<html>
 <p>
 This model multiplies the mass flow rate so that
 <code>0 = port_b.m_flow + k * port_a.m_flow</code>.
@@ -51,17 +46,5 @@ June 27, 2012, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
-</html>"), Icon(graphics={
-        Rectangle(
-          extent={{-100,100},{100,-100}},
-          fillColor={255,237,228},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None,
-          lineColor={0,0,0}),
-                          Polygon(
-          points={{-100,8},{100,20},{100,-20},{-100,-8},{-100,8}},
-          lineColor={0,0,255},
-          smooth=Smooth.None,
-          fillColor={0,0,255},
-          fillPattern=FillPattern.Solid)}));
+</html>"), Icon(graphics={Rectangle(extent={{-100, 100}, {100,-100}}, fillColor={255, 237, 228}, fillPattern=FillPattern.Solid, pattern=LinePattern.None, lineColor={0, 0, 0}), Polygon(points={{-100, 8}, {100, 20}, {100,-20}, {-100,-8}, {-100, 8}}, lineColor={0, 0, 255}, smooth=Smooth.None, fillColor={0, 0, 255}, fillPattern=FillPattern.Solid)}));
 end MassFlowRateMultiplier;

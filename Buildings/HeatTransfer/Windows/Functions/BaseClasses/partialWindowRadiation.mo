@@ -3,11 +3,8 @@ partial function partialWindowRadiation
   "Partial function for window radiation property"
   input Real traRef[3, N, N, HEM, NSta](each min=0, each max=0)
     "Transmittance and reflectance with exterior irradiation and no shading";
-  extends
-    Buildings.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation;
-
-  annotation (preferredView="info",
-  Documentation(info="<html>
+  extends Buildings.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation;
+  annotation(preferredView="info", Documentation(info="<html>
 This is a partial function that is used to implement the radiation functions for windows. It defines basic input variables and constants.
 </html>", revisions="<html>
 <ul>

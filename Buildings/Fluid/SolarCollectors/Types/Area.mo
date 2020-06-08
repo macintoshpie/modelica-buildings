@@ -1,7 +1,7 @@
 within Buildings.Fluid.SolarCollectors.Types;
-type Area = enumeration(
-    Gross "Gross area",
-    Aperture "Net aperture area")
+type Area=enumeration(Gross
+  "Gross area", Aperture
+  "Net aperture area")
   "Enumeration to define the area type used in solar collector calculation"
   annotation(Documentation(info="<html>
     <p>

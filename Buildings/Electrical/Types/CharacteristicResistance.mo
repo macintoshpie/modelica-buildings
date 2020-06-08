@@ -1,6 +1,7 @@
 within Buildings.Electrical.Types;
-type CharacteristicResistance = Real (final quantity="Resistance per meter", final unit="Ohm/m")
-  "Resistance per unit length" annotation (Documentation(revisions="<html>
+type CharacteristicResistance=Real(final quantity="Resistance per meter", final unit="Ohm/m")
+  "Resistance per unit length"
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 March 19, 2015, by Marco Bonvini:<br/>

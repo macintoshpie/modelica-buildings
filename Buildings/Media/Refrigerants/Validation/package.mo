@@ -1,9 +1,9 @@
 within Buildings.Media.Refrigerants;
-package Validation "Collection of models that validate the implementation of the
+package Validation
+  "Collection of models that validate the implementation of the
   refrigerants"
   extends Modelica.Icons.ExamplesPackage;
-
-annotation (preferredView="info", Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 This package contains models that validate the implementation of refrigerant
 routines for the evaluation of thermodynamic properties.

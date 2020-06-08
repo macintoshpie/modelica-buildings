@@ -1,8 +1,8 @@
 within Buildings;
-package Examples "Collection of models that illustrate model use and test models"
+package Examples
+  "Collection of models that illustrate model use and test models"
   extends Modelica.Icons.ExamplesPackage;
-
-annotation (preferredView="info", Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 This package contains a tutorial with step by step instructions
 for how to build system models.

@@ -1,99 +1,48 @@
 within Buildings.Controls.OBC.CDL.Logical;
 block Timer
   "Timer measuring the time from the time instant where the Boolean input became true"
-
-  parameter Boolean accumulate = false
+  parameter Boolean accumulate=false
     "If true, accumulate time until Boolean input 'reset' becomes true, otherwise reset timer whenever u becomes true";
-
-  Interfaces.BooleanInput u "Connector for signal that switches timer on if true, and off if false"
-    annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
+  Interfaces.BooleanInput u
+    "Connector for signal that switches timer on if true, and off if false"
+    annotation(Placement(transformation(extent={{-140,-20}, {-100, 20}})));
   Interfaces.BooleanInput reset if accumulate
     "Connector for signal that sets timer to zero if it switches to true"
-    annotation (Placement(transformation(extent={{-140,-90},{-100,-50}}),
-      iconTransformation(extent={{-140,-100},{-100,-60}})));
-  Interfaces.RealOutput y(
-    final quantity="Time",
-    final unit="s") "Timer output"
-    annotation (Placement(transformation(extent={{100,-20},{140,20}})));
-
+    annotation(Placement(transformation(extent={{-140,-90}, {-100,-50}}), iconTransformation(extent={{-140,-100}, {-100,-60}})));
+  Interfaces.RealOutput y(final quantity="Time", final unit="s")
+    "Timer output"
+    annotation(Placement(transformation(extent={{100,-20}, {140, 20}})));
 protected
-  discrete Modelica.SIunits.Time entryTime "Time instant when u became true";
-  discrete Modelica.SIunits.Time yAcc "Accumulated time up to last change to true";
-  Interfaces.BooleanInput reset_internal(
-    final start=false,
-    final fixed=true) "Internal connector";
-
+  discrete Modelica.SIunits.Time entryTime
+    "Time instant when u became true";
+  discrete Modelica.SIunits.Time yAcc
+    "Accumulated time up to last change to true";
+  Interfaces.BooleanInput reset_internal(final start=false, final fixed=true)
+    "Internal connector";
 initial equation
-  pre(entryTime) = 0;
-  yAcc = 0;
-
+  pre(entryTime)=0;
+  yAcc=0;
 equation
   connect(reset, reset_internal);
   if not accumulate then
-    reset_internal = false;
+    reset_internal=false;
   end if;
-
-  when u and (not edge(reset_internal)) then
-    entryTime = time;
+  when u and(not edge(reset_internal)) then
+    entryTime=time;
   elsewhen reset_internal then
-    entryTime = time;
+    entryTime=time;
   end when;
-
   when reset_internal then
-    yAcc = 0;
-  elsewhen (not u) then
-    yAcc = pre(y);
+    yAcc=0;
+  elsewhen(not u) then
+    yAcc=pre(y);
   end when;
-
   if not accumulate then
-    y = if u then time - entryTime else 0.0;
+    y=if u then time-entryTime else 0.0;
   else
-    y = if u then yAcc + (time - entryTime) else yAcc;
+    y=if u then yAcc +(time-entryTime) else yAcc;
   end if;
-
-annotation (
-    defaultComponentName="tim",
-    Icon(
-      coordinateSystem(preserveAspectRatio=true,
-        extent={{-100.0,-100.0},{100.0,100.0}}),
-        graphics={Rectangle(
-          extent={{-100,100},{100,-100}},
-          fillColor={210,210,210},
-          lineThickness=5.0,
-          fillPattern=FillPattern.Solid,
-          borderPattern=BorderPattern.Raised),
-      Line(points={{-66,-60},{82,-60}},
-        color={192,192,192}),
-      Line(points={{-58,68},{-58,-80}},
-        color={192,192,192}),
-      Polygon(lineColor={192,192,192},
-        fillColor={192,192,192},
-        fillPattern=FillPattern.Solid,
-        points={{90,-60},{68,-52},{68,-68},{90,-60}}),
-      Polygon(lineColor={192,192,192},
-        fillColor={192,192,192},
-        fillPattern=FillPattern.Solid,
-        points={{-58,90},{-66,68},{-50,68},{-58,90}}),
-      Line(points={{-56,-60},{-38,-60},{-38,-16},{40,-16},{40,-60},{68,-60}},
-        color={255,0,255}),
-      Line(points={{-58,0},{-40,0},{40,90},{40,0},{68,0}},
-        color={0,0,127}),
-        Text(
-          extent={{-150,150},{150,110}},
-          lineColor={0,0,255},
-          textString="%name"),
-        Ellipse(
-          extent={{-83,7},{-69,-7}},
-          lineColor=DynamicSelect({235,235,235}, if u then {0,255,0} else {235,
-              235,235}),
-          fillColor=DynamicSelect({235,235,235}, if u then {0,255,0} else {235,
-              235,235}),
-          fillPattern=FillPattern.Solid),
-        Text(
-          extent={{-88,-58},{88,-98}},
-          lineColor={217,67,180},
-          textString="accumulate: %accumulate")}),
-    Documentation(info="<html>
+  annotation(defaultComponentName="tim", Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100.0,-100.0}, {100.0, 100.0}}), graphics={Rectangle(extent={{-100, 100}, {100,-100}}, fillColor={210, 210, 210}, lineThickness=5.0, fillPattern=FillPattern.Solid, borderPattern=BorderPattern.Raised), Line(points={{-66,-60}, {82,-60}}, color={192, 192, 192}), Line(points={{-58, 68}, {-58,-80}}, color={192, 192, 192}), Polygon(lineColor={192, 192, 192}, fillColor={192, 192, 192}, fillPattern=FillPattern.Solid, points={{90,-60}, {68,-52}, {68,-68}, {90,-60}}), Polygon(lineColor={192, 192, 192}, fillColor={192, 192, 192}, fillPattern=FillPattern.Solid, points={{-58, 90}, {-66, 68}, {-50, 68}, {-58, 90}}), Line(points={{-56,-60}, {-38,-60}, {-38,-16}, {40,-16}, {40,-60}, {68,-60}}, color={255, 0, 255}), Line(points={{-58, 0}, {-40, 0}, {40, 90}, {40, 0}, {68, 0}}, color={0, 0, 127}), Text(extent={{-150, 150}, {150, 110}}, lineColor={0, 0, 255}, textString="%name"), Ellipse(extent={{-83, 7}, {-69,-7}}, lineColor=DynamicSelect({235, 235, 235}, if u then {0, 255, 0} else {235, 235, 235}), fillColor=DynamicSelect({235, 235, 235}, if u then {0, 255, 0} else {235, 235, 235}), fillPattern=FillPattern.Solid), Text(extent={{-88,-58}, {88,-98}}, lineColor={217, 67, 180}, textString="accumulate: %accumulate")}), Documentation(info="<html>
 <p>
 Timer with option to accumulate time until it is reset by an input signal.
 </p>

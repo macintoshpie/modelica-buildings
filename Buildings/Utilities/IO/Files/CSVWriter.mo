@@ -1,26 +1,22 @@
 within Buildings.Utilities.IO.Files;
 model CSVWriter
   "Model for writing results to a .csv file"
-  extends Buildings.Utilities.IO.Files.BaseClasses.FileWriter(
-    final isCombiTimeTable=false);
-
+  extends Buildings.Utilities.IO.Files.BaseClasses.FileWriter(final isCombiTimeTable=false);
 initial algorithm
   if writeHeader then
     str := str + "time" + delimiter;
-    for i in 1:nin-1 loop
+    for i in 1 : nin-1 loop
       str := str + headerNames[i] + delimiter;
-      if mod(i+1,10)==0 then // write out buffer every 10 entries to avoid overflow
+      if mod(i + 1, 10) == 0 then
+        // write out buffer every 10 entries to avoid overflow
         writeLine(filWri, str, 1);
-        str:="";
+        str := "";
       end if;
     end for;
     str := str + headerNames[nin] + "\n";
     writeLine(filWri, str, 1);
   end if;
-
-  annotation (
-  defaultComponentName="csvWri",
-  Documentation(info="<html>
+  annotation(defaultComponentName="csvWri", Documentation(info="<html>
 <p>This model samples the model inputs <code>u</code> and saves them to a .csv file,
 which can be read using e.g. Excel or Python.
 </p>
@@ -65,9 +61,5 @@ First implementation.
 See <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/924\">#924</a>.
 </li>
 </ul>
-</html>"), Icon(graphics={                                                Text(
-          extent={{-88,90},{88,48}},
-          lineColor={0,0,127},
-          horizontalAlignment=TextAlignment.Right,
-          textString="CSV")}));
+</html>"), Icon(graphics={Text(extent={{-88, 90}, {88, 48}}, lineColor={0, 0, 127}, horizontalAlignment=TextAlignment.Right, textString="CSV")}));
 end CSVWriter;

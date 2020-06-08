@@ -1,14 +1,9 @@
 within Buildings.Controls.Predictors.Validation;
 model ConstantInputDayOfAdjustment
   "Demand response client with constant input for actual power consumption"
-  extends Buildings.Controls.Predictors.Validation.ConstantInput(
-     baseLoad(use_dayOfAdj=true));
-
-  annotation (
-  experiment(Tolerance=1e-6, StopTime=5270400),
-  __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Controls/Predictors/Validation/ConstantInputDayOfAdjustment.mos"
-        "Simulate and plot"),
-    Documentation(info="<html>
+  extends Buildings.Controls.Predictors.Validation.ConstantInput(baseLoad(use_dayOfAdj=true));
+  annotation(experiment(Tolerance=1e-6, StopTime=5270400), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Controls/Predictors/Validation/ConstantInputDayOfAdjustment.mos"
+    "Simulate and plot"), Documentation(info="<html>
 <p>
 This model is identical to
 <a href=\"modelica://Buildings.Controls.Predictors.Validation.ConstantInput\">

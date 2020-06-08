@@ -1,12 +1,8 @@
 within Buildings.Fluid.MixingVolumes.Validation;
 model CoupledVolumesAir
   "Validation model for two coupled volumes with air"
-  extends Buildings.Fluid.MixingVolumes.Validation.CoupledVolumesWater(
-    redeclare package Medium = Buildings.Media.Air);
-
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-        coordinateSystem(preserveAspectRatio=false)),
-    Documentation(info="<html>
+  extends Buildings.Fluid.MixingVolumes.Validation.CoupledVolumesWater(redeclare package Medium=Buildings.Media.Air);
+  annotation(Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(coordinateSystem(preserveAspectRatio=false)), Documentation(info="<html>
 <p>
 Validation model for two directly coupled volumes.
 </p>
@@ -21,11 +17,6 @@ First implementation for
 <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/910\">Buildings, issue 910</a>.
 </li>
 </ul>
-</html>"),
-    experiment(
-      StopTime=3600,
-      Tolerance=1e-06),
-    __Dymola_Commands(
-      file="Resources/Scripts/Dymola/Fluid/MixingVolumes/Validation/CoupledVolumesAir.mos"
-           "Simulate and plot"));
+</html>"), experiment(StopTime=3600, Tolerance=1e-06), __Dymola_Commands(file="Resources/Scripts/Dymola/Fluid/MixingVolumes/Validation/CoupledVolumesAir.mos"
+    "Simulate and plot"));
 end CoupledVolumesAir;

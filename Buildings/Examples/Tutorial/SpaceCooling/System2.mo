@@ -2,220 +2,129 @@ within Buildings.Examples.Tutorial.SpaceCooling;
 model System2
   "Second part of the system model with air supply and open loop control"
   extends Modelica.Icons.Example;
-
-  replaceable package MediumA = Buildings.Media.Air "Medium for air";
-  replaceable package MediumW = Buildings.Media.Water "Medium for water";
-
-  Buildings.Fluid.MixingVolumes.MixingVolume vol(
-    redeclare package Medium = MediumA,
-    m_flow_nominal=mA_flow_nominal,
-    V=V,
-    nPorts=2,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    mSenFac=3)
-    annotation (Placement(transformation(extent={{60,20},{80,40}})));
+  replaceable package MediumA=Buildings.Media.Air
+    "Medium for air";
+  replaceable package MediumW=Buildings.Media.Water
+    "Medium for water";
+  Buildings.Fluid.MixingVolumes.MixingVolume vol(redeclare package Medium=MediumA, m_flow_nominal=mA_flow_nominal, V=V, nPorts=2, energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial, mSenFac=3)
+    annotation(Placement(transformation(extent={{60, 20}, {80, 40}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor theCon(G=10000/30)
     "Thermal conductance with the ambient"
-    annotation (Placement(transformation(extent={{20,40},{40,60}})));
-  parameter Modelica.SIunits.Volume V=6*10*3 "Room volume";
+    annotation(Placement(transformation(extent={{20, 40}, {40, 60}})));
+  parameter Modelica.SIunits.Volume V=6*10*3
+    "Room volume";
   //////////////////////////////////////////////////////////
   // Heat recovery effectiveness
-  parameter Real eps = 0.8 "Heat recovery effectiveness";
-
+  parameter Real eps=0.8
+    "Heat recovery effectiveness";
   /////////////////////////////////////////////////////////
   // Air temperatures at design conditions
-  parameter Modelica.SIunits.Temperature TASup_nominal = 273.15+18
+  parameter Modelica.SIunits.Temperature TASup_nominal=273.15 + 18
     "Nominal air temperature supplied to room";
-  parameter Modelica.SIunits.Temperature TRooSet = 273.15+24
+  parameter Modelica.SIunits.Temperature TRooSet=273.15 + 24
     "Nominal room air temperature";
-  parameter Modelica.SIunits.Temperature TOut_nominal = 273.15+30
+  parameter Modelica.SIunits.Temperature TOut_nominal=273.15 + 30
     "Design outlet air temperature";
-  parameter Modelica.SIunits.Temperature THeaRecLvg=
-    TOut_nominal - eps*(TOut_nominal-TRooSet)
+  parameter Modelica.SIunits.Temperature THeaRecLvg=TOut_nominal-eps*(TOut_nominal-TRooSet)
     "Air temperature leaving the heat recovery";
-
   /////////////////////////////////////////////////////////
   // Cooling loads and air mass flow rates
-  parameter Modelica.SIunits.HeatFlowRate QRooInt_flow=
-     1000 "Internal heat gains of the room";
-  parameter Modelica.SIunits.HeatFlowRate QRooC_flow_nominal=
-    -QRooInt_flow-10E3/30*(TOut_nominal-TRooSet)
+  parameter Modelica.SIunits.HeatFlowRate QRooInt_flow=1000
+    "Internal heat gains of the room";
+  parameter Modelica.SIunits.HeatFlowRate QRooC_flow_nominal=-QRooInt_flow-10E3/30*(TOut_nominal-TRooSet)
     "Nominal cooling load of the room";
-  parameter Modelica.SIunits.MassFlowRate mA_flow_nominal=
-    1.3*QRooC_flow_nominal/1006/(TASup_nominal-TRooSet)
+  parameter Modelica.SIunits.MassFlowRate mA_flow_nominal=1.3*QRooC_flow_nominal/1006/(TASup_nominal-TRooSet)
     "Nominal air mass flow rate, increased by factor 1.3 to allow for recovery after temperature setback";
-  parameter Modelica.SIunits.TemperatureDifference dTFan = 2
+  parameter Modelica.SIunits.TemperatureDifference dTFan=2
     "Estimated temperature raise across fan that needs to be made up by the cooling coil";
-  parameter Modelica.SIunits.HeatFlowRate QCoiC_flow_nominal=4*
-    (QRooC_flow_nominal + mA_flow_nominal*(TASup_nominal-THeaRecLvg-dTFan)*1006)
+  parameter Modelica.SIunits.HeatFlowRate QCoiC_flow_nominal=4*(QRooC_flow_nominal + mA_flow_nominal*(TASup_nominal-THeaRecLvg-dTFan)*1006)
     "Cooling load of coil, taking into account economizer, and increased due to latent heat removal";
-
   /////////////////////////////////////////////////////////
   // Water temperatures and mass flow rates
-  parameter Modelica.SIunits.Temperature TWSup_nominal = 273.15+16
+  parameter Modelica.SIunits.Temperature TWSup_nominal=273.15 + 16
     "Water supply temperature";
-  parameter Modelica.SIunits.Temperature TWRet_nominal = 273.15+12
+  parameter Modelica.SIunits.Temperature TWRet_nominal=273.15 + 12
     "Water return temperature";
-  parameter Modelica.SIunits.MassFlowRate mW_flow_nominal=
-    QCoiC_flow_nominal/(TWRet_nominal-TWSup_nominal)/4200
+  parameter Modelica.SIunits.MassFlowRate mW_flow_nominal=QCoiC_flow_nominal/(TWRet_nominal-TWSup_nominal)/4200
     "Nominal water mass flow rate";
-
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature TOut
     "Outside temperature"
-    annotation (Placement(transformation(extent={{-20,40},{0,60}})));
-  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow preHea(Q_flow=
-        QRooInt_flow) "Prescribed heat flow"
-    annotation (Placement(transformation(extent={{20,70},{40,90}})));
-  Buildings.Fluid.Movers.FlowControlled_m_flow fan(
-    redeclare package Medium = MediumA,
-    m_flow_nominal=mA_flow_nominal,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState) "Supply air fan"
-    annotation (Placement(transformation(extent={{40,-30},{60,-10}})));
-  Buildings.Fluid.HeatExchangers.ConstantEffectiveness hex(redeclare package Medium1 =
-        MediumA, redeclare package Medium2 = MediumA,
-    m1_flow_nominal=mA_flow_nominal,
-    m2_flow_nominal=mA_flow_nominal,
-    dp1_nominal=200,
-    dp2_nominal=200,
-    eps=eps) "Heat recovery"
-    annotation (Placement(transformation(extent={{-110,-36},{-90,-16}})));
-  Buildings.Fluid.HeatExchangers.WetCoilCounterFlow cooCoi(redeclare package Medium1 =
-        MediumW, redeclare package Medium2 = MediumA,
-    m1_flow_nominal=mW_flow_nominal,
-    m2_flow_nominal=mA_flow_nominal,
-    dp1_nominal=6000,
-    dp2_nominal=200,
-    UA_nominal=-QCoiC_flow_nominal/
-        Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(
-        T_a1=THeaRecLvg,
-        T_b1=TASup_nominal,
-        T_a2=TWSup_nominal,
-        T_b2=TWRet_nominal),
-    show_T=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial) "Cooling coil"
-                                                               annotation (Placement(
-        transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=180,
-        origin={-30,-26})));
-  Buildings.Fluid.Sources.Outside out(nPorts=2, redeclare package Medium = MediumA)
-    annotation (Placement(transformation(extent={{-140,-32},{-120,-12}})));
-  Buildings.Fluid.Sources.MassFlowSource_T souWat(
-    nPorts=1,
-    redeclare package Medium = MediumW,
-    use_m_flow_in=true,
-    T=TWSup_nominal) "Source for water flow rate"
-    annotation (Placement(transformation(extent={{-40,-110},{-20,-90}})));
-  Buildings.Fluid.Sources.Boundary_pT sinWat(nPorts=1, redeclare package Medium =
-        MediumW) "Sink for water circuit"
-    annotation (Placement(transformation(extent={{-80,-76},{-60,-56}})));
-  BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
-    pAtmSou=Buildings.BoundaryConditions.Types.DataSource.Parameter,
-    TDryBulSou=Buildings.BoundaryConditions.Types.DataSource.Parameter,
-    TDryBul=TOut_nominal,
-    filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"))
+    annotation(Placement(transformation(extent={{-20, 40}, {0, 60}})));
+  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow preHea(Q_flow=QRooInt_flow)
+    "Prescribed heat flow"
+    annotation(Placement(transformation(extent={{20, 70}, {40, 90}})));
+  Buildings.Fluid.Movers.FlowControlled_m_flow fan(redeclare package Medium=MediumA, m_flow_nominal=mA_flow_nominal, energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    "Supply air fan"
+    annotation(Placement(transformation(extent={{40,-30}, {60,-10}})));
+  Buildings.Fluid.HeatExchangers.ConstantEffectiveness hex(redeclare package Medium1=MediumA, redeclare package Medium2=MediumA, m1_flow_nominal=mA_flow_nominal, m2_flow_nominal=mA_flow_nominal, dp1_nominal=200, dp2_nominal=200, eps=eps)
+    "Heat recovery"
+    annotation(Placement(transformation(extent={{-110,-36}, {-90,-16}})));
+  Buildings.Fluid.HeatExchangers.WetCoilCounterFlow cooCoi(redeclare package Medium1=MediumW, redeclare package Medium2=MediumA, m1_flow_nominal=mW_flow_nominal, m2_flow_nominal=mA_flow_nominal, dp1_nominal=6000, dp2_nominal=200, UA_nominal=-QCoiC_flow_nominal/Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(T_a1=THeaRecLvg, T_b1=TASup_nominal, T_a2=TWSup_nominal, T_b2=TWRet_nominal), show_T=true, energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
+    "Cooling coil"
+    annotation(Placement(transformation(extent={{-10,-10}, {10, 10}}, rotation=180, origin={-30,-26})));
+  Buildings.Fluid.Sources.Outside out(nPorts=2, redeclare package Medium=MediumA)
+    annotation(Placement(transformation(extent={{-140,-32}, {-120,-12}})));
+  Buildings.Fluid.Sources.MassFlowSource_T souWat(nPorts=1, redeclare package Medium=MediumW, use_m_flow_in=true, T=TWSup_nominal)
+    "Source for water flow rate"
+    annotation(Placement(transformation(extent={{-40,-110}, {-20,-90}})));
+  Buildings.Fluid.Sources.Boundary_pT sinWat(nPorts=1, redeclare package Medium=MediumW)
+    "Sink for water circuit"
+    annotation(Placement(transformation(extent={{-80,-76}, {-60,-56}})));
+  BoundaryConditions.WeatherData.ReaderTMY3 weaDat(pAtmSou=Buildings.BoundaryConditions.Types.DataSource.Parameter, TDryBulSou=Buildings.BoundaryConditions.Types.DataSource.Parameter, TDryBul=TOut_nominal, filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"))
     "Weather data reader"
-    annotation (Placement(transformation(extent={{-160,40},{-140,60}})));
+    annotation(Placement(transformation(extent={{-160, 40}, {-140, 60}})));
   BoundaryConditions.WeatherData.Bus weaBus
-    annotation (Placement(transformation(extent={{-120,40},{-100,60}})));
+    annotation(Placement(transformation(extent={{-120, 40}, {-100, 60}})));
   Buildings.Controls.OBC.CDL.Continuous.Sources.Constant mAir_flow(k=mA_flow_nominal)
     "Fan air flow rate"
-    annotation (Placement(transformation(extent={{0,0},{20,20}})));
+    annotation(Placement(transformation(extent={{0, 0}, {20, 20}})));
   Buildings.Controls.OBC.CDL.Continuous.Sources.Constant mWat_flow(k=mW_flow_nominal)
     "Water flow rate"
-    annotation (Placement(transformation(extent={{-80,-114},{-60,-94}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senTemHXOut(redeclare package Medium =
-        MediumA, m_flow_nominal=mA_flow_nominal)
+    annotation(Placement(transformation(extent={{-80,-114}, {-60,-94}})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTemHXOut(redeclare package Medium=MediumA, m_flow_nominal=mA_flow_nominal)
     "Temperature sensor for heat recovery outlet on supply side"
-    annotation (Placement(transformation(extent={{-76,-26},{-64,-14}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senTemSupAir(redeclare package Medium =
-        MediumA, m_flow_nominal=mA_flow_nominal)
+    annotation(Placement(transformation(extent={{-76,-26}, {-64,-14}})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTemSupAir(redeclare package Medium=MediumA, m_flow_nominal=mA_flow_nominal)
     "Temperature sensor for supply air"
-    annotation (Placement(transformation(extent={{6,-26},{18,-14}})));
+    annotation(Placement(transformation(extent={{6,-26}, {18,-14}})));
 equation
-  connect(theCon.port_b, vol.heatPort) annotation (Line(
-      points={{40,50},{50,50},{50,30},{60,30}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(preHea.port, vol.heatPort) annotation (Line(
-      points={{40,80},{50,80},{50,30},{60,30}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(fan.port_b, vol.ports[1]) annotation (Line(
-      points={{60,-20},{68,-20},{68,20}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(vol.ports[2], hex.port_a2) annotation (Line(
-      points={{72,20},{72,-46},{-90,-46},{-90,-32}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(out.ports[1], hex.port_a1) annotation (Line(
-      points={{-120,-20},{-110,-20}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(out.ports[2], hex.port_b2) annotation (Line(
-      points={{-120,-24},{-110,-24},{-110,-32}},
-      color={0,127,255},
-      smooth=Smooth.None));
-
-  connect(souWat.ports[1], cooCoi.port_a1)   annotation (Line(
-      points={{-20,-100},{0,-100},{0,-32},{-20,-32}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(cooCoi.port_b1, sinWat.ports[1])    annotation (Line(
-      points={{-40,-32},{-48,-32},{-48,-66},{-60,-66}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(weaDat.weaBus, out.weaBus) annotation (Line(
-      points={{-140,50},{-128,50},{-128,4},{-148,4},{-148,-21.8},{-140,-21.8}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None));
-  connect(weaDat.weaBus, weaBus) annotation (Line(
-      points={{-140,50},{-110,50}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None), Text(
-      textString="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
-  connect(weaBus.TDryBul, TOut.T) annotation (Line(
-      points={{-110,50},{-22,50}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None), Text(
-      textString="%first",
-      index=-1,
-      extent={{-6,3},{-6,3}}));
-  connect(fan.m_flow_in, mAir_flow.y) annotation (Line(
-      points={{49.8,-8},{49.8,10},{21,10}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(mWat_flow.y, souWat.m_flow_in) annotation (Line(
-      points={{-59,-104},{-52,-104},{-52,-92},{-40,-92}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(hex.port_b1, senTemHXOut.port_a) annotation (Line(
-      points={{-90,-20},{-76,-20}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(senTemHXOut.port_b, cooCoi.port_a2) annotation (Line(
-      points={{-64,-20},{-40,-20}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(cooCoi.port_b2, senTemSupAir.port_a) annotation (Line(
-      points={{-20,-20},{6,-20}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(senTemSupAir.port_b, fan.port_a) annotation (Line(
-      points={{18,-20},{40,-20}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(TOut.port, theCon.port_a) annotation (Line(
-      points={{5.55112e-16,50},{20,50}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  annotation (Documentation(info="<html>
+  connect(theCon.port_b, vol.heatPort)
+    annotation(Line(points={{40, 50}, {50, 50}, {50, 30}, {60, 30}}, color={191, 0, 0}, smooth=Smooth.None));
+  connect(preHea.port, vol.heatPort)
+    annotation(Line(points={{40, 80}, {50, 80}, {50, 30}, {60, 30}}, color={191, 0, 0}, smooth=Smooth.None));
+  connect(fan.port_b, vol.ports[1])
+    annotation(Line(points={{60,-20}, {68,-20}, {68, 20}}, color={0, 127, 255}, smooth=Smooth.None));
+  connect(vol.ports[2], hex.port_a2)
+    annotation(Line(points={{72, 20}, {72,-46}, {-90,-46}, {-90,-32}}, color={0, 127, 255}, smooth=Smooth.None));
+  connect(out.ports[1], hex.port_a1)
+    annotation(Line(points={{-120,-20}, {-110,-20}}, color={0, 127, 255}, smooth=Smooth.None));
+  connect(out.ports[2], hex.port_b2)
+    annotation(Line(points={{-120,-24}, {-110,-24}, {-110,-32}}, color={0, 127, 255}, smooth=Smooth.None));
+  connect(souWat.ports[1], cooCoi.port_a1)
+    annotation(Line(points={{-20,-100}, {0,-100}, {0,-32}, {-20,-32}}, color={0, 127, 255}, smooth=Smooth.None));
+  connect(cooCoi.port_b1, sinWat.ports[1])
+    annotation(Line(points={{-40,-32}, {-48,-32}, {-48,-66}, {-60,-66}}, color={0, 127, 255}, smooth=Smooth.None));
+  connect(weaDat.weaBus, out.weaBus)
+    annotation(Line(points={{-140, 50}, {-128, 50}, {-128, 4}, {-148, 4}, {-148,-21.8}, {-140,-21.8}}, color={255, 204, 51}, thickness=0.5, smooth=Smooth.None));
+  connect(weaDat.weaBus, weaBus)
+    annotation(Line(points={{-140, 50}, {-110, 50}}, color={255, 204, 51}, thickness=0.5, smooth=Smooth.None), Text(textString="%second", index=1, extent={{6, 3}, {6, 3}}));
+  connect(weaBus.TDryBul, TOut.T)
+    annotation(Line(points={{-110, 50}, {-22, 50}}, color={255, 204, 51}, thickness=0.5, smooth=Smooth.None), Text(textString="%first", index=-1, extent={{-6, 3}, {-6, 3}}));
+  connect(fan.m_flow_in, mAir_flow.y)
+    annotation(Line(points={{49.8,-8}, {49.8, 10}, {21, 10}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(mWat_flow.y, souWat.m_flow_in)
+    annotation(Line(points={{-59,-104}, {-52,-104}, {-52,-92}, {-40,-92}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(hex.port_b1, senTemHXOut.port_a)
+    annotation(Line(points={{-90,-20}, {-76,-20}}, color={0, 127, 255}, smooth=Smooth.None));
+  connect(senTemHXOut.port_b, cooCoi.port_a2)
+    annotation(Line(points={{-64,-20}, {-40,-20}}, color={0, 127, 255}, smooth=Smooth.None));
+  connect(cooCoi.port_b2, senTemSupAir.port_a)
+    annotation(Line(points={{-20,-20}, {6,-20}}, color={0, 127, 255}, smooth=Smooth.None));
+  connect(senTemSupAir.port_b, fan.port_a)
+    annotation(Line(points={{18,-20}, {40,-20}}, color={0, 127, 255}, smooth=Smooth.None));
+  connect(TOut.port, theCon.port_a)
+    annotation(Line(points={{5.55112e-16, 50}, {20, 50}}, color={191, 0, 0}, smooth=Smooth.None));
+  annotation(Documentation(info="<html>
 <p>
 This part of the system model adds a space cooling with
 open loop control to the model
@@ -548,11 +457,6 @@ January 11, 2012, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
-</html>"),
-    Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-180,-140},{100,
-            100}})),
-    __Dymola_Commands(file=
-     "modelica://Buildings/Resources/Scripts/Dymola/Examples/Tutorial/SpaceCooling/System2.mos"
-        "Simulate and plot"),
-    experiment(Tolerance=1e-6, StopTime=10800));
+</html>"), Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-180,-140}, {100, 100}})), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Examples/Tutorial/SpaceCooling/System2.mos"
+    "Simulate and plot"), experiment(Tolerance=1e-6, StopTime=10800));
 end System2;

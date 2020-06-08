@@ -3,25 +3,10 @@ model Temperature_u
   "Approximation of specific internal energy versus temperature curve with cubic hermite cubic spline"
   extends Modelica.Icons.Example;
   // Phase-change properties
-  parameter Buildings.HeatTransfer.Data.SolidsPCM.Generic
-      materialMonotone(
-               TSol=273.15+30.9,
-               TLiq=273.15+40.0,
-               LHea=1000000,
-               c=920,
-               ensureMonotonicity=true,
-               d=1000,
-               k=1,
-               x=0.2) "Phase change material with monotone u-T relation";
-  parameter Buildings.HeatTransfer.Data.SolidsPCM.Generic
-      materialNonMonotone(TSol=273.15+30.9,
-               TLiq=273.15+40.0,
-               LHea=1000000,
-               c=920,
-               ensureMonotonicity=false,
-               d=1000,
-               k=1,
-               x=0.2) "Phase change material with non-monotone u-T relation";
+  parameter Buildings.HeatTransfer.Data.SolidsPCM.Generic materialMonotone(TSol=273.15 + 30.9, TLiq=273.15 + 40.0, LHea=1000000, c=920, ensureMonotonicity=true, d=1000, k=1, x=0.2)
+    "Phase change material with monotone u-T relation";
+  parameter Buildings.HeatTransfer.Data.SolidsPCM.Generic materialNonMonotone(TSol=273.15 + 30.9, TLiq=273.15 + 40.0, LHea=1000000, c=920, ensureMonotonicity=false, d=1000, k=1, x=0.2)
+    "Phase change material with non-monotone u-T relation";
   parameter Modelica.SIunits.SpecificInternalEnergy ud[Buildings.HeatTransfer.Conduction.nSupPCM](each fixed=false)
     "Support points";
   parameter Modelica.SIunits.SpecificInternalEnergy udMonotone[Buildings.HeatTransfer.Conduction.nSupPCM](each fixed=false)
@@ -34,91 +19,67 @@ model Temperature_u
     "Derivatives at the support points - non-monotone, default in Modelica PCM";
   parameter Real dT_duMonotone[Buildings.HeatTransfer.Conduction.nSupPCM](each fixed=false, each unit="kg.K2/J")
     "Derivatives at the support points for monotone increasing cubic splines";
-  Modelica.SIunits.SpecificInternalEnergy u "Specific internal energy";
+  Modelica.SIunits.SpecificInternalEnergy u
+    "Specific internal energy";
   Modelica.SIunits.Temperature T
     "Temperature for given u without monotone interpolation";
   Modelica.SIunits.Temperature TMonotone
     "Temperature for given u with monotone interpolation";
-  Modelica.SIunits.Temperature TExa "Exact value of temperature";
+  Modelica.SIunits.Temperature TExa
+    "Exact value of temperature";
   Real errMonotone
     "Relative temperature error between calculated value with monotone interpolation and exact temperature";
   Real errNonMonotone
     "Relative temperature error between calculated value with non-monotone interpolation and exact temperature";
-
- parameter Modelica.SIunits.TemperatureDifference dTCha = materialMonotone.TSol+materialMonotone.TLiq
+  parameter Modelica.SIunits.TemperatureDifference dTCha=materialMonotone.TSol + materialMonotone.TLiq
     "Characteristic temperature difference of the problem";
 protected
-  function relativeError "Relative error"
-    input Modelica.SIunits.Temperature T "Approximated temperature";
-    input Modelica.SIunits.Temperature TExa "Exact temperature";
+  function relativeError
+    "Relative error"
+    input Modelica.SIunits.Temperature T
+      "Approximated temperature";
+    input Modelica.SIunits.Temperature TExa
+      "Exact temperature";
     input Modelica.SIunits.TemperatureDifference dTCha
       "Characteristic temperature difference";
-    output Real relErr "Relative error";
+    output Real relErr
+      "Relative error";
   algorithm
-    relErr :=(T - TExa)/dTCha;
+    relErr :=(T-TExa)/dTCha;
   end relativeError;
-
-  constant Real conFac(unit="1/s") = 1
+  constant Real conFac(unit="1/s")=1
     "Conversion factor to satisfy unit check";
 initial equation
   // Calculate derivatives at support points (non-monotone)
-  (ud, Td, dT_du) =
-    Buildings.HeatTransfer.Conduction.BaseClasses.der_temperature_u(
-      c =  materialNonMonotone.c,
-      TSol=materialNonMonotone.TSol,
-      TLiq=materialNonMonotone.TLiq,
-      LHea=materialNonMonotone.LHea,
-      ensureMonotonicity=materialNonMonotone.ensureMonotonicity);
+  (ud, Td, dT_du)=Buildings.HeatTransfer.Conduction.BaseClasses.der_temperature_u(c=materialNonMonotone.c, TSol=materialNonMonotone.TSol, TLiq=materialNonMonotone.TLiq, LHea=materialNonMonotone.LHea, ensureMonotonicity=materialNonMonotone.ensureMonotonicity);
   // Calculate derivatives at support points (monotone);
- (udMonotone, TdMonotone, dT_duMonotone) =
-    Buildings.HeatTransfer.Conduction.BaseClasses.der_temperature_u(
-      c =  materialMonotone.c,
-      TSol=materialMonotone.TSol,
-      TLiq=materialMonotone.TLiq,
-      LHea=materialMonotone.LHea,
-      ensureMonotonicity=materialMonotone.ensureMonotonicity);
+  (udMonotone, TdMonotone, dT_duMonotone)=Buildings.HeatTransfer.Conduction.BaseClasses.der_temperature_u(c=materialMonotone.c, TSol=materialMonotone.TSol, TLiq=materialMonotone.TLiq, LHea=materialMonotone.LHea, ensureMonotonicity=materialMonotone.ensureMonotonicity);
 equation
-  u =  2.5e5+time*(1.5*materialMonotone.c*(materialMonotone.TLiq-273.15)+materialMonotone.LHea)*conFac;
-
+  u=2.5e5 + time*(1.5*materialMonotone.c*(materialMonotone.TLiq-273.15) + materialMonotone.LHea)*conFac;
   // Calculate T based on non-monotone interpolation
-  T = Buildings.HeatTransfer.Conduction.BaseClasses.temperature_u(
-       ud=ud,
-       Td=Td,
-       dT_du=dT_du,
-       u=u);
+  T=Buildings.HeatTransfer.Conduction.BaseClasses.temperature_u(ud=ud, Td=Td, dT_du=dT_du, u=u);
   // Calculate T based on monotone interpolation
-  TMonotone = Buildings.HeatTransfer.Conduction.BaseClasses.temperature_u(
-       ud=udMonotone,
-       Td=TdMonotone,
-       dT_du=dT_duMonotone,
-       u=u);
+  TMonotone=Buildings.HeatTransfer.Conduction.BaseClasses.temperature_u(ud=udMonotone, Td=TdMonotone, dT_du=dT_duMonotone, u=u);
   //Relative errors of obtained temperatures by using monotone and non-monotone
   //interpolation against exact values of tempratures taken from the T(u) curve
-  if time>=1.e-05 then
+  if time >= 1.e-05 then
     if u <= materialMonotone.c*materialMonotone.TSol then
       // Solid region
-      TExa           = u/materialMonotone.c;
-    elseif u >= materialMonotone.c*materialMonotone.TLiq+materialMonotone.LHea then
+      TExa=u/materialMonotone.c;
+    elseif u >= materialMonotone.c*materialMonotone.TLiq + materialMonotone.LHea then
       // Liquid region
-      TExa           = (u-materialMonotone.LHea)/materialMonotone.c;
-   else
+      TExa=(u-materialMonotone.LHea)/materialMonotone.c;
+    else
       // Region of phase transition
-      TExa=((u + materialMonotone.LHea*materialMonotone.TSol/(materialMonotone.TLiq
-         - materialMonotone.TSol))/(materialMonotone.c + materialMonotone.LHea/(
-        materialMonotone.TLiq - materialMonotone.TSol)));
+      TExa=((u + materialMonotone.LHea*materialMonotone.TSol/(materialMonotone.TLiq-materialMonotone.TSol))/(materialMonotone.c + materialMonotone.LHea/(materialMonotone.TLiq-materialMonotone.TSol)));
     end if;
   else
-    TExa =T;
+    TExa=T;
   end if;
-  errNonMonotone = relativeError(T=T,         TExa=TExa, dTCha = dTCha);
-  errMonotone    = relativeError(T=TMonotone, TExa=TExa, dTCha = dTCha);
-
-  annotation (
-experiment(Tolerance=1e-6, StopTime=1.0),
-__Dymola_Commands(file=
-          "modelica://Buildings/Resources/Scripts/Dymola/HeatTransfer/Conduction/BaseClasses/Examples/Temperature_u.mos"
-        "Simulate and plot"),
-    Documentation(info="<html>
+  errNonMonotone=relativeError(T=T, TExa=TExa, dTCha=dTCha);
+  errMonotone=relativeError(T=TMonotone, TExa=TExa, dTCha=dTCha);
+  annotation(experiment(Tolerance=1e-6, StopTime=1.0), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/HeatTransfer/Conduction/BaseClasses/Examples/Temperature_u.mos"
+    "Simulate and plot"), Documentation(info="<html>
 <p>
 This example tests and demonstrates the implementation of the specific internal
 energy versus temperature <i>T(u)</i> relationship for phase-change problems.

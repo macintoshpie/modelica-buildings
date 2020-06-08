@@ -1,39 +1,28 @@
 within Buildings.Electrical.AC.ThreePhasesUnbalanced.Interfaces.Examples;
-model WyeToDelta "Test for Y to D connection"
+model WyeToDelta
+  "Test for Y to D connection"
   extends Modelica.Icons.Example;
-
   Buildings.Electrical.AC.ThreePhasesUnbalanced.Interfaces.WyeToDelta wyeToDelta
     "Conversion of the voltages from Y to D"
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-  Buildings.Electrical.AC.ThreePhasesUnbalanced.Sources.FixedVoltage V1(f=60, V=
-        480) "Voltage source"
-           annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
-  Buildings.Electrical.AC.ThreePhasesUnbalanced.Sensors.ProbeWye probe_Y(perUnit=
-       false, V_nominal=480)
+    annotation(Placement(transformation(extent={{-10,-10}, {10, 10}})));
+  Buildings.Electrical.AC.ThreePhasesUnbalanced.Sources.FixedVoltage V1(f=60, V=480)
+    "Voltage source"
+    annotation(Placement(transformation(extent={{-60,-10}, {-40, 10}})));
+  Buildings.Electrical.AC.ThreePhasesUnbalanced.Sensors.ProbeWye probe_Y(perUnit=false, V_nominal=480)
     "Probe that measures the voltage and the angles on each phase"
-    annotation (Placement(transformation(extent={{-30,10},{-10,30}})));
-  Buildings.Electrical.AC.ThreePhasesUnbalanced.Sensors.ProbeWye probeD(perUnit=
-        false, V_nominal=480)
+    annotation(Placement(transformation(extent={{-30, 10}, {-10, 30}})));
+  Buildings.Electrical.AC.ThreePhasesUnbalanced.Sensors.ProbeWye probeD(perUnit=false, V_nominal=480)
     "Probe that measures the voltage and the angles on each phase"
-    annotation (Placement(transformation(extent={{10,10},{30,30}})));
+    annotation(Placement(transformation(extent={{10, 10}, {30, 30}})));
 equation
-  connect(V1.terminal, wyeToDelta.wye) annotation (Line(
-      points={{-40,0},{-10,0}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  connect(probe_Y.term, wyeToDelta.wye) annotation (Line(
-      points={{-20,11},{-20,0},{-10,0}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  connect(probeD.term, wyeToDelta.delta) annotation (Line(
-      points={{20,11},{20,0},{10,0}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  annotation (experiment(StopTime=1.0, Tolerance=1e-6),
-  __Dymola_Commands(file=
-          "modelica://Buildings/Resources/Scripts/Dymola/Electrical/AC/ThreePhasesUnbalanced/Interfaces/Examples/WyeToDelta.mos"
-        "Simulate and plot"),
- Documentation(revisions="<html>
+  connect(V1.terminal, wyeToDelta.wye)
+    annotation(Line(points={{-40, 0}, {-10, 0}}, color={0, 120, 120}, smooth=Smooth.None));
+  connect(probe_Y.term, wyeToDelta.wye)
+    annotation(Line(points={{-20, 11}, {-20, 0}, {-10, 0}}, color={0, 120, 120}, smooth=Smooth.None));
+  connect(probeD.term, wyeToDelta.delta)
+    annotation(Line(points={{20, 11}, {20, 0}, {10, 0}}, color={0, 120, 120}, smooth=Smooth.None));
+  annotation(experiment(StopTime=1.0, Tolerance=1e-6), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Electrical/AC/ThreePhasesUnbalanced/Interfaces/Examples/WyeToDelta.mos"
+    "Simulate and plot"), Documentation(revisions="<html>
 <ul>
 <li>
 October 9, 2014, by Marco Bonvini:<br/>

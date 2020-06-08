@@ -2,112 +2,60 @@ within Buildings.HeatTransfer.Windows.BaseClasses;
 model InteriorConvection
   "Model for a interior (room-side) convective heat transfer with variable surface area"
   extends Buildings.HeatTransfer.Convection.BaseClasses.PartialConvection;
-
-  constant Boolean homotopyInitialization = true "= true, use homotopy method"
+  constant Boolean homotopyInitialization=true
+    "= true, use homotopy method"
     annotation(HideResult=true);
-
-  parameter Buildings.HeatTransfer.Types.InteriorConvection conMod=
-    Buildings.HeatTransfer.Types.InteriorConvection.Fixed
+  parameter Buildings.HeatTransfer.Types.InteriorConvection conMod=Buildings.HeatTransfer.Types.InteriorConvection.Fixed
     "Convective heat transfer model"
-  annotation(Evaluate=true);
-
+    annotation(Evaluate=true);
   parameter Modelica.SIunits.CoefficientOfHeatTransfer hFixed=3
     "Constant convection coefficient"
-   annotation (Dialog(enable=(conMod == Buildings.HeatTransfer.Types.InteriorConvection.Fixed)));
-
-  parameter Modelica.SIunits.Angle til(displayUnit="deg") "Surface tilt"
-    annotation (Dialog(enable=(conMod <> Buildings.HeatTransfer.Types.InteriorConvection.Fixed)));
-
+    annotation(Dialog(enable=(conMod == Buildings.HeatTransfer.Types.InteriorConvection.Fixed)));
+  parameter Modelica.SIunits.Angle til(displayUnit="deg")
+    "Surface tilt"
+    annotation(Dialog(enable=(conMod <> Buildings.HeatTransfer.Types.InteriorConvection.Fixed)));
   Modelica.Blocks.Interfaces.RealInput u
     "Input connector, used to scale the surface area to take into account an operable shading device"
-    annotation (Placement(transformation(extent={{-140,60},{-100,100}}),
-        iconTransformation(extent={{-120,70},{-100,90}})));
-
+    annotation(Placement(transformation(extent={{-140, 60}, {-100, 100}}), iconTransformation(extent={{-120, 70}, {-100, 90}})));
 protected
-  constant Modelica.SIunits.Temperature dT0 = 2
+  constant Modelica.SIunits.Temperature dT0=2
     "Initial temperature used in homotopy method";
-
-  final parameter Real cosTil=Modelica.Math.cos(til) "Cosine of window tilt";
-  final parameter Real sinTil=Modelica.Math.sin(til) "Sine of window tilt";
-  final parameter Boolean isCeiling = abs(sinTil) < 10E-10 and cosTil > 0
+  final parameter Real cosTil=Modelica.Math.cos(til)
+    "Cosine of window tilt";
+  final parameter Real sinTil=Modelica.Math.sin(til)
+    "Sine of window tilt";
+  final parameter Boolean isCeiling=abs(sinTil) < 10E-10 and cosTil > 0
     "Flag, true if the surface is a ceiling";
-  final parameter Boolean isFloor = abs(sinTil) < 10E-10 and cosTil < 0
+  final parameter Boolean isFloor=abs(sinTil) < 10E-10 and cosTil < 0
     "Flag, true if the surface is a floor";
-
 initial equation
-  assert(homotopyInitialization, "In " + getInstanceName() +
-    ": The constant homotopyInitialization has been modified from its default value. This constant will be removed in future releases.",
-    level = AssertionLevel.warning);
-
+  assert(homotopyInitialization, "In " + getInstanceName() + ": The constant homotopyInitialization has been modified from its default value. This constant will be removed in future releases.", level=AssertionLevel.warning);
 equation
-  if (conMod == Buildings.HeatTransfer.Types.InteriorConvection.Fixed) then
-    q_flow = u*hFixed * dT;
+  if(conMod == Buildings.HeatTransfer.Types.InteriorConvection.Fixed) then
+    q_flow=u*hFixed*dT;
   else
     // Even if hCon is a step function with a step at zero,
     // the product hCon*dT is differentiable at zero with
     // a continuous first derivative
     if homotopyInitialization then
       if isCeiling then
-         q_flow = u*homotopy(actual=Buildings.HeatTransfer.Convection.Functions.HeatFlux.ceiling(dT=dT),
-                      simplified=dT/dT0*Buildings.HeatTransfer.Convection.Functions.HeatFlux.ceiling(dT=dT0));
+        q_flow=u*homotopy(actual=Buildings.HeatTransfer.Convection.Functions.HeatFlux.ceiling(dT=dT), simplified=dT/dT0*Buildings.HeatTransfer.Convection.Functions.HeatFlux.ceiling(dT=dT0));
       elseif isFloor then
-         q_flow = u*homotopy(actual=Buildings.HeatTransfer.Convection.Functions.HeatFlux.floor(dT=dT),
-                      simplified=dT/dT0*Buildings.HeatTransfer.Convection.Functions.HeatFlux.floor(dT=dT0));
+        q_flow=u*homotopy(actual=Buildings.HeatTransfer.Convection.Functions.HeatFlux.floor(dT=dT), simplified=dT/dT0*Buildings.HeatTransfer.Convection.Functions.HeatFlux.floor(dT=dT0));
       else
-         q_flow = u*homotopy(actual=Buildings.HeatTransfer.Convection.Functions.HeatFlux.wall(dT=dT),
-                      simplified=dT/dT0*Buildings.HeatTransfer.Convection.Functions.HeatFlux.wall(dT=dT0));
+        q_flow=u*homotopy(actual=Buildings.HeatTransfer.Convection.Functions.HeatFlux.wall(dT=dT), simplified=dT/dT0*Buildings.HeatTransfer.Convection.Functions.HeatFlux.wall(dT=dT0));
       end if;
     else
       if isCeiling then
-         q_flow = u*Buildings.HeatTransfer.Convection.Functions.HeatFlux.ceiling(dT=dT);
+        q_flow=u*Buildings.HeatTransfer.Convection.Functions.HeatFlux.ceiling(dT=dT);
       elseif isFloor then
-         q_flow = u*Buildings.HeatTransfer.Convection.Functions.HeatFlux.floor(dT=dT);
+        q_flow=u*Buildings.HeatTransfer.Convection.Functions.HeatFlux.floor(dT=dT);
       else
-         q_flow = u*Buildings.HeatTransfer.Convection.Functions.HeatFlux.wall(dT=dT);
+        q_flow=u*Buildings.HeatTransfer.Convection.Functions.HeatFlux.wall(dT=dT);
       end if;
     end if;
-
   end if;
-
-  annotation ( Icon(coordinateSystem(
-          preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics={
-        Rectangle(
-          extent={{-100,100},{100,-100}},
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-90,80},{-60,-80}},
-          lineColor={0,0,0},
-          fillColor={192,192,192},
-          fillPattern=FillPattern.Backward),
-        Line(points={{100,0},{100,0}}, color={0,127,255}),
-        Line(points={{100,0},{100,0}}, color={0,127,255}),
-        Line(points={{100,0},{100,0}}, color={0,127,255}),
-        Text(
-          extent={{-35,42},{-5,20}},
-          lineColor={255,0,0},
-          textString="Q_flow"),
-        Line(points={{-60,20},{76,20}}, color={191,0,0}),
-        Line(points={{-60,-20},{76,-20}}, color={191,0,0}),
-        Line(points={{-34,80},{-34,-80}}, color={0,127,255}),
-        Line(points={{6,80},{6,-80}}, color={0,127,255}),
-        Line(points={{40,80},{40,-80}}, color={0,127,255}),
-        Line(points={{76,80},{76,-80}}, color={0,127,255}),
-        Line(points={{-34,-80},{-44,-60}}, color={0,127,255}),
-        Line(points={{-34,-80},{-24,-60}}, color={0,127,255}),
-        Line(points={{6,-80},{-4,-60}}, color={0,127,255}),
-        Line(points={{6,-80},{16,-60}}, color={0,127,255}),
-        Line(points={{40,-80},{30,-60}}, color={0,127,255}),
-        Line(points={{40,-80},{50,-60}}, color={0,127,255}),
-        Line(points={{76,-80},{66,-60}}, color={0,127,255}),
-        Line(points={{76,-80},{86,-60}}, color={0,127,255}),
-        Line(points={{56,-30},{76,-20}}, color={191,0,0}),
-        Line(points={{56,-10},{76,-20}}, color={191,0,0}),
-        Line(points={{56,10},{76,20}}, color={191,0,0}),
-        Line(points={{56,30},{76,20}}, color={191,0,0})}),
-    defaultComponentName="con",
-    Documentation(info="<html>
+  annotation(Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100}, {100, 100}}), graphics={Rectangle(extent={{-100, 100}, {100,-100}}, lineColor={0, 0, 0}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid), Rectangle(extent={{-90, 80}, {-60,-80}}, lineColor={0, 0, 0}, fillColor={192, 192, 192}, fillPattern=FillPattern.Backward), Line(points={{100, 0}, {100, 0}}, color={0, 127, 255}), Line(points={{100, 0}, {100, 0}}, color={0, 127, 255}), Line(points={{100, 0}, {100, 0}}, color={0, 127, 255}), Text(extent={{-35, 42}, {-5, 20}}, lineColor={255, 0, 0}, textString="Q_flow"), Line(points={{-60, 20}, {76, 20}}, color={191, 0, 0}), Line(points={{-60,-20}, {76,-20}}, color={191, 0, 0}), Line(points={{-34, 80}, {-34,-80}}, color={0, 127, 255}), Line(points={{6, 80}, {6,-80}}, color={0, 127, 255}), Line(points={{40, 80}, {40,-80}}, color={0, 127, 255}), Line(points={{76, 80}, {76,-80}}, color={0, 127, 255}), Line(points={{-34,-80}, {-44,-60}}, color={0, 127, 255}), Line(points={{-34,-80}, {-24,-60}}, color={0, 127, 255}), Line(points={{6,-80}, {-4,-60}}, color={0, 127, 255}), Line(points={{6,-80}, {16,-60}}, color={0, 127, 255}), Line(points={{40,-80}, {30,-60}}, color={0, 127, 255}), Line(points={{40,-80}, {50,-60}}, color={0, 127, 255}), Line(points={{76,-80}, {66,-60}}, color={0, 127, 255}), Line(points={{76,-80}, {86,-60}}, color={0, 127, 255}), Line(points={{56,-30}, {76,-20}}, color={191, 0, 0}), Line(points={{56,-10}, {76,-20}}, color={191, 0, 0}), Line(points={{56, 10}, {76, 20}}, color={191, 0, 0}), Line(points={{56, 30}, {76, 20}}, color={191, 0, 0})}), defaultComponentName="con", Documentation(info="<html>
 <p>
 This is a model for a convective heat transfer for interior, room-facing surfaces.
 The parameter <code>conMod</code> determines the model that is used to compute

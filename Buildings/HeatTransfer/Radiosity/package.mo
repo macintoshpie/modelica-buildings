@@ -1,9 +1,8 @@
 within Buildings.HeatTransfer;
-package Radiosity "Package with models for radiosity transfer"
+package Radiosity
+  "Package with models for radiosity transfer"
   extends Modelica.Icons.VariantsPackage;
-
-
-annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This package provides component models for the
 infrared radiative heat exchange of window assemblies.

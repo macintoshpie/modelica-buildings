@@ -1,6 +1,7 @@
 within Buildings.HeatTransfer.Convection.Functions;
-package HeatFlux "Correlations for convective heat flux"
-  annotation (Documentation(info="<html>
+package HeatFlux
+  "Correlations for convective heat flux"
+  annotation(Documentation(info="<html>
 <p>
 This package contains functions for the convective heat transfer.
 Input into the functions is the temperature difference between

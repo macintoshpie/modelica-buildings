@@ -1,12 +1,11 @@
 within Buildings.Controls.Discrete;
-block BooleanDelay "Zero order hold for boolean variable"
+block BooleanDelay
+  "Zero order hold for boolean variable"
   extends Modelica.Blocks.Interfaces.BooleanSISO;
-  extends Modelica.Blocks.Interfaces.DiscreteBlock(
-    firstTrigger(fixed=true,
-                 start=firstTrigger_start));
+  extends Modelica.Blocks.Interfaces.DiscreteBlock(firstTrigger(fixed=true, start=firstTrigger_start));
   parameter Boolean firstTrigger_start=false
     "Start value for rising edge signals first sample instant"
-    annotation (Dialog(tab="Initialization"));
+    annotation(Dialog(tab="Initialization"));
 protected
   Boolean ySample;
 algorithm
@@ -14,13 +13,7 @@ algorithm
     y := ySample;
     ySample := u;
   end when;
-
-  annotation (Icon(graphics={Line(points={{-72,-48},{-46,-48},{-46,-6},{-20,-6},
-              {-20,18},{0,18},{0,58},{24,58},{24,14},{44,14},{44,-6},{50,-6},{
-              50,-6},{68,-6}})}),
-defaultComponentName="del",
-Documentation(
-info="<html>
+  annotation(Icon(graphics={Line(points={{-72,-48}, {-46,-48}, {-46,-6}, {-20,-6}, {-20, 18}, {0, 18}, {0, 58}, {24, 58}, {24, 14}, {44, 14}, {44,-6}, {50,-6}, {50,-6}, {68,-6}})}), defaultComponentName="del", Documentation(info="<html>
 <p>
 Block that delays the boolean input signal by
 one sampling interval.
@@ -34,8 +27,7 @@ instants, then the model outputs
 <p align=\"center\" style=\"font-style:italic;\">
 y(t<sub>i+1</sub>) = u(t<sub>i</sub>).
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 June 6, 2015, by Michael Wetter:<br/>

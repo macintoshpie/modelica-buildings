@@ -2,30 +2,22 @@ within Buildings.Utilities.Psychrometrics.Functions;
 function TDewPoi_pW
   "Function to compute the water vapor partial pressure for a given dew point temperature of moist air"
   extends Modelica.Icons.Function;
-
   input Modelica.SIunits.Pressure p_w(displayUnit="Pa", min=200)
     "Water vapor partial pressure";
-  output Modelica.SIunits.Temperature T "Dew point temperature";
-
+  output Modelica.SIunits.Temperature T
+    "Dew point temperature";
 protected
   function pW_TDewPoi_inversion
     "Internal function to solve eps=f(NTU, Z) for NTU for cross flow unmixed"
     extends Modelica.Math.Nonlinear.Interfaces.partialScalarFunction;
-
     input Modelica.SIunits.Pressure p_w(displayUnit="Pa", min=200)
       "Water vapor partial pressure";
-
   algorithm
-    y :=Buildings.Utilities.Psychrometrics.Functions.pW_TDewPoi(T=u) - p_w;
+    y := Buildings.Utilities.Psychrometrics.Functions.pW_TDewPoi(T=u)-p_w;
   end pW_TDewPoi_inversion;
-
 algorithm
-  T := Modelica.Math.Nonlinear.solveOneNonlinearEquation(
-      f=function pW_TDewPoi_inversion(p_w=p_w),
-      u_min=200,
-      u_max=400);
-  annotation (
-    Documentation(info="<html>
+  T := Modelica.Math.Nonlinear.solveOneNonlinearEquation(f=function pW_TDewPoi_inversion(p_w=p_w), u_min=200, u_max=400);
+  annotation(Documentation(info="<html>
 <p>
 Dew point temperature calculation for moist air above freezing temperature.
 </p>
@@ -75,6 +67,5 @@ August 7, 2008 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
-</html>"),
-        Inline=true);
+</html>"), Inline=true);
 end TDewPoi_pW;

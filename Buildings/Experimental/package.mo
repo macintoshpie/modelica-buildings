@@ -1,8 +1,8 @@
 within Buildings;
-package Experimental "Package with experimental models"
+package Experimental
+  "Package with experimental models"
   extends Modelica.Icons.Package;
-
-  annotation (preferredView="info", Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 This package contains models that are experimental.
 They may be included in the <code>Buildings</code> library

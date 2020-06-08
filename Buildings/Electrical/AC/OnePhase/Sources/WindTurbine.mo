@@ -1,42 +1,27 @@
 within Buildings.Electrical.AC.OnePhase.Sources;
-model WindTurbine "Simple wind turbine model"
-  extends Buildings.Electrical.Interfaces.PartialWindTurbine(
-    redeclare package PhaseSystem = Buildings.Electrical.PhaseSystems.OnePhase,
-    redeclare replaceable Interfaces.Terminal_p terminal,
-    V_nominal(start = 110));
-
-  parameter Real pf(min=0, max=1) = 0.9 "Power factor"
-    annotation (Dialog(group="AC-Conversion"));
-  parameter Real eta_DCAC(min=0, max=1) = 0.9 "Efficiency of DC/AC conversion"
-    annotation (Dialog(group="AC-Conversion"));
-  replaceable Buildings.Electrical.AC.OnePhase.Loads.Capacitive load(
-    final mode=Buildings.Electrical.Types.Load.VariableZ_P_input,
-    final pf=pf,
-    final P_nominal=0,
-    final V_nominal=V_nominal) "Load model"
-    annotation (Placement(transformation(extent={{12,-10},{32,10}})));
+model WindTurbine
+  "Simple wind turbine model"
+  extends Buildings.Electrical.Interfaces.PartialWindTurbine(redeclare package PhaseSystem=Buildings.Electrical.PhaseSystems.OnePhase, redeclare replaceable Interfaces.Terminal_p terminal, V_nominal(start=110));
+  parameter Real pf(min=0, max=1)=0.9
+    "Power factor"
+    annotation(Dialog(group="AC-Conversion"));
+  parameter Real eta_DCAC(min=0, max=1)=0.9
+    "Efficiency of DC/AC conversion"
+    annotation(Dialog(group="AC-Conversion"));
+  replaceable Buildings.Electrical.AC.OnePhase.Loads.Capacitive load(final mode=Buildings.Electrical.Types.Load.VariableZ_P_input, final pf=pf, final P_nominal=0, final V_nominal=V_nominal)
+    "Load model"
+    annotation(Placement(transformation(extent={{12,-10}, {32, 10}})));
 protected
-  Modelica.Blocks.Math.Gain gain_DCAC(final k=eta_DCAC) annotation (Placement(
-        transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=180,
-        origin={52,0})));
+  Modelica.Blocks.Math.Gain gain_DCAC(final k=eta_DCAC)
+    annotation(Placement(transformation(extent={{-10,-10}, {10, 10}}, rotation=180, origin={52, 0})));
 equation
-  connect(load.terminal, terminal) annotation (Line(
-      points={{12,0},{-100,0}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  connect(gain_DCAC.y, load.Pow) annotation (Line(
-      points={{41,0},{32,0}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(gain.y, gain_DCAC.u) annotation (Line(
-      points={{23,30},{80,30},{80,0},{64,0}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  annotation (
-defaultComponentName="winTur",
- Documentation(info="<html>
+  connect(load.terminal, terminal)
+    annotation(Line(points={{12, 0}, {-100, 0}}, color={0, 120, 120}, smooth=Smooth.None));
+  connect(gain_DCAC.y, load.Pow)
+    annotation(Line(points={{41, 0}, {32, 0}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(gain.y, gain_DCAC.u)
+    annotation(Line(points={{23, 30}, {80, 30}, {80, 0}, {64, 0}}, color={0, 0, 127}, smooth=Smooth.None));
+  annotation(defaultComponentName="winTur", Documentation(info="<html>
 <p>
 Model of a wind turbine whose power is computed as a function of wind-speed as defined in a table.
 </p>

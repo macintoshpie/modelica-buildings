@@ -2,28 +2,24 @@ within Buildings.Utilities.Psychrometrics.Functions.BaseClasses.Examples;
 model DewPointTemperatureDerivativeCheck_amb
   "Model to test correct implementation of derivative"
   extends Modelica.Icons.Example;
-
-  Real y "Function value";
-  Real y_comp "Function value for comparison";
-  Real err "Integration error";
-  Modelica.SIunits.Temperature T "Temperature";
+  Real y
+    "Function value";
+  Real y_comp
+    "Function value for comparison";
+  Real err
+    "Integration error";
+  Modelica.SIunits.Temperature T
+    "Temperature";
 initial equation
   y=y_comp;
 equation
-  T =  273.15 + 50 + time^3 * 50;
+  T=273.15 + 50 + time^3*50;
   y=Buildings.Utilities.Psychrometrics.Functions.pW_TDewPoi_amb(T=T);
   der(y)=der(y_comp);
-  err = y-y_comp;
+  err=y-y_comp;
   assert(abs(err)/max(1, abs(y)) < 1E-2, "Derivative implementation has an error or solver tolerance is too low.");
-
-annotation (
-    __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Utilities/Psychrometrics/Functions/BaseClasses/Examples/DewPointTemperatureDerivativeCheck_amb.mos"
-        "Simulate and plot"),
-    experiment(
-      StartTime=-1,
-      StopTime=1,
-      Tolerance=1E-9),
-    Documentation(info="<html>
+  annotation(__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Utilities/Psychrometrics/Functions/BaseClasses/Examples/DewPointTemperatureDerivativeCheck_amb.mos"
+    "Simulate and plot"), experiment(StartTime=-1, StopTime=1, Tolerance=1E-9), Documentation(info="<html>
 <p>
 This example checks whether the function derivative
 is implemented correctly. If the derivative implementation

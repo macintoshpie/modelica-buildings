@@ -1,7 +1,8 @@
 within Buildings.Experimental;
-package DistrictHeatingCooling "Models for district heating and cooling"
+package DistrictHeatingCooling
+  "Models for district heating and cooling"
   extends Modelica.Icons.VariantsPackage;
-annotation (preferredView="info", Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 This package contains models for district heating and cooling systems
 such as the ones described by Schluck et al. (2015).

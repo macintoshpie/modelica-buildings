@@ -2,7 +2,8 @@ within Buildings.Utilities.Psychrometrics.Functions;
 function pW_TDewPoi
   "Function to compute the water vapor partial pressure for a given dew point temperature of moist air"
   extends Modelica.Icons.Function;
-  input Modelica.SIunits.Temperature T(min=100) "Dew point temperature";
+  input Modelica.SIunits.Temperature T(min=100)
+    "Dew point temperature";
   output Modelica.SIunits.Pressure p_w(displayUnit="Pa", min=100)
     "Water vapor partial pressure";
 protected
@@ -12,12 +13,9 @@ protected
   constant Real C11=4.1764768E-5;
   constant Real C12=-1.4452093E-8;
   constant Real C13=6.5459673E0;
-
 algorithm
-  p_w := Modelica.Math.exp(C8/T + C9 + T*(C10 + T*(C11 + T*C12)) + C13*
-    Modelica.Math.log(T));
-  annotation (
-    Documentation(info="<html>
+  p_w := Modelica.Math.exp(C8/T + C9 + T*(C10 + T*(C11 + T*C12)) + C13*Modelica.Math.log(T));
+  annotation(Documentation(info="<html>
 <p>
 Dew point temperature calculation for moist air above freezing temperature.
 </p>
@@ -53,8 +51,5 @@ August 7, 2008 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
-</html>"),
-    Inline=true,
-    smoothOrder=99,
-    derivative=BaseClasses.der_pW_TDewPoi);
+</html>"), Inline=true, smoothOrder=99, derivative=BaseClasses.der_pW_TDewPoi);
 end pW_TDewPoi;

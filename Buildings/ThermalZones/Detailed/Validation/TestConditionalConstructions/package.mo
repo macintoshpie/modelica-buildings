@@ -1,10 +1,8 @@
 within Buildings.ThermalZones.Detailed.Validation;
-package TestConditionalConstructions "Package with models that verify whether constructions can be conditionally removed"
+package TestConditionalConstructions
+  "Package with models that verify whether constructions can be conditionally removed"
   extends Modelica.Icons.ExamplesPackage;
-
-
-annotation (preferredView="info",
-Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 The thermal zone model
 <a href=\"Buildings.ThermalZones.Detailed.MixedAir\">Buildings.ThermalZones.Detailed.MixedAir</a>
 allows the conditional declaration of constructions for

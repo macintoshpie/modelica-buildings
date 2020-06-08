@@ -1,17 +1,11 @@
 within Buildings.Fluid.SolarCollectors.BaseClasses;
 block ASHRAEHeatLoss
   "Calculate the heat loss of a solar collector per ASHRAE standard 93"
-  extends Buildings.Fluid.SolarCollectors.BaseClasses.PartialHeatLoss(
-  final QLos_nominal = slope * A_c * dT_nominal
-    "Heat loss at nominal condition, for reporting only",
-  QLos_internal = -slope * A_c/nSeg * {dT[i] for i in 1:nSeg});
-
-  parameter Real slope(final max=0, final unit = "W/(m2.K)")
+  extends Buildings.Fluid.SolarCollectors.BaseClasses.PartialHeatLoss(final QLos_nominal=slope*A_c*dT_nominal
+    "Heat loss at nominal condition, for reporting only", QLos_internal=-slope*A_c/nSeg*{dT[i] for i in 1 : nSeg});
+  parameter Real slope(final max=0, final unit="W/(m2.K)")
     "Slope from ratings data";
-
-annotation (
-defaultComponentName="heaLos",
-Documentation(info="<html>
+  annotation(defaultComponentName="heaLos", Documentation(info="<html>
 <p>
 This component computes the heat loss from the solar thermal collector to the
 environment. It is designed for use with ratings data collected in accordance

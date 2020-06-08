@@ -1,48 +1,44 @@
 within Buildings.Electrical.Utilities.Controllers;
-model StateMachineVoltCtrl "This model represents a simple voltage controller that unplug a load when
+model StateMachineVoltCtrl
+  "This model represents a simple voltage controller that unplug a load when
   there is a voltage fluctuation higher that a given threshold."
-  Modelica.Blocks.Interfaces.RealInput V "Voltage of the node to be controlled";
+  Modelica.Blocks.Interfaces.RealInput V
+    "Voltage of the node to be controlled";
   parameter Modelica.SIunits.Voltage V_nominal
     "Nominal voltage of the node to be controlled";
-  parameter Real vThresh(min=0.0, max=1.0) = 0.1
+  parameter Real vThresh(min=0.0, max=1.0)=0.1
     "Threshold that activates voltage ctrl (ratio of nominal voltage)";
-  parameter Modelica.SIunits.Time tDelay = 300
+  parameter Modelica.SIunits.Time tDelay=300
     "Time to wait before plugging the load back";
   output Real y
     "Output signal that represents whether the load should be connected to the grid or not";
 protected
   discrete Boolean connected
     "Boolean variable that indicates when the load is connected";
-  discrete Real tSwitch "Time instant when the last event occurred";
+  discrete Real tSwitch
+    "Time instant when the last event occurred";
 initial algorithm
   // Initialize with load connected and last event at t = 0
   connected := true;
   tSwitch := 0;
 equation
-
   // Output for every state, connected or not
   if connected then
-    y = 1.0;
+    y=1.0;
   else
-    y = 0.0;
+    y=0.0;
   end if;
-
 algorithm
-
   // Detect an overshoot in the voltage
-  when
-      (connected and (V > V_nominal*(1+vThresh))) then
+  when(connected and(V > V_nominal*(1 + vThresh))) then
     tSwitch := time;
     connected := false;
   end when;
-
   // Transition between not connected and connected again after the delay time has been elapsed
-  when
-      (not connected and time >= tSwitch + tDelay) then
+  when(not connected and time >= tSwitch + tDelay) then
     connected := true;
   end when;
-
-  annotation (Documentation(revisions="<html>
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 Aug 28, 2014, by Marco Bonvini:<br/>

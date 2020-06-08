@@ -1,99 +1,45 @@
 within Buildings.Electrical.AC.OnePhase.Loads;
-model Capacitive "Model of a capacitive and resistive load"
-  extends Buildings.Electrical.Interfaces.CapacitiveLoad(
-    redeclare package PhaseSystem = PhaseSystems.OnePhase,
-    redeclare replaceable Interfaces.Terminal_n terminal,
-    V_nominal(start = 110));
-
+model Capacitive
+  "Model of a capacitive and resistive load"
+  extends Buildings.Electrical.Interfaces.CapacitiveLoad(redeclare package PhaseSystem=PhaseSystems.OnePhase, redeclare replaceable Interfaces.Terminal_n terminal, V_nominal(start=110));
 protected
-  Modelica.SIunits.Angle theRef "Absolute angle of rotating reference system";
-
+  Modelica.SIunits.Angle theRef
+    "Absolute angle of rotating reference system";
 initial equation
   if mode == Buildings.Electrical.Types.Load.FixedZ_dynamic then
     // q = Y[2]*{V_nominal, 0}/omega;
     // Steady state initialization
-    der(q) = zeros(PhaseSystem.n);
+    der(q)=zeros(PhaseSystem.n);
   end if;
 equation
-  theRef = PhaseSystem.thetaRef(terminal.theta);
-  omega = der(theRef);
-
+  theRef=PhaseSystem.thetaRef(terminal.theta);
+  omega=der(theRef);
   if mode == Buildings.Electrical.Types.Load.FixedZ_dynamic then
-
     // Use the dynamic phasorial representation
-    Y[1] = -(P_nominal/pf)*pf/V_nominal^2;
-    Y[2] = -(P_nominal/pf)*Modelica.Fluid.Utilities.regRoot(1 - pf^2, delta=0.001)/V_nominal^2;
-
+    Y[1]=-(P_nominal/pf)*pf/V_nominal^2;
+    Y[2]=-(P_nominal/pf)*Modelica.Fluid.Utilities.regRoot(1-pf^2, delta=0.001)/V_nominal^2;
     // Electric charge
-    q = Y[2]*{v[1], v[2]}/omega;
-
+    q=Y[2]*{v[1], v[2]}/omega;
     // Dynamics of the system
-    der(q) + omega*j(q) + Y[1]*v = i;
-
+    der(q) + omega*j(q) + Y[1]*v=i;
   else
-
     // Use the power specified by the parameter or inputs
     if linearized then
-      i[1] = -homotopy(actual= (v[2]*Q + v[1]*P)/(V_nominal^2), simplified= v[1]*Modelica.Constants.eps*1e3);
-      i[2] = -homotopy(actual= (v[2]*P - v[1]*Q)/(V_nominal^2), simplified= v[2]*Modelica.Constants.eps*1e3);
+      i[1]=-homotopy(actual=(v[2]*Q + v[1]*P)/(V_nominal^2), simplified=v[1]*Modelica.Constants.eps*1e3);
+      i[2]=-homotopy(actual=(v[2]*P-v[1]*Q)/(V_nominal^2), simplified=v[2]*Modelica.Constants.eps*1e3);
     else
       if initMode == Buildings.Electrical.Types.InitMode.zero_current then
-        i[1] = -homotopy(actual=(v[2]*Q + v[1]*P)/(v[1]^2 + v[2]^2), simplified=0.0);
-        i[2] = -homotopy(actual=(v[2]*P - v[1]*Q)/(v[1]^2 + v[2]^2), simplified=0.0);
+        i[1]=-homotopy(actual=(v[2]*Q + v[1]*P)/(v[1]^2 + v[2]^2), simplified=0.0);
+        i[2]=-homotopy(actual=(v[2]*P-v[1]*Q)/(v[1]^2 + v[2]^2), simplified=0.0);
       else
-        i[1] = -homotopy(actual=(v[2]*Q + v[1]*P)/(v[1]^2 + v[2]^2), simplified=(v[2]*Q + v[1]*P)/(V_nominal^2));
-        i[2] = -homotopy(actual=(v[2]*P - v[1]*Q)/(v[1]^2 + v[2]^2), simplified=(v[2]*P - v[1]*Q)/(V_nominal^2));
+        i[1]=-homotopy(actual=(v[2]*Q + v[1]*P)/(v[1]^2 + v[2]^2), simplified=(v[2]*Q + v[1]*P)/(V_nominal^2));
+        i[2]=-homotopy(actual=(v[2]*P-v[1]*Q)/(v[1]^2 + v[2]^2), simplified=(v[2]*P-v[1]*Q)/(V_nominal^2));
       end if;
-
     end if;
-
-    Y = {0, 0};
-    q = {0, 0};
-
+    Y={0, 0};
+    q={0, 0};
   end if;
-
-  annotation (
-    defaultComponentName="loa",
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}),      graphics={
-        Rectangle(
-          extent={{-80,40},{80,-40}},
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Line(
-          points={{0,28},{0,-28}},
-          color={0,0,0},
-          origin={48,0},
-          rotation=180),
-        Line(
-          points={{0,28},{0,-28}},
-          color={0,0,0},
-          origin={40,0},
-          rotation=180),
-          Line(points={{-42,-5.14335e-15},{10,0}},
-                                         color={0,0,0},
-          origin={-2,0},
-          rotation=180),
-          Line(points={{-26,-3.18398e-15},{0,0}},
-                                         color={0,0,0},
-          origin={48,0},
-          rotation=180),
-          Line(points={{-10,-1.22461e-15},{10,0}},
-                                         color={0,0,0},
-          origin={-82,0},
-          rotation=180),
-        Rectangle(
-          extent={{-11,30},{11,-30}},
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid,
-          origin={-42,1},
-          rotation=90),
-        Text(
-          extent={{-120,80},{120,40}},
-          lineColor={0,0,0},
-          textString="%name")}), Documentation(info="<html>
+  annotation(defaultComponentName="loa", Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {100, 100}}), graphics={Rectangle(extent={{-80, 40}, {80,-40}}, lineColor={0, 0, 0}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid), Line(points={{0, 28}, {0,-28}}, color={0, 0, 0}, origin={48, 0}, rotation=180), Line(points={{0, 28}, {0,-28}}, color={0, 0, 0}, origin={40, 0}, rotation=180), Line(points={{-42,-5.14335e-15}, {10, 0}}, color={0, 0, 0}, origin={-2, 0}, rotation=180), Line(points={{-26,-3.18398e-15}, {0, 0}}, color={0, 0, 0}, origin={48, 0}, rotation=180), Line(points={{-10,-1.22461e-15}, {10, 0}}, color={0, 0, 0}, origin={-82, 0}, rotation=180), Rectangle(extent={{-11, 30}, {11,-30}}, lineColor={0, 0, 0}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid, origin={-42, 1}, rotation=90), Text(extent={{-120, 80}, {120, 40}}, lineColor={0, 0, 0}, textString="%name")}), Documentation(info="<html>
 
 <p>
 Model of an capacitive load. It may be used to model a bank of capacitors.
@@ -202,8 +148,7 @@ The choices are between a null current or the linearized model.
 </p>
 
 
-</html>",
-      revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 January 29, 2019, by Michael Wetter:<br/>

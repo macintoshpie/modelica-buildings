@@ -1,39 +1,35 @@
 within Buildings.Electrical.Interfaces;
-partial model CapacitiveLoad "Partial model of a capacitive load"
+partial model CapacitiveLoad
+  "Partial model of a capacitive load"
   extends Load;
-  parameter Boolean use_pf_in = false "If true, the power factor is defined by an input"
+  parameter Boolean use_pf_in=false
+    "If true, the power factor is defined by an input"
     annotation(Dialog(group="Modeling assumption"));
-  parameter Real pf(min=0, max=1) = 0.8 "Power factor"
-  annotation(Dialog(group="Nominal conditions"));
-  Modelica.Blocks.Interfaces.RealInput pf_in(
-    min=0,
-    max=1,
-    unit="1") if (use_pf_in) "Power factor"
-                   annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=180,
-        origin={100,60}),  iconTransformation(
-        extent={{-20,-20},{20,20}},
-        rotation=180,
-        origin={100,60})));
+  parameter Real pf(min=0, max=1)=0.8
+    "Power factor"
+    annotation(Dialog(group="Nominal conditions"));
+  Modelica.Blocks.Interfaces.RealInput pf_in(min=0, max=1, unit="1") if(use_pf_in)
+    "Power factor"
+    annotation(Placement(transformation(extent={{-20,-20}, {20, 20}}, rotation=180, origin={100, 60}), iconTransformation(extent={{-20,-20}, {20, 20}}, rotation=180, origin={100, 60})));
 protected
-  function j = PhaseSystem.j "J operator that rotates of 90 degrees";
+  function j=PhaseSystem.j
+    "J operator that rotates of 90 degrees";
   Modelica.Blocks.Interfaces.RealInput pf_internal
     "Hidden value of the input load for the conditional connector";
   Modelica.SIunits.ElectricCharge q[2](each stateSelect=StateSelect.prefer)
     "Electric charge";
-  Modelica.SIunits.Admittance[2] Y "Admittance";
-  Modelica.SIunits.AngularVelocity omega "Angular velocity";
-  Modelica.SIunits.Power Q = P*tan(-acos(pf_internal))
+  Modelica.SIunits.Admittance[2] Y
+    "Admittance";
+  Modelica.SIunits.AngularVelocity omega
+    "Angular velocity";
+  Modelica.SIunits.Power Q=P*tan(-acos(pf_internal))
     "Reactive power (negative because capacitive load)";
 equation
   connect(pf_in, pf_internal);
-
   if not use_pf_in then
-    pf_internal = pf;
+    pf_internal=pf;
   end if;
-
-  annotation (Documentation(revisions="<html>
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 June 06, 2014, by Marco Bonvini:<br/>

@@ -1,8 +1,8 @@
 within Buildings.Electrical;
-package UsersGuide "Electrical package user's guide"
+package UsersGuide
+  "Electrical package user's guide"
   extends Modelica.Icons.Information;
-  annotation (preferredView="info",
-Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 
 <h4>Overview</h4>
 <p>

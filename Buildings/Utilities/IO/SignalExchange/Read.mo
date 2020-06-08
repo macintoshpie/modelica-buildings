@@ -1,32 +1,20 @@
 within Buildings.Utilities.IO.SignalExchange;
-model Read "Block that allows a signal to be read as an FMU output"
+model Read
+  "Block that allows a signal to be read as an FMU output"
   extends Modelica.Blocks.Routing.RealPassThrough;
-
-  parameter String description "Description of the signal being read";
-
-  parameter SignalTypes.SignalsForKPIs KPIs = SignalTypes.SignalsForKPIs.None
+  parameter String description
+    "Description of the signal being read";
+  parameter SignalTypes.SignalsForKPIs KPIs=SignalTypes.SignalsForKPIs.None
     "Tag with the type of signal for the calculation of the KPIs";
-
-  parameter String zone = "1" if (
-    KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature or
-    KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.RadiativeZoneTemperature or
-    KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature or
-    KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.RelativeHumidity or
-    KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration)
+  parameter String zone="1" if(KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature or KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.RadiativeZoneTemperature or KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature or KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.RelativeHumidity or KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration)
     "Zone designation, required if KPIs is AirZoneTemperature, 
     RadiativeZoneTemperature, OperativeZoneTemperature, RelativeHumidity, 
     or CO2Concentration"
-  annotation(Dialog(enable=(
-    KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature or
-    KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.RadiativeZoneTemperature or
-    KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature or
-    KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.RelativeHumidity or
-    KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration)));
-
+    annotation(Dialog(enable=(KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature or KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.RadiativeZoneTemperature or KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature or KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.RelativeHumidity or KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration)));
 protected
-  final parameter Boolean boptestRead = true
+  final parameter Boolean boptestRead=true
     "Protected parameter, used by tools to search for read block in models";
-  annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This block enables the reading of a signal and its meta-data by an external
 program without the need to explicitly propogate the signal to a top-level model.
@@ -55,8 +43,7 @@ designation using the <code>zone</code> parameter if the KPI calculation is
 specific to a particular zone (for multi-zone models). See documentation for 
 the parameter <code>zone</code> for more details.
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 February 23, 2020 by David Blum:<br/>
@@ -82,37 +69,5 @@ First implementation.
 See <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1059\">#1059</a>.
 </li>
 </ul>
-</html>"), Icon(graphics={
-        Line(points={{22,60},{70,60}},  color={0,0,127}),
-        Line(points={{-38,0},{22,60}}, color={0,0,127}),
-        Line(points={{-100,0},{-38,0}}, color={0,0,127}),
-        Line(points={{-38,0},{100,0}}, color={0,0,127}),
-        Ellipse(
-          extent={{-40,2},{-36,-2}},
-          lineColor={28,108,200},
-          fillColor={0,0,127},
-          fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{36,70},{66,60},{36,50},{36,70}},
-          lineColor={0,0,127},
-          fillColor={0,0,127},
-          fillPattern=FillPattern.Solid),
-        Line(points={{-16,0},{16,0}},     color={0,0,127},
-          origin={78,60},
-          rotation=90),
-        Line(points={{-16,0},{16,0}},     color={0,0,127},
-          origin={74,60},
-          rotation=90),
-        Line(points={{-16,0},{16,0}},     color={0,0,127},
-          origin={70,60},
-          rotation=90),
-        Text(
-          extent={{-50,-24},{54,-72}},
-          lineColor={153,153,153},
-          textString=DynamicSelect("", if (
-            (KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature) or
-            (KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.RadiativeZoneTemperature) or
-            (KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature) or
-            (KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.RelativeHumidity) or
-            (KPIs==Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration)) then "zone" else ""))}));
+</html>"), Icon(graphics={Line(points={{22, 60}, {70, 60}}, color={0, 0, 127}), Line(points={{-38, 0}, {22, 60}}, color={0, 0, 127}), Line(points={{-100, 0}, {-38, 0}}, color={0, 0, 127}), Line(points={{-38, 0}, {100, 0}}, color={0, 0, 127}), Ellipse(extent={{-40, 2}, {-36,-2}}, lineColor={28, 108, 200}, fillColor={0, 0, 127}, fillPattern=FillPattern.Solid), Polygon(points={{36, 70}, {66, 60}, {36, 50}, {36, 70}}, lineColor={0, 0, 127}, fillColor={0, 0, 127}, fillPattern=FillPattern.Solid), Line(points={{-16, 0}, {16, 0}}, color={0, 0, 127}, origin={78, 60}, rotation=90), Line(points={{-16, 0}, {16, 0}}, color={0, 0, 127}, origin={74, 60}, rotation=90), Line(points={{-16, 0}, {16, 0}}, color={0, 0, 127}, origin={70, 60}, rotation=90), Text(extent={{-50,-24}, {54,-72}}, lineColor={153, 153, 153}, textString=DynamicSelect("", if((KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature) or(KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.RadiativeZoneTemperature) or(KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature) or(KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.RelativeHumidity) or(KPIs == Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration)) then "zone" else ""))}));
 end Read;

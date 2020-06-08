@@ -1,90 +1,25 @@
 within Buildings.Fluid.HeatExchangers;
 model PlateHeatExchangerEffectivenessNTU
   "Plate heat exchanger with effectiveness - NTU relation and no moisture condensation"
-  extends Buildings.Fluid.HeatExchangers.BaseClasses.PartialEffectivenessNTU(
-    UA = 1/(1/hA1 + 1/hA2));
-
+  extends Buildings.Fluid.HeatExchangers.BaseClasses.PartialEffectivenessNTU(UA=1/(1/hA1 + 1/hA2));
 protected
   parameter Modelica.SIunits.ThermalConductance hA1_nominal(min=0)=2*UA_nominal
     "Nominal convective heat transfer coefficient for medium 1";
   parameter Modelica.SIunits.ThermalConductance hA2_nominal(min=0)=2*UA_nominal
     "Nominal convective heat transfer coefficient for medium 2";
-
   parameter Real n1(min=0, max=1)=0.8
     "Exponent for convective heat transfer coefficient, h1~m1_flow^n1";
   parameter Real n2(min=0, max=1)=0.8
-   "Exponent for convective heat transfer coefficient, h2~m2_flow^n2";
-
+    "Exponent for convective heat transfer coefficient, h2~m2_flow^n2";
   Modelica.SIunits.ThermalConductance hA1
     "Convective heat transfer coefficient for medium 1";
   Modelica.SIunits.ThermalConductance hA2
     "Convective heat transfer coefficient for medium 2";
-
 equation
   // Convective heat transfer coefficients
- hA1 = hA1_nominal * Buildings.Utilities.Math.Functions.regNonZeroPower(
-   x = m1_flow/m1_flow_nominal,
-   n = n1,
-   delta = 0.1);
- hA2 = hA2_nominal * Buildings.Utilities.Math.Functions.regNonZeroPower(
-   x = m2_flow/m2_flow_nominal,
-   n = n2,
-   delta = 0.1);
-  annotation (
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}}), graphics={
-        Rectangle(
-          extent={{-62,60},{-50,-58}},
-          fillColor={0,0,0},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None),
-        Rectangle(
-          extent={{-50,60},{-34,-58}},
-          fillColor={28,108,200},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None,
-          lineColor={0,0,0}),
-        Rectangle(
-          extent={{-22,60},{-6,-58}},
-          fillColor={28,108,200},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None,
-          lineColor={0,0,0}),
-        Rectangle(
-          extent={{-34,60},{-22,-58}},
-          fillColor={0,0,0},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None),
-        Rectangle(
-          extent={{6,60},{22,-58}},
-          fillColor={28,108,200},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None,
-          lineColor={0,0,0}),
-        Rectangle(
-          extent={{-6,60},{6,-58}},
-          fillColor={0,0,0},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None),
-        Rectangle(
-          extent={{34,60},{50,-58}},
-          fillColor={28,108,200},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None,
-          lineColor={0,0,0}),
-        Rectangle(
-          extent={{22,60},{34,-58}},
-          fillColor={0,0,0},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None),
-        Rectangle(
-          extent={{50,60},{62,-58}},
-          fillColor={0,0,0},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None)}),
-    preferredView="info",
-defaultComponentName="hex",
-    Documentation(info="<html>
+  hA1=hA1_nominal*Buildings.Utilities.Math.Functions.regNonZeroPower(x=m1_flow/m1_flow_nominal, n=n1, delta=0.1);
+  hA2=hA2_nominal*Buildings.Utilities.Math.Functions.regNonZeroPower(x=m2_flow/m2_flow_nominal, n=n2, delta=0.1);
+  annotation(Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {100, 100}}), graphics={Rectangle(extent={{-62, 60}, {-50,-58}}, fillColor={0, 0, 0}, fillPattern=FillPattern.Solid, pattern=LinePattern.None), Rectangle(extent={{-50, 60}, {-34,-58}}, fillColor={28, 108, 200}, fillPattern=FillPattern.Solid, pattern=LinePattern.None, lineColor={0, 0, 0}), Rectangle(extent={{-22, 60}, {-6,-58}}, fillColor={28, 108, 200}, fillPattern=FillPattern.Solid, pattern=LinePattern.None, lineColor={0, 0, 0}), Rectangle(extent={{-34, 60}, {-22,-58}}, fillColor={0, 0, 0}, fillPattern=FillPattern.Solid, pattern=LinePattern.None), Rectangle(extent={{6, 60}, {22,-58}}, fillColor={28, 108, 200}, fillPattern=FillPattern.Solid, pattern=LinePattern.None, lineColor={0, 0, 0}), Rectangle(extent={{-6, 60}, {6,-58}}, fillColor={0, 0, 0}, fillPattern=FillPattern.Solid, pattern=LinePattern.None), Rectangle(extent={{34, 60}, {50,-58}}, fillColor={28, 108, 200}, fillPattern=FillPattern.Solid, pattern=LinePattern.None, lineColor={0, 0, 0}), Rectangle(extent={{22, 60}, {34,-58}}, fillColor={0, 0, 0}, fillPattern=FillPattern.Solid, pattern=LinePattern.None), Rectangle(extent={{50, 60}, {62,-58}}, fillColor={0, 0, 0}, fillPattern=FillPattern.Solid, pattern=LinePattern.None)}), preferredView="info", defaultComponentName="hex", Documentation(info="<html>
 <p>
 Model of a plate heat exchanger without humidity condensation.
 This model transfers heat in the amount of

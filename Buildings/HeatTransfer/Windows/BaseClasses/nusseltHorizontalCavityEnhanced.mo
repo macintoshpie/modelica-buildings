@@ -3,36 +3,36 @@ function nusseltHorizontalCavityEnhanced
   "Nusselt number for horizontal cavity, bottom surface warmer than top surface"
   input Buildings.HeatTransfer.Data.Gases.Generic gas
     "Thermophysical properties of gas fill"
-   annotation(choicesAllMatching=true);
-  input Real Ra(min=0) "Rayleigh number";
+    annotation(choicesAllMatching=true);
+  input Real Ra(min=0)
+    "Rayleigh number";
   input Modelica.SIunits.Temperature T_m
     "Temperature used for thermophysical properties";
   input Modelica.SIunits.TemperatureDifference dT
     "Temperature difference used to compute q_flow = h*dT";
-  input Modelica.SIunits.Angle til "Window tilt";
-  input Real cosTil(min=0) "Cosine of the window tilt";
-  output Real Nu(min=0) "Nusselt number";
+  input Modelica.SIunits.Angle til
+    "Window tilt";
+  input Real cosTil(min=0)
+    "Cosine of the window tilt";
+  output Real Nu(min=0)
+    "Nusselt number";
 protected
-  Real k1 "Auxiliary variable";
-  Real k2 "Auxiliary variable";
-  Real k11 "Auxiliary variable";
-  Real k22 "Auxiliary variable";
+  Real k1
+    "Auxiliary variable";
+  Real k2
+    "Auxiliary variable";
+  Real k11
+    "Auxiliary variable";
+  Real k22
+    "Auxiliary variable";
 algorithm
   // Windows inclined from 0 to 60 deg (eqn. 3.1-42 to 3.1-43)
-  k1 :=1 - 1708/Ra/cosTil;
-  k2 :=(Ra*cosTil/5830)^(1/3) - 1;
-  k11 :=(k1 + Buildings.Utilities.Math.Functions.smoothMax(
-    x1=k1,
-    x2=-k1,
-    deltaX=1E-1))/2;
-  k22 :=(k2 + Buildings.Utilities.Math.Functions.smoothMax(
-    x1=k2,
-    x2=-k2,
-    deltaX=1E-1))/2;
-  Nu :=1 + 1.44*k11*(1 - 1708*abs(Modelica.Math.sin(1.8*til*180/Modelica.Constants.pi))
-    ^(1.6)/Ra/cosTil) + k22;
-    annotation (smoothOrder=1, Inline=true,
-Documentation(info="<html>
+  k1 := 1-1708/Ra/cosTil;
+  k2 :=(Ra*cosTil/5830)^(1/3)-1;
+  k11 :=(k1 + Buildings.Utilities.Math.Functions.smoothMax(x1=k1, x2=-k1, deltaX=1E-1))/2;
+  k22 :=(k2 + Buildings.Utilities.Math.Functions.smoothMax(x1=k2, x2=-k2, deltaX=1E-1))/2;
+  Nu := 1 + 1.44*k11*(1-1708*abs(Modelica.Math.sin(1.8*til*180/Modelica.Constants.pi))^(1.6)/Ra/cosTil) + k22;
+  annotation(smoothOrder=1, Inline=true, Documentation(info="<html>
 <p>
 Function for Nusselt number in horizontal window cavity.
 The computation is according to TARCOG 2006,

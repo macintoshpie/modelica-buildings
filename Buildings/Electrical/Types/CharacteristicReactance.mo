@@ -1,6 +1,7 @@
 within Buildings.Electrical.Types;
-type CharacteristicReactance =  Real (final quantity="Reactance per meter",  final unit="Ohm/m")
-  "Reactance per unit length" annotation (Documentation(revisions="<html>
+type CharacteristicReactance=Real(final quantity="Reactance per meter", final unit="Ohm/m")
+  "Reactance per unit length"
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 March 19, 2015, by Marco Bonvini:<br/>

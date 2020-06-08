@@ -2,10 +2,8 @@ within Buildings.HeatTransfer.Windows.BaseClasses.Validation;
 model HeatCapacityVariableShadeDT
   "Validation model for heat capacity with variable shade signal and different room temperature"
   extends HeatCapacityVariableShade(heaCapSha(T(start=298.15)));
-annotation(experiment(Tolerance=1e-6, StopTime=600),
-    __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/HeatTransfer/Windows/BaseClasses/Validation/HeatCapacityVariableShadeDT.mos"
-        "Simulate and plot"),
-    Documentation(info="<html>
+  annotation(experiment(Tolerance=1e-6, StopTime=600), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/HeatTransfer/Windows/BaseClasses/Validation/HeatCapacityVariableShadeDT.mos"
+    "Simulate and plot"), Documentation(info="<html>
 <p>
 This model validates the heat capacitor model for the window glass,
 with varying control signal and heat conduction to a thermal capacity

@@ -1,9 +1,9 @@
 within Buildings.Electrical.Types;
-type CableMode = enumeration(
-    automatic "Select automatically the size of the cable",
-    commercial "Select the cable from a list of commercial options")
-  "Enumeration that defines how a cable can be parameterized" annotation (
-    Documentation(revisions="<html>
+type CableMode=enumeration(automatic
+  "Select automatically the size of the cable", commercial
+  "Select the cable from a list of commercial options")
+  "Enumeration that defines how a cable can be parameterized"
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 March 19, 2015, by Marco Bonvini:<br/>

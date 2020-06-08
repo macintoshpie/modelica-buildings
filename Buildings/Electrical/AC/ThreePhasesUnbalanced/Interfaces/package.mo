@@ -1,9 +1,8 @@
 within Buildings.Electrical.AC.ThreePhasesUnbalanced;
-package Interfaces "Package with interfaces for three-phase unbalanced AC models"
+package Interfaces
+  "Package with interfaces for three-phase unbalanced AC models"
   extends Modelica.Icons.InterfacesPackage;
-
-
-annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This package contains connectors that are used by the models in the
 <a href=\"modelica://Buildings.Electrical.AC.ThreePhasesUnbalanced\">Buildings.Electrical.AC.ThreePhasesUnbalanced</a> package.

@@ -1,8 +1,7 @@
 within Buildings.ThermalZones.Detailed.Examples.FFD;
 package UsersGuide
   extends Modelica.Icons.Information;
-  annotation (preferredView="info",
-  Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <h4>Introduction</h4>
 <p>
 For an introduction to the coupled simulation and for detailed information

@@ -1,8 +1,8 @@
 within Buildings.Examples.Tutorial;
-package Boiler "Package with example for how to build a model for boiler with a heating load"
+package Boiler
+  "Package with example for how to build a model for boiler with a heating load"
   extends Modelica.Icons.ExamplesPackage;
-
-annotation (preferredView="info", Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 This package contains examples with step-by-step instructions for how to build
 a system model for a boiler with a heat load as shown in the figure below.

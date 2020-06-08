@@ -1,11 +1,8 @@
 within Buildings.Fluid.FixedResistances.Validation.PlugFlowPipes.Data;
 record PipeDataAIT151218
   "Experimental data from AIT monitoring data December 18, 2015"
-    extends BaseClasses.PipeDataBaseDefinition(
-      final nCol = 10,
-      final filNam = Modelica.Utilities.Files.loadResource(
-  "modelica://Buildings/Resources/Data/Fluid/FixedResistances/Validation/PlugFlowPipes/PipeDataAIT151218.mos"));
-     annotation (Documentation(revisions="<html>
+  extends BaseClasses.PipeDataBaseDefinition(final nCol=10, final filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/Data/Fluid/FixedResistances/Validation/PlugFlowPipes/PipeDataAIT151218.mos"));
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 March 7, 2020, by Michael Wetter:<br/>

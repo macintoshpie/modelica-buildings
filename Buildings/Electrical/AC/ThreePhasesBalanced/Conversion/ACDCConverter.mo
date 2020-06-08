@@ -1,11 +1,8 @@
 within Buildings.Electrical.AC.ThreePhasesBalanced.Conversion;
-model ACDCConverter "AC DC converter"
-  extends Buildings.Electrical.AC.OnePhase.Conversion.ACDCConverter(
-    redeclare Interfaces.Terminal_n terminal_n);
-
-  annotation (
-defaultComponentName="conACDC",
-Documentation(info="<html>
+model ACDCConverter
+  "AC DC converter"
+  extends Buildings.Electrical.AC.OnePhase.Conversion.ACDCConverter(redeclare Interfaces.Terminal_n terminal_n);
+  annotation(defaultComponentName="conACDC", Documentation(info="<html>
 <p>
 This model represents a simplified conversion between a three-phase
 balanced AC system and a DC systems.

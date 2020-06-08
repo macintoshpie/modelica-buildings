@@ -1,17 +1,15 @@
 within Buildings.Electrical.Interfaces;
-model Ground "Generalized model of a ground connection."
-  replaceable package PhaseSystem =
-      Buildings.Electrical.PhaseSystems.PartialPhaseSystem constrainedby
-    Buildings.Electrical.PhaseSystems.PartialPhaseSystem "Phase system"
-    annotation (choicesAllMatching=true);
-
-  replaceable Buildings.Electrical.Interfaces.Terminal terminal(redeclare
-      package PhaseSystem = PhaseSystem) "Generalized terminal"
-    annotation (Placement(transformation(extent={{-8,92},{8,108}}),
-        iconTransformation(extent={{-8,92},{8,108}})));
+model Ground
+  "Generalized model of a ground connection."
+  replaceable package PhaseSystem=Buildings.Electrical.PhaseSystems.PartialPhaseSystem constrainedby Buildings.Electrical.PhaseSystems.PartialPhaseSystem
+    "Phase system"
+    annotation(choicesAllMatching=true);
+  replaceable Buildings.Electrical.Interfaces.Terminal terminal(redeclare package PhaseSystem=PhaseSystem)
+    "Generalized terminal"
+    annotation(Placement(transformation(extent={{-8, 92}, {8, 108}}), iconTransformation(extent={{-8, 92}, {8, 108}})));
 equation
-  terminal.v = zeros(PhaseSystem.n);
-  annotation (Documentation(info="<html>
+  terminal.v=zeros(PhaseSystem.n);
+  annotation(Documentation(info="<html>
 <p>
 Given a generic electric connector
 <a href=\"modelica://Buildings.Electrical.Interfaces.Terminal\">

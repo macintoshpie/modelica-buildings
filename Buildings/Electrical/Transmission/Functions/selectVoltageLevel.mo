@@ -1,15 +1,15 @@
 within Buildings.Electrical.Transmission.Functions;
 function selectVoltageLevel
   "This function computes the voltage level (low, medium or high) given the nominal voltage"
-  input Modelica.SIunits.Voltage V "Nominal voltage";
-  output Buildings.Electrical.Types.VoltageLevel level "Type of voltage level";
+  input Modelica.SIunits.Voltage V
+    "Nominal voltage";
+  output Buildings.Electrical.Types.VoltageLevel level
+    "Type of voltage level";
 algorithm
   if V <= 0 then
-    assert(V > 0,
-     "In function Buildings.Electrical.Transmission.Functions.selectVoltageLevel,
+    assert(V > 0, "In function Buildings.Electrical.Transmission.Functions.selectVoltageLevel,
       does not support a voltage of " + String(V) + " [V].
-      The selected voltage level will be assumed to be low.",
-      level = AssertionLevel.warning);
+      The selected voltage level will be assumed to be low.", level=AssertionLevel.warning);
     level := Buildings.Electrical.Types.VoltageLevel.Low;
   elseif V <= 1000 then
     level := Buildings.Electrical.Types.VoltageLevel.Low;
@@ -18,7 +18,7 @@ algorithm
   else
     level := Buildings.Electrical.Types.VoltageLevel.High;
   end if;
-annotation(Inline = true, Documentation(revisions="<html>
+  annotation(Inline=true, Documentation(revisions="<html>
 <ul>
 <li>
 Sept 19, 2014, by Marco Bonvini:<br/>

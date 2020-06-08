@@ -1,25 +1,27 @@
 within Buildings.Electrical.Transmission.MediumVoltageCables;
-record Generic "Data record for a generic medium voltage cable"
+record Generic
+  "Data record for a generic medium voltage cable"
   extends Modelica.Icons.MaterialProperty;
   extends Buildings.Electrical.Transmission.BaseClasses.BaseCable;
   parameter String size(start="")
     "AWG or kcmil code representing the conductor size";
   parameter Buildings.Electrical.Types.CharacteristicResistance Rdc(start=0)
     "Characteristic DC resistance of the cable @ T_ref";
-  parameter Modelica.SIunits.Length d "Inner diameter";
-  parameter Modelica.SIunits.Length D "Outer diameter";
-  parameter Modelica.SIunits.Length GMR "Geometrical Mean Radius of the cable";
+  parameter Modelica.SIunits.Length d
+    "Inner diameter";
+  parameter Modelica.SIunits.Length D
+    "Outer diameter";
+  parameter Modelica.SIunits.Length GMR
+    "Geometrical Mean Radius of the cable";
   parameter Modelica.SIunits.Length GMD
     "Geometrical Mean Diameter of the cable";
-
   redeclare function extends lineResistance
     "Function that computes the resistance of a cable"
-      input Buildings.Electrical.Transmission.MediumVoltageCables.Generic cable
+    input Buildings.Electrical.Transmission.MediumVoltageCables.Generic cable
       "Record that contains cable properties";
   algorithm
-    R := l*cable.Rdc*Buildings.Electrical.Transmission.Functions.R_AC_correction(
-    cable.size, cable.material);
-      annotation(Inline=true, Documentation(revisions="<html>
+    R := l*cable.Rdc*Buildings.Electrical.Transmission.Functions.R_AC_correction(cable.size, cable.material);
+    annotation(Inline=true, Documentation(revisions="<html>
 <ul>
 <li>
 September 23, 2014, by Marco Bonvini:<br/>
@@ -49,14 +51,13 @@ Buildings.Electrical.Transmission.Functions.R_AC_correction</a> for more details
 
 </html>"));
   end lineResistance;
-
   redeclare function extends lineInductance
     "Function that computes the resistance of a cable"
     input Buildings.Electrical.Transmission.MediumVoltageCables.Generic cable
       "Record that contains cable properties";
   algorithm
     L := l*2e-7*log(cable.GMD/cable.GMR);
-      annotation(Inline=true, Documentation(revisions="<html>
+    annotation(Inline=true, Documentation(revisions="<html>
 <ul>
 <li>
 September 23, 2014, by Marco Bonvini:<br/>
@@ -81,17 +82,17 @@ of the cable.
 </p>
 </html>"));
   end lineInductance;
-
   redeclare function extends lineCapacitance
     "Function that computes the capacitance of a cable"
     input Buildings.Electrical.Transmission.MediumVoltageCables.Generic cable
       "Record that contains cable properties";
   protected
-    Modelica.SIunits.Length r "Radius";
+    Modelica.SIunits.Length r
+      "Radius";
   algorithm
     r := cable.d/2.0;
     C := l*2*Modelica.Constants.pi*Modelica.Constants.epsilon_0/log(cable.GMD/r);
-      annotation(Inline=true, Documentation(revisions="<html>
+    annotation(Inline=true, Documentation(revisions="<html>
 <ul>
 <li>
 September 23, 2014, by Marco Bonvini:<br/>
@@ -117,8 +118,7 @@ diameter of the cable.
 </p>
 </html>"));
   end lineCapacitance;
-
-  annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This is a base record for specifying physical properties for medium
 voltage commercial cables. New cables can be added by extending

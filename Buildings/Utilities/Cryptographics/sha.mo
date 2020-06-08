@@ -2,16 +2,14 @@ within Buildings.Utilities.Cryptographics;
 function sha
   "SHA1 encryption of a String"
   extends Modelica.Icons.Function;
-  input String str "String to be encrypted";
-  output String sha1 "SHA1-encrypted string";
-
-external "C" sha1 = cryptographicsHash(str)
-  annotation (
-  Include="#include <cryptographicsHash.c>",
-  IncludeDirectory="modelica://Buildings/Resources/C-Sources");
-
-annotation (
-    Documentation(info="<html>
+  input String str
+    "String to be encrypted";
+  output String sha1
+    "SHA1-encrypted string";
+external "C" sha1=cryptographicsHash(
+  str)
+  annotation(Include="#include <cryptographicsHash.c>", IncludeDirectory="modelica://Buildings/Resources/C-Sources");
+  annotation(Documentation(info="<html>
 <p>
 This function takes a String input and, using an external function written in C,
 outputs its SHA1 encryption. The input string can be of any length, though the output

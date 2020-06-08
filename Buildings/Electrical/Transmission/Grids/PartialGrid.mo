@@ -1,15 +1,18 @@
 within Buildings.Electrical.Transmission.Grids;
-record PartialGrid "Partial model that represents a generalized grid"
+record PartialGrid
+  "Partial model that represents a generalized grid"
   extends Modelica.Icons.MaterialProperty;
-  parameter Integer nNodes "Number of nodes of the grid";
-  parameter Integer nLinks "Number of links connecting the nodes";
-  parameter Integer fromTo[nLinks,2]
+  parameter Integer nNodes
+    "Number of nodes of the grid";
+  parameter Integer nLinks
+    "Number of links connecting the nodes";
+  parameter Integer fromTo[nLinks, 2]
     "Indexes [i,1]->[i,2] of the nodes connected by link i";
-  parameter Modelica.SIunits.Length l[nLinks,1](each min=0)
+  parameter Modelica.SIunits.Length l[nLinks, 1](each min=0)
     "Length of the cable";
   replaceable Buildings.Electrical.Transmission.BaseClasses.BaseCable cables[nLinks]
     "Array that contains the characteristics of each cable";
-  annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This abstract grid model specifies the topology of the network by
 </p>
@@ -39,9 +42,5 @@ June 3, 2014, by Marco Bonvini:<br/>
 Added User's guide.
 </li>
 </ul>
-</html>"), Icon(graphics={
-        Text(
-          lineColor={0,0,255},
-          extent={{-154,104},{146,144}},
-          textString="%name")}));
+</html>"), Icon(graphics={Text(lineColor={0, 0, 255}, extent={{-154, 104}, {146, 144}}, textString="%name")}));
 end PartialGrid;

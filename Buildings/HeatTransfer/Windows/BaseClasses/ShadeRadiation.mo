@@ -1,11 +1,11 @@
 within Buildings.HeatTransfer.Windows.BaseClasses;
 model ShadeRadiation
   "Model for infrared radiative heat balance of a layer that may or may not have a shade"
-
-  constant Boolean homotopyInitialization = true "= true, use homotopy method"
+  constant Boolean homotopyInitialization=true
+    "= true, use homotopy method"
     annotation(HideResult=true);
-
-  parameter Modelica.SIunits.Area A "Heat transfer area";
+  parameter Modelica.SIunits.Area A
+    "Heat transfer area";
   parameter Modelica.SIunits.Emissivity absIR_air
     "Infrared absorptivity of surface that faces air";
   parameter Modelica.SIunits.Emissivity absIR_glass
@@ -20,200 +20,82 @@ model ShadeRadiation
     "Infrared reflectivity of surface that faces air";
   final parameter Modelica.SIunits.ReflectionCoefficient rhoIR_glass=1-absIR_glass-tauIR_glass
     "Infrared reflectivity of surface that faces glass";
-  parameter Boolean linearize = false "Set to true to linearize emissive power"
-  annotation (Evaluate=true);
-
+  parameter Boolean linearize=false
+    "Set to true to linearize emissive power"
+    annotation(Evaluate=true);
   parameter Modelica.SIunits.Temperature T0=293.15
     "Temperature used to linearize radiative heat transfer"
-    annotation (Dialog(enable=linearize));
-
+    annotation(Dialog(enable=linearize));
   Modelica.Blocks.Interfaces.RealInput u
     "Input connector, used to scale the surface area to take into account an operable shading device"
-    annotation (Placement(transformation(extent={{-140,60},{-100,100}}),
-        iconTransformation(extent={{-120,70},{-100,90}})));
-
+    annotation(Placement(transformation(extent={{-140, 60}, {-100, 100}}), iconTransformation(extent={{-120, 70}, {-100, 90}})));
   Modelica.Blocks.Interfaces.RealInput QSolAbs_flow(unit="W", quantity="Power")
     "Solar radiation absorbed by shade"
-    annotation (Placement(transformation(
-        origin={0,-120},
-        extent={{-20,-20},{20,20}},
-        rotation=90), iconTransformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={0,-110})));
-
+    annotation(Placement(transformation(origin={0,-120}, extent={{-20,-20}, {20, 20}}, rotation=90), iconTransformation(extent={{-10,-10}, {10, 10}}, rotation=90, origin={0,-110})));
   Interfaces.RadiosityInflow JIn_air(start=A*0.8*Modelica.Constants.sigma*293.15^4)
     "Incoming radiosity at the air-side surface of the shade"
-    annotation (Placement(transformation(extent={{-120,-50},{-100,-30}})));
+    annotation(Placement(transformation(extent={{-120,-50}, {-100,-30}})));
   Interfaces.RadiosityInflow JIn_glass(start=A*0.8*Modelica.Constants.sigma*293.15^4)
     "Incoming radiosity at the glass-side surface of the shade"
-    annotation (Placement(transformation(extent={{120,-90},{100,-70}})));
+    annotation(Placement(transformation(extent={{120,-90}, {100,-70}})));
   Interfaces.RadiosityOutflow JOut_air
     "Outgoing radiosity at the air-side surface of the shade"
-    annotation (Placement(transformation(extent={{-100,-90},{-120,-70}})));
+    annotation(Placement(transformation(extent={{-100,-90}, {-120,-70}})));
   Interfaces.RadiosityOutflow JOut_glass
     "Outgoing radiosity at the glass-side surface of the shade"
-    annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
-
- Modelica.Blocks.Interfaces.RealOutput QRadAbs_flow(unit="W")
+    annotation(Placement(transformation(extent={{100,-50}, {120,-30}})));
+  Modelica.Blocks.Interfaces.RealOutput QRadAbs_flow(unit="W")
     "Total net radiation that is absorbed by the shade (positive if absorbed)"
-     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
-                       rotation=270,
-        origin={-50,-110}),         iconTransformation(extent={{-10,-10},{10,10}},
-        rotation=270,
-        origin={-50,-110})));
-
-  Modelica.Blocks.Interfaces.RealInput TSha(quantity="ThermodynamicTemperature",
-      unit="K",
-      start=293.15) if
-         thisSideHasShade "Shade temperature"
-    annotation (Placement(transformation(
-        origin={60,-120},
-        extent={{-20,-20},{20,20}},
-        rotation=90), iconTransformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={50,-110})));
-
+    annotation(Placement(transformation(extent={{-10,-10}, {10, 10}}, rotation=270, origin={-50,-110}), iconTransformation(extent={{-10,-10}, {10, 10}}, rotation=270, origin={-50,-110})));
+  Modelica.Blocks.Interfaces.RealInput TSha(quantity="ThermodynamicTemperature", unit="K", start=293.15) if thisSideHasShade
+    "Shade temperature"
+    annotation(Placement(transformation(origin={60,-120}, extent={{-20,-20}, {20, 20}}, rotation=90), iconTransformation(extent={{-10,-10}, {10, 10}}, rotation=90, origin={50,-110})));
 protected
-   Modelica.Blocks.Interfaces.RealInput TSha_internal(quantity="ThermodynamicTemperature",
-      unit="K",
-      start=293.15) "Internal connector for shade temperature";
-
- final parameter Real T03(min=0, final unit="K3")=T0^3
+  Modelica.Blocks.Interfaces.RealInput TSha_internal(quantity="ThermodynamicTemperature", unit="K", start=293.15)
+    "Internal connector for shade temperature";
+  final parameter Real T03(min=0, final unit="K3")=T0^3
     "3rd power of temperature T0";
- Real T4(min=1E8, start=293.15^4, nominal=1E10, final unit="K4")
+  Real T4(min=1E8, start=293.15^4, nominal=1E10, final unit="K4")
     "4th power of temperature";
- Modelica.SIunits.RadiantPower E_air "Emissive power of surface that faces air";
- Modelica.SIunits.RadiantPower E_glass
+  Modelica.SIunits.RadiantPower E_air
+    "Emissive power of surface that faces air";
+  Modelica.SIunits.RadiantPower E_glass
     "Emissive power of surface that faces glass";
-
 initial equation
-  assert(homotopyInitialization, "In " + getInstanceName() +
-    ": The constant homotopyInitialization has been modified from its default value. This constant will be removed in future releases.",
-    level = AssertionLevel.warning);
-
+  assert(homotopyInitialization, "In " + getInstanceName() + ": The constant homotopyInitialization has been modified from its default value. This constant will be removed in future releases.", level=AssertionLevel.warning);
 equation
   connect(TSha_internal, TSha);
   if thisSideHasShade then
-  // Radiosities that are outgoing from the surface, which are
-  // equal to the infrared absorptivity plus the reflected incoming
-  // radiosity plus the radiosity that is transmitted from the
-  // other surface.
+    // Radiosities that are outgoing from the surface, which are
+    // equal to the infrared absorptivity plus the reflected incoming
+    // radiosity plus the radiosity that is transmitted from the
+    // other surface.
     if linearize then
-      T4 = T03 * TSha_internal;
+      T4=T03*TSha_internal;
     else
       if homotopyInitialization then
-        T4 = homotopy(actual=(TSha_internal)^4, simplified=T03 * TSha_internal);
+        T4=homotopy(actual=(TSha_internal)^4, simplified=T03*TSha_internal);
       else
-        T4 = TSha_internal^4;
+        T4=TSha_internal^4;
       end if;
     end if;
-
-    E_air   = u * A * absIR_air   * Modelica.Constants.sigma * T4;
-    E_glass = u * A * absIR_glass * Modelica.Constants.sigma * T4;
+    E_air=u*A*absIR_air*Modelica.Constants.sigma*T4;
+    E_glass=u*A*absIR_glass*Modelica.Constants.sigma*T4;
     // Radiosity outgoing from shade towards air side and glass side
-    JOut_air   = E_air   + tauIR_glass * JIn_glass + rhoIR_air*JIn_air;
-    JOut_glass = E_glass + tauIR_air   * JIn_air   + rhoIR_glass*JIn_glass;
+    JOut_air=E_air + tauIR_glass*JIn_glass + rhoIR_air*JIn_air;
+    JOut_glass=E_glass + tauIR_air*JIn_air + rhoIR_glass*JIn_glass;
     // Radiative heat balance of shade.
-    QSolAbs_flow + absIR_air*JIn_air + absIR_glass*JIn_glass
-      = E_air+E_glass+QRadAbs_flow;
+    QSolAbs_flow + absIR_air*JIn_air + absIR_glass*JIn_glass=E_air + E_glass + QRadAbs_flow;
   else
-    QRadAbs_flow = 0;
-    T4 = T03 * T0;
-    E_air = 0;
-    E_glass = 0;
-    JOut_air = JIn_glass;
-    JOut_glass = JIn_air;
-    TSha_internal = T0;
+    QRadAbs_flow=0;
+    T4=T03*T0;
+    E_air=0;
+    E_glass=0;
+    JOut_air=JIn_glass;
+    JOut_glass=JIn_air;
+    TSha_internal=T0;
   end if;
-
-  annotation (    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-         graphics={
-        Rectangle(
-          extent={{-100,100},{100,-100}},
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-                                        Text(
-        extent={{-100,132},{100,102}},
-        textString="%name",
-        lineColor={0,0,255}),
-        Polygon(
-          points={{-20,54},{-20,46},{20,58},{20,66},{-20,54}},
-          lineColor={0,0,0},
-          smooth=Smooth.None,
-          fillColor={135,135,135},
-          fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{-20,14},{-20,6},{20,18},{20,26},{-20,14}},
-          lineColor={0,0,0},
-          smooth=Smooth.None,
-          fillColor={135,135,135},
-          fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{-20,34},{-20,26},{20,38},{20,46},{-20,34}},
-          lineColor={0,0,0},
-          smooth=Smooth.None,
-          fillColor={135,135,135},
-          fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{-20,-26},{-20,-34},{20,-22},{20,-14},{-20,-26}},
-          lineColor={0,0,0},
-          smooth=Smooth.None,
-          fillColor={135,135,135},
-          fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{-20,-6},{-20,-14},{20,-2},{20,6},{-20,-6}},
-          lineColor={0,0,0},
-          smooth=Smooth.None,
-          fillColor={135,135,135},
-          fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{-20,-66},{-20,-74},{20,-62},{20,-54},{-20,-66}},
-          lineColor={0,0,0},
-          smooth=Smooth.None,
-          fillColor={135,135,135},
-          fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{-20,-46},{-20,-54},{20,-42},{20,-34},{-20,-46}},
-          lineColor={0,0,0},
-          smooth=Smooth.None,
-          fillColor={135,135,135},
-          fillPattern=FillPattern.Solid),
-        Text(
-          extent={{-18,-82},{16,-100}},
-          lineColor={0,0,127},
-          textString="QAbs"),
-        Rectangle(
-          extent={{-2,90},{2,-80}},
-          fillColor={0,0,0},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None,
-          lineColor={0,0,0}),
-        Rectangle(
-          extent={{-40,94},{40,80}},
-          lineColor={0,0,0},
-          fillColor={135,135,135},
-          fillPattern=FillPattern.Solid),
-        Text(
-          extent={{-102,90},{-68,72}},
-          lineColor={0,0,127},
-          textString="u"),
-        Rectangle(
-          extent={{88,100},{100,-100}},
-          lineColor={0,0,0},
-          fillColor={170,213,255},
-          fillPattern=FillPattern.Solid),
-        Text(
-          extent={{42,-82},{76,-100}},
-          lineColor={0,0,127},
-          textString="T"),
-        Text(
-          extent={{-68,-80},{-34,-98}},
-          lineColor={0,0,127},
-          textString="QAbsNet")}),
-    Documentation(info="<html>
+  annotation(Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {100, 100}}), graphics={Rectangle(extent={{-100, 100}, {100,-100}}, lineColor={0, 0, 0}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid), Text(extent={{-100, 132}, {100, 102}}, textString="%name", lineColor={0, 0, 255}), Polygon(points={{-20, 54}, {-20, 46}, {20, 58}, {20, 66}, {-20, 54}}, lineColor={0, 0, 0}, smooth=Smooth.None, fillColor={135, 135, 135}, fillPattern=FillPattern.Solid), Polygon(points={{-20, 14}, {-20, 6}, {20, 18}, {20, 26}, {-20, 14}}, lineColor={0, 0, 0}, smooth=Smooth.None, fillColor={135, 135, 135}, fillPattern=FillPattern.Solid), Polygon(points={{-20, 34}, {-20, 26}, {20, 38}, {20, 46}, {-20, 34}}, lineColor={0, 0, 0}, smooth=Smooth.None, fillColor={135, 135, 135}, fillPattern=FillPattern.Solid), Polygon(points={{-20,-26}, {-20,-34}, {20,-22}, {20,-14}, {-20,-26}}, lineColor={0, 0, 0}, smooth=Smooth.None, fillColor={135, 135, 135}, fillPattern=FillPattern.Solid), Polygon(points={{-20,-6}, {-20,-14}, {20,-2}, {20, 6}, {-20,-6}}, lineColor={0, 0, 0}, smooth=Smooth.None, fillColor={135, 135, 135}, fillPattern=FillPattern.Solid), Polygon(points={{-20,-66}, {-20,-74}, {20,-62}, {20,-54}, {-20,-66}}, lineColor={0, 0, 0}, smooth=Smooth.None, fillColor={135, 135, 135}, fillPattern=FillPattern.Solid), Polygon(points={{-20,-46}, {-20,-54}, {20,-42}, {20,-34}, {-20,-46}}, lineColor={0, 0, 0}, smooth=Smooth.None, fillColor={135, 135, 135}, fillPattern=FillPattern.Solid), Text(extent={{-18,-82}, {16,-100}}, lineColor={0, 0, 127}, textString="QAbs"), Rectangle(extent={{-2, 90}, {2,-80}}, fillColor={0, 0, 0}, fillPattern=FillPattern.Solid, pattern=LinePattern.None, lineColor={0, 0, 0}), Rectangle(extent={{-40, 94}, {40, 80}}, lineColor={0, 0, 0}, fillColor={135, 135, 135}, fillPattern=FillPattern.Solid), Text(extent={{-102, 90}, {-68, 72}}, lineColor={0, 0, 127}, textString="u"), Rectangle(extent={{88, 100}, {100,-100}}, lineColor={0, 0, 0}, fillColor={170, 213, 255}, fillPattern=FillPattern.Solid), Text(extent={{42,-82}, {76,-100}}, lineColor={0, 0, 127}, textString="T"), Text(extent={{-68,-80}, {-34,-98}}, lineColor={0, 0, 127}, textString="QAbsNet")}), Documentation(info="<html>
 <p>
 Model for the infrared radiative heat balance
 of a shade that is at the outside or the room-side of a window.

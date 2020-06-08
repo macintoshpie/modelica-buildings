@@ -2,16 +2,13 @@ within Buildings.Utilities.Math;
 block PowerLinearized
   "Power function that is linearized below a user-defined threshold"
   extends Modelica.Blocks.Interfaces.SISO;
-  parameter Real n "Exponent";
-  parameter Real x0 "Abscissa value below which linearization occurs";
-
+  parameter Real n
+    "Exponent";
+  parameter Real x0
+    "Abscissa value below which linearization occurs";
 equation
-  y = Buildings.Utilities.Math.Functions.powerLinearized(x=u, n=n, x0=x0);
-
-  annotation (Icon(graphics={Text(
-          extent={{-90,36},{90,-36}},
-          lineColor={160,160,164},
-          textString="powerLinearized()")}), Documentation(info="<html>
+  y=Buildings.Utilities.Math.Functions.powerLinearized(x=u, n=n, x0=x0);
+  annotation(Icon(graphics={Text(extent={{-90, 36}, {90,-36}}, lineColor={160, 160, 164}, textString="powerLinearized()")}), Documentation(info="<html>
 Function that approximates <i>y=x<sup>n</sup></i>
 where <i>0 &lt; n</i> so that
 <ul>

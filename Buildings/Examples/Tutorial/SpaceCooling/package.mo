@@ -1,11 +1,8 @@
 within Buildings.Examples.Tutorial;
-package SpaceCooling "Package with example for how to build a model for space cooling"
+package SpaceCooling
+  "Package with example for how to build a model for space cooling"
   extends Modelica.Icons.ExamplesPackage;
-
-
-
-
-annotation (preferredView="info", Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 This package contains examples with step-by-step instructions for
 how to build a system model for space cooling

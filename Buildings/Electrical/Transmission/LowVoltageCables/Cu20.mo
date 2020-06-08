@@ -1,12 +1,8 @@
 within Buildings.Electrical.Transmission.LowVoltageCables;
-record Cu20 "Cu cable 20 mm^2"
-  extends Buildings.Electrical.Transmission.LowVoltageCables.Generic(
-    material=Types.Material.Cu,
-    M = 234.5 + 273.15,
-    Amp=95,
-    RCha=0.905e-003,
-    XCha=0.075e-003);
-  annotation (Documentation(info="<html>
+record Cu20
+  "Cu cable 20 mm^2"
+  extends Buildings.Electrical.Transmission.LowVoltageCables.Generic(material=Types.Material.Cu, M=234.5 + 273.15, Amp=95, RCha=0.905e-003, XCha=0.075e-003);
+  annotation(Documentation(info="<html>
 <p>
 Copper cable with a cross-sectional area of 20mm^2.
 This type of cable has the following properties

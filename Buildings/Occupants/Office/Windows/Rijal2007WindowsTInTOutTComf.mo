@@ -1,90 +1,77 @@
 within Buildings.Occupants.Office.Windows;
-model Rijal2007WindowsTInTOutTComf "A model to predict occupants' window behavior with indoor, outdoor and comfort temperature"
+model Rijal2007WindowsTInTOutTComf
+  "A model to predict occupants' window behavior with indoor, outdoor and comfort temperature"
   extends Modelica.Blocks.Icons.DiscreteBlock;
-  parameter Real AIn = 0.171 "Slope of the indoor temperature in the logistic relation";
-  parameter Real AOut = 0.166 "Slope of the outdoor temperature in the logistic relation";
-  parameter Real B = -6.4 "Intercept of the logistic relation";
-  parameter Integer seed = 3 "Seed for the random number generator";
-  parameter Modelica.SIunits.Time samplePeriod = 120 "Sample period";
-
-  Modelica.Blocks.Interfaces.RealInput TIn(
-    final unit="K",
-    displayUnit="degC") "Indoor air temperature" annotation (Placement(transformation(extent={{-140,
-            -20},{-100,20}}),
-      iconTransformation(extent={{-140,-20},{-100,20}})));
-  Modelica.Blocks.Interfaces.RealInput TOut(
-    final unit="K",
-    displayUnit="degC") "Outdoor air temperature" annotation (Placement(transformation(extent={{-140,
-            -60},{-100,-20}}),
-      iconTransformation(extent={{-140,-60},{-100,-20}})));
-  Modelica.Blocks.Interfaces.RealInput TComf(
-    final unit="K",
-    displayUnit="degC") "Comfort temperature" annotation (Placement(transformation(extent={{-140,
-            -104},{-100,-64}}),
-      iconTransformation(extent={{-140,-104},{-100,-64}})));
+  parameter Real AIn=0.171
+    "Slope of the indoor temperature in the logistic relation";
+  parameter Real AOut=0.166
+    "Slope of the outdoor temperature in the logistic relation";
+  parameter Real B=-6.4
+    "Intercept of the logistic relation";
+  parameter Integer seed=3
+    "Seed for the random number generator";
+  parameter Modelica.SIunits.Time samplePeriod=120
+    "Sample period";
+  Modelica.Blocks.Interfaces.RealInput TIn(final unit="K", displayUnit="degC")
+    "Indoor air temperature"
+    annotation(Placement(transformation(extent={{-140,-20}, {-100, 20}}), iconTransformation(extent={{-140,-20}, {-100, 20}})));
+  Modelica.Blocks.Interfaces.RealInput TOut(final unit="K", displayUnit="degC")
+    "Outdoor air temperature"
+    annotation(Placement(transformation(extent={{-140,-60}, {-100,-20}}), iconTransformation(extent={{-140,-60}, {-100,-20}})));
+  Modelica.Blocks.Interfaces.RealInput TComf(final unit="K", displayUnit="degC")
+    "Comfort temperature"
+    annotation(Placement(transformation(extent={{-140,-104}, {-100,-64}}), iconTransformation(extent={{-140,-104}, {-100,-64}})));
   Modelica.Blocks.Interfaces.BooleanInput occ
     "Indoor occupancy, true for occupied"
-    annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
-  Modelica.Blocks.Interfaces.BooleanOutput on "State of window, true for open"
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-
-  Real p(
-    unit="1",
-    min=0,
-    max=1) "Probability of window opened";
-
+    annotation(Placement(transformation(extent={{-140, 40}, {-100, 80}})));
+  Modelica.Blocks.Interfaces.BooleanOutput on
+    "State of window, true for open"
+    annotation(Placement(transformation(extent={{100,-10}, {120, 10}})));
+  Real p(unit="1", min=0, max=1)
+    "Probability of window opened";
 protected
-  parameter Modelica.SIunits.Time t0(final fixed = false) "First sample time instant";
-  output Boolean sampleTrigger "True, if sample time instant";
-  Real curSeed "Current value for seed as a real-valued variable";
-
+  parameter Modelica.SIunits.Time t0(final fixed=false)
+    "First sample time instant";
+  output Boolean sampleTrigger
+    "True, if sample time instant";
+  Real curSeed
+    "Current value for seed as a real-valued variable";
 initial equation
-  t0 = time;
-  curSeed = t0*seed;
-  p = Modelica.Math.exp(AIn*(TIn - 273.15)+AOut*(TOut - 273.15)+B)/(Modelica.Math.exp(AIn*(TIn - 273.15)+AOut*(TOut - 273.15)+B) + 1);
-  on = false;
-
+  t0=time;
+  curSeed=t0*seed;
+  p=Modelica.Math.exp(AIn*(TIn-273.15) + AOut*(TOut-273.15) + B)/(Modelica.Math.exp(AIn*(TIn-273.15) + AOut*(TOut-273.15) + B) + 1);
+  on=false;
 equation
-  sampleTrigger = sample(t0,samplePeriod);
+  sampleTrigger=sample(t0, samplePeriod);
   when sampleTrigger then
-    curSeed = seed*time;
+    curSeed=seed*time;
     if occ then
-      if TIn > TComf+2 then
+      if TIn > TComf + 2 then
         if not pre(on) then
-          p = Modelica.Math.exp(AIn*(TIn - 273.15)+AOut*(TOut - 273.15)+B)/(Modelica.Math.exp(AIn*(TIn - 273.15)+AOut*(TOut - 273.15)+B) + 1);
-          on = Buildings.Occupants.BaseClasses.binaryVariableGeneration(p=p, globalSeed=integer(curSeed));
+          p=Modelica.Math.exp(AIn*(TIn-273.15) + AOut*(TOut-273.15) + B)/(Modelica.Math.exp(AIn*(TIn-273.15) + AOut*(TOut-273.15) + B) + 1);
+          on=Buildings.Occupants.BaseClasses.binaryVariableGeneration(p=p, globalSeed=integer(curSeed));
         else
-          p = -0.3;
-          on = true;
+          p=-0.3;
+          on=true;
         end if;
       elseif TIn < TComf-2 then
         if pre(on) then
-          p = Modelica.Math.exp(AIn*(TIn - 273.15)+AOut*(TOut - 273.15)+B)/(Modelica.Math.exp(AIn*(TIn - 273.15)+AOut*(TOut - 273.15)+B) + 1);
-          on = Buildings.Occupants.BaseClasses.binaryVariableGeneration(p=p, globalSeed=integer(curSeed));
+          p=Modelica.Math.exp(AIn*(TIn-273.15) + AOut*(TOut-273.15) + B)/(Modelica.Math.exp(AIn*(TIn-273.15) + AOut*(TOut-273.15) + B) + 1);
+          on=Buildings.Occupants.BaseClasses.binaryVariableGeneration(p=p, globalSeed=integer(curSeed));
         else
-          p = -0.5;
-          on = false;
+          p=-0.5;
+          on=false;
         end if;
       else
-        p = -0.1;
-        on = pre(on);
+        p=-0.1;
+        on=pre(on);
       end if;
     else
-      p = 0;
-      on = false;
+      p=0;
+      on=false;
     end if;
   end when;
-
-  annotation (Icon(graphics={
-            Rectangle(extent={{-60,40},{60,-40}}, lineColor={28,108,200}), Text(
-            extent={{-40,20},{40,-20}},
-            lineColor={28,108,200},
-            fillColor={0,0,255},
-            fillPattern=FillPattern.Solid,
-            textStyle={TextStyle.Bold},
-            textString="WindowAll_TInToutTComf")}),
-defaultComponentName="win",
-Documentation(info="<html>
+  annotation(Icon(graphics={Rectangle(extent={{-60, 40}, {60,-40}}, lineColor={28, 108, 200}), Text(extent={{-40, 20}, {40,-20}}, lineColor={28, 108, 200}, fillColor={0, 0, 255}, fillPattern=FillPattern.Solid, textStyle={TextStyle.Bold}, textString="WindowAll_TInToutTComf")}), defaultComponentName="win", Documentation(info="<html>
 <p>
 Model predicting the state of the window with the indoor, outdoor and comfort temperature 
 and occupancy.
@@ -125,8 +112,7 @@ were in the Oxford area in the central south of England (seven naturally
 ventilated (NV) and two air conditioned (AC)). Six of the buildings were in 
 Aberdeen on the north-east coast of Scotland (three NV and three AC). 
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 July 25, 2018, by Zhe Wang:<br/>

@@ -1,20 +1,11 @@
 within Buildings.Applications.DataCenters.ChillerCooled.Equipment;
 model IntegratedPrimaryPlantSide
   "Integrated waterside economizer on the plant side in a primary-only chilled water System"
-  extends Buildings.Applications.DataCenters.ChillerCooled.Equipment.BaseClasses.PartialIntegratedPrimary(
-    final m_flow_nominal={m1_flow_chi_nominal,m2_flow_chi_nominal,m1_flow_chi_nominal,
-      m2_flow_chi_nominal,numChi*m2_flow_chi_nominal,m2_flow_chi_nominal},
-    rhoStd = {Medium1.density_pTX(101325, 273.15+4, Medium1.X_default),
-            Medium2.density_pTX(101325, 273.15+4, Medium2.X_default),
-            Medium1.density_pTX(101325, 273.15+4, Medium1.X_default),
-            Medium2.density_pTX(101325, 273.15+4, Medium2.X_default),
-            Medium2.density_pTX(101325, 273.15+4, Medium2.X_default),
-            Medium2.density_pTX(101325, 273.15+4, Medium2.X_default)});
-
+  extends Buildings.Applications.DataCenters.ChillerCooled.Equipment.BaseClasses.PartialIntegratedPrimary(final m_flow_nominal={m1_flow_chi_nominal, m2_flow_chi_nominal, m1_flow_chi_nominal, m2_flow_chi_nominal, numChi*m2_flow_chi_nominal, m2_flow_chi_nominal}, rhoStd={Medium1.density_pTX(101325, 273.15 + 4, Medium1.X_default), Medium2.density_pTX(101325, 273.15 + 4, Medium2.X_default), Medium1.density_pTX(101325, 273.15 + 4, Medium1.X_default), Medium2.density_pTX(101325, 273.15 + 4, Medium2.X_default), Medium2.density_pTX(101325, 273.15 + 4, Medium2.X_default), Medium2.density_pTX(101325, 273.15 + 4, Medium2.X_default)});
 equation
-  connect(val5.port_b,val6.port_a)
-    annotation (Line(points={{40,-20},{0,-20},{-40,-20}}, color={0,127,255}));
-  annotation (Documentation(info="<html>
+  connect(val5.port_b, val6.port_a)
+    annotation(Line(points={{40,-20}, {0,-20}, {-40,-20}}, color={0, 127, 255}));
+  annotation(Documentation(info="<html>
 <p>
 This model implements an integrated water-side economizer (WSE)
 on the plant side of the primary-only chilled water system, as shown in the following figure.
@@ -78,5 +69,5 @@ July 1, 2017, by Yangyang Fu:<br/>
 First implementation.
 </li>
 </ul>
-</html>"), Icon(graphics={Line(points={{12,-44},{-18,-44}}, color={0,128,255})}));
+</html>"), Icon(graphics={Line(points={{12,-44}, {-18,-44}}, color={0, 128, 255})}));
 end IntegratedPrimaryPlantSide;

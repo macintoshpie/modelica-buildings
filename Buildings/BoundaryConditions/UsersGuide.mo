@@ -1,8 +1,8 @@
 within Buildings.BoundaryConditions;
-package UsersGuide "User's Guide"
+package UsersGuide
+  "User's Guide"
   extends Modelica.Icons.Information;
-annotation (preferredView="info",
-Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>This package contains models to read or compute boundary conditions, such as weather data, solar irradition and sky temperatures.
 The calculations follow the description in Wetter (2004), Appendix A.4.2.</p>
 <h4>Accessing weather data</h4>

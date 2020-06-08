@@ -2,20 +2,14 @@ within Buildings.HeatTransfer.Windows.BaseClasses;
 model InteriorConvectionCoefficient
   "Model for the heat transfer coefficient at the inside of the window"
   extends Modelica.Blocks.Icons.Block;
-  parameter Modelica.SIunits.Area A "Heat transfer area";
-
+  parameter Modelica.SIunits.Area A
+    "Heat transfer area";
   Modelica.Blocks.Interfaces.RealOutput GCon(unit="W/K")
     "Convective thermal conductance"
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-
+    annotation(Placement(transformation(extent={{100,-10}, {120, 10}})));
 equation
-  GCon = 4*A;
-  annotation ( Icon(graphics={
-        Text(
-          extent={{40,26},{92,-20}},
-          lineColor={0,0,127},
-          textString="GCon")}),
-           Documentation(info="<html>
+  GCon=4*A;
+  annotation(Icon(graphics={Text(extent={{40, 26}, {92,-20}}, lineColor={0, 0, 127}, textString="GCon")}), Documentation(info="<html>
 Model for the convective heat transfer coefficient at the room-facing surface of a window.
 The computation is according to TARCOG 2006, which specifies the convection
 coefficient as

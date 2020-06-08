@@ -1,14 +1,8 @@
 within Buildings.Fluid.FixedResistances.Validation.PlugFlowPipes.Data;
 record PipeDataULg160118_1
   "Experimental data from ULg's pipe test bench from January 18, 2016"
-  extends Buildings.Fluid.FixedResistances.Validation.PlugFlowPipes.Data.BaseClasses.PipeDataULg(
-    T_start_out=18.2,
-    T_start_in=17.9,
-    m_flowIni=2.269,
-    final nCol = 6,
-    final filNam = Modelica.Utilities.Files.loadResource(
-  "modelica://Buildings/Resources/Data/Fluid/FixedResistances/Validation/PlugFlowPipes/PipeDataULg160118_1.mos"));
-  annotation (Documentation(revisions="<html>
+  extends Buildings.Fluid.FixedResistances.Validation.PlugFlowPipes.Data.BaseClasses.PipeDataULg(T_start_out=18.2, T_start_in=17.9, m_flowIni=2.269, final nCol=6, final filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/Data/Fluid/FixedResistances/Validation/PlugFlowPipes/PipeDataULg160118_1.mos"));
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 March 7, 2020, by Michael Wetter:<br/>

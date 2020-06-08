@@ -1,15 +1,9 @@
 within Buildings.Fluid.HeatExchangers.Validation;
 model PrescribedOutlet_dynamic
   "Model that demonstrates the ideal heater/cooler model for a prescribed outlet temperature, configured as dynamic"
-  extends Buildings.Fluid.HeatExchangers.Validation.PrescribedOutlet(
-    heaHigPow(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
-    cooLimPow(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
-    heaCooUnl(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial));
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,
-            -100},{200,200}}),                                                                    graphics),
-    __Dymola_Commands(file= "modelica://Buildings/Resources/Scripts/Dymola/Fluid/HeatExchangers/Validation/PrescribedOutlet_dynamic.mos"
-        "Simulate and plot"),
-    Documentation(info="<html>
+  extends Buildings.Fluid.HeatExchangers.Validation.PrescribedOutlet(heaHigPow(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial), cooLimPow(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial), heaCooUnl(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial));
+  annotation(Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {200, 200}}), graphics), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/HeatExchangers/Validation/PrescribedOutlet_dynamic.mos"
+    "Simulate and plot"), Documentation(info="<html>
 <p>
 Model that demonstrates the use of an ideal heater and an ideal cooler, configured as dynamic models.
 </p>
@@ -28,8 +22,5 @@ October 21, 2014, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
-</html>"),
-    experiment(
-      StopTime=1200,
-      Tolerance=1e-6));
+</html>"), experiment(StopTime=1200, Tolerance=1e-6));
 end PrescribedOutlet_dynamic;

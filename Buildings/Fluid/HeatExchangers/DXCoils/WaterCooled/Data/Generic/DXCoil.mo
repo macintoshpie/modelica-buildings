@@ -1,12 +1,8 @@
 within Buildings.Fluid.HeatExchangers.DXCoils.WaterCooled.Data.Generic;
 record DXCoil
   "Performance record for a DX Cooling Coil with one or multiple stages"
-  extends Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.DXCoil(
-  redeclare parameter Buildings.Fluid.HeatExchangers.DXCoils.WaterCooled.Data.Generic.BaseClasses.Stage sta[nSta]);
-annotation (preferredView="info",
-defaultComponentName="datCoi",
-defaultComponentPrefixes="parameter",
-Documentation(info="<html>
+  extends Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.DXCoil(redeclare parameter Buildings.Fluid.HeatExchangers.DXCoils.WaterCooled.Data.Generic.BaseClasses.Stage sta[nSta]);
+  annotation(preferredView="info", defaultComponentName="datCoi", defaultComponentPrefixes="parameter", Documentation(info="<html>
 <p>
 This record declares the performance data for the water-cooled DX cooling coil model.
 The performance data are structured as follows:
@@ -102,8 +98,7 @@ same amount of polynomial coefficients. For example, if a
 quadratic function is used for stage one, then stage two must also use
 a quadratic function.
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 February 17, 2017, by Yangyang Fu:<br/>

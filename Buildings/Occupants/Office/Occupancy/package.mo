@@ -1,8 +1,8 @@
 within Buildings.Occupants.Office;
-package Occupancy "Package with models to simulate occupancy in office buildings"
+package Occupancy
+  "Package with models to simulate occupancy in office buildings"
   extends Modelica.Icons.VariantsPackage;
-
-  annotation (preferredView="info", Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 This package contains models to simulate occupancy in office buildings.
 </p>

@@ -2,37 +2,34 @@ within Buildings.Utilities.Psychrometrics.Functions.BaseClasses.Examples;
 model SaturationPressureDerivativeCheck
   "Model to test correct implementation of derivative"
   extends Modelica.Icons.Example;
-
-  parameter Modelica.SIunits.Temperature TMin = 190 "Temperature";
-  parameter Modelica.SIunits.Temperature TMax = 373.16 "Temperature";
-
-  Real y "Function value";
-  Real y_comp "Function value for comparison";
-  Real err "Integration error";
-  Modelica.SIunits.Temperature T "Temperature";
+  parameter Modelica.SIunits.Temperature TMin=190
+    "Temperature";
+  parameter Modelica.SIunits.Temperature TMax=373.16
+    "Temperature";
+  Real y
+    "Function value";
+  Real y_comp
+    "Function value for comparison";
+  Real err
+    "Integration error";
+  Modelica.SIunits.Temperature T
+    "Temperature";
 initial equation
   y=y_comp;
 equation
-  T =  TMin + (TMax-TMin)/2 + (TMax-TMin)/2*time^3;
+  T=TMin +(TMax-TMin)/2 +(TMax-TMin)/2*time^3;
   y=Buildings.Utilities.Psychrometrics.Functions.saturationPressure(TSat=T);
   der(y)=der(y_comp);
-  err = y-y_comp;
+  err=y-y_comp;
   assert(abs(err)/max(1, abs(y)) < 1E-2, "Derivative implementation has an error or solver tolerance is too low.");
-
-annotation (
-  __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Utilities/Psychrometrics/Functions/BaseClasses/Examples/SaturationPressureDerivativeCheck.mos"
-        "Simulate and plot"),
-      experiment(
-        StartTime=-1,
-        StopTime=1,
-        Tolerance=1E-9),
-      Documentation(info="<html>
+  annotation(__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Utilities/Psychrometrics/Functions/BaseClasses/Examples/SaturationPressureDerivativeCheck.mos"
+    "Simulate and plot"), experiment(StartTime=-1, StopTime=1, Tolerance=1E-9), Documentation(info="<html>
 <p>
 This example checks whether the function derivative
 is implemented correctly. If the derivative implementation
 is not correct, the model will stop with an assert statement.
 </p>
-</html>",   revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 April 22, 2016, by Michael Wetter:<br/>

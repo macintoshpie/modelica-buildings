@@ -1,8 +1,8 @@
 within Buildings.Utilities.Plotters;
-package UsersGuide "User's Guide"
+package UsersGuide
+  "User's Guide"
   extends Modelica.Icons.Information;
-  annotation (preferredView="info",
-  Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 The package <code>Buildings.Utilities.Plotters</code> consists of models
 that generate time series plots or scatter plots, and
@@ -93,5 +93,4 @@ The plotters write an html file with JavaScript that uses the
 to render the plots.
 </p>
 </html>"));
-
 end UsersGuide;

@@ -1,81 +1,69 @@
 within Buildings.Electrical.Transmission.BaseClasses;
-partial model PartialBaseLine "Partial cable line dispersion model"
-  parameter Modelica.SIunits.Length l(min=0) "Length of the line";
-  parameter Modelica.SIunits.Power P_nominal(min=0) "Nominal power of the line";
+partial model PartialBaseLine
+  "Partial cable line dispersion model"
+  parameter Modelica.SIunits.Length l(min=0)
+    "Length of the line";
+  parameter Modelica.SIunits.Power P_nominal(min=0)
+    "Nominal power of the line";
   parameter Modelica.SIunits.Voltage V_nominal(min=0, start=220)
     "Nominal voltage of the line";
-  final parameter Modelica.SIunits.Frequency f_n = 50
+  final parameter Modelica.SIunits.Frequency f_n=50
     "Frequency considered in the definition of cables properties";
-
-  parameter Boolean use_C = false
+  parameter Boolean use_C=false
     "Set to true to add a capacitance in the center of the line"
     annotation(Evaluate=true, Dialog(tab="Model", group="Assumptions"));
   parameter Buildings.Electrical.Types.Load modelMode=Buildings.Electrical.Types.Load.FixedZ_steady_state
     "Select between steady state and dynamic model"
-    annotation(Evaluate=true, Dialog(tab="Model", group="Assumptions", enable = use_C), choices(choice=Buildings.Electrical.Types.Load.FixedZ_steady_state
-        "Steady state", choice=Buildings.Electrical.Types.Load.FixedZ_dynamic "Dynamic"));
-  parameter Boolean use_T = false
-    "If true, enables the input for the temperature of the cable" annotation(Evaluate = true, Dialog(tab="Model", group="Thermal"));
-  parameter Modelica.SIunits.Temperature TCable = T_ref
-    "Fixed temperature of the cable" annotation(Dialog(tab="Model", group="Thermal", enable = not use_T));
-
+    annotation(Evaluate=true, Dialog(tab="Model", group="Assumptions", enable=use_C), choices(choice=Buildings.Electrical.Types.Load.FixedZ_steady_state
+      "Steady state", choice=Buildings.Electrical.Types.Load.FixedZ_dynamic
+      "Dynamic"));
+  parameter Boolean use_T=false
+    "If true, enables the input for the temperature of the cable"
+    annotation(Evaluate=true, Dialog(tab="Model", group="Thermal"));
+  parameter Modelica.SIunits.Temperature TCable=T_ref
+    "Fixed temperature of the cable"
+    annotation(Dialog(tab="Model", group="Thermal", enable=not use_T));
   parameter Buildings.Electrical.Types.CableMode mode=Buildings.Electrical.Types.CableMode.automatic
     "Select if choosing the cable automatically or between a list of commercial options"
     annotation(Evaluate=true, Dialog(tab="Tech. specification", group="Auto/Manual mode"), choicesAllMatching=true);
-
-  replaceable parameter
-    Buildings.Electrical.Transmission.LowVoltageCables.Generic
-     commercialCable constrainedby
-    Buildings.Electrical.Transmission.BaseClasses.BaseCable
+  replaceable parameter Buildings.Electrical.Transmission.LowVoltageCables.Generic commercialCable constrainedby Buildings.Electrical.Transmission.BaseClasses.BaseCable
     "Commercial cables options"
-    annotation(Evaluate=true, Dialog(tab="Tech. specification", group="Manual mode",
-    enable = mode == Buildings.Electrical.Types.CableMode.commercial),
-               choicesAllMatching = true);
-
-  final parameter Modelica.SIunits.Temperature T_ref = commercialCable.T_ref
-    "Reference temperature of the line" annotation(Evaluate=True);
-  final parameter Modelica.SIunits.Temperature M = commercialCable.M
+    annotation(Evaluate=true, Dialog(tab="Tech. specification", group="Manual mode", enable=mode == Buildings.Electrical.Types.CableMode.commercial), choicesAllMatching=true);
+  final parameter Modelica.SIunits.Temperature T_ref=commercialCable.T_ref
+    "Reference temperature of the line"
+    annotation(Evaluate=True);
+  final parameter Modelica.SIunits.Temperature M=commercialCable.M
     "Temperature constant (R_actual = R*(M + T_heatPort)/(M + T_ref))";
-  final parameter Modelica.SIunits.Resistance R = commercialCable.lineResistance(l, f_n, commercialCable)
-    "Resistance of the cable" annotation(Evaluate=True);
-  final parameter Modelica.SIunits.Inductance L = commercialCable.lineInductance(l, f_n, commercialCable)
-    "Inductance of the cable due to mutual and self inductance" annotation(Evaluate = True);
-  final parameter Modelica.SIunits.Capacitance C = commercialCable.lineCapacitance(l, f_n, commercialCable)
-    "Capacitance of the cable" annotation(Evaluate = True);
+  final parameter Modelica.SIunits.Resistance R=commercialCable.lineResistance(l, f_n, commercialCable)
+    "Resistance of the cable"
+    annotation(Evaluate=True);
+  final parameter Modelica.SIunits.Inductance L=commercialCable.lineInductance(l, f_n, commercialCable)
+    "Inductance of the cable due to mutual and self inductance"
+    annotation(Evaluate=True);
+  final parameter Modelica.SIunits.Capacitance C=commercialCable.lineCapacitance(l, f_n, commercialCable)
+    "Capacitance of the cable"
+    annotation(Evaluate=True);
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature cableTemp
     "Temperature of the cable"
-    annotation (Placement(transformation(extent={{-60,12},{-40,32}})));
-  Modelica.Blocks.Interfaces.RealInput T if use_T "Temperature of the cable"
-   annotation (
-     Placement(transformation(extent={{-42,28},{-2,68}}), iconTransformation(
-        extent={{-10,-10},{10,10}},
-        rotation=270,
-        origin={0,30})));
+    annotation(Placement(transformation(extent={{-60, 12}, {-40, 32}})));
+  Modelica.Blocks.Interfaces.RealInput T if use_T
+    "Temperature of the cable"
+    annotation(Placement(transformation(extent={{-42, 28}, {-2, 68}}), iconTransformation(extent={{-10,-10}, {10, 10}}, rotation=270, origin={0, 30})));
   Modelica.Blocks.Sources.RealExpression cableTemperature(y=T_in)
     "Temperature of the cable"
-    annotation (Placement(transformation(extent={{-92,12},{-72,32}})));
+    annotation(Placement(transformation(extent={{-92, 12}, {-72, 32}})));
 protected
   Modelica.Blocks.Interfaces.RealInput T_in
     "Internal variable for conditional temperature";
 equation
-  assert(L>=0 and R>=0 and C>=0, "The parameters R,L,C must be positive. Check cable properties and size.");
+  assert(L >= 0 and R >= 0 and C >= 0, "The parameters R,L,C must be positive. Check cable properties and size.");
   connect(T_in, T);
-
   if not use_T then
-    T_in = TCable;
+    T_in=TCable;
   end if;
-
-  connect(cableTemperature.y, cableTemp.T) annotation (Line(
-      points={{-71,22},{-62,22}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  annotation ( Icon(coordinateSystem(
-          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
-          Text(
-            extent={{-150,-19},{150,-59}},
-            lineColor={0,0,0},
-          textString="%name")}),
-    Documentation(info="<html>
+  connect(cableTemperature.y, cableTemp.T)
+    annotation(Line(points={{-71, 22}, {-62, 22}}, color={0, 0, 127}, smooth=Smooth.None));
+  annotation(Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {100, 100}}), graphics={Text(extent={{-150,-19}, {150,-59}}, lineColor={0, 0, 0}, textString="%name")}), Documentation(info="<html>
 <p>
 This partial model contains parameters and variables needed to parametrize a
 generic cable. The resistance, inductance and capacitance

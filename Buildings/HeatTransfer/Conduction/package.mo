@@ -1,11 +1,10 @@
 within Buildings.HeatTransfer;
-package Conduction "Package with models for heat conduction"
+package Conduction
+  "Package with models for heat conduction"
   extends Modelica.Icons.VariantsPackage;
-
-  constant Integer nSupPCM = 6
+  constant Integer nSupPCM=6
     "Number of support points to approximate u(T) releation, used only for phase change material";
-
-annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This package provides component models to compute heat conduction.
 </p>

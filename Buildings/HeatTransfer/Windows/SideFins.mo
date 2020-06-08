@@ -3,39 +3,19 @@ model SideFins
   "For a window with side fins, outputs the fraction of the window area exposed to the sun"
   extends Buildings.ThermalZones.Detailed.BaseClasses.SideFins;
   extends Buildings.HeatTransfer.Windows.BaseClasses.PartialShade_weatherBus;
-  Buildings.HeatTransfer.Windows.BaseClasses.SideFins fin(
-    final dep=dep,
-    final h=h,
-    final gap=gap,
-    final hWin=hWin,
-    final wWin=wWin) "Window side fins"
-    annotation (Placement(transformation(extent={{0,-10},{20,10}})));
+  Buildings.HeatTransfer.Windows.BaseClasses.SideFins fin(final dep=dep, final h=h, final gap=gap, final hWin=hWin, final wWin=wWin)
+    "Window side fins"
+    annotation(Placement(transformation(extent={{0,-10}, {20, 10}})));
 equation
-  connect(fin.fraSun, fraSun)          annotation (Line(
-      points={{21,0},{88.25,0},{88.25,1.16573e-015},{95.5,1.16573e-015},{95.5,0},
-          {110,0}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(walSolAzi.verAzi, fin.verAzi)            annotation (Line(
-      points={{-39,-50},{-20,-50},{-20,4},{-2,4}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(weaBus.solAlt, fin.alt) annotation (Line(
-      points={{-100,0},{-80,0},{-80,-4},{-2,-4}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None), Text(
-      textString="%first",
-      index=-1,
-      extent={{-6,3},{-6,3}}));
-  connect(fin.fraSun, product.u2) annotation (Line(
-      points={{21,0},{40,0},{40,54},{58,54}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  annotation ( Icon(graphics={Bitmap(extent={{-92,92},{92,-92}},
-            fileName="modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/SideFins.png")}),
-            defaultComponentName="fin",
-            Documentation(info="<html>
+  connect(fin.fraSun, fraSun)
+    annotation(Line(points={{21, 0}, {88.25, 0}, {88.25, 1.16573e-015}, {95.5, 1.16573e-015}, {95.5, 0}, {110, 0}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(walSolAzi.verAzi, fin.verAzi)
+    annotation(Line(points={{-39,-50}, {-20,-50}, {-20, 4}, {-2, 4}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(weaBus.solAlt, fin.alt)
+    annotation(Line(points={{-100, 0}, {-80, 0}, {-80,-4}, {-2,-4}}, color={255, 204, 51}, thickness=0.5, smooth=Smooth.None), Text(textString="%first", index=-1, extent={{-6, 3}, {-6, 3}}));
+  connect(fin.fraSun, product.u2)
+    annotation(Line(points={{21, 0}, {40, 0}, {40, 54}, {58, 54}}, color={0, 0, 127}, smooth=Smooth.None));
+  annotation(Icon(graphics={Bitmap(extent={{-92, 92}, {92,-92}}, fileName="modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/SideFins.png")}), defaultComponentName="fin", Documentation(info="<html>
 <p>
 For a window with side fins, this model outputs the fraction of
 the area that is exposed to the sun.
@@ -81,8 +61,7 @@ The detailed calculation method is explained in
 <a href=\"modelica://Buildings.HeatTransfer.Windows.BaseClasses.SideFins\">
 Buildings.HeatTransfer.Windows.BaseClasses.SideFins</a>.
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 July 5, 2012, by Michael Wetter:<br/>

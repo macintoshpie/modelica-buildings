@@ -1,14 +1,14 @@
 within Buildings.Controls.Predictors.BaseClasses;
-function average "Average of past 10 days"
+function average
+  "Average of past 10 days"
   extends partialBaselinePrediction;
 algorithm
-    if k == 0 then
-      y := 0;
-    else
-      y :=sum(P[i] for i in 1:k)/k;
-    end if;
-
-  annotation (Documentation(info="<html>
+  if k == 0 then
+    y := 0;
+  else
+    y := sum(P[i] for i in 1 : k)/k;
+  end if;
+  annotation(Documentation(info="<html>
 <p>
 Function that predicts the current load using the average of the previous loads.
 The argument <i>k</i> determines how many data points will

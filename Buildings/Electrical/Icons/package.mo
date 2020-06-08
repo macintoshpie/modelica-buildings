@@ -1,9 +1,8 @@
 within Buildings.Electrical;
-package Icons "This package contains icons used by the electric models"
+package Icons
+  "This package contains icons used by the electric models"
   extends Modelica.Icons.IconsPackage;
-
-
-annotation (Documentation(revisions="<html>
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 Aug 28, 2014, by Marco Bonvini:<br/>

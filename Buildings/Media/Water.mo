@@ -1,28 +1,23 @@
 within Buildings.Media;
-package Water "Package with model for liquid water with constant density"
-   extends Modelica.Media.Water.ConstantPropertyLiquidWater(
-     final cv_const=cp_const,
-     p_default=300000,
-     reference_p=300000,
-     reference_T=273.15,
-     reference_X={1},
-     AbsolutePressure(start=p_default),
-     Temperature(start=T_default),
-     Density(start=d_const));
+package Water
+  "Package with model for liquid water with constant density"
+  extends Modelica.Media.Water.ConstantPropertyLiquidWater(final cv_const=cp_const, p_default=300000, reference_p=300000, reference_T=273.15, reference_X={1}, AbsolutePressure(start=p_default), Temperature(start=T_default), Density(start=d_const));
   // cp_const and cv_const have been made final because the model sets u=h.
   extends Modelica.Icons.Package;
-
-  redeclare model BaseProperties "Base properties"
-    Temperature T(stateSelect=
-      if preferredMediumStates then StateSelect.prefer else StateSelect.default)
+  redeclare model BaseProperties
+    "Base properties"
+    Temperature T(stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default)
       "Temperature of medium";
-    InputAbsolutePressure p "Absolute pressure of medium";
+    InputAbsolutePressure p
+      "Absolute pressure of medium";
     InputMassFraction[nXi] Xi=fill(0, 0)
       "Structurally independent mass fractions";
-    InputSpecificEnthalpy h "Specific enthalpy of medium";
+    InputSpecificEnthalpy h
+      "Specific enthalpy of medium";
     Modelica.SIunits.SpecificInternalEnergy u
       "Specific internal energy of medium";
-    Modelica.SIunits.Density d=d_const "Density of medium";
+    Modelica.SIunits.Density d=d_const
+      "Density of medium";
     Modelica.SIunits.MassFraction[nX] X={1}
       "Mass fractions (= (component mass)/total mass  m_i/m)";
     final Modelica.SIunits.SpecificHeatCapacity R=0
@@ -36,35 +31,28 @@ package Water "Package with model for liquid water with constant density"
       annotation(Evaluate=true, Dialog(tab="Advanced"));
     final parameter Boolean standardOrderComponents=true
       "If true, and reducedX = true, the last element of X will be computed from the other ones";
-    Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T_degC=
-        Modelica.SIunits.Conversions.to_degC(T)
+    Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T_degC=Modelica.SIunits.Conversions.to_degC(T)
       "Temperature of medium in [degC]";
-    Modelica.SIunits.Conversions.NonSIunits.Pressure_bar p_bar=
-        Modelica.SIunits.Conversions.to_bar(p)
+    Modelica.SIunits.Conversions.NonSIunits.Pressure_bar p_bar=Modelica.SIunits.Conversions.to_bar(p)
       "Absolute pressure of medium in [bar]";
-
     // Local connector definition, used for equation balancing check
-    connector InputAbsolutePressure = input Modelica.SIunits.AbsolutePressure
+    connector InputAbsolutePressure=input Modelica.SIunits.AbsolutePressure
       "Pressure as input signal connector";
-    connector InputSpecificEnthalpy = input Modelica.SIunits.SpecificEnthalpy
+    connector InputSpecificEnthalpy=input Modelica.SIunits.SpecificEnthalpy
       "Specific enthalpy as input signal connector";
-    connector InputMassFraction = input Modelica.SIunits.MassFraction
+    connector InputMassFraction=input Modelica.SIunits.MassFraction
       "Mass fraction as input signal connector";
-
   equation
-assert(T >= T_min, "
-  In " + getInstanceName() + ": Temperature T = " + String(T) + " K exceeded its minimum allowed value of " +
-  String(T_min-273.15) + " degC (" + String(T_min) + " Kelvin)
+    assert(T >= T_min, "
+  In " + getInstanceName() + ": Temperature T = " + String(T) + " K exceeded its minimum allowed value of " + String(T_min-273.15) + " degC (" + String(T_min) + " Kelvin)
 as required from medium model \"" + mediumName + "\".");
-assert(T <= T_max, "
-  In " + getInstanceName() + ": Temperature T = " + String(T) + " K exceeded its maximum allowed value of " +
-  String(T_max-273.15) + " degC (" + String(T_max) + " Kelvin)
+    assert(T <= T_max, "
+  In " + getInstanceName() + ": Temperature T = " + String(T) + " K exceeded its maximum allowed value of " + String(T_max-273.15) + " degC (" + String(T_max) + " Kelvin)
 as required from medium model \"" + mediumName + "\".");
-
-    h = cp_const*(T-reference_T);
-    u = h;
-    state.T = T;
-    state.p = p;
+    h=cp_const*(T-reference_T);
+    u=h;
+    state.T=T;
+    state.p=p;
     annotation(Documentation(info="<html>
     <p>
     This base properties model is identical to
@@ -77,17 +65,16 @@ as required from medium model \"" + mediumName + "\".");
     </p>
 </html>"));
   end BaseProperties;
-
-function enthalpyOfLiquid "Return the specific enthalpy of liquid"
-  extends Modelica.Icons.Function;
-  input Modelica.SIunits.Temperature T "Temperature";
-  output Modelica.SIunits.SpecificEnthalpy h "Specific enthalpy";
-algorithm
-  h := cp_const*(T-reference_T);
-annotation (
-  smoothOrder=5,
-  Inline=true,
-Documentation(info="<html>
+  function enthalpyOfLiquid
+    "Return the specific enthalpy of liquid"
+    extends Modelica.Icons.Function;
+    input Modelica.SIunits.Temperature T
+      "Temperature";
+    output Modelica.SIunits.SpecificEnthalpy h
+      "Specific enthalpy";
+  algorithm
+    h := cp_const*(T-reference_T);
+    annotation(smoothOrder=5, Inline=true, Documentation(info="<html>
 <p>
 Enthalpy of the water.
 </p>
@@ -102,7 +89,7 @@ Buildings.Fluid.MixingVolumes.MixingVolumeMoistAir</a>.
 </li>
 </ul>
 </html>"));
-end enthalpyOfLiquid;
+  end enthalpyOfLiquid;
   annotation(preferredView="info", Documentation(info="<html>
 <p>
 This medium package models liquid water.
@@ -217,32 +204,5 @@ had the option to add a compressibility to the medium, which
 has never been used.
 </li>
 </ul>
-</html>"),
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-        graphics={
-        Polygon(
-          points={{16,-28},{32,-42},{26,-48},{10,-36},{16,-28}},
-          lineColor={95,95,95},
-          fillPattern=FillPattern.Sphere,
-          fillColor={95,95,95}),
-        Polygon(
-          points={{10,34},{26,44},{30,36},{14,26},{10,34}},
-          lineColor={95,95,95},
-          fillPattern=FillPattern.Sphere,
-          fillColor={95,95,95}),
-        Ellipse(
-          extent={{-82,52},{24,-54}},
-          lineColor={95,95,95},
-          fillPattern=FillPattern.Sphere,
-          fillColor={0,0,0}),
-        Ellipse(
-          extent={{22,82},{80,24}},
-          lineColor={0,0,0},
-          fillPattern=FillPattern.Sphere,
-          fillColor={95,95,95}),
-        Ellipse(
-          extent={{20,-30},{78,-88}},
-          lineColor={0,0,0},
-          fillPattern=FillPattern.Sphere,
-          fillColor={95,95,95})}));
+</html>"), Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {100, 100}}), graphics={Polygon(points={{16,-28}, {32,-42}, {26,-48}, {10,-36}, {16,-28}}, lineColor={95, 95, 95}, fillPattern=FillPattern.Sphere, fillColor={95, 95, 95}), Polygon(points={{10, 34}, {26, 44}, {30, 36}, {14, 26}, {10, 34}}, lineColor={95, 95, 95}, fillPattern=FillPattern.Sphere, fillColor={95, 95, 95}), Ellipse(extent={{-82, 52}, {24,-54}}, lineColor={95, 95, 95}, fillPattern=FillPattern.Sphere, fillColor={0, 0, 0}), Ellipse(extent={{22, 82}, {80, 24}}, lineColor={0, 0, 0}, fillPattern=FillPattern.Sphere, fillColor={95, 95, 95}), Ellipse(extent={{20,-30}, {78,-88}}, lineColor={0, 0, 0}, fillPattern=FillPattern.Sphere, fillColor={95, 95, 95})}));
 end Water;

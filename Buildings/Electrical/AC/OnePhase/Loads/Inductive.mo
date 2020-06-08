@@ -1,98 +1,46 @@
 within Buildings.Electrical.AC.OnePhase.Loads;
-model Inductive "Model of an inductive and resistive load"
-  extends Buildings.Electrical.Interfaces.InductiveLoad(
-    redeclare package PhaseSystem = PhaseSystems.OnePhase,
-    redeclare replaceable Interfaces.Terminal_n terminal,
-    V_nominal(start = 110));
-
+model Inductive
+  "Model of an inductive and resistive load"
+  extends Buildings.Electrical.Interfaces.InductiveLoad(redeclare package PhaseSystem=PhaseSystems.OnePhase, redeclare replaceable Interfaces.Terminal_n terminal, V_nominal(start=110));
 protected
-  Modelica.SIunits.Angle theRef "Absolute angle of rotating reference system";
-
+  Modelica.SIunits.Angle theRef
+    "Absolute angle of rotating reference system";
 initial equation
   if mode == Buildings.Electrical.Types.Load.FixedZ_dynamic then
     // psi = Z[2]*{P_nominal/V_nominal, 0}/omega;
     // Steady state initialization
-    der(psi) = zeros(PhaseSystem.n);
+    der(psi)=zeros(PhaseSystem.n);
   end if;
 equation
-  theRef = PhaseSystem.thetaRef(terminal.theta);
-  omega = der(theRef);
-
+  theRef=PhaseSystem.thetaRef(terminal.theta);
+  omega=der(theRef);
   if mode == Buildings.Electrical.Types.Load.FixedZ_dynamic then
-
     // Use the dynamic phasorial representation
-    Z[1] = -pf*(V_nominal^2)/(P_nominal/pf);
-    Z[2] = -Modelica.Fluid.Utilities.regRoot(1-pf^2, delta=0.001)*(V_nominal^2)/(P_nominal/pf);
-
+    Z[1]=-pf*(V_nominal^2)/(P_nominal/pf);
+    Z[2]=-Modelica.Fluid.Utilities.regRoot(1-pf^2, delta=0.001)*(V_nominal^2)/(P_nominal/pf);
     // Dynamics of the system
-    der(psi) + omega*j(psi) + Z[1]*i = v;
-
+    der(psi) + omega*j(psi) + Z[1]*i=v;
     // Magnetic flux
-    psi = Z[2]*{i[1], i[2]}/omega;
-
+    psi=Z[2]*{i[1], i[2]}/omega;
   else
-
     // Use the power specified by the parameter or inputs
     if linearized then
-      i[1] = -homotopy(actual= (v[2]*Q + v[1]*P)/(V_nominal^2), simplified= v[1]*Modelica.Constants.eps*1e3);
-      i[2] = -homotopy(actual= (v[2]*P - v[1]*Q)/(V_nominal^2), simplified= v[2]*Modelica.Constants.eps*1e3);
+      i[1]=-homotopy(actual=(v[2]*Q + v[1]*P)/(V_nominal^2), simplified=v[1]*Modelica.Constants.eps*1e3);
+      i[2]=-homotopy(actual=(v[2]*P-v[1]*Q)/(V_nominal^2), simplified=v[2]*Modelica.Constants.eps*1e3);
     else
       //PhaseSystem.phasePowers_vi(terminal.v, terminal.i) = PhaseSystem.phasePowers(P, Q);
       if initMode == Buildings.Electrical.Types.InitMode.zero_current then
-        i[1] = -homotopy(actual = (v[2]*Q + v[1]*P)/(v[1]^2 + v[2]^2), simplified= 0.0);
-        i[2] = -homotopy(actual = (v[2]*P - v[1]*Q)/(v[1]^2 + v[2]^2), simplified= 0.0);
+        i[1]=-homotopy(actual=(v[2]*Q + v[1]*P)/(v[1]^2 + v[2]^2), simplified=0.0);
+        i[2]=-homotopy(actual=(v[2]*P-v[1]*Q)/(v[1]^2 + v[2]^2), simplified=0.0);
       else
-        i[1] = -homotopy(actual = (v[2]*Q + v[1]*P)/(v[1]^2 + v[2]^2), simplified= (v[2]*Q + v[1]*P)/(V_nominal^2));
-        i[2] = -homotopy(actual = (v[2]*P - v[1]*Q)/(v[1]^2 + v[2]^2), simplified= (v[2]*P - v[1]*Q)/(V_nominal^2));
+        i[1]=-homotopy(actual=(v[2]*Q + v[1]*P)/(v[1]^2 + v[2]^2), simplified=(v[2]*Q + v[1]*P)/(V_nominal^2));
+        i[2]=-homotopy(actual=(v[2]*P-v[1]*Q)/(v[1]^2 + v[2]^2), simplified=(v[2]*P-v[1]*Q)/(V_nominal^2));
       end if;
     end if;
-
-    Z = {0,0};
-    psi = {0,0};
-
+    Z={0, 0};
+    psi={0, 0};
   end if;
-  annotation (
-    defaultComponentName="loa",
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-            {100,100}}), graphics={
-        Rectangle(
-          extent={{-80,40},{80,-40}},
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-                                   Rectangle(extent={{-100,100},{100,-100}},
-            lineColor={255,255,255}),
-        Ellipse(extent={{-10,-10},{10,10}},
-          origin={10,0},
-          rotation=360),
-        Ellipse(extent={{40,-10},{60,10}}),
-        Ellipse(extent={{20,-10},{40,10}}),
-        Rectangle(
-          extent={{0,0},{60,-12}},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None),
-          Line(points={{0,0},{12,0}},    color={0,0,0},
-          rotation=180),
-          Line(points={{0,0},{10,1.22461e-15}},
-                                         color={0,0,0},
-          origin={70,0},
-          rotation=180),
-        Rectangle(
-          extent={{-11,30},{11,-30}},
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid,
-          origin={-42,1},
-          rotation=90),
-          Line(points={{-10,-1.22461e-15},{10,0}},
-                                         color={0,0,0},
-          origin={-82,0},
-          rotation=180),
-        Text(
-          extent={{-120,80},{120,40}},
-          lineColor={0,0,0},
-          textString="%name")}),    Documentation(info="<html>
+  annotation(defaultComponentName="loa", Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {100, 100}}), graphics={Rectangle(extent={{-80, 40}, {80,-40}}, lineColor={0, 0, 0}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid), Rectangle(extent={{-100, 100}, {100,-100}}, lineColor={255, 255, 255}), Ellipse(extent={{-10,-10}, {10, 10}}, origin={10, 0}, rotation=360), Ellipse(extent={{40,-10}, {60, 10}}), Ellipse(extent={{20,-10}, {40, 10}}), Rectangle(extent={{0, 0}, {60,-12}}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid, pattern=LinePattern.None), Line(points={{0, 0}, {12, 0}}, color={0, 0, 0}, rotation=180), Line(points={{0, 0}, {10, 1.22461e-15}}, color={0, 0, 0}, origin={70, 0}, rotation=180), Rectangle(extent={{-11, 30}, {11,-30}}, lineColor={0, 0, 0}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid, origin={-42, 1}, rotation=90), Line(points={{-10,-1.22461e-15}, {10, 0}}, color={0, 0, 0}, origin={-82, 0}, rotation=180), Text(extent={{-120, 80}, {120, 40}}, lineColor={0, 0, 0}, textString="%name")}), Documentation(info="<html>
 
 <p>
 Model of an inductive load. It may be used to model an inductive motor.

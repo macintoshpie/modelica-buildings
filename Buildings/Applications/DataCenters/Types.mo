@@ -1,13 +1,13 @@
 within Buildings.Applications.DataCenters;
-package Types "Package with type definitions"
+package Types
+  "Package with type definitions"
   extends Modelica.Icons.TypesPackage;
-
-  type CoolingModes = enumeration(
-      FreeCooling "Free cooling mode",
-      PartialMechanical "Partial mechanical cooling",
-      FullMechanical "Holiday") "Full mechanical cooling" annotation (
-      Documentation(info =
-"<html>
+  type CoolingModes=enumeration(FreeCooling
+    "Free cooling mode", PartialMechanical
+    "Partial mechanical cooling", FullMechanical
+    "Holiday")
+    "Full mechanical cooling"
+    annotation(Documentation(info="<html>
 <p>
 Enumeration for the type cooling mode.
 </p>
@@ -30,8 +30,7 @@ First implementation.
 </li>
 </ul>
 </html>"));
-
-  annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This package contains type definitions.
 </p>

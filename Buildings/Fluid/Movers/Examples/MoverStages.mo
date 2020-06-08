@@ -1,37 +1,29 @@
 within Buildings.Fluid.Movers.Examples;
 model MoverStages
   "Example model of movers using an integer input for setting the stage"
-  extends Buildings.Fluid.Movers.Examples.MoverParameter(
-    pump_Nrpm(inputType=Buildings.Fluid.Types.InputType.Stages),
-    pump_m_flow(inputType=Buildings.Fluid.Types.InputType.Stages),
-    pump_y(inputType=Buildings.Fluid.Types.InputType.Stages),
-    pump_dp(inputType=Buildings.Fluid.Types.InputType.Stages));
-  package Medium = Buildings.Media.Water;
-
+  extends Buildings.Fluid.Movers.Examples.MoverParameter(pump_Nrpm(inputType=Buildings.Fluid.Types.InputType.Stages), pump_m_flow(inputType=Buildings.Fluid.Types.InputType.Stages), pump_y(inputType=Buildings.Fluid.Types.InputType.Stages), pump_dp(inputType=Buildings.Fluid.Types.InputType.Stages));
+  package Medium=Buildings.Media.Water;
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=2
     "Nominal mass flow rate";
-
-  Modelica.Blocks.Sources.IntegerTable integerTable(table=[0,1; 0.3,2; 0.6,3])
+  Modelica.Blocks.Sources.IntegerTable integerTable(table=[
+    0, 1;
+    0.3, 2;
+    0.6, 3])
     "Integer step input, 1 is off, 2 is on"
-    annotation (Placement(transformation(extent={{-60,70},{-40,90}})));
-  parameter Modelica.SIunits.PressureDifference dp_nominal=10000 "Nominal pressure raise";
+    annotation(Placement(transformation(extent={{-60, 70}, {-40, 90}})));
+  parameter Modelica.SIunits.PressureDifference dp_nominal=10000
+    "Nominal pressure raise";
 equation
   connect(integerTable.y, pump_Nrpm.stage)
-    annotation (Line(points={{-39,80},{0,80},{0,52}}, color={255,127,0}));
+    annotation(Line(points={{-39, 80}, {0, 80}, {0, 52}}, color={255, 127, 0}));
   connect(integerTable.y, pump_m_flow.stage)
-    annotation (Line(points={{-39,80},{-30,80},{-30,20},{-30,20},{-30,20},{0,20},
-          {0,12}},                                    color={255,127,0}));
+    annotation(Line(points={{-39, 80}, {-30, 80}, {-30, 20}, {-30, 20}, {-30, 20}, {0, 20}, {0, 12}}, color={255, 127, 0}));
   connect(integerTable.y, pump_y.stage)
-    annotation (Line(points={{-39,80},{-30,80},{-30,-16},{-30,-16},{-30,-20},{0,
-          -20},{0,-28}},                               color={255,127,0}));
+    annotation(Line(points={{-39, 80}, {-30, 80}, {-30,-16}, {-30,-16}, {-30,-20}, {0,-20}, {0,-28}}, color={255, 127, 0}));
   connect(integerTable.y, pump_dp.stage)
-    annotation (Line(points={{-39,80},{-30,80},{-30,-60},{0,-60},{0,-68}},
-                                                       color={255,127,0}));
-  annotation (
-    __Dymola_Commands(file=
-          "modelica://Buildings/Resources/Scripts/Dymola/Fluid/Movers/Examples/MoverStages.mos"
-        "Simulate and plot"),
-    Documentation(info="<html>
+    annotation(Line(points={{-39, 80}, {-30, 80}, {-30,-60}, {0,-60}, {0,-68}}, color={255, 127, 0}));
+  annotation(__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/Movers/Examples/MoverStages.mos"
+    "Simulate and plot"), Documentation(info="<html>
 <p>
 This example demonstrates the use of the <code>Integer</code>
 stage connector for a mover model.
@@ -55,6 +47,5 @@ April 2, 2015, by Filip Jorissen:<br/>
 First implementation.
 </li>
 </ul>
-</html>"),
-    experiment(Tolerance=1e-06, StopTime=1));
+</html>"), experiment(Tolerance=1e-06, StopTime=1));
 end MoverStages;

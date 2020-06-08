@@ -1,14 +1,13 @@
 within Buildings;
-package Types "Package with type definitions"
+package Types
+  "Package with type definitions"
   extends Modelica.Icons.TypesPackage;
-
-  type Reset = enumeration(
-    Disabled   "Disabled",
-    Parameter   "Use parameter value",
-    Input   "Use input signal")
+  type Reset=enumeration(Disabled
+    "Disabled", Parameter
+    "Use parameter value", Input
+    "Use input signal")
     "Options for integrator reset"
-    annotation (
-    Documentation(info="<html>
+    annotation(Documentation(info="<html>
 <p>
 Enumeration to define the choice of integrator reset
 (to be selected via choices menu):
@@ -38,8 +37,7 @@ First implementation.
 </li>
 </ul>
 </html>"));
-
-annotation (preferredView="info", Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 This package contains type definitions.
 </p>

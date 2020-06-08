@@ -1,36 +1,33 @@
 within Buildings.Electrical.Interfaces;
-model Source "Partial model of a generic source."
-  replaceable package PhaseSystem =
-      Buildings.Electrical.PhaseSystems.OnePhase constrainedby
-    Buildings.Electrical.PhaseSystems.PartialPhaseSystem "Phase system"
-    annotation (choicesAllMatching=true);
-  parameter Boolean potentialReference = true
+model Source
+  "Partial model of a generic source."
+  replaceable package PhaseSystem=Buildings.Electrical.PhaseSystems.OnePhase constrainedby Buildings.Electrical.PhaseSystems.PartialPhaseSystem
+    "Phase system"
+    annotation(choicesAllMatching=true);
+  parameter Boolean potentialReference=true
     "Serve as potential root for the reference angle theta"
-     annotation (Evaluate=true, Dialog(group="Reference Parameters"));
-  parameter Boolean definiteReference = false
+    annotation(Evaluate=true, Dialog(group="Reference Parameters"));
+  parameter Boolean definiteReference=false
     "Serve as definite root for the reference angle theta"
-     annotation (Evaluate=true, Dialog(group="Reference Parameters"));
-  Modelica.SIunits.Power S[PhaseSystem.n]=
-    PhaseSystem.phasePowers_vi(terminal.v, terminal.i)
+    annotation(Evaluate=true, Dialog(group="Reference Parameters"));
+  Modelica.SIunits.Power S[PhaseSystem.n]=PhaseSystem.phasePowers_vi(terminal.v, terminal.i)
     "Complex power S[1] = P, S[2]= Q";
-  Modelica.SIunits.Angle phi=
-    PhaseSystem.phase(terminal.v) - PhaseSystem.phase(-terminal.i)
+  Modelica.SIunits.Angle phi=PhaseSystem.phase(terminal.v)-PhaseSystem.phase(-terminal.i)
     "Phase shift with respect to reference angle";
-  replaceable Buildings.Electrical.Interfaces.Terminal terminal(
-    redeclare final replaceable package PhaseSystem = PhaseSystem)
+  replaceable Buildings.Electrical.Interfaces.Terminal terminal(redeclare final replaceable package PhaseSystem=PhaseSystem)
     "Generalized terminal"
-    annotation (Placement(transformation(extent={{92,-8},{108,8}})));
+    annotation(Placement(transformation(extent={{92,-8}, {108, 8}})));
 protected
-  function j = PhaseSystem.j;
+  function j=PhaseSystem.j;
 equation
   if potentialReference then
-      if definiteReference then
-        Connections.root(terminal.theta);
-      else
-        Connections.potentialRoot(terminal.theta);
-      end if;
+    if definiteReference then
+      Connections.root(terminal.theta);
+    else
+      Connections.potentialRoot(terminal.theta);
+    end if;
   end if;
-  annotation ( Documentation(revisions="<html>
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 February 26, 2016, by Michael Wetter:<br/>

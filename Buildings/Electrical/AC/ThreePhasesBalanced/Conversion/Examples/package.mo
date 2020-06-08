@@ -1,9 +1,8 @@
 within Buildings.Electrical.AC.ThreePhasesBalanced.Conversion;
-package Examples "Package with example models"
+package Examples
+  "Package with example models"
   extends Modelica.Icons.ExamplesPackage;
-
-
-  annotation (Documentation(revisions="<html>
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 August 24, 2014, by Marco Bonvini:<br/>

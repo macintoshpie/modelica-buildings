@@ -1,9 +1,8 @@
 within Buildings.Electrical.AC.ThreePhasesBalanced;
-package Interfaces "Package interfaces for three-phase balanced AC systems"
+package Interfaces
+  "Package interfaces for three-phase balanced AC systems"
   extends Modelica.Icons.InterfacesPackage;
-
-
-annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This package contains connectors that are used by the models in the
 <a href=\"modelica://Buildings.Electrical.AC.ThreePhasesBalanced\">Buildings.Electrical.AC.ThreePhasesBalanced</a> package.

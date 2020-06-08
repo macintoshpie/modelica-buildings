@@ -1,9 +1,8 @@
 within Buildings.Electrical.Utilities;
-package Controllers "Package that contains state machines and control models used by the utilities"
-extends Modelica.Icons.BasesPackage;
-
-
-annotation (Documentation(revisions="<html>
+package Controllers
+  "Package that contains state machines and control models used by the utilities"
+  extends Modelica.Icons.BasesPackage;
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 Aug 28, 2014, by Marco Bonvini:<br/>

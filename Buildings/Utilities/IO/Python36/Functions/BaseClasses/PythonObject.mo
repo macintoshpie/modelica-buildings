@@ -1,16 +1,12 @@
 within Buildings.Utilities.IO.Python36.Functions.BaseClasses;
 class PythonObject
   "class used to create the external object: PythonObject"
-extends ExternalObject;
-    function constructor
-      "Construct an external object that can be used to store a Python object"
+  extends ExternalObject;
+  function constructor
+    "Construct an external object that can be used to store a Python object"
     output PythonObject pytObj;
-    external "C" pytObj = initPythonMemory()
-        annotation (Library={"ModelicaBuildingsPython3.6",  "python3.6m"},
-          LibraryDirectory="modelica://Buildings/Resources/Library",
-          __iti_dll = "ITI_ModelicaBuildingsPython3.6.dll",
-          __iti_dllNoExport = true);
-
+  external "C" pytObj=initPythonMemory()
+    annotation(Library={"ModelicaBuildingsPython3.6", "python3.6m"}, LibraryDirectory="modelica://Buildings/Resources/Library", __iti_dll="ITI_ModelicaBuildingsPython3.6.dll", __iti_dllNoExport=true);
     annotation(Documentation(info="<html>
 <p>
 The function <code>constructor</code> is a C function that is called by a Modelica simulator
@@ -43,17 +39,14 @@ First implementation.
 </li>
 </ul>
 </html>"));
-    end constructor;
-
-  function destructor "Release memory"
+  end constructor;
+  function destructor
+    "Release memory"
     input PythonObject pytObj;
-    external "C" freePythonMemory(pytObj)
-      annotation (Library={"ModelicaBuildingsPython3.6",  "python3.6m"},
-        LibraryDirectory="modelica://Buildings/Resources/Library",
-        __iti_dll = "ITI_ModelicaBuildingsPython3.6.dll",
-        __iti_dllNoExport = true);
-
-  annotation(Documentation(info="<html>
+  external "C" freePythonMemory(
+    pytObj)
+    annotation(Library={"ModelicaBuildingsPython3.6", "python3.6m"}, LibraryDirectory="modelica://Buildings/Resources/Library", __iti_dll="ITI_ModelicaBuildingsPython3.6.dll", __iti_dllNoExport=true);
+    annotation(Documentation(info="<html>
 <p>
 Destructor that frees the memory of the object
 <code>PythonObject</code>.
@@ -76,7 +69,7 @@ First implementation.
 </ul>
 </html>"));
   end destructor;
-annotation(Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 Class derived from <code>ExternalObject</code> having two local external functions
 named <code>destructor</code> and <code>constructor</code>.
@@ -85,8 +78,7 @@ named <code>destructor</code> and <code>constructor</code>.
 These functions create and release an external object that allows the storage
 of a Python object.
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 April 10, 2020, by Jianjun Hu and Michael Wetter:<br/>

@@ -1,12 +1,8 @@
 within Buildings.Fluid.Chillers;
 model Carnot_y
   "Chiller with performance curve adjusted based on Carnot efficiency"
-  extends Buildings.Fluid.Chillers.BaseClasses.PartialCarnot_y(
-    final COP_is_for_cooling = true);
-
-  annotation (
-defaultComponentName="chi",
-Documentation(info="<html>
+  extends Buildings.Fluid.Chillers.BaseClasses.PartialCarnot_y(final COP_is_for_cooling=true);
+  annotation(defaultComponentName="chi", Documentation(info="<html>
 <p>
 This is model of a chiller whose coefficient of performance COP changes
 with temperatures in the same way as the Carnot efficiency changes.
@@ -81,8 +77,7 @@ since otherwise the second law of thermodynamics may be violated.
 For a similar model that can be used as a heat pump, see
 <a href=\"modelica://Buildings.Fluid.HeatPumps.Carnot_y\">Buildings.Fluid.HeatPumps.Carnot_y</a>.
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 January 2, 2017, by Filip Jorissen:<br/>
@@ -160,7 +155,5 @@ March 3, 2009 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
-</html>"),
-    Icon(graphics={
-        Line(points={{0,-70},{0,-90},{100,-90}}, color={0,0,255})}));
+</html>"), Icon(graphics={Line(points={{0,-70}, {0,-90}, {100,-90}}, color={0, 0, 255})}));
 end Carnot_y;

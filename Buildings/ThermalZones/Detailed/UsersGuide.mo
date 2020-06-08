@@ -1,10 +1,11 @@
 within Buildings.ThermalZones.Detailed;
-package UsersGuide "User's Guide"
+package UsersGuide
+  "User's Guide"
   extends Modelica.Icons.Information;
-
-   class MixedAir "Room model with instantaneously mixed air"
+  class MixedAir
+    "Room model with instantaneously mixed air"
     extends Modelica.Icons.Information;
-    annotation (preferredView="info", Documentation(info="<html>
+    annotation(preferredView="info", Documentation(info="<html>
 <p>The model <a href=\"modelica://Buildings.ThermalZones.Detailed.MixedAir\">
 Buildings.ThermalZones.Detailed.MixedAir</a> is
 a model of a room with completely mixed air.
@@ -609,13 +610,11 @@ Modeling of Heat Transfer in Rooms in the Modelica \"Buildings\" Library.</a><br
 Proc. of the 12th IBPSA Conference, p. 1096-1103. Sydney, Australia, November 2011.
 </p>
 </html>"));
-   end MixedAir;
-
+  end MixedAir;
   class CFD
     "Room model with air heat and mass balance computed using Computational Fluid Dynamics"
     extends Modelica.Icons.Information;
-  annotation (preferredView="info",
-  Documentation(info="<html>
+    annotation(preferredView="info", Documentation(info="<html>
 <p>
 The model <a href=\"modelica://Buildings.ThermalZones.Detailed.CFD\">
 Buildings.ThermalZones.Detailed.CFD</a> is
@@ -1017,8 +1016,7 @@ Proc. of the 2014 ASHRAE/IBPSA-USA Building Simulation Conference, Atlanta, GA, 
 </p>
 </html>"));
   end CFD;
-  annotation (preferredView="info",
-  Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 The package <a href=\"modelica://Buildings.ThermalZones.Detailed\">Buildings.ThermalZones.Detailed</a> contains models for heat transfer
 through the building envelope.

@@ -2,19 +2,17 @@ within Buildings.Fluid.Sources;
 model Outside_Cp
   "Boundary that takes weather data, and optionally the wind pressure coefficient and trace substances, as an input"
   extends Buildings.Fluid.Sources.BaseClasses.Outside;
-
-  parameter Boolean use_Cp_in= false
+  parameter Boolean use_Cp_in=false
     "Get the wind pressure coefficient from the input connector"
     annotation(Evaluate=true, HideResult=true);
-  parameter Real Cp = 0.6 "Fixed value of wind pressure coefficient"
-    annotation (Dialog(enable = not use_Cp_in));
-
-  Modelica.Blocks.Interfaces.RealInput Cp_in(unit="1") if
-     use_Cp_in "Prescribed wind pressure coefficient"
-    annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
+  parameter Real Cp=0.6
+    "Fixed value of wind pressure coefficient"
+    annotation(Dialog(enable=not use_Cp_in));
+  Modelica.Blocks.Interfaces.RealInput Cp_in(unit="1") if use_Cp_in
+    "Prescribed wind pressure coefficient"
+    annotation(Placement(transformation(extent={{-140, 20}, {-100, 60}})));
   Modelica.SIunits.Pressure pWin(displayUnit="Pa")
     "Change in pressure due to wind force";
-
 protected
   Modelica.Blocks.Interfaces.RealInput Cp_in_internal(unit="1")
     "Needed to connect to conditional connector";
@@ -27,21 +25,15 @@ protected
 equation
   connect(Cp_in, Cp_in_internal);
   if not use_Cp_in then
-    Cp_in_internal = Cp;
+    Cp_in_internal=Cp;
   end if;
-  pWin = 0.5*Cp_in_internal*vWin*vWin
-    *Medium.density(Medium.setState_pTX(
-      p=pWea,
-      T=T_in_internal,
-      X=Medium.X_default));
-  pTot = pWea + pWin;
-
+  pWin=0.5*Cp_in_internal*vWin*vWin*Medium.density(Medium.setState_pTX(p=pWea, T=T_in_internal, X=Medium.X_default));
+  pTot=pWea + pWin;
   connect(weaBus.winSpe, vWin);
   connect(weaBus.pAtm, pWea);
   connect(p_in_internal, pTot);
   connect(weaBus.TDryBul, T_in_internal);
-  annotation (defaultComponentName="out",
-    Documentation(info="<html>
+  annotation(defaultComponentName="out", Documentation(info="<html>
 <p>
 This model describes boundary conditions for
 pressure, enthalpy, and species concentration that can be obtained
@@ -68,8 +60,7 @@ wind pressure coefficient is obtained from the input connector
 <code>Cp_in</code>. Otherwise, it is set to the parameter
 <code>Cp</code>.
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 January 24, 2019, by Michael Wetter:<br/>
@@ -84,19 +75,5 @@ October 26, 2011 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
-</html>"),
-    Icon(graphics={Text(
-          visible=use_Cp_in,
-          extent={{-140,92},{-92,62}},
-          lineColor={0,0,255},
-          textString="C_p"),
-          Text(
-          visible=use_C_in,
-          extent={{-154,-28},{-102,-62}},
-          lineColor={0,0,255},
-          textString="C"),
-        Text(
-          extent={{-28,22},{28,-22}},
-          lineColor={255,255,255},
-          textString="Cp")}));
+</html>"), Icon(graphics={Text(visible=use_Cp_in, extent={{-140, 92}, {-92, 62}}, lineColor={0, 0, 255}, textString="C_p"), Text(visible=use_C_in, extent={{-154,-28}, {-102,-62}}, lineColor={0, 0, 255}, textString="C"), Text(extent={{-28, 22}, {28,-22}}, lineColor={255, 255, 255}, textString="Cp")}));
 end Outside_Cp;

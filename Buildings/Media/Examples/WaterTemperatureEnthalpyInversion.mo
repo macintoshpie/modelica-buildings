@@ -2,13 +2,9 @@ within Buildings.Media.Examples;
 model WaterTemperatureEnthalpyInversion
   "Model to check computation of h(T) and its inverse"
   extends Modelica.Icons.Example;
-  extends Buildings.Media.Examples.BaseClasses.TestTemperatureEnthalpyInversion(
-    redeclare package Medium = Buildings.Media.Water);
-  annotation (
-experiment(Tolerance=1e-6, StopTime=1.0),
-__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Media/Examples/WaterTemperatureEnthalpyInversion.mos"
-        "Simulate and plot"),
-    Documentation(info="<html>
+  extends Buildings.Media.Examples.BaseClasses.TestTemperatureEnthalpyInversion(redeclare package Medium=Buildings.Media.Water);
+  annotation(experiment(Tolerance=1e-6, StopTime=1.0), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Media/Examples/WaterTemperatureEnthalpyInversion.mos"
+    "Simulate and plot"), Documentation(info="<html>
 <p>
 This model tests whether the inversion of temperature and enthalpy
 is implemented correctly.

@@ -1,52 +1,12 @@
 within Buildings.Controls.OBC.CDL.Continuous.Sources;
-block ModelTime "Standard time"
-
+block ModelTime
+  "Standard time"
   Interfaces.RealOutput y(final unit="s")
     "Connector of Real output signal"
-    annotation (Placement(transformation(extent={{100,-20},{140,20}})));
-
+    annotation(Placement(transformation(extent={{100,-20}, {140, 20}})));
 equation
-  y = time;
-
-  annotation (
-    defaultComponentName="modTim",
-    Icon(coordinateSystem(
-        preserveAspectRatio=true,
-        extent={{-100,-100},{100,100}},
-        grid={1,1}), graphics={         Text(
-        extent={{-150,150},{150,110}},
-        textString="%name",
-        lineColor={0,0,255}),   Rectangle(
-        extent={{-100,-100},{100,100}},
-        lineColor={0,0,127},
-        fillColor={255,255,255},
-        fillPattern=FillPattern.Solid),
-        Ellipse(extent={{-80,80},{80,-80}}, lineColor={160,160,164},
-          fillColor={215,215,215},
-          fillPattern=FillPattern.Solid),
-        Line(points={{0,80},{0,60}}, color={160,160,164}),
-        Line(points={{80,0},{60,0}}, color={160,160,164}),
-        Line(points={{0,-80},{0,-60}}, color={160,160,164}),
-        Line(points={{-80,0},{-60,0}}, color={160,160,164}),
-        Line(points={{37,70},{26,50}}, color={160,160,164}),
-        Line(points={{70,38},{49,26}}, color={160,160,164}),
-        Line(points={{71,-37},{52,-27}}, color={160,160,164}),
-        Line(points={{39,-70},{29,-51}}, color={160,160,164}),
-        Line(points={{-39,-70},{-29,-52}}, color={160,160,164}),
-        Line(points={{-71,-37},{-50,-26}}, color={160,160,164}),
-        Line(points={{-71,37},{-54,28}}, color={160,160,164}),
-        Line(points={{-38,70},{-28,51}}, color={160,160,164}),
-        Line(
-          points={{0,0},{-50,50}},
-          thickness=0.5),
-        Line(
-          points={{0,0},{40,0}},
-          thickness=0.5),
-        Text(
-          extent={{226,60},{106,10}},
-          lineColor={0,0,0},
-          textString=DynamicSelect("", String(y, leftjustified=false, significantDigits=3)))}),
-Documentation(info="<html>
+  y=time;
+  annotation(defaultComponentName="modTim", Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100}, {100, 100}}, grid={1, 1}), graphics={Text(extent={{-150, 150}, {150, 110}}, textString="%name", lineColor={0, 0, 255}), Rectangle(extent={{-100,-100}, {100, 100}}, lineColor={0, 0, 127}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid), Ellipse(extent={{-80, 80}, {80,-80}}, lineColor={160, 160, 164}, fillColor={215, 215, 215}, fillPattern=FillPattern.Solid), Line(points={{0, 80}, {0, 60}}, color={160, 160, 164}), Line(points={{80, 0}, {60, 0}}, color={160, 160, 164}), Line(points={{0,-80}, {0,-60}}, color={160, 160, 164}), Line(points={{-80, 0}, {-60, 0}}, color={160, 160, 164}), Line(points={{37, 70}, {26, 50}}, color={160, 160, 164}), Line(points={{70, 38}, {49, 26}}, color={160, 160, 164}), Line(points={{71,-37}, {52,-27}}, color={160, 160, 164}), Line(points={{39,-70}, {29,-51}}, color={160, 160, 164}), Line(points={{-39,-70}, {-29,-52}}, color={160, 160, 164}), Line(points={{-71,-37}, {-50,-26}}, color={160, 160, 164}), Line(points={{-71, 37}, {-54, 28}}, color={160, 160, 164}), Line(points={{-38, 70}, {-28, 51}}, color={160, 160, 164}), Line(points={{0, 0}, {-50, 50}}, thickness=0.5), Line(points={{0, 0}, {40, 0}}, thickness=0.5), Text(extent={{226, 60}, {106, 10}}, lineColor={0, 0, 0}, textString=DynamicSelect("", String(y, leftjustified=false, significantDigits=3)))}), Documentation(info="<html>
 <p>Block that outputs the standard time.
 </p>
 <h4>Implementation</h4>

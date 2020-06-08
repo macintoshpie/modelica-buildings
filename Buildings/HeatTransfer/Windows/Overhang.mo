@@ -3,56 +3,27 @@ model Overhang
   "For a window with an overhang, outputs the fraction of the window area exposed to the sun"
   extends Buildings.ThermalZones.Detailed.BaseClasses.Overhang;
   extends Buildings.HeatTransfer.Windows.BaseClasses.PartialShade_weatherBus;
-  parameter Modelica.SIunits.Angle lat(displayUnit="deg") "Latitude";
+  parameter Modelica.SIunits.Angle lat(displayUnit="deg")
+    "Latitude";
   parameter Modelica.SIunits.Angle azi(displayUnit="deg")
     "Surface azimuth; azi= -90 degree East; azi= 0 South";
-  // Overhang dimensions
+// Overhang dimensions
 protected
-  Buildings.HeatTransfer.Windows.BaseClasses.Overhang ove(
-    final lat=lat,
-    final azi=azi,
-    final wR=wR,
-    final wL=wL,
-    final dep=dep,
-    final gap=gap,
-    final hWin=hWin,
-    final wWin=wWin) "Window overhang"
-    annotation (Placement(transformation(extent={{0,-10},{20,10}})));
+  Buildings.HeatTransfer.Windows.BaseClasses.Overhang ove(final lat=lat, final azi=azi, final wR=wR, final wL=wL, final dep=dep, final gap=gap, final hWin=hWin, final wWin=wWin)
+    "Window overhang"
+    annotation(Placement(transformation(extent={{0,-10}, {20, 10}})));
 equation
-  connect(ove.fraSun, fraSun)          annotation (Line(
-      points={{21,6.10623e-16},{88.25,6.10623e-16},{88.25,1.16573e-15},{95.5,
-          1.16573e-15},{95.5,5.55112e-16},{110,5.55112e-16}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(walSolAzi.verAzi, ove.verAzi)             annotation (Line(
-      points={{-39,-50},{-20,-50},{-20,4},{-2,4}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(ove.fraSun, product.u2) annotation (Line(
-      points={{21,6.10623e-16},{40,6.10623e-16},{40,54},{58,54}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(weaBus, ove.weaBus) annotation (Line(
-      points={{-100,5.55112e-16},{-75.05,5.55112e-16},{-75.05,1.16573e-15},{
-          -50.1,1.16573e-15},{-50.1,6.10623e-16},{-0.2,6.10623e-16}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None), Text(
-      textString="%first",
-      index=-1,
-      extent={{-6,3},{-6,3}}));
-  connect(weaBus.solAlt, ove.alt) annotation (Line(
-      points={{-100,5.55112e-16},{-12,5.55112e-16},{-12,-4},{-2,-4}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None), Text(
-      textString="%first",
-      index=-1,
-      extent={{-6,3},{-6,3}}));
-  annotation ( Icon(graphics={Bitmap(extent={{-92,92},{92,-92}},
-            fileName="modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/Overhang.png")}),
-defaultComponentName="ove",
-Documentation(info="<html>
+  connect(ove.fraSun, fraSun)
+    annotation(Line(points={{21, 6.10623e-16}, {88.25, 6.10623e-16}, {88.25, 1.16573e-15}, {95.5, 1.16573e-15}, {95.5, 5.55112e-16}, {110, 5.55112e-16}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(walSolAzi.verAzi, ove.verAzi)
+    annotation(Line(points={{-39,-50}, {-20,-50}, {-20, 4}, {-2, 4}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(ove.fraSun, product.u2)
+    annotation(Line(points={{21, 6.10623e-16}, {40, 6.10623e-16}, {40, 54}, {58, 54}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(weaBus, ove.weaBus)
+    annotation(Line(points={{-100, 5.55112e-16}, {-75.05, 5.55112e-16}, {-75.05, 1.16573e-15}, {-50.1, 1.16573e-15}, {-50.1, 6.10623e-16}, {-0.2, 6.10623e-16}}, color={255, 204, 51}, thickness=0.5, smooth=Smooth.None), Text(textString="%first", index=-1, extent={{-6, 3}, {-6, 3}}));
+  connect(weaBus.solAlt, ove.alt)
+    annotation(Line(points={{-100, 5.55112e-16}, {-12, 5.55112e-16}, {-12,-4}, {-2,-4}}, color={255, 204, 51}, thickness=0.5, smooth=Smooth.None), Text(textString="%first", index=-1, extent={{-6, 3}, {-6, 3}}));
+  annotation(Icon(graphics={Bitmap(extent={{-92, 92}, {92,-92}}, fileName="modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/Overhang.png")}), defaultComponentName="ove", Documentation(info="<html>
 <p>
 For a window with an overhang, this model outputs the fraction of
 the area that is exposed to the sun.
@@ -99,8 +70,7 @@ The implementation is explained in
 <a href=\"modelica://Buildings.HeatTransfer.Windows.BaseClasses.Overhang\">
 Buildings.HeatTransfer.Windows.BaseClasses.Overhang</a>.
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 July 5, 2012, by Michael Wetter:<br/>

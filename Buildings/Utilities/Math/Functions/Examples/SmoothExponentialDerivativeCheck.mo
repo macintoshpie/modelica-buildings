@@ -1,28 +1,29 @@
 within Buildings.Utilities.Math.Functions.Examples;
 model SmoothExponentialDerivativeCheck
   extends Modelica.Icons.Example;
-
-  parameter Real delta = 0.5 "Smoothing area";
-  Real x "Independent variable";
-  Real y "Approximate function value";
-  Real y_comp "Approximate function value";
-
-  Real ex "Exact function value";
-  Real err "Error";
+  parameter Real delta=0.5
+    "Smoothing area";
+  Real x
+    "Independent variable";
+  Real y
+    "Approximate function value";
+  Real y_comp
+    "Approximate function value";
+  Real ex
+    "Exact function value";
+  Real err
+    "Error";
 initial equation
-   y=y_comp;
+  y=y_comp;
 equation
-  x = time^3;
-  y_comp=Buildings.Utilities.Math.Functions.smoothExponential(
-                                               x=x, delta=delta);
+  x=time^3;
+  y_comp=Buildings.Utilities.Math.Functions.smoothExponential(x=x, delta=delta);
   der(y)=der(y_comp);
-  err = y_comp-y;
+  err=y_comp-y;
   assert(abs(err) < 1E-2, "Model has an error");
   ex=exp(-abs(x));
- annotation(experiment(StartTime=-1, StopTime=1, Tolerance=1E-8),
-__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Utilities/Math/Functions/Examples/SmoothExponentialDerivativeCheck.mos"
-        "Simulate and plot"),
-    Documentation(info="<html>
+  annotation(experiment(StartTime=-1, StopTime=1, Tolerance=1E-8), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Utilities/Math/Functions/Examples/SmoothExponentialDerivativeCheck.mos"
+    "Simulate and plot"), Documentation(info="<html>
 <p>
 This example checks whether the function derivative
 is implemented correctly. If the derivative implementation

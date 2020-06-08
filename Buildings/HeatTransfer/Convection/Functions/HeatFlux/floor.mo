@@ -1,14 +1,10 @@
 within Buildings.HeatTransfer.Convection.Functions.HeatFlux;
-function floor "Free convection, floor"
-  extends
-    Buildings.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux;
-
+function floor
+  "Free convection, floor"
+  extends Buildings.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux;
 algorithm
-  q_flow  := noEvent(smooth(1, if (dT>0) then 1.51*dT^1.3333 else -0.76*(-dT)^1.3333));
-
-annotation(smoothOrder=1,
-Documentation(info=
-"<html>
+  q_flow := noEvent(smooth(1, if(dT > 0) then 1.51*dT^1.3333 else-0.76*(-dT)^1.3333));
+  annotation(smoothOrder=1, Documentation(info="<html>
 <p>
 This function computes the buoyancy-driven convective heat flux as
 </p>
@@ -29,8 +25,7 @@ where
 <i>k=0.76</i> if the fluid is warmer than the floor,
 or <i>k=1.51</i> otherwise.
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 July 28, 2014, by Michael Wetter:<br/>

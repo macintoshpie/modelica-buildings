@@ -1,14 +1,10 @@
 within Buildings.HeatTransfer.Examples;
 model ConductorSingleLayer2
-    "Test model for single layer heat conductor without
+  "Test model for single layer heat conductor without
   states added at the surfaces of the construction"
-  extends ConductorSingleLayer(
-    con(stateAtSurface_a=false, stateAtSurface_b=false),
-    con1(stateAtSurface_a=false, stateAtSurface_b=false),
-    con2(stateAtSurface_a=false, stateAtSurface_b=false));
-  annotation (experiment(StartTime=0, StopTime=86400, Tolerance=1e-6),
-  __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/HeatTransfer/Examples/ConductorSingleLayer2.mos" "Simulate and plot"),
-  Documentation(revisions="<html>
+  extends ConductorSingleLayer(con(stateAtSurface_a=false, stateAtSurface_b=false), con1(stateAtSurface_a=false, stateAtSurface_b=false), con2(stateAtSurface_a=false, stateAtSurface_b=false));
+  annotation(experiment(StartTime=0, StopTime=86400, Tolerance=1e-6), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/HeatTransfer/Examples/ConductorSingleLayer2.mos"
+    "Simulate and plot"), Documentation(revisions="<html>
 <ul>
 <li>
 December 14 2016, by Thierry S. Nouidui:<br/>

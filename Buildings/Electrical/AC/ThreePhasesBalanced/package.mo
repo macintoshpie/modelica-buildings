@@ -1,9 +1,8 @@
 within Buildings.Electrical.AC;
-package ThreePhasesBalanced "Three phases balanced AC systems"
+package ThreePhasesBalanced
+  "Three phases balanced AC systems"
   extends Modelica.Icons.VariantsPackage;
-
-
-annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 Package with models for alternate current (AC) three phase balanced systems.<br/>
 Because the phases are balanced, the models in this

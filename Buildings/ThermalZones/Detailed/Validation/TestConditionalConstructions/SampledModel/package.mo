@@ -1,8 +1,8 @@
 within Buildings.ThermalZones.Detailed.Validation.TestConditionalConstructions;
-package SampledModel "Validation for conditional constructions but with sampled models"
+package SampledModel
+  "Validation for conditional constructions but with sampled models"
   extends Modelica.Icons.ExamplesPackage;
-
-annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 The models in this package are identical to the models in
 <a href=\"modelica://Buildings.ThermalZones.Detailed.Validation.TestConditionalConstructions\">

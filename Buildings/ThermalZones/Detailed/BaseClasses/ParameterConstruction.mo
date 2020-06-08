@@ -2,10 +2,9 @@ within Buildings.ThermalZones.Detailed.BaseClasses;
 record ParameterConstruction
   "Record for exterior constructions that have no window"
   extends Buildings.ThermalZones.Detailed.BaseClasses.PartialParameterConstruction;
-  parameter Modelica.SIunits.Area A "Heat transfer area";
-
-  annotation (
-Documentation(info="<html>
+  parameter Modelica.SIunits.Area A
+    "Heat transfer area";
+  annotation(Documentation(info="<html>
 <p>
 This data record is used to set the parameters of constructions that do not have a window.
 </p>
@@ -24,5 +23,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-
 end ParameterConstruction;

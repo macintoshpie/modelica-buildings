@@ -1,55 +1,42 @@
 within Buildings.Occupants.Office.Blinds;
 model Newsham1994BlindsSolarIntensity
-    "A model to predict occupants' blinds behavior with solar intensity"
-    extends Modelica.Blocks.Icons.DiscreteBlock;
-    parameter Real HSet = 233 "Threshold for moving blinds up or down";
-    parameter Modelica.SIunits.Time samplePeriod = 120 "Sample period";
-
-    Modelica.Blocks.Interfaces.RealInput H(unit="W/m2") "Solar intensity at the room-side of the window"
-      annotation (Placement(transformation(extent={{-140,-80},{-100,-40}}),
-          iconTransformation(extent={{-140,-80},{-100,-40}})));
-    Modelica.Blocks.Interfaces.BooleanInput occ
-      "Indoor occupancy, true for occupied"
-      annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
-    Modelica.Blocks.Interfaces.RealOutput blindState(
-    final min=0,
-    final max=1,
-    final unit="1")
+  "A model to predict occupants' blinds behavior with solar intensity"
+  extends Modelica.Blocks.Icons.DiscreteBlock;
+  parameter Real HSet=233
+    "Threshold for moving blinds up or down";
+  parameter Modelica.SIunits.Time samplePeriod=120
+    "Sample period";
+  Modelica.Blocks.Interfaces.RealInput H(unit="W/m2")
+    "Solar intensity at the room-side of the window"
+    annotation(Placement(transformation(extent={{-140,-80}, {-100,-40}}), iconTransformation(extent={{-140,-80}, {-100,-40}})));
+  Modelica.Blocks.Interfaces.BooleanInput occ
+    "Indoor occupancy, true for occupied"
+    annotation(Placement(transformation(extent={{-140, 40}, {-100, 80}})));
+  Modelica.Blocks.Interfaces.RealOutput blindState(final min=0, final max=1, final unit="1")
     "State of blinds, 1 being blinds down"
-      annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-
+    annotation(Placement(transformation(extent={{100,-10}, {120, 10}})));
 protected
-    parameter Modelica.SIunits.Time t0(final fixed = false) "First sample time instant";
-    output Boolean sampleTrigger "True, if sample time instant";
-
+  parameter Modelica.SIunits.Time t0(final fixed=false)
+    "First sample time instant";
+  output Boolean sampleTrigger
+    "True, if sample time instant";
 initial equation
-    t0 = time;
-    blindState = 0;
-
+  t0=time;
+  blindState=0;
 equation
-    sampleTrigger = sample(t0,samplePeriod);
-    when sampleTrigger then
-      if occ then
-        if H < HSet then
-          blindState = 1;
-        else
-          blindState = 0;
-        end if;
+  sampleTrigger=sample(t0, samplePeriod);
+  when sampleTrigger then
+    if occ then
+      if H < HSet then
+        blindState=1;
       else
-        blindState = 1;
+        blindState=0;
       end if;
-    end when;
-
-    annotation (Icon(graphics={
-              Rectangle(extent={{-60,40},{60,-40}}, lineColor={28,108,200}), Text(
-              extent={{-40,20},{40,-20}},
-              lineColor={28,108,200},
-              fillColor={0,0,255},
-              fillPattern=FillPattern.Solid,
-              textStyle={TextStyle.Bold},
-              textString="Blinds_SI")}),
-  defaultComponentName="bli",
-  Documentation(info="<html>
+    else
+      blindState=1;
+    end if;
+  end when;
+  annotation(Icon(graphics={Rectangle(extent={{-60, 40}, {60,-40}}, lineColor={28, 108, 200}), Text(extent={{-40, 20}, {40,-20}}, lineColor={28, 108, 200}, fillColor={0, 0, 255}, fillPattern=FillPattern.Solid, textStyle={TextStyle.Bold}, textString="Blinds_SI")}), defaultComponentName="bli", Documentation(info="<html>
 <p>
 Model predicting the state of the blinds with the solar intensity at the window
 and occupancy.
@@ -69,8 +56,7 @@ The solar intensity threshold was first identified by a field study in
 an office building in Japan, and was utilized by Newsham for a simulation
 study in an office building in Toronto.
 </p>
-</html>",
-  revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 July 24, 2018, by Zhe Wang:<br/>

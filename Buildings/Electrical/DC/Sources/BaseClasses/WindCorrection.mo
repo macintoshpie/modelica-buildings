@@ -1,40 +1,22 @@
 within Buildings.Electrical.DC.Sources.BaseClasses;
-block WindCorrection "Block for wind correction"
+block WindCorrection
+  "Block for wind correction"
   extends Modelica.Blocks.Icons.Block;
-  parameter Modelica.SIunits.Height h "Height over ground";
+  parameter Modelica.SIunits.Height h
+    "Height over ground";
   parameter Modelica.SIunits.Height hRef
     "Reference height for wind measurement";
-  parameter Real n(min=0) = 0.4 "Height exponent for wind profile calculation";
-  Modelica.Blocks.Interfaces.RealOutput vLoc( unit="m/s")
+  parameter Real n(min=0)=0.4
+    "Height exponent for wind profile calculation";
+  Modelica.Blocks.Interfaces.RealOutput vLoc(unit="m/s")
     "Wind velocity at the location"
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+    annotation(Placement(transformation(extent={{100,-10}, {120, 10}})));
   Modelica.Blocks.Interfaces.RealInput vRef(unit="m/s")
     "Wind velocity at the reference height"
-    annotation (Placement(transformation(extent={{-120,-10},{-100,10}}),
-        iconTransformation(extent={{-142,-20},{-102,20}})));
+    annotation(Placement(transformation(extent={{-120,-10}, {-100, 10}}), iconTransformation(extent={{-142,-20}, {-102, 20}})));
 equation
-  vLoc=vRef * (h / hRef)^n;
-  annotation (
-  defaultComponentName = "cor",
-  Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-       graphics={
-        Text(
-          extent={{-92,48},{-32,-50}},
-          lineColor={0,128,255},
-          fillColor={85,170,255},
-          fillPattern=FillPattern.Solid,
-          textString="vRef"),
-        Polygon(
-          points={{26,0},{6,20},{6,10},{-24,10},{-24,-10},{6,-10},{6,-20},{26,0}},
-          lineColor={0,128,255},
-          fillColor={85,170,255},
-          fillPattern=FillPattern.Solid),
-        Text(
-          extent={{30,50},{90,-48}},
-          lineColor={0,128,0},
-          fillColor={85,170,255},
-          fillPattern=FillPattern.Solid,
-          textString="vLoc")}),Documentation(info="<html>
+  vLoc=vRef*(h/hRef)^n;
+  annotation(defaultComponentName="cor", Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {100, 100}}), graphics={Text(extent={{-92, 48}, {-32,-50}}, lineColor={0, 128, 255}, fillColor={85, 170, 255}, fillPattern=FillPattern.Solid, textString="vRef"), Polygon(points={{26, 0}, {6, 20}, {6, 10}, {-24, 10}, {-24,-10}, {6,-10}, {6,-20}, {26, 0}}, lineColor={0, 128, 255}, fillColor={85, 170, 255}, fillPattern=FillPattern.Solid), Text(extent={{30, 50}, {90,-48}}, lineColor={0, 128, 0}, fillColor={85, 170, 255}, fillPattern=FillPattern.Solid, textString="vLoc")}), Documentation(info="<html>
 <p>
 This model calculates the wind velocity at the location as a function of the height over ground.
 The equation is based on Gash (1991).
@@ -54,8 +36,7 @@ is the reference height, and <i>n</i> is the height exponent for wind calculatio
 <p>
 Gasch, R. 1991. Windkraftanlagen. Grundlagen und Entwurf (German). Teubner, Stuttgart.
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 June 2, 2014, by Marco Bonvini:<br/>

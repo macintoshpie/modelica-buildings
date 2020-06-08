@@ -1,14 +1,14 @@
 within Buildings.Fluid.HeatExchangers.ActiveBeams.Data.BaseClasses;
-record TemperatureDifference "Record for temperature difference"
+record TemperatureDifference
+  "Record for temperature difference"
   extends Modelica.Icons.Record;
   parameter Real r_dT[:](each min=0, each final unit="1")
-   "Normalized temperature difference, e.g., temperature difference at
+    "Normalized temperature difference, e.g., temperature difference at
  user-selected operating points divided by nominal temperature difference.
  Must be positive.";
   parameter Real f[size(r_dT, 1)](each min=0, each final unit="1")
     "Normalized performance factor at these normalized temperature differences";
-
-  annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 Data record for performance data that describe the normalized
 temperature difference
@@ -35,8 +35,7 @@ The normalized temperature difference <i>r<sub>&#916;T</sub></i> must be strictl
 Both vectors, <i>r<sub>&#916;T</sub></i> and <i>f</i>
 must have the same size.
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 June 13, 2016, by Michael Wetter:<br/>

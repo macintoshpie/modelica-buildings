@@ -1,9 +1,8 @@
 within Buildings.Electrical.AC.ThreePhasesUnbalanced;
-package Loads "Package with load models for three-phase unbalanced AC systems"
+package Loads
+  "Package with load models for three-phase unbalanced AC systems"
   extends Modelica.Icons.VariantsPackage;
-
-
-annotation (Documentation(revisions="<html>
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 September 24, 2014, by Marco Bonvini:<br/>

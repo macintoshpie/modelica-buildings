@@ -3,34 +3,30 @@ function nusseltHorizontalCavityReduced
   "Nusselt number for horizontal cavity, bottom surface colder than top surface"
   input Buildings.HeatTransfer.Data.Gases.Generic gas
     "Thermophysical properties of gas fill"
-   annotation(choicesAllMatching=true);
-  input Real Ra(min=0) "Rayleigh number";
+    annotation(choicesAllMatching=true);
+  input Real Ra(min=0)
+    "Rayleigh number";
   input Modelica.SIunits.Temperature T_m
     "Temperature used for thermophysical properties";
   input Modelica.SIunits.TemperatureDifference dT
     "Temperature difference used to compute q_flow = h*dT";
-  input Modelica.SIunits.Area h(min=0) = 1.5 "Height of window";
-  input Real sinTil "Sine of window tilt";
-  input Real deltaNu(min=0.01) = 0.1
+  input Modelica.SIunits.Area h(min=0)=1.5
+    "Height of window";
+  input Real sinTil
+    "Sine of window tilt";
+  input Real deltaNu(min=0.01)=0.1
     "Small value for Nusselt number, used for smoothing";
-  input Real deltaRa(min=0.01) = 1E3
+  input Real deltaRa(min=0.01)=1E3
     "Small value for Rayleigh number, used for smoothing";
-  output Real Nu(min=0) "Nusselt number";
+  output Real Nu(min=0)
+    "Nusselt number";
 protected
-  Real NuVer(min=0) "Nusselt number for vertical window";
+  Real NuVer(min=0)
+    "Nusselt number for vertical window";
 algorithm
-  NuVer :=Buildings.HeatTransfer.Windows.BaseClasses.convectionVerticalCavity(
-    gas=gas,
-    Ra=Ra,
-    T_m=T_m,
-    dT=dT,
-    h=h,
-    deltaNu=deltaNu,
-    deltaRa=deltaRa);
-  Nu :=1 + (NuVer - 1)*sinTil;
-
-    annotation (smoothOrder=1, Inline=true,
-Documentation(info="<html>
+  NuVer := Buildings.HeatTransfer.Windows.BaseClasses.convectionVerticalCavity(gas=gas, Ra=Ra, T_m=T_m, dT=dT, h=h, deltaNu=deltaNu, deltaRa=deltaRa);
+  Nu := 1 +(NuVer-1)*sinTil;
+  annotation(smoothOrder=1, Inline=true, Documentation(info="<html>
 <p>
 Function for Nusselt number in horizontal window cavity.
 The computation is according to TARCOG 2006,

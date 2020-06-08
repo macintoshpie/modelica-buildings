@@ -1,14 +1,11 @@
 within Buildings.Electrical.Transmission.Grids;
 record TestGrid2NodesMedium
   "Simple model of a grid with 2 nodes and 1 link for medium voltage"
-  extends Buildings.Electrical.Transmission.Grids.PartialGrid(
-    nNodes=2,
-    nLinks=1,
-    fromTo=[[1,2]],
-    l=[200],
-    redeclare Buildings.Electrical.Transmission.MediumVoltageCables.Generic
-    cables = {MediumVoltageCables.Annealed_Al_30()});
-  annotation (Documentation(info="<html>
+  extends Buildings.Electrical.Transmission.Grids.PartialGrid(nNodes=2, nLinks=1, fromTo=[
+    [
+      1, 2]], l=[
+    200], redeclare Buildings.Electrical.Transmission.MediumVoltageCables.Generic cables={MediumVoltageCables.Annealed_Al_30()});
+  annotation(Documentation(info="<html>
 <p>
 This model represents a simple grid with two nodes and a single link between them.
 This model differs from

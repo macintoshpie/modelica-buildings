@@ -1,9 +1,8 @@
 within Buildings.ThermalZones.Detailed.Examples;
-package FFD "Package that tests the models for coupled simulation between Modelica and Fast Fluid Dynamics"
+package FFD
+  "Package that tests the models for coupled simulation between Modelica and Fast Fluid Dynamics"
   extends Modelica.Icons.ExamplesPackage;
-
-
-annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This package tests the coupled simulation of the model
 <a href=\"Buildings.ThermalZones.Detailed.CFD\">Buildings.ThermalZones.Detailed.CFD</a> with the Fast Fluid Dynamics (FFD) program.

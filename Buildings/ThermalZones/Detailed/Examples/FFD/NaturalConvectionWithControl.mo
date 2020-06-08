@@ -1,57 +1,25 @@
 within Buildings.ThermalZones.Detailed.Examples.FFD;
 model NaturalConvectionWithControl
   "A case of natural convection with feedback loop control"
-  extends Buildings.ThermalZones.Detailed.Examples.FFD.Tutorial.NaturalConvection(
-      roo(
-        nPorts=0,
-        useCFD=true,
-        samplePeriod=30,
-        cfdFilNam = "modelica://Buildings/Resources/Data/ThermalZones/Detailed/Examples/FFD/NaturalConvectionWithControl.ffd",
-        massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial));
-
+  extends Buildings.ThermalZones.Detailed.Examples.FFD.Tutorial.NaturalConvection(roo(nPorts=0, useCFD=true, samplePeriod=30, cfdFilNam="modelica://Buildings/Resources/Data/ThermalZones/Detailed/Examples/FFD/NaturalConvectionWithControl.ffd", massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial));
   HeatTransfer.Sources.PrescribedHeatFlow preHeatFlo
-    annotation (Placement(transformation(extent={{30,-10},{50,10}})));
-  Buildings.Controls.Continuous.LimPID conPID(
-    yMin=0,
-    controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    Ti=120,
-    k=1,
-    yMax=2)
-    annotation (Placement(transformation(
-        extent={{-10,10},{10,-10}},
-        rotation=180,
-        origin={50,50})));
-  Modelica.Blocks.Sources.Constant TSet(k=275.15) "Temperature set point"
-    annotation (Placement(transformation(
-        extent={{-10,10},{10,-10}},
-        rotation=180,
-        origin={90,50})));
+    annotation(Placement(transformation(extent={{30,-10}, {50, 10}})));
+  Buildings.Controls.Continuous.LimPID conPID(yMin=0, controllerType=Modelica.Blocks.Types.SimpleController.PI, Ti=120, k=1, yMax=2)
+    annotation(Placement(transformation(extent={{-10, 10}, {10,-10}}, rotation=180, origin={50, 50})));
+  Modelica.Blocks.Sources.Constant TSet(k=275.15)
+    "Temperature set point"
+    annotation(Placement(transformation(extent={{-10, 10}, {10,-10}}, rotation=180, origin={90, 50})));
 equation
-  connect(roo.yCFD[1], conPID.u_m) annotation (Line(
-      points={{101,-26.5},{100,-26.5},{100,-26},{110,-26},{110,20},{50,20},{50,
-          38}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(TSet.y, conPID.u_s) annotation (Line(
-      points={{79,50},{62,50}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(preHeatFlo.port, roo.heaPorAir) annotation (Line(
-      points={{50,0},{76,0},{76,-38},{79,-38}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(conPID.y, preHeatFlo.Q_flow) annotation (Line(
-      points={{39,50},{20,50},{20,0},{30,0}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  annotation (
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},{
-            220,120}})),
-    __Dymola_Commands(file=
-          "modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Examples/FFD/NaturalConvectionWithControl.mos"
-        "Simulate and plot"),
-   experiment(Tolerance=1e-06, StopTime=7200),
-   Documentation(info="<html>
+  connect(roo.yCFD[1], conPID.u_m)
+    annotation(Line(points={{101,-26.5}, {100,-26.5}, {100,-26}, {110,-26}, {110, 20}, {50, 20}, {50, 38}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(TSet.y, conPID.u_s)
+    annotation(Line(points={{79, 50}, {62, 50}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(preHeatFlo.port, roo.heaPorAir)
+    annotation(Line(points={{50, 0}, {76, 0}, {76,-38}, {79,-38}}, color={191, 0, 0}, smooth=Smooth.None));
+  connect(conPID.y, preHeatFlo.Q_flow)
+    annotation(Line(points={{39, 50}, {20, 50}, {20, 0}, {30, 0}}, color={0, 0, 127}, smooth=Smooth.None));
+  annotation(Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180}, {220, 120}})), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Examples/FFD/NaturalConvectionWithControl.mos"
+    "Simulate and plot"), experiment(Tolerance=1e-06, StopTime=7200), Documentation(info="<html>
 <p>
 This model tests the coupled simulation of
 <a href=\"modelica://Buildings.ThermalZones.Detailed.CFD\">

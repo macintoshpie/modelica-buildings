@@ -1,24 +1,21 @@
 within Buildings.Controls.Predictors.BaseClasses.Examples;
-model SampleStart "Test model for sampleStart function"
+model SampleStart
+  "Test model for sampleStart function"
   extends Modelica.Icons.Example;
-  parameter Modelica.SIunits.Time tSimSta[21] = {i for i in -10:10}
+  parameter Modelica.SIunits.Time tSimSta[21]={i for i in-10 : 10}
     "Simulation start times";
-  parameter Modelica.SIunits.Time tSample = 5 "Sample time";
+  parameter Modelica.SIunits.Time tSample=5
+    "Sample time";
   parameter Modelica.SIunits.Time samSta[21](each fixed=false)
     "Start of sampling time";
 initial equation
- samSta = sampleStart(t=             tSimSta,
-                      samplePeriod=  tSample);
- /*
+  samSta=sampleStart(t=tSimSta, samplePeriod=tSample);
+  /*
  for i in 1:size(tSimSta,1) loop
    Modelica.Utilities.Streams.print("t = " + String(tSimSta[i]) + " samSta = " + String(samSta[i]));
  end for;
- */
-  annotation (
-  experiment(Tolerance=1e-6, StopTime=1.0),
-  __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Controls/Predictors/BaseClasses/Examples/SampleStart.mos"
-        "Simulate and plot"),
-    Documentation(info="<html>
+ */annotation(experiment(Tolerance=1e-6, StopTime=1.0), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Controls/Predictors/BaseClasses/Examples/SampleStart.mos"
+    "Simulate and plot"), Documentation(info="<html>
 <p>
 This model tests the function
 <a href=\"modelica://Buildings.Controls.Predictors.BaseClasses.sampleStart\">

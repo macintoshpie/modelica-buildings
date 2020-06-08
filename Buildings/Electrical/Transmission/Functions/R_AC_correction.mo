@@ -1,10 +1,12 @@
 within Buildings.Electrical.Transmission.Functions;
 function R_AC_correction
   "This function computes the correction factor of the DC resistance for AC systems at 60 Hz"
-  input String size "Size of the commercial cable (AWG or kcmil)";
+  input String size
+    "Size of the commercial cable (AWG or kcmil)";
   input Buildings.Electrical.Transmission.Types.Material material
     "Material of the cable";
-  output Real correction "Correction factor";
+  output Real correction
+    "Correction factor";
 algorithm
   if material == Buildings.Electrical.Transmission.Types.Material.Al then
     if size == "1/0" then
@@ -48,7 +50,6 @@ algorithm
     else
       correction := 1.0;
     end if;
-
   elseif material == Buildings.Electrical.Transmission.Types.Material.Cu then
     if size == "1/0" then
       correction := 1.0;
@@ -92,16 +93,12 @@ algorithm
       correction := 1.0;
     end if;
   else
-    assert(material <> Buildings.Electrical.Transmission.Types.Material.Al and
-           material <> Buildings.Electrical.Transmission.Types.Material.Cu,
-    "In function Buildings.Electrical.Transmission.Functions.R_AC_Correction,
+    assert(material <> Buildings.Electrical.Transmission.Types.Material.Al and material <> Buildings.Electrical.Transmission.Types.Material.Cu, "In function Buildings.Electrical.Transmission.Functions.R_AC_Correction,
     does not support material " + String(material) + ".
-    The selected cable has the R_AC_Correction of the Copper.",
-    level = AssertionLevel.warning);
-
+    The selected cable has the R_AC_Correction of the Copper.", level=AssertionLevel.warning);
     correction := 1.0;
   end if;
-annotation(Inline = true, Documentation(revisions="<html>
+  annotation(Inline=true, Documentation(revisions="<html>
 <ul>
 <li>
 Sept 19, 2014, by Marco Bonvini:<br/>

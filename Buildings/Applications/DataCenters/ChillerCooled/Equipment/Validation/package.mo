@@ -1,9 +1,8 @@
 within Buildings.Applications.DataCenters.ChillerCooled.Equipment;
-package Validation "Collection of models that validate the Buildings.Applications.DataCenters.ChillerCooled package"
+package Validation
+  "Collection of models that validate the Buildings.Applications.DataCenters.ChillerCooled package"
   extends Modelica.Icons.ExamplesPackage;
-
-
-annotation (preferredView="info", Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 This package contains validation models for the classes in
 <a href=\"modelica://Buildings.Applications.DataCenters.ChillerCooled.Equipment\">

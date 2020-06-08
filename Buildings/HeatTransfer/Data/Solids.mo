@@ -1,27 +1,18 @@
 within Buildings.HeatTransfer.Data;
 package Solids
   "Package with solid material, characterized by thermal conductance, density and specific heat capacity"
-    extends Modelica.Icons.MaterialPropertiesPackage;
-
-  record Generic "Thermal properties of solids with heat storage"
-      extends Buildings.HeatTransfer.Data.BaseClasses.Material(final R=x/k,
-                                                               final TSol=293.15,
-                                                               final TLiq=293.15,
-                                                               final LHea=0,
-                                                               final phasechange=false);
-    annotation (
-defaultComponentPrefixes="parameter",
-defaultComponentName="datSol",
-Documentation(info=
-"<html>
+  extends Modelica.Icons.MaterialPropertiesPackage;
+  record Generic
+    "Thermal properties of solids with heat storage"
+    extends Buildings.HeatTransfer.Data.BaseClasses.Material(final R=x/k, final TSol=293.15, final TLiq=293.15, final LHea=0, final phasechange=false);
+    annotation(defaultComponentPrefixes="parameter", defaultComponentName="datSol", Documentation(info="<html>
 <p>
 Generic record for solid materials.
 The material is characterized by its
 thermal conductivity, mass density and specific
 heat capacity.
 </p>
-</html>", revisions=
-"<html>
+</html>", revisions="<html>
 <ul>
 <li>
 September 9, 2010, by Michael Wetter:<br/>
@@ -30,67 +21,28 @@ First implementation.
 </ul>
 </html>"));
   end Generic;
-
-  record Brick = Buildings.HeatTransfer.Data.Solids.Generic (
-      k=0.89,
-      d=1920,
-      c=790) "Brick (k=0.89)"
-    annotation(
-      defaultComponentPrefixes="parameter",
-      defaultComponentName="datSol");
-
-  record Concrete = Buildings.HeatTransfer.Data.Solids.Generic (
-      k=1.4,
-      d=2240,
-      c=840) "Concrete (k=1.4)"
-    annotation(
-      defaultComponentPrefixes="parameter",
-      defaultComponentName="datSol");
-
-  record InsulationBoard = Buildings.HeatTransfer.Data.Solids.Generic (
-      k=0.03,
-      d=40,
-      c=1200) "Insulation board (k=0.03)"
-    annotation(
-      defaultComponentPrefixes="parameter",
-      defaultComponentName="datSol");
-
-  record Glass = Buildings.HeatTransfer.Data.Solids.Generic (
-      k=1.0,
-      d=2500,
-      c=700) "Glass"
-    annotation(
-      defaultComponentPrefixes="parameter",
-      defaultComponentName="datSol");
-
-  record GypsumBoard = Buildings.HeatTransfer.Data.Solids.Generic (
-      k=0.16,
-      d=800,
-      c=1090) "Gypsum board (k=0.58)"
-    annotation(
-      defaultComponentPrefixes="parameter",
-      defaultComponentName="datSol");
-
-  record Plywood = Buildings.HeatTransfer.Data.Solids.Generic (
-      k=0.12,
-      d=540,
-      c=1210) "Plywood (k=0.12)"
-    annotation(
-      defaultComponentPrefixes="parameter",
-      defaultComponentName="datSol");
-
-  record Steel = Buildings.HeatTransfer.Data.Solids.Generic (
-      k=50.2,
-      d=7850,
-      c=450,
-      steadyState=true) "Steel (k=50.2)"
-    annotation(
-      defaultComponentPrefixes="parameter",
-      defaultComponentName="datSol");
-
-annotation (
-Documentation(
-info="<html>
+  record Brick=Buildings.HeatTransfer.Data.Solids.Generic(k=0.89, d=1920, c=790)
+    "Brick (k=0.89)"
+    annotation(defaultComponentPrefixes="parameter", defaultComponentName="datSol");
+  record Concrete=Buildings.HeatTransfer.Data.Solids.Generic(k=1.4, d=2240, c=840)
+    "Concrete (k=1.4)"
+    annotation(defaultComponentPrefixes="parameter", defaultComponentName="datSol");
+  record InsulationBoard=Buildings.HeatTransfer.Data.Solids.Generic(k=0.03, d=40, c=1200)
+    "Insulation board (k=0.03)"
+    annotation(defaultComponentPrefixes="parameter", defaultComponentName="datSol");
+  record Glass=Buildings.HeatTransfer.Data.Solids.Generic(k=1.0, d=2500, c=700)
+    "Glass"
+    annotation(defaultComponentPrefixes="parameter", defaultComponentName="datSol");
+  record GypsumBoard=Buildings.HeatTransfer.Data.Solids.Generic(k=0.16, d=800, c=1090)
+    "Gypsum board (k=0.58)"
+    annotation(defaultComponentPrefixes="parameter", defaultComponentName="datSol");
+  record Plywood=Buildings.HeatTransfer.Data.Solids.Generic(k=0.12, d=540, c=1210)
+    "Plywood (k=0.12)"
+    annotation(defaultComponentPrefixes="parameter", defaultComponentName="datSol");
+  record Steel=Buildings.HeatTransfer.Data.Solids.Generic(k=50.2, d=7850, c=450, steadyState=true)
+    "Steel (k=50.2)"
+    annotation(defaultComponentPrefixes="parameter", defaultComponentName="datSol");
+  annotation(Documentation(info="<html>
 <p>
 Package with records for solid materials.
 The material is characterized by its
@@ -179,8 +131,7 @@ Finally, we divide the material layer in compartments of length
 <i>&Delta; = x &frasl; N<sub>x</sub></i>.
 </p>
 
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 October 31, 2016, by Michael Wetter:<br/>

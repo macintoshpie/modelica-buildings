@@ -1,13 +1,14 @@
-within ;
-package Buildings "Library with models for building energy and control systems"
+within;
+package Buildings
+  "Library with models for building energy and control systems"
   extends Modelica.Icons.Package;
-
-package UsersGuide "User's Guide"
-  extends Modelica.Icons.Information;
-  class Conventions "Conventions"
+  package UsersGuide
+    "User's Guide"
     extends Modelica.Icons.Information;
-    annotation (preferredView="info",
-    Documentation(info="<html>
+    class Conventions
+      "Conventions"
+      extends Modelica.Icons.Information;
+      annotation(preferredView="info", Documentation(info="<html>
 <p>
 This library follows the conventions of the
 <a href=\"modelica://Modelica.UsersGuide.Conventions\">
@@ -121,14 +122,14 @@ its class name ends with the string <code>Beta</code>.
 </li>
 </ol>
 </html>"));
-  end Conventions;
-
-  package ReleaseNotes "Release notes"
-    extends Modelica.Icons.ReleaseNotes;
-
-class Version_7_0_1 "Version 7.0.1"
-  extends Modelica.Icons.ReleaseNotes;
-    annotation (Documentation(info="<html>
+    end Conventions;
+    package ReleaseNotes
+      "Release notes"
+      extends Modelica.Icons.ReleaseNotes;
+      class Version_7_0_1
+        "Version 7.0.1"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(Documentation(info="<html>
 <div class=\"release-summary\">
 <p>
 Version 7.0.1 is ... xxx
@@ -240,11 +241,11 @@ xxx
 </li>
 </ul>
 </html>"));
-end Version_7_0_1;
-
-    class Version_7_0_0 "Version 7.0.0"
-      extends Modelica.Icons.ReleaseNotes;
-        annotation (Documentation(info="<html>
+      end Version_7_0_1;
+      class Version_7_0_0
+        "Version 7.0.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(Documentation(info="<html>
     <div class=\"release-summary\">
     <p>
     Version 7.0.0 is a major release that
@@ -1054,11 +1055,11 @@ end Version_7_0_1;
     </tr>
     </table>
      </html>"));
-    end Version_7_0_0;
-
-    class Version_6_0_0 "Version 6.0.0"
-      extends Modelica.Icons.ReleaseNotes;
-        annotation (Documentation(info="<html>
+      end Version_7_0_0;
+      class Version_6_0_0
+        "Version 6.0.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(Documentation(info="<html>
     <div class=\"release-summary\">
    <p>
    Version 6.0.0 is a major new release that
@@ -1565,11 +1566,11 @@ end Version_7_0_1;
     </tr>
     </table>
     </html>"));
-    end Version_6_0_0;
-
-   class Version_5_1_0 "Version 5.1.0"
-     extends Modelica.Icons.ReleaseNotes;
-       annotation (Documentation(info="<html>
+      end Version_6_0_0;
+      class Version_5_1_0
+        "Version 5.1.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(Documentation(info="<html>
    <div class=\"release-summary\">
    <p>
    Version 5.1.0 adds new libraries, new components and improves various existing components.
@@ -1773,11 +1774,11 @@ end Version_7_0_1;
    </table>
    <!-- Uncritical errors -->
    </html>"));
-   end Version_5_1_0;
-
-   class Version_5_0_1 "Version 5.0.1"
-     extends Modelica.Icons.ReleaseNotes;
-       annotation (Documentation(info="<html>
+      end Version_5_1_0;
+      class Version_5_0_1
+        "Version 5.0.1"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(Documentation(info="<html>
    <div class=\"release-summary\">
    <p>
    Version 5.0.1 corrects an error in <code>Buildings.Fluid.SolarCollectors</code>
@@ -1808,12 +1809,11 @@ end Version_7_0_1;
    </tr>
    </table>
    </html>"));
-   end Version_5_0_1;
-
-
-   class Version_5_0_0 "Version 5.0.0"
-     extends Modelica.Icons.ReleaseNotes;
-       annotation (Documentation(info="<html>
+      end Version_5_0_1;
+      class Version_5_0_0
+        "Version 5.0.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(Documentation(info="<html>
    <div class=\"release-summary\">
    <p>
    Version 5.0.0 is a major new release that
@@ -2155,11 +2155,11 @@ end Version_7_0_1;
    </tr>
    </table>
    </html>"));
-   end Version_5_0_0;
-
-   class Version_4_0_0 "Version 4.0.0"
-     extends Modelica.Icons.ReleaseNotes;
-     annotation (Documentation(info="<html>
+      end Version_5_0_0;
+      class Version_4_0_0
+        "Version 4.0.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(Documentation(info="<html>
    <div class=\"release-summary\">
    <p>
    Version 4.0.0 is a major new release. It is the first release
@@ -2910,8 +2910,7 @@ This closes <a href=\"https://github.com/lbl-srg/modelica-buildings/issues/565\"
                           to all surfaces, proportional to their emissivity plus transmissivity times area.<br/>
                           This closes
                           <a href=\"https://github.com/lbl-srg/modelica-buildings/issues/451\">issue 451</a>.
-"    +
-    "       </td>
+" + "       </td>
     </tr>
 
    <tr><td valign=\"top\">Buildings.ThermalZones.Detailed.BaseClasses.CFDHeatGain
@@ -3046,11 +3045,11 @@ This closes <a href=\"https://github.com/lbl-srg/modelica-buildings/issues/565\"
    </tr>
    </table>
    </html>"));
-   end Version_4_0_0;
-
-   class Version_3_0_0 "Version 3.0.0"
-     extends Modelica.Icons.ReleaseNotes;
-       annotation (Documentation(info="<html>
+      end Version_4_0_0;
+      class Version_3_0_0
+        "Version 3.0.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(Documentation(info="<html>
    <div class=\"release-summary\">
    <p>
    Version 3.0.0 is a major new release.
@@ -3657,11 +3656,11 @@ This closes <a href=\"https://github.com/lbl-srg/modelica-buildings/issues/565\"
 
    </table>
    </html>"));
-   end Version_3_0_0;
-
-   class Version_2_1_0 "Version 2.1.0"
-     extends Modelica.Icons.ReleaseNotes;
-       annotation (Documentation(info="<html>
+      end Version_3_0_0;
+      class Version_2_1_0
+        "Version 2.1.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(Documentation(info="<html>
    <p>
    Version 2.1.0 is fully compatible with version 2.0.0.
    It adds the package <code>Buildings.Fluid.FMI</code> that provides containers
@@ -3792,11 +3791,11 @@ This closes <a href=\"https://github.com/lbl-srg/modelica-buildings/issues/565\"
    </tr>
    </table>
    </html>"));
-   end Version_2_1_0;
-
-    class Version_2_0_0 "Version 2.0.0"
-      extends Modelica.Icons.ReleaseNotes;
-        annotation (Documentation(info="<html>
+      end Version_2_1_0;
+      class Version_2_0_0
+        "Version 2.0.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(Documentation(info="<html>
 <p>
 Version 2.0.0 is a major release that contains various new packages, models
 and improvements.
@@ -4519,11 +4518,11 @@ units are wrong or errors in documentation):
 With version 2.0, we start using semantic versioning as described at <a href=\"http://semver.org/\">http://semver.org/</a>.
 </p>
 </html>"));
-    end Version_2_0_0;
-
-    class Version_1_6_build1 "Version 1.6 build 1"
-      extends Modelica.Icons.ReleaseNotes;
-        annotation (Documentation(info="<html>
+      end Version_2_0_0;
+      class Version_1_6_build1
+        "Version 1.6 build 1"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(Documentation(info="<html>
 <p>
 Version 1.6 build 1 updates the <code>Buildings</code> library to the
 Modelica Standard Library 3.2.1 and to <code>Modelica_StateGraph2</code> 2.0.2.
@@ -4780,12 +4779,11 @@ have been fixed:
 </tr>
 </table>
 </html>"));
-    end Version_1_6_build1;
-
-    class Version_1_5_build3 "Version 1.5 build 3"
-      extends Modelica.Icons.ReleaseNotes;
-        annotation (preferredView="info",
-        Documentation(info="<html>
+      end Version_1_6_build1;
+      class Version_1_5_build3
+        "Version 1.5 build 3"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 Version 1.5 build 3 is a maintenance release that corrects an error in
 <code>Buildings.Fluid.MassExchangers.HumidifierPrescribed</code>.
@@ -4826,12 +4824,11 @@ have been fixed:
 </tr>
 </table>
 </html>"));
-    end Version_1_5_build3;
-
-    class Version_1_5_build2 "Version 1.5 build 2"
-      extends Modelica.Icons.ReleaseNotes;
-        annotation (preferredView="info",
-        Documentation(info="<html>
+      end Version_1_5_build3;
+      class Version_1_5_build2
+        "Version 1.5 build 2"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 Version 1.5 build 2 is a maintenance release that corrects an error in
 <a href=\"modelica://Buildings.Fluid.HeatExchangers.DryCoilDiscretized\">
@@ -4875,12 +4872,11 @@ have been fixed:
 </tr>
 </table>
 </html>"));
-    end Version_1_5_build2;
-
-    class Version_1_5_build1 "Version 1.5 build 1"
-      extends Modelica.Icons.ReleaseNotes;
-        annotation (preferredView="info",
-        Documentation(info="<html>
+      end Version_1_5_build2;
+      class Version_1_5_build1
+        "Version 1.5 build 1"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 Version 1.5 build 1 is a major release that contains new packages with models for
 solar collectors and for the Facility for Low Energy Experiments (FLEXLAB)
@@ -5433,12 +5429,11 @@ have been fixed:
 </tr>
 </table>
 </html>"));
-    end Version_1_5_build1;
-
-  class Version_1_4_build1 "Version 1.4 build 1"
-    extends Modelica.Icons.ReleaseNotes;
-     annotation (preferredView="info",
-     Documentation(info="<html>
+      end Version_1_5_build1;
+      class Version_1_4_build1
+        "Version 1.4 build 1"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 Version 1.4 build 1 contains the new package <code>Buildings.Utilities.IO.Python27</code>
 that allows calling Python functions from Modelica.
@@ -5746,11 +5741,11 @@ in Dymola 2014.
 </li>
 </ul>
 </html>"));
-  end Version_1_4_build1;
-
-  class Version_1_3_build1 "Version 1.3 build 1"
-    extends Modelica.Icons.ReleaseNotes;
-     annotation (preferredView="info", Documentation(info="<html>
+      end Version_1_4_build1;
+      class Version_1_3_build1
+        "Version 1.3 build 1"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 In version 1.3 build 1, models for direct evaporative cooling coils with multiple stages or with
 a variable speed compressor have been added.
@@ -6011,11 +6006,11 @@ units are wrong or errors in documentation):
 <!-- Github issues -->
 <!-- none -->
 </html>"));
-  end Version_1_3_build1;
-
-  class Version_1_2_build1 "Version 1.2 build 1"
-    extends Modelica.Icons.ReleaseNotes;
-     annotation (preferredView="info", Documentation(info="<html>
+      end Version_1_3_build1;
+      class Version_1_2_build1
+        "Version 1.2 build 1"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 In version 1.2 build 1, models for radiant slabs and window overhangs and sidefins have been added.
 This version also contains various improvements to existing models.
@@ -6295,11 +6290,11 @@ have been fixed:
 </tr>
 </table>
 </html>"));
-  end Version_1_2_build1;
-
-  class Version_1_1_build1 "Version 1.1 build 1"
-    extends Modelica.Icons.ReleaseNotes;
-     annotation (preferredView="info", Documentation(info="<html>
+      end Version_1_2_build1;
+      class Version_1_1_build1
+        "Version 1.1 build 1"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 Version 1.1 build 1 contains improvements to models that address numerical problems.
 In particular, flow machines and actuators now have an optional filter
@@ -6621,11 +6616,11 @@ gains and further details.
 </li>
 </ul>
 </html>"));
-  end Version_1_1_build1;
-
-  class Version_1_0_build2 "Version 1.0 build 2"
-    extends Modelica.Icons.ReleaseNotes;
-     annotation (preferredView="info", Documentation(info="<html>
+      end Version_1_1_build1;
+      class Version_1_0_build2
+        "Version 1.0 build 2"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 Version 1.0 build 2 has been released to correct model errors that
 were present in version 1.0 build 1. Both versions are compatible.
@@ -6752,11 +6747,11 @@ have been fixed:
 
 </table>
 </html>"));
-  end Version_1_0_build2;
-
-  class Version_1_0_build1 "Version 1.0 build 1"
-    extends Modelica.Icons.ReleaseNotes;
-     annotation (preferredView="info", Documentation(info="<html>
+      end Version_1_0_build2;
+      class Version_1_0_build1
+        "Version 1.0 build 1"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 Version 1.0 is the first official release of the <code>Buildings</code>
 library.
@@ -7242,11 +7237,11 @@ generates the entry in the <code>Command</code> pull down menu has been changed 
 </li>
 </ul>
 </html>"));
-  end Version_1_0_build1;
-
-  class Version_0_12_0 "Version 0.12.0"
-    extends Modelica.Icons.ReleaseNotes;
-  annotation (preferredView="info", Documentation(info="<html>
+      end Version_1_0_build1;
+      class Version_0_12_0
+        "Version 0.12.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 <b>Note:</b> The packages whose name ends with <code>Beta</code>
 are still being validated.
@@ -7308,11 +7303,11 @@ to allow use of the room model with media that do not contain water vapor.
 </li>
 </ul>
 </html>"));
-  end Version_0_12_0;
-
-  class Version_0_11_0 "Version 0.11.0"
-    extends Modelica.Icons.ReleaseNotes;
-  annotation (preferredView="info", Documentation(info="<html>
+      end Version_0_12_0;
+      class Version_0_11_0
+        "Version 0.11.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 <b>Note:</b> The packages whose name ends with <code>Beta</code>
 are still being validated.
@@ -7409,12 +7404,11 @@ Buildings.Fluid.Movers.BaseClasses.Characteristics</a>.
 </li>
 </ul>
 </html>"));
-  end Version_0_11_0;
-
-  class Version_0_10_0 "Version 0.10.0"
-    extends Modelica.Icons.ReleaseNotes;
-  annotation (preferredView="info", Documentation(info=
-                   "<html>
+      end Version_0_11_0;
+      class Version_0_10_0
+        "Version 0.10.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <ul>
 <li>
 Added package
@@ -7473,11 +7467,11 @@ by the parameters. This also required a change in the parameters.
 </li>
 </ul>
 </html>"));
-  end Version_0_10_0;
-
-  class Version_0_9_1 "Version 0.9.1"
-    extends Modelica.Icons.ReleaseNotes;
-  annotation (preferredView="info", Documentation(info="<html>
+      end Version_0_10_0;
+      class Version_0_9_1
+        "Version 0.9.1"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 The following <b style=\"color:red\">critical error</b> has been fixed (i.e. error
 that can lead to wrong simulation results):
@@ -7506,12 +7500,11 @@ that can lead to wrong simulation results):
   </tr>
 </table>
 </html>"));
-  end Version_0_9_1;
-
-  class Version_0_9_0 "Version 0.9.0"
-    extends Modelica.Icons.ReleaseNotes;
-  annotation (preferredView="info", Documentation(info=
-                   "<html>
+      end Version_0_9_1;
+      class Version_0_9_0
+        "Version 0.9.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <ul>
 <li>
 Added the following heat exchanger models
@@ -7620,12 +7613,11 @@ pressure drop and height.
 </li>
 </ul>
 </html>"));
-  end Version_0_9_0;
-
-  class Version_0_8_0 "Version 0.8.0"
-    extends Modelica.Icons.ReleaseNotes;
-              annotation (preferredView="info", Documentation(info=
-                   "<html>
+      end Version_0_9_0;
+      class Version_0_8_0
+        "Version 0.8.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <ul>
 <li>
 In
@@ -7745,12 +7737,11 @@ and hence to the flow splitter and to the three-way valves. This often breaks al
 </li>
 </ul>
 </html>"));
-  end Version_0_8_0;
-
-  class Version_0_7_0 "Version 0.7.0"
-    extends Modelica.Icons.ReleaseNotes;
-              annotation (preferredView="info", Documentation(info=
-                   "<html>
+      end Version_0_8_0;
+      class Version_0_7_0
+        "Version 0.7.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <ul>
 <li>
 Updated library from Modelica_Fluid to Modelica.Fluid 1.0
@@ -7769,12 +7760,11 @@ Virtual Test Bed.
 </li>
 </ul>
 </html>"));
-  end Version_0_7_0;
-
-  class Version_0_6_0 "Version 0.6.0"
-    extends Modelica.Icons.ReleaseNotes;
-      annotation (preferredView="info", Documentation(info=
-                   "<html>
+      end Version_0_7_0;
+      class Version_0_6_0
+        "Version 0.6.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <ul>
 <li>
 Added the package
@@ -7871,12 +7861,11 @@ convention used in Modelica.Fluid 1.0.
 </li>
 </ul>
 </html>"));
-  end Version_0_6_0;
-
-  class Version_0_5_0 "Version 0.5.0"
-    extends Modelica.Icons.ReleaseNotes;
-      annotation (preferredView="info", Documentation(info=
-                   "<html>
+      end Version_0_6_0;
+      class Version_0_5_0
+        "Version 0.5.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <ul>
 <li>
 Updated library to Modelica.Fluid 1.0.
@@ -7907,12 +7896,11 @@ be used as the flow coefficient (in [m3/h] or [USG/min]).
 </li>
 </ul>
 </html>"));
-  end Version_0_5_0;
-
-  class Version_0_4_0 "Version 0.4.0"
-    extends Modelica.Icons.ReleaseNotes;
-      annotation (preferredView="info", Documentation(info=
-                   "<html>
+      end Version_0_5_0;
+      class Version_0_4_0
+        "Version 0.4.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <ul>
 <li>
 Added package <a href=\"modelica://Buildings.Fluid.Storage\">
@@ -7930,12 +7918,11 @@ The package contains models that facilitate reporting.
 </li>
 </ul>
 </html>"));
-  end Version_0_4_0;
-
-  class Version_0_3_0 "Version 0.3.0"
-    extends Modelica.Icons.ReleaseNotes;
-      annotation (preferredView="info", Documentation(info=
-                   "<html>
+      end Version_0_4_0;
+      class Version_0_3_0
+        "Version 0.3.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <ul>
 <li>
 Added package <a href=\"modelica://Buildings.Fluid.Sources\">Buildings.Fluid.Sources</a>.
@@ -7989,12 +7976,11 @@ inside the volume. The condensate is removed from the volume in its liquid phase
 </li>
 </ul>
 </html>"));
-  end Version_0_3_0;
-
-  class Version_0_2_0 "Version 0.2.0"
-    extends Modelica.Icons.ReleaseNotes;
-      annotation (preferredView="info", Documentation(info=
-                   "<html>
+      end Version_0_3_0;
+      class Version_0_2_0
+        "Version 0.2.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 New in this version are models for two and three way valves.
 In addition, the <code>Fluids</code> package has been slightly revised.
@@ -8003,11 +7989,11 @@ the previous version, partial models for fixed resistances
 where part of the <code>Actuator</code> package.
 </p>
 </html>"));
-  end Version_0_2_0;
-
-  class Version_0_1_0 "Version 0.1.0"
-    extends Modelica.Icons.ReleaseNotes;
-      annotation (preferredView="info", Documentation(info="<html>
+      end Version_0_2_0;
+      class Version_0_1_0
+        "Version 0.1.0"
+        extends Modelica.Icons.ReleaseNotes;
+        annotation(preferredView="info", Documentation(info="<html>
 <p>
 First release of the library.
 </p>
@@ -8024,10 +8010,8 @@ a larger temperature range, at the expense of introducing non-linearities due
 to the medium properties.
 </p>
 </html>"));
-  end Version_0_1_0;
-
-    annotation (preferredView="info",
-    Documentation(info="<html>
+      end Version_0_1_0;
+      annotation(preferredView="info", Documentation(info="<html>
 <p>
 This section summarizes the changes that have been performed
 on the Buildings library.
@@ -8123,12 +8107,11 @@ on the Buildings library.
 </ul>
 
 </html>"));
-  end ReleaseNotes;
-
-  class Contact "Contact"
-    extends Modelica.Icons.Contact;
-    annotation (preferredView="info",
-    Documentation(info="<html>
+    end ReleaseNotes;
+    class Contact
+      "Contact"
+      extends Modelica.Icons.Contact;
+      annotation(preferredView="info", Documentation(info="<html>
 <h4><font color=\"#008000\" size=\"5\">Contact</font></h4>
 <p>
 The development of the Buildings library is organized by<br/>
@@ -8141,12 +8124,11 @@ The development of the Buildings library is organized by<br/>
     email: <a href=\"mailto:MWetter@lbl.gov\">MWetter@lbl.gov</a><br/>
 </p>
 </html>"));
-  end Contact;
-
-  class Acknowledgements "Acknowledgements"
-    extends Modelica.Icons.Information;
-    annotation (preferredView="info",
-    Documentation(info="<html>
+    end Contact;
+    class Acknowledgements
+      "Acknowledgements"
+      extends Modelica.Icons.Information;
+      annotation(preferredView="info", Documentation(info="<html>
 <h4><font color=\"#008000\" size=\"5\">Acknowledgements</font></h4>
 <p>
  The development of this library was supported
@@ -8261,12 +8243,11 @@ The following people have directly contributed to the implementation of the Buil
 </li>
 </ul>
 </html>"));
-  end Acknowledgements;
-
-  class License "License"
-    extends Modelica.Icons.Information;
-    annotation (preferredView="info",
-    Documentation(info="<html>
+    end Acknowledgements;
+    class License
+      "License"
+      extends Modelica.Icons.Information;
+      annotation(preferredView="info", Documentation(info="<html>
 <h4>License</h4>
 <p>
 Modelica Buildings Library. Copyright (c) 1998-2020
@@ -8380,10 +8361,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 </p>
 </html>"));
-  end License;
-
-  annotation (preferredView="info",
-  Documentation(info="<html>
+    end License;
+    annotation(preferredView="info", Documentation(info="<html>
 <p>
 The <code>Buildings</code> library is a free open-source library for modeling of building energy and control systems.
 Many models are based on models from the package
@@ -8510,20 +8489,8 @@ These tutorials contain step by step instructions for how to build system models
 </li>
 </ol>
 </html>"));
-end UsersGuide;
-
-
-annotation (
-preferredView="info",
-version="7.0.1",
-versionDate="2020-05-28",
-dateModified="2020-05-28",
-uses(Modelica(version="3.2.3")),
-conversion(
-  from(version={"6.0.0"},
-      script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_6_to_7.0.0.mos")),
-preferredView="info",
-Documentation(info="<html>
+  end UsersGuide;
+  annotation(preferredView="info", version="7.0.1", versionDate="2020-05-28", dateModified="2020-05-28", uses(Modelica(version="3.2.3")), conversion(from(version={"6.0.0"}, script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_6_to_7.0.0.mos")), preferredView="info", Documentation(info="<html>
 <p>
 The <code>Buildings</code> library is a free library
 for modeling building energy and control systems.

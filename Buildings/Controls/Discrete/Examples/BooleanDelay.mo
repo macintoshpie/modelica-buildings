@@ -1,22 +1,16 @@
 within Buildings.Controls.Discrete.Examples;
-model BooleanDelay "Example model for boolean delay"
+model BooleanDelay
+  "Example model for boolean delay"
   extends Modelica.Icons.Example;
   Buildings.Controls.Discrete.BooleanDelay del(samplePeriod=0.05)
-                                               annotation (Placement(
-        transformation(extent={{0,-20},{20,0}})));
-  Modelica.Blocks.Sources.BooleanPulse booleanPulse(
-    period=0.1,
-    width=50,
-    startTime=0.01)
-    annotation (Placement(transformation(extent={{-60,-20},{-40,0}})));
+    annotation(Placement(transformation(extent={{0,-20}, {20, 0}})));
+  Modelica.Blocks.Sources.BooleanPulse booleanPulse(period=0.1, width=50, startTime=0.01)
+    annotation(Placement(transformation(extent={{-60,-20}, {-40, 0}})));
 equation
-  connect(booleanPulse.y, del.u) annotation (Line(points={{-39,-10},{-22,-10},{-2,
-          -10}},
-        color={255,0,255}));
- annotation (experiment(Tolerance=1e-6, StopTime=1.0),
-__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Controls/Discrete/Examples/BooleanDelay.mos"
-        "Simulate and plot"),
-    Documentation(info="<html>
+  connect(booleanPulse.y, del.u)
+    annotation(Line(points={{-39,-10}, {-22,-10}, {-2,-10}}, color={255, 0, 255}));
+  annotation(experiment(Tolerance=1e-6, StopTime=1.0), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Controls/Discrete/Examples/BooleanDelay.mos"
+    "Simulate and plot"), Documentation(info="<html>
 <p>
 Example that demonstrates the use of the boolean delay block.
 The output signal of the block is delayed by one sampling interval.

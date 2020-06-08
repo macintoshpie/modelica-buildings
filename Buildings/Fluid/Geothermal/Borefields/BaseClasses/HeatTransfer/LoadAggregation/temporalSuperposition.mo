@@ -2,22 +2,19 @@ within Buildings.Fluid.Geothermal.Borefields.BaseClasses.HeatTransfer.LoadAggreg
 function temporalSuperposition
   "Performs temporal superposition for the load aggregation procedure"
   extends Modelica.Icons.Function;
-
-  input Integer i "Number of aggregation cells";
+  input Integer i
+    "Number of aggregation cells";
   input Modelica.SIunits.HeatFlowRate QAgg_flow[i]
     "Vector of aggregated loads";
   input Modelica.SIunits.ThermalResistance kappa[i]
     "Weighting factors for each aggregation cell";
-  input Integer curCel "Current occupied aggregation cell";
-
-  output Modelica.SIunits.TemperatureDifference deltaTb "Delta T at wall";
-
+  input Integer curCel
+    "Current occupied aggregation cell";
+  output Modelica.SIunits.TemperatureDifference deltaTb
+    "Delta T at wall";
 algorithm
-  deltaTb := QAgg_flow[1:curCel]*kappa[1:curCel];
-
-  annotation (
-Inline=true,
-Documentation(info="<html>
+  deltaTb := QAgg_flow[1 : curCel]*kappa[1 : curCel];
+  annotation(Inline=true, Documentation(info="<html>
 <p>
 Performs the temporal superposition operation to obtain the temperature change
 at the borehole wall at the current time step, which is the scalar product of

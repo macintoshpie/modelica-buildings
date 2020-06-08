@@ -1,9 +1,8 @@
 within Buildings.Electrical.AC;
-package OnePhase "One phase AC systems"
-extends Modelica.Icons.VariantsPackage;
-
-
-annotation (Documentation(info="<html>
+package OnePhase
+  "One phase AC systems"
+  extends Modelica.Icons.VariantsPackage;
+  annotation(Documentation(info="<html>
 <p>
 Package with models for alternate current (AC) single phase systems.<br/>
 The models contained in this package use the phase system

@@ -1,33 +1,15 @@
 within Buildings.Electrical.DC.Sources;
-model PVSimpleOriented "Simple PV model with orientation"
-  extends Buildings.Electrical.Interfaces.PartialPVOriented(
-    redeclare package PhaseSystem = PhaseSystems.TwoConductor,
-    redeclare Interfaces.Terminal_p terminal,
-    redeclare Buildings.Electrical.DC.Sources.PVSimple panel(V_nominal=V_nominal));
-
-  annotation (
-    Icon(coordinateSystem(
-        preserveAspectRatio=false,
-        extent={{-100,-100},{100,100}},
-        grid={1,1}), graphics={
-        Line(points={{-90,0},{-59,0}}, color={0,0,0}),
-        Text(
-          extent={{-150,61},{-50,11}},
-          lineColor={0,0,0},
-          textString="+"),
-        Text(
-          extent={{-150,-12},{-50,-62}},
-          lineColor={0,0,0},
-          textString="-")}),
-    Documentation(revisions="<html>
+model PVSimpleOriented
+  "Simple PV model with orientation"
+  extends Buildings.Electrical.Interfaces.PartialPVOriented(redeclare package PhaseSystem=PhaseSystems.TwoConductor, redeclare Interfaces.Terminal_p terminal, redeclare Buildings.Electrical.DC.Sources.PVSimple panel(V_nominal=V_nominal));
+  annotation(Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {100, 100}}, grid={1, 1}), graphics={Line(points={{-90, 0}, {-59, 0}}, color={0, 0, 0}), Text(extent={{-150, 61}, {-50, 11}}, lineColor={0, 0, 0}, textString="+"), Text(extent={{-150,-12}, {-50,-62}}, lineColor={0, 0, 0}, textString="-")}), Documentation(revisions="<html>
 <ul>
 <li>
 October 31, 2013, by Marco Bonvini:<br/>
 First implementation.
 </li>
 </ul>
-</html>",
-info="<html>
+</html>", info="<html>
 <p>
 Model of a simple photovoltaic array.
 </p>

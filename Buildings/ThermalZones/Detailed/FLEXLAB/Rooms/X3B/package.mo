@@ -1,10 +1,7 @@
 within Buildings.ThermalZones.Detailed.FLEXLAB.Rooms;
-package X3B "Models of rooms in test cell X3B"
-extends Modelica.Icons.Package;
-
-
-
-
+package X3B
+  "Models of rooms in test cell X3B"
+  extends Modelica.Icons.Package;
   annotation(Documentation(info="<html>
   <p>
   This package contains models of rooms in test cell X3B of the FLEXLAB at LBNL. The following image is a drawing

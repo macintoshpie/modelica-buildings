@@ -3,7 +3,8 @@ model TwoPortMatrixRLC_N
   "PI model of a line parameterized with impedance and admittance matrices and neutral line"
   extends Buildings.Electrical.AC.ThreePhasesUnbalanced.Interfaces.TwoPort_N;
   parameter Modelica.SIunits.Voltage V_nominal(min=0, start=480)
-    "Nominal voltage (V_nominal >= 0)"  annotation(Evaluate=true, Dialog(group="Nominal conditions"));
+    "Nominal voltage (V_nominal >= 0)"
+    annotation(Evaluate=true, Dialog(group="Nominal conditions"));
   parameter Modelica.SIunits.Impedance Z11[2]
     "Element [1,1] of impedance matrix";
   parameter Modelica.SIunits.Impedance Z12[2]
@@ -24,19 +25,18 @@ model TwoPortMatrixRLC_N
     "Element [3,4] of impedance matrix";
   parameter Modelica.SIunits.Impedance Z44[2]
     "Element [4,4] of impedance matrix";
-  final parameter Modelica.SIunits.Impedance[2] Z21 = Z12
+  final parameter Modelica.SIunits.Impedance[2] Z21=Z12
     "Element [2,1] of impedance matrix";
-  final parameter Modelica.SIunits.Impedance[2] Z31 = Z13
+  final parameter Modelica.SIunits.Impedance[2] Z31=Z13
     "Element [3,1] of impedance matrix";
-  final parameter Modelica.SIunits.Impedance[2] Z32 = Z23
+  final parameter Modelica.SIunits.Impedance[2] Z32=Z23
     "Element [3,1] of impedance matrix";
-  final parameter Modelica.SIunits.Impedance[2] Z41 = Z14
+  final parameter Modelica.SIunits.Impedance[2] Z41=Z14
     "Element [4,1] of impedance matrix";
-  final parameter Modelica.SIunits.Impedance[2] Z42 = Z24
+  final parameter Modelica.SIunits.Impedance[2] Z42=Z24
     "Element [4,2] of impedance matrix";
-  final parameter Modelica.SIunits.Impedance[2] Z43 = Z34
+  final parameter Modelica.SIunits.Impedance[2] Z43=Z34
     "Element [4,3] of impedance matrix";
-
   parameter Modelica.SIunits.Admittance B11
     "Element [1,1] of admittance matrix";
   parameter Modelica.SIunits.Admittance B12
@@ -57,162 +57,75 @@ model TwoPortMatrixRLC_N
     "Element [3,4] of admittance matrix";
   parameter Modelica.SIunits.Admittance B44
     "Element [4,4] of admittance matrix";
-  final parameter Modelica.SIunits.Admittance B21 = B12
+  final parameter Modelica.SIunits.Admittance B21=B12
     "Element [2,1] of admittance matrix";
-  final parameter Modelica.SIunits.Admittance B31 = B13
+  final parameter Modelica.SIunits.Admittance B31=B13
     "Element [3,1] of admittance matrix";
-  final parameter Modelica.SIunits.Admittance B32 = B23
+  final parameter Modelica.SIunits.Admittance B32=B23
     "Element [3,2] of admittance matrix";
-  final parameter Modelica.SIunits.Admittance B41 = B14
+  final parameter Modelica.SIunits.Admittance B41=B14
     "Element [4,1] of admittance matrix";
-  final parameter Modelica.SIunits.Admittance B42 = B24
+  final parameter Modelica.SIunits.Admittance B42=B24
     "Element [4,2] of admittance matrix";
-  final parameter Modelica.SIunits.Admittance B43 = B34
+  final parameter Modelica.SIunits.Admittance B43=B34
     "Element [4,3] of admittance matrix";
-
-  Modelica.SIunits.Voltage v1_n[2](
-    start = Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(V_nominal/sqrt(3), phi= 0),
-    each stateSelect = StateSelect.never) = terminal_n.phase[1].v
+  Modelica.SIunits.Voltage v1_n[2](start=Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(V_nominal/sqrt(3), phi=0), each stateSelect=StateSelect.never)=terminal_n.phase[1].v
     "Voltage in line 1 at connector N";
-  Modelica.SIunits.Voltage v2_n[2](
-    start = Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(V_nominal/sqrt(3), phi= -2*Modelica.Constants.pi/3),
-    each stateSelect = StateSelect.never) = terminal_n.phase[2].v
+  Modelica.SIunits.Voltage v2_n[2](start=Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(V_nominal/sqrt(3), phi=-2*Modelica.Constants.pi/3), each stateSelect=StateSelect.never)=terminal_n.phase[2].v
     "Voltage in line 2 at connector N";
-  Modelica.SIunits.Voltage v3_n[2](
-    start = Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(V_nominal/sqrt(3), phi= 2*Modelica.Constants.pi/3),
-    each stateSelect = StateSelect.never) = terminal_n.phase[3].v
+  Modelica.SIunits.Voltage v3_n[2](start=Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(V_nominal/sqrt(3), phi=2*Modelica.Constants.pi/3), each stateSelect=StateSelect.never)=terminal_n.phase[3].v
     "Voltage in line 3 at connector N";
-  Modelica.SIunits.Voltage v4_n[2](
-    start = Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(0),
-    each stateSelect = StateSelect.never) = terminal_n.phase[4].v
+  Modelica.SIunits.Voltage v4_n[2](start=Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(0), each stateSelect=StateSelect.never)=terminal_n.phase[4].v
     "Voltage in line 4 (neutral) at connector N";
-  Modelica.SIunits.Voltage v1_p[2](
-    start = Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(V_nominal/sqrt(3), phi= 0),
-    each stateSelect = StateSelect.never) = terminal_p.phase[1].v
+  Modelica.SIunits.Voltage v1_p[2](start=Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(V_nominal/sqrt(3), phi=0), each stateSelect=StateSelect.never)=terminal_p.phase[1].v
     "Voltage in line 1 at connector P";
-  Modelica.SIunits.Voltage v2_p[2](
-    start = Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(V_nominal/sqrt(3), phi= -2*Modelica.Constants.pi/3),
-    each stateSelect = StateSelect.never) = terminal_p.phase[2].v
+  Modelica.SIunits.Voltage v2_p[2](start=Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(V_nominal/sqrt(3), phi=-2*Modelica.Constants.pi/3), each stateSelect=StateSelect.never)=terminal_p.phase[2].v
     "Voltage in line 2 at connector P";
-  Modelica.SIunits.Voltage v3_p[2](
-    start = Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(V_nominal/sqrt(3), phi= 2*Modelica.Constants.pi/3),
-    each stateSelect = StateSelect.never) = terminal_p.phase[3].v
+  Modelica.SIunits.Voltage v3_p[2](start=Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(V_nominal/sqrt(3), phi=2*Modelica.Constants.pi/3), each stateSelect=StateSelect.never)=terminal_p.phase[3].v
     "Voltage in line 3 at connector P";
-  Modelica.SIunits.Voltage v4_p[2](
-    start = Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(0),
-    each stateSelect = StateSelect.never) = terminal_p.phase[4].v
+  Modelica.SIunits.Voltage v4_p[2](start=Buildings.Electrical.PhaseSystems.OnePhase.phaseVoltages(0), each stateSelect=StateSelect.never)=terminal_p.phase[4].v
     "Voltage in line 4 (neutral) at connector P";
-
 protected
-  function productAC1p = Buildings.Electrical.PhaseSystems.OnePhase.product
+  function productAC1p=Buildings.Electrical.PhaseSystems.OnePhase.product
     "Product between complex quantities";
-  Modelica.SIunits.Current Isr[4,2](
-    each stateSelect = StateSelect.prefer)
+  Modelica.SIunits.Current Isr[4, 2](each stateSelect=StateSelect.prefer)
     "Currents that pass through the lines";
-  Modelica.SIunits.Current Ish_p[4,2](
-    each stateSelect = StateSelect.prefer) "Shunt current on side p";
-  Modelica.SIunits.Current Ish_n[4,2](
-    each stateSelect = StateSelect.prefer) "Shunt current on side n";
-
+  Modelica.SIunits.Current Ish_p[4, 2](each stateSelect=StateSelect.prefer)
+    "Shunt current on side p";
+  Modelica.SIunits.Current Ish_n[4, 2](each stateSelect=StateSelect.prefer)
+    "Shunt current on side n";
 equation
-
   // Link the connectors to propagate the overdetermined variable
-  for i in 1:4 loop
-      Connections.branch(terminal_p.phase[i].theta, terminal_n.phase[i].theta);
-      terminal_p.phase[i].theta = terminal_n.phase[i].theta;
+  for i in 1 : 4 loop
+    Connections.branch(terminal_p.phase[i].theta, terminal_n.phase[i].theta);
+    terminal_p.phase[i].theta=terminal_n.phase[i].theta;
   end for;
-
   // Kirkoff current law for the terminal n (left side)
-  Isr[1,:] = terminal_n.phase[1].i - Ish_n[1,:];
-  Isr[2,:] = terminal_n.phase[2].i - Ish_n[2,:];
-  Isr[3,:] = terminal_n.phase[3].i - Ish_n[3,:];
-  Isr[4,:] = terminal_n.phase[4].i - Ish_n[4,:];
-
+  Isr[1, :]=terminal_n.phase[1].i-Ish_n[1, :];
+  Isr[2, :]=terminal_n.phase[2].i-Ish_n[2, :];
+  Isr[3, :]=terminal_n.phase[3].i-Ish_n[3, :];
+  Isr[4, :]=terminal_n.phase[4].i-Ish_n[4, :];
   // Kirkoff current law for the terminal p (right side)
-  Isr[1,:] + terminal_p.phase[1].i = Ish_p[1,:];
-  Isr[2,:] + terminal_p.phase[2].i = Ish_p[2,:];
-  Isr[3,:] + terminal_p.phase[3].i = Ish_p[3,:];
-  Isr[4,:] + terminal_p.phase[4].i = Ish_p[4,:];
-
+  Isr[1, :] + terminal_p.phase[1].i=Ish_p[1, :];
+  Isr[2, :] + terminal_p.phase[2].i=Ish_p[2, :];
+  Isr[3, :] + terminal_p.phase[3].i=Ish_p[3, :];
+  Isr[4, :] + terminal_p.phase[4].i=Ish_p[4, :];
   // Voltage drop caused by the impedance matrix
-  terminal_n.phase[1].v - terminal_p.phase[1].v = productAC1p(Z11, terminal_n.phase[1].i)
-                                                + productAC1p(Z12, terminal_n.phase[2].i)
-                                                + productAC1p(Z13, terminal_n.phase[3].i)
-                                                + productAC1p(Z14, terminal_n.phase[4].i);
-  terminal_n.phase[2].v - terminal_p.phase[2].v = productAC1p(Z21, terminal_n.phase[1].i)
-                                                + productAC1p(Z22, terminal_n.phase[2].i)
-                                                + productAC1p(Z23, terminal_n.phase[3].i)
-                                                + productAC1p(Z24, terminal_n.phase[4].i);
-  terminal_n.phase[3].v - terminal_p.phase[3].v = productAC1p(Z31, terminal_n.phase[1].i)
-                                                + productAC1p(Z32, terminal_n.phase[2].i)
-                                                + productAC1p(Z33, terminal_n.phase[3].i)
-                                                + productAC1p(Z34, terminal_n.phase[4].i);
-  terminal_n.phase[4].v - terminal_p.phase[4].v = productAC1p(Z41, terminal_n.phase[1].i)
-                                                + productAC1p(Z42, terminal_n.phase[2].i)
-                                                + productAC1p(Z43, terminal_n.phase[3].i)
-                                                + productAC1p(Z44, terminal_n.phase[4].i);
-
+  terminal_n.phase[1].v-terminal_p.phase[1].v=productAC1p(Z11, terminal_n.phase[1].i) + productAC1p(Z12, terminal_n.phase[2].i) + productAC1p(Z13, terminal_n.phase[3].i) + productAC1p(Z14, terminal_n.phase[4].i);
+  terminal_n.phase[2].v-terminal_p.phase[2].v=productAC1p(Z21, terminal_n.phase[1].i) + productAC1p(Z22, terminal_n.phase[2].i) + productAC1p(Z23, terminal_n.phase[3].i) + productAC1p(Z24, terminal_n.phase[4].i);
+  terminal_n.phase[3].v-terminal_p.phase[3].v=productAC1p(Z31, terminal_n.phase[1].i) + productAC1p(Z32, terminal_n.phase[2].i) + productAC1p(Z33, terminal_n.phase[3].i) + productAC1p(Z34, terminal_n.phase[4].i);
+  terminal_n.phase[4].v-terminal_p.phase[4].v=productAC1p(Z41, terminal_n.phase[1].i) + productAC1p(Z42, terminal_n.phase[2].i) + productAC1p(Z43, terminal_n.phase[3].i) + productAC1p(Z44, terminal_n.phase[4].i);
   // Current loss at the terminal n
-  Ish_n[1,:] = productAC1p({0, B11/2}, v1_n)
-             + productAC1p({0, B12/2}, v2_n)
-             + productAC1p({0, B13/2}, v3_n)
-             + productAC1p({0, B14/2}, v4_n);
-  Ish_n[2,:] = productAC1p({0, B21/2}, v1_n)
-             + productAC1p({0, B22/2}, v2_n)
-             + productAC1p({0, B23/2}, v3_n)
-             + productAC1p({0, B24/2}, v4_n);
-  Ish_n[3,:] = productAC1p({0, B31/2}, v1_n)
-             + productAC1p({0, B32/2}, v2_n)
-             + productAC1p({0, B33/2}, v3_n)
-             + productAC1p({0, B34/2}, v4_n);
-  Ish_n[4,:] = productAC1p({0, B41/2}, v1_n)
-             + productAC1p({0, B42/2}, v2_n)
-             + productAC1p({0, B43/2}, v3_n)
-             + productAC1p({0, B44/2}, v4_n);
-
+  Ish_n[1, :]=productAC1p({0, B11/2}, v1_n) + productAC1p({0, B12/2}, v2_n) + productAC1p({0, B13/2}, v3_n) + productAC1p({0, B14/2}, v4_n);
+  Ish_n[2, :]=productAC1p({0, B21/2}, v1_n) + productAC1p({0, B22/2}, v2_n) + productAC1p({0, B23/2}, v3_n) + productAC1p({0, B24/2}, v4_n);
+  Ish_n[3, :]=productAC1p({0, B31/2}, v1_n) + productAC1p({0, B32/2}, v2_n) + productAC1p({0, B33/2}, v3_n) + productAC1p({0, B34/2}, v4_n);
+  Ish_n[4, :]=productAC1p({0, B41/2}, v1_n) + productAC1p({0, B42/2}, v2_n) + productAC1p({0, B43/2}, v3_n) + productAC1p({0, B44/2}, v4_n);
   // Current loss at the terminal n
-  Ish_p[1,:] = productAC1p({0, B11/2}, v1_p)
-             + productAC1p({0, B12/2}, v2_p)
-             + productAC1p({0, B13/2}, v3_p)
-             + productAC1p({0, B14/2}, v4_p);
-  Ish_p[2,:] = productAC1p({0, B21/2}, v1_p)
-             + productAC1p({0, B22/2}, v2_p)
-             + productAC1p({0, B23/2}, v3_p)
-             + productAC1p({0, B24/2}, v4_p);
-  Ish_p[3,:] = productAC1p({0, B31/2}, v1_p)
-             + productAC1p({0, B32/2}, v2_p)
-             + productAC1p({0, B33/2}, v3_p)
-             + productAC1p({0, B34/2}, v4_p);
-  Ish_p[4,:] = productAC1p({0, B41/2}, v1_p)
-             + productAC1p({0, B42/2}, v2_p)
-             + productAC1p({0, B43/2}, v3_p)
-             + productAC1p({0, B44/2}, v4_p);
-
-  annotation (
-  defaultComponentName="line",
- Icon(coordinateSystem(
-          preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-                                               graphics={
-          Line(points={{-92,0},{-72,0}}, color={0,0,0}),
-          Line(points={{68,0},{88,0}}, color={0,0,0}),
-        Rectangle(
-          extent={{-72,40},{70,-40}},
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-          Text(
-            extent={{-140,100},{140,60}},
-            lineColor={0,0,0},
-          textString="%name"),
-          Text(
-            extent={{-72,30},{70,10}},
-            lineColor={0,0,0},
-          textString="R+jX 4x4"),
-          Text(
-            extent={{-72,-10},{70,-30}},
-            lineColor={0,0,0},
-          textString="C 4x4")}),
-    Documentation(revisions="<html>
+  Ish_p[1, :]=productAC1p({0, B11/2}, v1_p) + productAC1p({0, B12/2}, v2_p) + productAC1p({0, B13/2}, v3_p) + productAC1p({0, B14/2}, v4_p);
+  Ish_p[2, :]=productAC1p({0, B21/2}, v1_p) + productAC1p({0, B22/2}, v2_p) + productAC1p({0, B23/2}, v3_p) + productAC1p({0, B24/2}, v4_p);
+  Ish_p[3, :]=productAC1p({0, B31/2}, v1_p) + productAC1p({0, B32/2}, v2_p) + productAC1p({0, B33/2}, v3_p) + productAC1p({0, B34/2}, v4_p);
+  Ish_p[4, :]=productAC1p({0, B41/2}, v1_p) + productAC1p({0, B42/2}, v2_p) + productAC1p({0, B43/2}, v3_p) + productAC1p({0, B44/2}, v4_p);
+  annotation(defaultComponentName="line", Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {100, 100}}), graphics={Line(points={{-92, 0}, {-72, 0}}, color={0, 0, 0}), Line(points={{68, 0}, {88, 0}}, color={0, 0, 0}), Rectangle(extent={{-72, 40}, {70,-40}}, lineColor={0, 0, 0}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid), Text(extent={{-140, 100}, {140, 60}}, lineColor={0, 0, 0}, textString="%name"), Text(extent={{-72, 30}, {70, 10}}, lineColor={0, 0, 0}, textString="R+jX 4x4"), Text(extent={{-72,-10}, {70,-30}}, lineColor={0, 0, 0}, textString="C 4x4")}), Documentation(revisions="<html>
 <ul>
 <li>
 November 28, 2016, by Michael Wetter:<br/>

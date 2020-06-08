@@ -2,11 +2,13 @@ within Buildings.Utilities.Math;
 block RegNonZeroPower
   "Power function, regularized near zero, but nonzero value for x=0"
   extends Modelica.Blocks.Interfaces.SISO;
-  parameter Real n "Exponent";
-  parameter Real delta = 0.01 "Abscissa value where transition occurs";
+  parameter Real n
+    "Exponent";
+  parameter Real delta=0.01
+    "Abscissa value where transition occurs";
 equation
-  y = Buildings.Utilities.Math.Functions.regNonZeroPower(x=u, n=n, delta=delta);
-  annotation (Documentation(info="<html>
+  y=Buildings.Utilities.Math.Functions.regNonZeroPower(x=u, n=n, delta=delta);
+  annotation(Documentation(info="<html>
 
 Function that approximates <i>y=|x|<sup>n</sup></i> where <i>n &gt; 0</i>
 so that
@@ -41,8 +43,5 @@ November 29, 2013 by Marcus Fuchs:<br/>
 Implementation based on Functions.regNonZeroPower.
 </li>
 </ul>
-</html>"), Icon(graphics={   Text(
-          extent={{-88,38},{92,-34}},
-          lineColor={160,160,164},
-          textString="regNonZeroPower()")}));
+</html>"), Icon(graphics={Text(extent={{-88, 38}, {92,-34}}, lineColor={160, 160, 164}, textString="regNonZeroPower()")}));
 end RegNonZeroPower;

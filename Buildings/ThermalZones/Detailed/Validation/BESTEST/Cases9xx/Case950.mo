@@ -1,43 +1,28 @@
 within Buildings.ThermalZones.Detailed.Validation.BESTEST.Cases9xx;
 model Case950
   "Case 900, but cooling based on schedule, night venting, and no heating"
-  extends Case900(
-    TSetHea(table=[0, 273.15 -200]),
-    TSetCoo(table=[      0, 273.15+100;
-                    7*3600, 273.15+100;
-                    7*3600, 273.15+27;
-                   18*3600, 273.15+27;
-                   18*3600, 273.15+100;
-                   24*3600, 273.15+100]),
-    staRes(
-      annualHea(Min=0*3.6e9, Max=0*3.6e9, Mean=0*3.6e9),
-      annualCoo(Min=-0.387*3.6e9, Max=-0.921*3.6e9, Mean=-0.605*3.6e9),
-      peakHea(Min=0*1000, Max=0*1000, Mean=0*1000),
-      peakCoo(Min=-2.033*1000, Max=-3.170*1000, Mean=-2.674*1000)),
-    gaiHea(k=0),
-    multiSum(nu=2));
-
-  BaseClasses.DaySchedule vent(table=[      0, -1703.16/3600;
-                                       7*3600, -1703.16/3600;
-                                       7*3600,             0;
-                                      18*3600,             0;
-                                      18*3600, -1703.16/3600;
-                                      24*3600, -1703.16/3600])
+  extends Case900(TSetHea(table=[
+    0, 273.15-200]), TSetCoo(table=[
+    0, 273.15 + 100;
+    7*3600, 273.15 + 100;
+    7*3600, 273.15 + 27;
+    18*3600, 273.15 + 27;
+    18*3600, 273.15 + 100;
+    24*3600, 273.15 + 100]), staRes(annualHea(Min=0*3.6e9, Max=0*3.6e9, Mean=0*3.6e9), annualCoo(Min=-0.387*3.6e9, Max=-0.921*3.6e9, Mean=-0.605*3.6e9), peakHea(Min=0*1000, Max=0*1000, Mean=0*1000), peakCoo(Min=-2.033*1000, Max=-3.170*1000, Mean=-2.674*1000)), gaiHea(k=0), multiSum(nu=2));
+  BaseClasses.DaySchedule vent(table=[
+    0,-1703.16/3600;
+    7*3600,-1703.16/3600;
+    7*3600, 0;
+    18*3600, 0;
+    18*3600,-1703.16/3600;
+    24*3600,-1703.16/3600])
     "Ventilation air flow rate"
-    annotation (Placement(transformation(extent={{-88,-68},{-80,-60}})));
+    annotation(Placement(transformation(extent={{-88,-68}, {-80,-60}})));
 equation
-  connect(multiSum.u[2], vent.y[1]) annotation (Line(
-      points={{-78,-74},{-76,-74},{-76,-64},{-79.6,-64}},
-      color={0,0,127},
-      smooth=Smooth.None));
-    annotation (
-              __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases9xx/Case950.mos"
-        "Simulate and plot"),
-        experiment(
-      StopTime=3.1536e+07,
-      Interval=3600,
-      Tolerance=1e-06),
-    Documentation(revisions="<html>
+  connect(multiSum.u[2], vent.y[1])
+    annotation(Line(points={{-78,-74}, {-76,-74}, {-76,-64}, {-79.6,-64}}, color={0, 0, 127}, smooth=Smooth.None));
+  annotation(__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases9xx/Case950.mos"
+    "Simulate and plot"), experiment(StopTime=3.1536e+07, Interval=3600, Tolerance=1e-06), Documentation(revisions="<html>
 <ul>
 <li>
 July 16, 2012, by Michael Wetter:<br/>

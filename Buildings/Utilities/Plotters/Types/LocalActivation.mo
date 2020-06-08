@@ -1,10 +1,10 @@
 within Buildings.Utilities.Plotters.Types;
-type LocalActivation = enumeration(
-    use_activation "Use activation from global configuration",
-    always "Always on",
-    use_input "On based on input")
-  "Enumeration for activation of local plotters" annotation (Documentation(info=
-       "<html>
+type LocalActivation=enumeration(use_activation
+  "Use activation from global configuration", always
+  "Always on", use_input
+  "On based on input")
+  "Enumeration for activation of local plotters"
+  annotation(Documentation(info="<html>
 <p>
 Enumeration that is used to configure the local plotters.
 </p>

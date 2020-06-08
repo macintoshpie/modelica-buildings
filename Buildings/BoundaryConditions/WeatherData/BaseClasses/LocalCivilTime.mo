@@ -1,25 +1,23 @@
 within Buildings.BoundaryConditions.WeatherData.BaseClasses;
-block LocalCivilTime "Converts the clock time to local civil time."
+block LocalCivilTime
+  "Converts the clock time to local civil time."
   extends Modelica.Blocks.Icons.Block;
-  Modelica.Blocks.Interfaces.RealInput cloTim(
-    final quantity="Time",
-    final unit="s") "Clock time"
-    annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
-  parameter Modelica.SIunits.Time timZon(displayUnit="h") "Time zone";
-  parameter Modelica.SIunits.Angle lon(displayUnit="deg") "Longitude";
-  Modelica.Blocks.Interfaces.RealOutput locTim(
-    final quantity="Time",
-    final unit="s") "Local civil time"
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+  Modelica.Blocks.Interfaces.RealInput cloTim(final quantity="Time", final unit="s")
+    "Clock time"
+    annotation(Placement(transformation(extent={{-140,-20}, {-100, 20}})));
+  parameter Modelica.SIunits.Time timZon(displayUnit="h")
+    "Time zone";
+  parameter Modelica.SIunits.Angle lon(displayUnit="deg")
+    "Longitude";
+  Modelica.Blocks.Interfaces.RealOutput locTim(final quantity="Time", final unit="s")
+    "Local civil time"
+    annotation(Placement(transformation(extent={{100,-10}, {120, 10}})));
 protected
-  final parameter Modelica.SIunits.Time diff = - timZon + lon*43200/Modelica.Constants.pi
+  final parameter Modelica.SIunits.Time diff=-timZon + lon*43200/Modelica.Constants.pi
     "Difference between local and clock time";
 equation
-  locTim = cloTim + diff;
-
-  annotation (
-    defaultComponentName="locTim",
-    Documentation(info="<html>
+  locTim=cloTim + diff;
+  annotation(defaultComponentName="locTim", Documentation(info="<html>
 <p>
 This component converts the clock time to local civil time.
 The parameter <code>timZon</code> represents the time zone of the facility  (relative to Greenwich Mean Time or the 0th meridian). Time zones west of GMT (e.g. North America) are represented as negative;
@@ -42,13 +40,5 @@ February 27, 2011, by Wangda Zuo:<br/>
 First implementation.
 </li>
 </ul>
-</html>"),
-    Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,
-            100}}), graphics={Text(
-          extent={{-98,6},{-60,-6}},
-          lineColor={0,0,127},
-          textString="cloTim"), Text(
-          extent={{74,6},{98,-4}},
-          lineColor={0,0,127},
-          textString="calTim")}));
+</html>"), Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100}, {100, 100}}), graphics={Text(extent={{-98, 6}, {-60,-6}}, lineColor={0, 0, 127}, textString="cloTim"), Text(extent={{74, 6}, {98,-4}}, lineColor={0, 0, 127}, textString="calTim")}));
 end LocalCivilTime;

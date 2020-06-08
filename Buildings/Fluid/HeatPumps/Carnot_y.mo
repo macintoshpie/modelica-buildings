@@ -1,14 +1,10 @@
 within Buildings.Fluid.HeatPumps;
 model Carnot_y
   "Reversible heat pump with performance curve adjusted based on Carnot efficiency"
-  extends Buildings.Fluid.Chillers.BaseClasses.PartialCarnot_y(
-    final COP_is_for_cooling = false);
-
+  extends Buildings.Fluid.Chillers.BaseClasses.PartialCarnot_y(final COP_is_for_cooling=false);
 initial equation
   assert(COP_nominal > 1, "The nominal COP of a heat pump must be bigger than one.");
-  annotation (
-defaultComponentName="heaPum",
-Documentation(info="<html>
+  annotation(defaultComponentName="heaPum", Documentation(info="<html>
 <p>
 This is model of a heat pump whose coefficient of performance COP changes
 with temperatures in the same way as the Carnot efficiency changes.
@@ -82,8 +78,7 @@ since otherwise the second law of thermodynamics may be violated.
 For a similar model that can be used as a chiller, see
 <a href=\"modelica://Buildings.Fluid.Chillers.Carnot_y\">Buildings.Fluid.Chillers.Carnot_y</a>.
 </p>
-</html>",
-revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li>
 January 3, 2017, by Michael Wetter:<br/>
@@ -165,8 +160,5 @@ March 3, 2009 by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
-</html>"),
-    Icon(graphics={
-        Line(points={{0,68},{0,90},{90,90},{90,90},{100,90}},
-                                                 color={0,0,255})}));
+</html>"), Icon(graphics={Line(points={{0, 68}, {0, 90}, {90, 90}, {90, 90}, {100, 90}}, color={0, 0, 255})}));
 end Carnot_y;

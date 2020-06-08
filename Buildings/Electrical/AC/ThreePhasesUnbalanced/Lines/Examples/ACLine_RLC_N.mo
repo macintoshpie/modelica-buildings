@@ -2,130 +2,70 @@ within Buildings.Electrical.AC.ThreePhasesUnbalanced.Lines.Examples;
 model ACLine_RLC_N
   "Test model for a three-phase unbalanced RLC line with neutral cable"
   extends Modelica.Icons.Example;
-  parameter Modelica.SIunits.Resistance RBase = 3*10
+  parameter Modelica.SIunits.Resistance RBase=3*10
     "Base value for the line resistance";
-  parameter Modelica.SIunits.Inductance LBase = RBase/(2*Modelica.Constants.pi*60)
+  parameter Modelica.SIunits.Inductance LBase=RBase/(2*Modelica.Constants.pi*60)
     "Base value for the line inductances";
-  parameter Modelica.SIunits.Capacitance CBase = 3*0.1/(2*Modelica.Constants.pi*60)
+  parameter Modelica.SIunits.Capacitance CBase=3*0.1/(2*Modelica.Constants.pi*60)
     "Base value for the line inductances";
-  Sources.FixedVoltage_N E(
-    definiteReference=true,
-    f=60,
-    V=100*sqrt(3)) "Voltage source"
-    annotation (Placement(transformation(extent={{-100,-10},{-80,10}})));
-  Loads.Impedance_N sc_load1(R=0, L=0) "Short circuit load"
-    annotation (Placement(transformation(extent={{0,0},{20,20}})));
-  Loads.Impedance_N sc_load2(R=0, L=0) "Short circuit load"
-    annotation (Placement(transformation(extent={{0,-30},{20,-10}})));
-  Loads.Impedance_N sc_load3(R=0, L=0) "Short circuit load"
-    annotation (Placement(transformation(extent={{0,-70},{20,-50}})));
-  Loads.Impedance_N sc_load(R=0, L=0) "Short circuit load"
-    annotation (Placement(transformation(extent={{0,40},{20,60}})));
-  Lines.TwoPortRLC_N RLCLine_sc(
-    R=RBase,
-    C=CBase,
-    L=LBase,
-    mode=Buildings.Electrical.Types.Load.FixedZ_dynamic,
-    V_nominal=480,
-    Rn=RBase,
-    Cn=CBase,
-    Ln=LBase) "RLC line that connects to the short circuit"
-    annotation (Placement(transformation(extent={{-60,60},{-40,40}})));
-  Lines.TwoPortRLC_N RLCLine_1(
-    R=RBase,
-    C=CBase,
-    L=LBase,
-    V_nominal=480,
-    Rn=RBase,
-    Cn=CBase,
-    Ln=LBase) "RLC line that connects to load 1"
-    annotation (Placement(transformation(extent={{-60,0},{-40,20}})));
-  Lines.TwoPortRLC_N RLCLine_2a(
-    V_nominal=480,
-    R=RBase/2,
-    L=LBase/2,
-    C=CBase/2,
-    Rn=RBase/2,
-    Cn=CBase/2,
-    Ln=LBase/2) "RLC line that connects to load 2"
-    annotation (Placement(transformation(extent={{-60,-30},{-40,-10}})));
-  Lines.TwoPortRLC_N RLCLine_2b(
-    V_nominal=480,
-    R=RBase/2,
-    L=LBase/2,
-    C=CBase/2,
-    Rn=RBase/2,
-    Cn=CBase/2,
-    Ln=LBase/2) "RLC line that connects to load 2"
-    annotation (Placement(transformation(extent={{-30,-30},{-10,-10}})));
-  Lines.TwoPortRLC_N RLCLine_3a(
-    R=2*RBase,
-    L=2*LBase,
-    V_nominal=480,
-    C=CBase/2,
-    Rn=2*RBase,
-    Cn=CBase/2,
-    Ln=2*LBase) "RLC line that connects to load 3"
-    annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
-  Lines.TwoPortRLC_N RLCLine_3b(
-    R=2*RBase,
-    L=2*LBase,
-    V_nominal=480,
-    C=CBase/2,
-    Rn=2*RBase,
-    Cn=CBase/2,
-    Ln=2*LBase) "RLC line that connects to load 3"
-    annotation (Placement(transformation(extent={{-60,-80},{-40,-60}})));
+  Sources.FixedVoltage_N E(definiteReference=true, f=60, V=100*sqrt(3))
+    "Voltage source"
+    annotation(Placement(transformation(extent={{-100,-10}, {-80, 10}})));
+  Loads.Impedance_N sc_load1(R=0, L=0)
+    "Short circuit load"
+    annotation(Placement(transformation(extent={{0, 0}, {20, 20}})));
+  Loads.Impedance_N sc_load2(R=0, L=0)
+    "Short circuit load"
+    annotation(Placement(transformation(extent={{0,-30}, {20,-10}})));
+  Loads.Impedance_N sc_load3(R=0, L=0)
+    "Short circuit load"
+    annotation(Placement(transformation(extent={{0,-70}, {20,-50}})));
+  Loads.Impedance_N sc_load(R=0, L=0)
+    "Short circuit load"
+    annotation(Placement(transformation(extent={{0, 40}, {20, 60}})));
+  Lines.TwoPortRLC_N RLCLine_sc(R=RBase, C=CBase, L=LBase, mode=Buildings.Electrical.Types.Load.FixedZ_dynamic, V_nominal=480, Rn=RBase, Cn=CBase, Ln=LBase)
+    "RLC line that connects to the short circuit"
+    annotation(Placement(transformation(extent={{-60, 60}, {-40, 40}})));
+  Lines.TwoPortRLC_N RLCLine_1(R=RBase, C=CBase, L=LBase, V_nominal=480, Rn=RBase, Cn=CBase, Ln=LBase)
+    "RLC line that connects to load 1"
+    annotation(Placement(transformation(extent={{-60, 0}, {-40, 20}})));
+  Lines.TwoPortRLC_N RLCLine_2a(V_nominal=480, R=RBase/2, L=LBase/2, C=CBase/2, Rn=RBase/2, Cn=CBase/2, Ln=LBase/2)
+    "RLC line that connects to load 2"
+    annotation(Placement(transformation(extent={{-60,-30}, {-40,-10}})));
+  Lines.TwoPortRLC_N RLCLine_2b(V_nominal=480, R=RBase/2, L=LBase/2, C=CBase/2, Rn=RBase/2, Cn=CBase/2, Ln=LBase/2)
+    "RLC line that connects to load 2"
+    annotation(Placement(transformation(extent={{-30,-30}, {-10,-10}})));
+  Lines.TwoPortRLC_N RLCLine_3a(R=2*RBase, L=2*LBase, V_nominal=480, C=CBase/2, Rn=2*RBase, Cn=CBase/2, Ln=2*LBase)
+    "RLC line that connects to load 3"
+    annotation(Placement(transformation(extent={{-60,-60}, {-40,-40}})));
+  Lines.TwoPortRLC_N RLCLine_3b(R=2*RBase, L=2*LBase, V_nominal=480, C=CBase/2, Rn=2*RBase, Cn=CBase/2, Ln=2*LBase)
+    "RLC line that connects to load 3"
+    annotation(Placement(transformation(extent={{-60,-80}, {-40,-60}})));
 equation
-  connect(RLCLine_2a.terminal_p, RLCLine_2b.terminal_n) annotation (Line(
-      points={{-40,-20},{-30,-20}},
-      color={127,0,127},
-      smooth=Smooth.None));
-  connect(RLCLine_2b.terminal_p, sc_load2.terminal) annotation (Line(
-      points={{-10,-20},{0,-20}},
-      color={127,0,127},
-      smooth=Smooth.None));
-  connect(RLCLine_3a.terminal_p, sc_load3.terminal) annotation (Line(
-      points={{-40,-50},{-20,-50},{-20,-60},{0,-60}},
-      color={127,0,127},
-      smooth=Smooth.None));
-  connect(RLCLine_3b.terminal_p, sc_load3.terminal) annotation (Line(
-      points={{-40,-70},{-20,-70},{-20,-60},{0,-60}},
-      color={127,0,127},
-      smooth=Smooth.None));
-  connect(RLCLine_1.terminal_p, sc_load1.terminal) annotation (Line(
-      points={{-40,10},{0,10}},
-      color={127,0,127},
-      smooth=Smooth.None));
-  connect(RLCLine_sc.terminal_p, sc_load.terminal) annotation (Line(
-      points={{-40,50},{0,50}},
-      color={127,0,127},
-      smooth=Smooth.None));
-  connect(E.terminal, RLCLine_sc.terminal_n) annotation (Line(
-      points={{-80,0},{-70,0},{-70,50},{-60,50}},
-      color={127,0,127},
-      smooth=Smooth.None));
-  connect(E.terminal, RLCLine_1.terminal_n) annotation (Line(
-      points={{-80,0},{-70,0},{-70,10},{-60,10}},
-      color={127,0,127},
-      smooth=Smooth.None));
-  connect(E.terminal, RLCLine_2a.terminal_n) annotation (Line(
-      points={{-80,0},{-70,0},{-70,-20},{-60,-20}},
-      color={127,0,127},
-      smooth=Smooth.None));
-  connect(E.terminal, RLCLine_3a.terminal_n) annotation (Line(
-      points={{-80,0},{-70,0},{-70,-50},{-60,-50}},
-      color={127,0,127},
-      smooth=Smooth.None));
-  connect(E.terminal, RLCLine_3b.terminal_n) annotation (Line(
-      points={{-80,0},{-70,0},{-70,-70},{-60,-70}},
-      color={127,0,127},
-      smooth=Smooth.None));
-  annotation (  experiment(StopTime=1.0,Tolerance=1e-6),
-  __Dymola_Commands(file=
-          "modelica://Buildings/Resources/Scripts/Dymola/Electrical/AC/ThreePhasesUnbalanced/Lines/Examples/ACLine_RLC_N.mos"
-        "Simulate and plot"),
-    Documentation(info="<html>
+  connect(RLCLine_2a.terminal_p, RLCLine_2b.terminal_n)
+    annotation(Line(points={{-40,-20}, {-30,-20}}, color={127, 0, 127}, smooth=Smooth.None));
+  connect(RLCLine_2b.terminal_p, sc_load2.terminal)
+    annotation(Line(points={{-10,-20}, {0,-20}}, color={127, 0, 127}, smooth=Smooth.None));
+  connect(RLCLine_3a.terminal_p, sc_load3.terminal)
+    annotation(Line(points={{-40,-50}, {-20,-50}, {-20,-60}, {0,-60}}, color={127, 0, 127}, smooth=Smooth.None));
+  connect(RLCLine_3b.terminal_p, sc_load3.terminal)
+    annotation(Line(points={{-40,-70}, {-20,-70}, {-20,-60}, {0,-60}}, color={127, 0, 127}, smooth=Smooth.None));
+  connect(RLCLine_1.terminal_p, sc_load1.terminal)
+    annotation(Line(points={{-40, 10}, {0, 10}}, color={127, 0, 127}, smooth=Smooth.None));
+  connect(RLCLine_sc.terminal_p, sc_load.terminal)
+    annotation(Line(points={{-40, 50}, {0, 50}}, color={127, 0, 127}, smooth=Smooth.None));
+  connect(E.terminal, RLCLine_sc.terminal_n)
+    annotation(Line(points={{-80, 0}, {-70, 0}, {-70, 50}, {-60, 50}}, color={127, 0, 127}, smooth=Smooth.None));
+  connect(E.terminal, RLCLine_1.terminal_n)
+    annotation(Line(points={{-80, 0}, {-70, 0}, {-70, 10}, {-60, 10}}, color={127, 0, 127}, smooth=Smooth.None));
+  connect(E.terminal, RLCLine_2a.terminal_n)
+    annotation(Line(points={{-80, 0}, {-70, 0}, {-70,-20}, {-60,-20}}, color={127, 0, 127}, smooth=Smooth.None));
+  connect(E.terminal, RLCLine_3a.terminal_n)
+    annotation(Line(points={{-80, 0}, {-70, 0}, {-70,-50}, {-60,-50}}, color={127, 0, 127}, smooth=Smooth.None));
+  connect(E.terminal, RLCLine_3b.terminal_n)
+    annotation(Line(points={{-80, 0}, {-70, 0}, {-70,-70}, {-60,-70}}, color={127, 0, 127}, smooth=Smooth.None));
+  annotation(experiment(StopTime=1.0, Tolerance=1e-6), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Electrical/AC/ThreePhasesUnbalanced/Lines/Examples/ACLine_RLC_N.mos"
+    "Simulate and plot"), Documentation(info="<html>
 <p>
 This example demonstrates how to use an RLC line model with neutral cable to connect
 a source to a load.

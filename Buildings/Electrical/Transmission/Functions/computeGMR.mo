@@ -1,22 +1,25 @@
 within Buildings.Electrical.Transmission.Functions;
 function computeGMR
   "This function computes the geometric mean radius of a cable with 1 to 4 conductors"
-  input Modelica.SIunits.Length d "Diameter of the conductor";
-  input Integer N = 1 "Number of conductors";
-  output Modelica.SIunits.Length GMR "Geometric Mean Radius";
+  input Modelica.SIunits.Length d
+    "Diameter of the conductor";
+  input Integer N=1
+    "Number of conductors";
+  output Modelica.SIunits.Length GMR
+    "Geometric Mean Radius";
 algorithm
-  assert(N > 0 and N < 5,
-    "The number of conductors N must be between 1 and 4, received N=" + String(N) + ".");
-  if N==1 then
+  assert(N > 0 and N < 5, "The number of conductors N must be between 1 and 4, received N=" + String(N) + ".");
+  if N == 1 then
     GMR := 0.5*d*0.7788;
-  elseif N==2 then
+  elseif N == 2 then
     GMR := sqrt(d);
-  elseif N==3 then
-    GMR := (d^2)^(1/3);
-  else // N == 4
+  elseif N == 3 then
+    GMR :=(d^2)^(1/3);
+  else
+    // N == 4
     GMR := 1.09*(d^3)^(1/4);
   end if;
-annotation(Inline = true, Documentation(revisions="<html>
+  annotation(Inline=true, Documentation(revisions="<html>
 <ul>
 <li>
 June 3, 2014, by Marco Bonvini:<br/>

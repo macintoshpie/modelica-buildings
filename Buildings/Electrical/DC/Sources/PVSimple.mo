@@ -1,41 +1,19 @@
 within Buildings.Electrical.DC.Sources;
-model PVSimple "Simple PV model"
-  extends Buildings.Electrical.Interfaces.PartialPV(
-    redeclare package PhaseSystem = PhaseSystems.TwoConductor,
-    redeclare Interfaces.Terminal_p terminal);
+model PVSimple
+  "Simple PV model"
+  extends Buildings.Electrical.Interfaces.PartialPV(redeclare package PhaseSystem=PhaseSystems.TwoConductor, redeclare Interfaces.Terminal_p terminal);
 protected
-   Loads.Conductor con(
-    mode=Types.Load.VariableZ_P_input,
-    V_nominal=V_nominal)
+  Loads.Conductor con(mode=Types.Load.VariableZ_P_input, V_nominal=V_nominal)
     "Conductor, used to interface power with electrical circuit"
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
+    annotation(Placement(transformation(extent={{-10,-10}, {10, 10}})));
 equation
-  connect(con.terminal, terminal)  annotation (Line(
-      points={{-10,0},{-100,0}},
-      color={0,0,255},
-      smooth=Smooth.None));
-
-  connect(solarPower.y, con.Pow) annotation (Line(
-      points={{70,0},{10,0}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(P, solarPower.y) annotation (Line(points={{110,70},{60,70},{60,0},{70,
-          0}}, color={0,0,127}));
-  annotation (
-    Icon(coordinateSystem(
-        preserveAspectRatio=false,
-        extent={{-100,-100},{100,100}},
-        grid={1,1}), graphics={
-        Line(points={{-90,0},{-59,0}}, color={0,0,0}),
-        Text(
-          extent={{-150,61},{-50,11}},
-          lineColor={0,0,0},
-          textString="+"),
-        Text(
-          extent={{-150,-12},{-50,-62}},
-          lineColor={0,0,0},
-          textString="-")}),
-    Documentation(revisions="<html>
+  connect(con.terminal, terminal)
+    annotation(Line(points={{-10, 0}, {-100, 0}}, color={0, 0, 255}, smooth=Smooth.None));
+  connect(solarPower.y, con.Pow)
+    annotation(Line(points={{70, 0}, {10, 0}}, color={0, 0, 127}, smooth=Smooth.None));
+  connect(P, solarPower.y)
+    annotation(Line(points={{110, 70}, {60, 70}, {60, 0}, {70, 0}}, color={0, 0, 127}));
+  annotation(Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {100, 100}}, grid={1, 1}), graphics={Line(points={{-90, 0}, {-59, 0}}, color={0, 0, 0}), Text(extent={{-150, 61}, {-50, 11}}, lineColor={0, 0, 0}, textString="+"), Text(extent={{-150,-12}, {-50,-62}}, lineColor={0, 0, 0}, textString="-")}), Documentation(revisions="<html>
 <ul>
 <li>
 September 24, 2015 by Michael Wetter:<br/>
@@ -50,8 +28,7 @@ January 4, 2013, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
-</html>",
-        info="<html>
+</html>", info="<html>
 <p>
 Model of a simple photovoltaic array.
 </p>

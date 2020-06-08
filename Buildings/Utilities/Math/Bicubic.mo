@@ -1,14 +1,12 @@
 within Buildings.Utilities.Math;
-block Bicubic "Bicubic function"
+block Bicubic
+  "Bicubic function"
   extends Modelica.Blocks.Interfaces.SI2SO;
- input Real a[10] "Coefficients";
+  input Real a[10]
+    "Coefficients";
 equation
-  y =  Buildings.Utilities.Math.Functions.bicubic(a=a, x1=u1, x2=u2);
-  annotation (Icon(graphics={Text(
-          extent={{-88,40},{92,-32}},
-          lineColor={160,160,164},
-          textString="bicubic()")}),
-Documentation(info="<html>
+  y=Buildings.Utilities.Math.Functions.bicubic(a=a, x1=u1, x2=u2);
+  annotation(Icon(graphics={Text(extent={{-88, 40}, {92,-32}}, lineColor={160, 160, 164}, textString="bicubic()")}), Documentation(info="<html>
 <p>
 This block computes
 </p>

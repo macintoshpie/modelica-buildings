@@ -1,29 +1,38 @@
 within Buildings.HeatTransfer.Windows.Functions;
 function glassPropertyUncoated
   "Compute angular variation and hemispherical integration of the transmittance and reflectance for a uncoated glass pane without shading"
-  extends
-    Buildings.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation;
-
-  input Real glass[3] "Propertry of one glass pane";
-  input Modelica.SIunits.Length x "Thickness";
-  input Modelica.SIunits.Angle psi[HEM - 1] "Incident angles";
-  output Real layer[3, HEM] "Transmittance, front and back reflectance";
-
+  extends Buildings.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation;
+  input Real glass[3]
+    "Propertry of one glass pane";
+  input Modelica.SIunits.Length x
+    "Thickness";
+  input Modelica.SIunits.Angle psi[HEM-1]
+    "Incident angles";
+  output Real layer[3, HEM]
+    "Transmittance, front and back reflectance";
 protected
-  Integer NDIR "Number of incident angles";
-  Real psi_c "cos(psi), psi is incident angle in air";
-  Real psi1_c "cos(psi1), psi1 is incident angle in glass";
-  Real angT "Angular variation of transmittance";
-  Real angR "Angular variation of reflectance";
+  Integer NDIR
+    "Number of incident angles";
+  Real psi_c
+    "cos(psi), psi is incident angle in air";
+  Real psi1_c
+    "cos(psi1), psi1 is incident angle in glass";
+  Real angT
+    "Angular variation of transmittance";
+  Real angR
+    "Angular variation of reflectance";
   Real f[3, HEM-1]
     "Temporary variables for integration in hemispherical transmittance and reflectance";
-  Real beta "Temporary coefficient defined in (7.2.1i)";
+  Real beta
+    "Temporary coefficient defined in (7.2.1i)";
   Real rho0
     "Spectral reflectivity at incident angle of 0 degree at the interface";
-  Real rho "Spectral reflectivity at the interface";
+  Real rho
+    "Spectral reflectivity at the interface";
   Real rho1;
   Real rho2;
-  Real tau "Spectral transmissivity at the interface";
+  Real tau
+    "Spectral transmissivity at the interface";
   Real tau1;
   Real tau2;
   Real angT1;
@@ -31,92 +40,89 @@ protected
   Real angR1;
   Real angR2;
   Real tmp;
-  Real alpha "Spectral absorption coefficient defined in (7.2.1e)";
+  Real alpha
+    "Spectral absorption coefficient defined in (7.2.1e)";
   Real n
     "Ratio of spectral index of refraction of glass to the index of refraction of air";
-  Real psi1 "The angle od incident angle in glass";
+  Real psi1
+    "The angle od incident angle in glass";
   Real deltaX;
-
 algorithm
   // Check the data
-  assert(glass[TRA] >= 0,
-    "Glass property is not correct with solar transmittance less than 0");
-  assert(glass[Ra] >= 0,
-    "Glass property is not correct with solar reflectance less than 0");
-  assert(glass[TRA] + glass[Ra] <= 1,
-    "Glass property is not correct since the summation of solar reflectance and transmittance is larger than 1");
-
+  assert(glass[TRA] >= 0, "Glass property is not correct with solar transmittance less than 0");
+  assert(glass[Ra] >= 0, "Glass property is not correct with solar reflectance less than 0");
+  assert(glass[TRA] + glass[Ra] <= 1, "Glass property is not correct since the summation of solar reflectance and transmittance is larger than 1");
   NDIR := HEM-1;
   deltaX := 0.5*Modelica.Constants.pi/(NDIR-1);
   // Compute specular value for angle 0 to 90 degree (psi[1] to psi[N])
-  for k in TRA:Rb loop
-    layer[k, 1] := glass[k] "Copy the data at 0 degree (normal incidence)";
+  for k in TRA : Rb loop
+    layer[k, 1] := glass[k]
+      "Copy the data at 0 degree (normal incidence)";
   end for;
-
-  beta := glass[TRA]^2 - glass[Ra]^2 + 2*glass[Ra] + 1 "(2)";
-
-  tmp := beta^2 - 4*(2 - glass[Ra])*glass[Ra] "part of (1)";
-  assert(tmp >= 0,
-    "Glass property is wrong. It is not possible to calculate the spectral reflectivity at 0 degree for uncoated glass.");
-
-  rho0 := 0.5*(beta - sqrt(tmp))/(2 - glass[Ra]) "(1)";
-  assert(rho0 >= 0,
-    "Glass property is wrong. The spectral reflectivity at 0 degree for uncoated glass is less than zero.");
-
-  tmp := (glass[Ra] - rho0)/(rho0*glass[TRA]) "part of (3)";
-  assert(tmp > 0,
-    "Glass property is wrong. It is not possible to calculate the spectral extinction coefficient for uncoated glass.");
-
-  alpha := -log(tmp)/x "(3)";
+  beta := glass[TRA]^2-glass[Ra]^2 + 2*glass[Ra] + 1
+    "(2)";
+  tmp := beta^2-4*(2-glass[Ra])*glass[Ra]
+    "part of (1)";
+  assert(tmp >= 0, "Glass property is wrong. It is not possible to calculate the spectral reflectivity at 0 degree for uncoated glass.");
+  rho0 := 0.5*(beta-sqrt(tmp))/(2-glass[Ra])
+    "(1)";
+  assert(rho0 >= 0, "Glass property is wrong. The spectral reflectivity at 0 degree for uncoated glass is less than zero.");
+  tmp :=(glass[Ra]-rho0)/(rho0*glass[TRA])
+    "part of (3)";
+  assert(tmp > 0, "Glass property is wrong. It is not possible to calculate the spectral extinction coefficient for uncoated glass.");
+  alpha :=-log(tmp)/x
+    "(3)";
   tmp := sqrt(rho0);
-  assert(tmp <> 1,
-    "Glass property is wrong. It is not possible to calculate the spectral index of refraction for uncoated glass.");
-  n := (1 + tmp)/(1 - tmp) "(4)";
-
-  for j in 2:HEM-2 loop
-    psi1 := asin(sin(psi[j])/n) "(5)";
+  assert(tmp <> 1, "Glass property is wrong. It is not possible to calculate the spectral index of refraction for uncoated glass.");
+  n :=(1 + tmp)/(1-tmp)
+    "(4)";
+  for j in 2 : HEM-2 loop
+    psi1 := asin(sin(psi[j])/n)
+      "(5)";
     psi_c := cos(psi[j]);
     psi1_c := cos(psi1);
-
-    rho1 := ((n*psi_c - psi1_c)/(n*psi_c + psi1_c))^2 "(6)";
-    rho2 := ((n*psi1_c - psi_c)/(n*psi1_c + psi_c))^2 "(7)";
-
-    tau1 := 1 - rho1 "(8)";
-    tau2 := 1 - rho2 "(9)";
-
+    rho1 :=((n*psi_c-psi1_c)/(n*psi_c + psi1_c))^2
+      "(6)";
+    rho2 :=((n*psi1_c-psi_c)/(n*psi1_c + psi_c))^2
+      "(7)";
+    tau1 := 1-rho1
+      "(8)";
+    tau2 := 1-rho2
+      "(9)";
     tmp := exp(-alpha*x/psi1_c);
-
-    angT1 := tau1^2*tmp/(1 - rho1^2*tmp^2) "(10)";
-    angR1 := rho1*(1 + angT1*tmp) "(13)";
-    angT2 := tau2^2*tmp/(1 - rho2^2*tmp^2) "(11)";
-    angR2 := rho2*(1 + angT2*tmp) "(14)";
-
-    layer[TRA, j] := 0.5*(angT1 + angT2) "Tansmittance in (12)";
-    layer[Ra, j] := 0.5*(angR1 + angR2) "Front reflectance (15)";
-    layer[Rb, j] := layer[Ra, j] "Back reflectance in (15)";
+    angT1 := tau1^2*tmp/(1-rho1^2*tmp^2)
+      "(10)";
+    angR1 := rho1*(1 + angT1*tmp)
+      "(13)";
+    angT2 := tau2^2*tmp/(1-rho2^2*tmp^2)
+      "(11)";
+    angR2 := rho2*(1 + angT2*tmp)
+      "(14)";
+    layer[TRA, j] := 0.5*(angT1 + angT2)
+      "Tansmittance in (12)";
+    layer[Ra, j] := 0.5*(angR1 + angR2)
+      "Front reflectance (15)";
+    layer[Rb, j] := layer[Ra, j]
+      "Back reflectance in (15)";
   end for;
-
   // When incident angle is equal to 90 degree
-  layer[TRA, NDIR] := 0 "(16)";
-  layer[Ra, NDIR] := 1.0 "(16)";
-  layer[Rb, NDIR] := 1.0 "(16)";
-
+  layer[TRA, NDIR] := 0
+    "(16)";
+  layer[Ra, NDIR] := 1.0
+    "(16)";
+  layer[Rb, NDIR] := 1.0
+    "(16)";
   // Computer hemispherical value: HEM.
-  for j in 1:HEM-1 loop
-    for k in TRA:Rb loop
-      f[k, j] := 2*layer[k, j]*Modelica.Math.cos(psi[j])*Modelica.Math.sin(psi[
-        j]);
+  for j in 1 : HEM-1 loop
+    for k in TRA : Rb loop
+      f[k, j] := 2*layer[k, j]*Modelica.Math.cos(psi[j])*Modelica.Math.sin(psi[j]);
     end for;
   end for;
-
-  for k in TRA:Rb loop
-    layer[k, HEM] := Buildings.Utilities.Math.Functions.trapezoidalIntegration(
-      NDIR,
-      f[k, :],
-      deltaX)
+  for k in TRA : Rb loop
+    layer[k, HEM] := Buildings.Utilities.Math.Functions.trapezoidalIntegration(NDIR, f[k, :], deltaX)
       "Equation (A.4.70a) and (A.4.70b) in M. Wetter 's Thesis or (7.3) in Finlayson 1993.";
   end for
-annotation (Documentation(info="<html>
+    annotation(Documentation(info="<html>
 <p>
 This function computes the angular variation and the hemispherical integration of the transmittance and reflectance for one uncoated glass pane.
 The equations are mainly based on Finlayson et al. (1990) and Fuler et al. (1991) with some modifications.
@@ -298,5 +304,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-
 end glassPropertyUncoated;

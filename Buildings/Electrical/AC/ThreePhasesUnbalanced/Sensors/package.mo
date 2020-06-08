@@ -1,9 +1,8 @@
 within Buildings.Electrical.AC.ThreePhasesUnbalanced;
-package Sensors "Package with sensor models for three-phase unbalanced AC systems"
+package Sensors
+  "Package with sensor models for three-phase unbalanced AC systems"
   extends Modelica.Icons.SensorsPackage;
-
-
-annotation (Documentation(revisions="<html>
+  annotation(Documentation(revisions="<html>
 <ul>
 <li>
 August 25, 2014, by Marco Bonvini:<br/>

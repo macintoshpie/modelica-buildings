@@ -1,9 +1,8 @@
 within Buildings.Electrical.Transmission;
-package MediumVoltageCables "Package of medium voltage electricity cables used in distribution grid"
+package MediumVoltageCables
+  "Package of medium voltage electricity cables used in distribution grid"
   extends Modelica.Icons.MaterialPropertiesPackage;
-
-
-annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This package contains records of physical properties of medium
 voltage commercial cables. New cables can be added by extending the

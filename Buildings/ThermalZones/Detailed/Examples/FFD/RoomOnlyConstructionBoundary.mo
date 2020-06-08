@@ -2,57 +2,25 @@ within Buildings.ThermalZones.Detailed.Examples.FFD;
 model RoomOnlyConstructionBoundary
   "Test model for natural convection in an empty room with only construction boundary."
   extends Modelica.Icons.Example;
-  parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic matLayWal(
-      final nLay=1, material={HeatTransfer.Data.Solids.Steel(x=0.001)},
-    roughness_a=Buildings.HeatTransfer.Types.SurfaceRoughness.Smooth)
+  parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic matLayWal(final nLay=1, material={HeatTransfer.Data.Solids.Steel(x=0.001)}, roughness_a=Buildings.HeatTransfer.Types.SurfaceRoughness.Smooth)
     "Construction material for all the envelopes"
-    annotation (Placement(transformation(extent={{20,140},{40,160}})));
-  extends Buildings.ThermalZones.Detailed.Examples.FFD.BaseClasses.PartialRoom(
-    roo(
-      datConBou(
-        name={"East Wall","West Wall","North Wall","South Wall","Floor","Ceiling"},
-      layers={matLayWal,matLayWal,matLayWal,matLayWal,matLayWal,matLayWal},
-      each A=1*1,
-        til={Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,
-            Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,
-            Buildings.Types.Tilt.Floor,Buildings.Types.Tilt.Ceiling},
-        boundaryCondition={Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature,
-            Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature,Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature,
-            Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature,Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature,
-            Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature})),
-      nConBou=6);
-
-  Buildings.HeatTransfer.Sources.FixedTemperature TWalRes[nConBou - 1](
-      each T=283.15) "Boundary condition for the other walls" annotation (
-      Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        origin={110,-30})));
-
+    annotation(Placement(transformation(extent={{20, 140}, {40, 160}})));
+  extends Buildings.ThermalZones.Detailed.Examples.FFD.BaseClasses.PartialRoom(roo(datConBou(name={"East Wall", "West Wall", "North Wall", "South Wall", "Floor", "Ceiling"}, layers={matLayWal, matLayWal, matLayWal, matLayWal, matLayWal, matLayWal}, each A=1*1, til={Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Floor, Buildings.Types.Tilt.Ceiling}, boundaryCondition={Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature, Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature, Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature, Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature, Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature, Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature})), nConBou=6);
+  Buildings.HeatTransfer.Sources.FixedTemperature TWalRes[nConBou-1](each T=283.15)
+    "Boundary condition for the other walls"
+    annotation(Placement(transformation(extent={{10,-10}, {-10, 10}}, origin={110,-30})));
   HeatTransfer.Sources.FixedTemperature TEasWal(T=313.15)
     "Temperature of the east wall"
-    annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        origin={110,0})));
+    annotation(Placement(transformation(extent={{10,-10}, {-10, 10}}, origin={110, 0})));
 equation
-  for i in 1:nConBou - 1 loop
-    connect(TWalRes[i].port, roo.surf_conBou[i + 1]) annotation (Line(
-        points={{100,-30},{72,-30},{72,24}},
-        color={191,0,0},
-        smooth=Smooth.None));
+  for i in 1 : nConBou-1 loop
+    connect(TWalRes[i].port, roo.surf_conBou[i + 1])
+      annotation(Line(points={{100,-30}, {72,-30}, {72, 24}}, color={191, 0, 0}, smooth=Smooth.None));
   end for;
-
-  connect(TEasWal.port, roo.surf_conBou[1]) annotation (Line(
-      points={{100,0},{72,0},{72,24}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  annotation (
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{200,
-            200}}),     graphics),
-    __Dymola_Commands(file=
-          "modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Examples/FFD/RoomOnlyConstructionBoundary.mos"
-        "Simulate and plot"),
-    experiment(Tolerance=1e-06, StopTime=900),
-    Documentation(info="<html>
+  connect(TEasWal.port, roo.surf_conBou[1])
+    annotation(Line(points={{100, 0}, {72, 0}, {72, 24}}, color={191, 0, 0}, smooth=Smooth.None));
+  annotation(Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {200, 200}}), graphics), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Examples/FFD/RoomOnlyConstructionBoundary.mos"
+    "Simulate and plot"), experiment(Tolerance=1e-06, StopTime=900), Documentation(info="<html>
 <p>
 This model tests the copuled simulation of
 <a href=\"modelica://Buildings.ThermalZones.Detailed.CFD\">

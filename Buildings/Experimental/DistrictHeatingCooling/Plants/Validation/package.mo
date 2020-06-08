@@ -1,8 +1,8 @@
 within Buildings.Experimental.DistrictHeatingCooling.Plants;
-package Validation "Collection of validation models"
+package Validation
+  "Collection of validation models"
   extends Modelica.Icons.ExamplesPackage;
-
-annotation (Documentation(info="<html>
+  annotation(Documentation(info="<html>
 <p>
 This package contains models that validate the district heating and cooling plant models.
 The examples plot various outputs, which have been verified against

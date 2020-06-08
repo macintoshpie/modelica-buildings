@@ -1,9 +1,8 @@
 within Buildings.Electrical.AC.ThreePhasesUnbalanced.Validation.IEEETests;
-package Test4NodesFeeder "This package contains models for the IEEE 4 nodes test feeder"
-extends Modelica.Icons.ExamplesPackage;
-
-
-annotation (Documentation(info="<html>
+package Test4NodesFeeder
+  "This package contains models for the IEEE 4 nodes test feeder"
+  extends Modelica.Icons.ExamplesPackage;
+  annotation(Documentation(info="<html>
 <p>
 This package contains examples that shows the validation of the models
 against the IEEE four-nodes test feeder validation procedure <a href=\"#\"></a>.

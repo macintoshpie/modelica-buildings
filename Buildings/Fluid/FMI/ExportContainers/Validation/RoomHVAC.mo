@@ -1,60 +1,26 @@
 within Buildings.Fluid.FMI.ExportContainers.Validation;
 model RoomHVAC
   "Validation model for connected single thermal zone and HVAC system"
- extends Modelica.Icons.Example;
-
-  Buildings.Fluid.FMI.ExportContainers.Examples.FMUs.HVACZone hvaCon(
-    redeclare Buildings.Fluid.HeatExchangers.WetCoilCounterFlow cooCoi(
-      UA_nominal=-hvaCon.QCoiC_flow_nominal/
-        Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(
-        T_a1=hvaCon.THeaRecLvg,
-        T_b1=hvaCon.TASup_nominal,
-        T_a2=hvaCon.TWSup_nominal,
-        T_b2=hvaCon.TWRet_nominal),
-      dp1_nominal=6000,
-      dp2_nominal=200,
-      show_T=true,
-      energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-      allowFlowReversal1=hvaCon.allowFlowReversal,
-      allowFlowReversal2=hvaCon.allowFlowReversal))
+  extends Modelica.Icons.Example;
+  Buildings.Fluid.FMI.ExportContainers.Examples.FMUs.HVACZone hvaCon(redeclare Buildings.Fluid.HeatExchangers.WetCoilCounterFlow cooCoi(UA_nominal=-hvaCon.QCoiC_flow_nominal/Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(T_a1=hvaCon.THeaRecLvg, T_b1=hvaCon.TASup_nominal, T_a2=hvaCon.TWSup_nominal, T_b2=hvaCon.TWRet_nominal), dp1_nominal=6000, dp2_nominal=200, show_T=true, energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial, allowFlowReversal1=hvaCon.allowFlowReversal, allowFlowReversal2=hvaCon.allowFlowReversal))
     "Block that encapsulates the HVAC system"
-    annotation (Placement(transformation(extent={{-60,20},{-40,40}})));
+    annotation(Placement(transformation(extent={{-60, 20}, {-40, 40}})));
   Buildings.Fluid.FMI.ExportContainers.Examples.FMUs.ThermalZone rooCon
     "Block that encapsulates the thermal zone"
-    annotation (Placement(transformation(extent={{20,20},{40,40}})));
+    annotation(Placement(transformation(extent={{20, 20}, {40, 40}})));
   BaseCase baseCase
-    annotation (Placement(transformation(extent={{-60,60},{-40,80}})));
-  Examples.FMUs.HVACZones hvaCon2(
-    redeclare Buildings.Fluid.HeatExchangers.WetCoilCounterFlow cooCoi(
-      UA_nominal=-hvaCon2.QCoiC_flow_nominal/
-        Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(
-        T_a1=hvaCon2.THeaRecLvg,
-        T_b1=hvaCon2.TASup_nominal,
-        T_a2=hvaCon2.TWSup_nominal,
-        T_b2=hvaCon2.TWRet_nominal),
-      dp1_nominal=6000,
-      dp2_nominal=200,
-      show_T=true,
-      energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-      allowFlowReversal1=hvaCon2.allowFlowReversal,
-      allowFlowReversal2=hvaCon2.allowFlowReversal),
-    UA = 20E3,
-    QRooInt_flow = 2000,
-    fan2(constantMassFlowRate=0))
+    annotation(Placement(transformation(extent={{-60, 60}, {-40, 80}})));
+  Examples.FMUs.HVACZones hvaCon2(redeclare Buildings.Fluid.HeatExchangers.WetCoilCounterFlow cooCoi(UA_nominal=-hvaCon2.QCoiC_flow_nominal/Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(T_a1=hvaCon2.THeaRecLvg, T_b1=hvaCon2.TASup_nominal, T_a2=hvaCon2.TWSup_nominal, T_b2=hvaCon2.TWRet_nominal), dp1_nominal=6000, dp2_nominal=200, show_T=true, energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial, allowFlowReversal1=hvaCon2.allowFlowReversal, allowFlowReversal2=hvaCon2.allowFlowReversal), UA=20E3, QRooInt_flow=2000, fan2(constantMassFlowRate=0))
     "Block that encapsulates the HVAC system"
-    annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
-  TwoRooms rooCon2 "Model with two rooms" annotation (Placement(transformation(
-          extent={{20,-40},{40,-20}})));
-
+    annotation(Placement(transformation(extent={{-60,-40}, {-40,-20}})));
+  TwoRooms rooCon2
+    "Model with two rooms"
+    annotation(Placement(transformation(extent={{20,-40}, {40,-20}})));
 protected
-    model BaseCase "Base case model used for the validation of the FMI interfaces"
-    extends Buildings.Examples.Tutorial.SpaceCooling.System3(
-      vol(energyDynamics=
-      Modelica.Fluid.Types.Dynamics.FixedInitial),
-      fan(nominalValuesDefineDefaultPressureCurve=true),
-      hex(dp1_nominal=200 + 10,
-          dp2_nominal=200 + 200));
-    annotation (Documentation(info="<html>
+  model BaseCase
+    "Base case model used for the validation of the FMI interfaces"
+    extends Buildings.Examples.Tutorial.SpaceCooling.System3(vol(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial), fan(nominalValuesDefineDefaultPressureCurve=true), hex(dp1_nominal=200 + 10, dp2_nominal=200 + 200));
+    annotation(Documentation(info="<html>
 <p>
 This example is the base case model which is used to validate
 the coupling of a convective thermal zone with an air-based HVAC system.
@@ -73,74 +39,12 @@ The model which is validated using this model is
 Buildings.Fluid.FMI.ExportContainers.Validation.RoomHVAC
 </a>.
 </p>
-</html>"), Icon(graphics={
-          Rectangle(
-            extent={{-100,100},{100,-100}},
-            lineColor={28,108,200},
-            fillColor={255,255,255},
-            fillPattern=FillPattern.Solid),
-          Rectangle(
-            extent={{-72,-14},{56,-24}},
-            lineColor={0,0,0},
-            fillPattern=FillPattern.HorizontalCylinder,
-            fillColor={0,127,255}),
-          Ellipse(
-            extent={{-56,-2},{-22,-36}},
-            lineColor={0,0,255},
-            fillColor={255,255,255},
-            fillPattern=FillPattern.Solid),
-          Text(
-            extent={{-72,190},{70,84}},
-            lineColor={0,0,255},
-            textString="%name"),
-          Polygon(
-            points={{-28,-6},{-56,-18},{-28,-32},{-28,-6}},
-            lineColor={0,0,255},
-            fillColor={0,0,255},
-            fillPattern=FillPattern.Solid),
-          Polygon(
-            points={{26,54},{-20,32},{70,32},{26,54}},
-            lineColor={95,95,95},
-            smooth=Smooth.None,
-            fillPattern=FillPattern.Solid,
-            fillColor={95,95,95}),
-          Rectangle(
-            extent={{-12,32},{62,-30}},
-            lineColor={150,150,150},
-            fillPattern=FillPattern.Solid,
-            fillColor={150,150,150}),
-          Rectangle(
-            extent={{-2,-4},{20,26}},
-            lineColor={255,255,255},
-            fillColor={255,255,255},
-            fillPattern=FillPattern.Solid),
-          Rectangle(
-            extent={{34,-4},{54,26}},
-            lineColor={255,255,255},
-            fillColor={255,255,255},
-            fillPattern=FillPattern.Solid),
-          Rectangle(
-            extent={{-74,24},{-12,16}},
-            lineColor={0,0,0},
-            fillPattern=FillPattern.HorizontalCylinder,
-            fillColor={0,127,255}),
-          Ellipse(
-            extent={{-58,36},{-24,2}},
-            lineColor={0,0,255},
-            fillColor={255,255,255},
-            fillPattern=FillPattern.Solid),
-          Polygon(
-            points={{-52,32},{-24,20},{-52,6},{-52,32}},
-            lineColor={0,0,255},
-            fillColor={0,0,255},
-            fillPattern=FillPattern.Solid)}));
-    end BaseCase;
-
-  model TwoRooms "Model with two simple thermal zones, each having three air flow paths"
-    extends
-      Buildings.Fluid.FMI.ExportContainers.Examples.FMUs.ThermalZones;
-
-    annotation (Documentation(info="<html>
+</html>"), Icon(graphics={Rectangle(extent={{-100, 100}, {100,-100}}, lineColor={28, 108, 200}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid), Rectangle(extent={{-72,-14}, {56,-24}}, lineColor={0, 0, 0}, fillPattern=FillPattern.HorizontalCylinder, fillColor={0, 127, 255}), Ellipse(extent={{-56,-2}, {-22,-36}}, lineColor={0, 0, 255}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid), Text(extent={{-72, 190}, {70, 84}}, lineColor={0, 0, 255}, textString="%name"), Polygon(points={{-28,-6}, {-56,-18}, {-28,-32}, {-28,-6}}, lineColor={0, 0, 255}, fillColor={0, 0, 255}, fillPattern=FillPattern.Solid), Polygon(points={{26, 54}, {-20, 32}, {70, 32}, {26, 54}}, lineColor={95, 95, 95}, smooth=Smooth.None, fillPattern=FillPattern.Solid, fillColor={95, 95, 95}), Rectangle(extent={{-12, 32}, {62,-30}}, lineColor={150, 150, 150}, fillPattern=FillPattern.Solid, fillColor={150, 150, 150}), Rectangle(extent={{-2,-4}, {20, 26}}, lineColor={255, 255, 255}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid), Rectangle(extent={{34,-4}, {54, 26}}, lineColor={255, 255, 255}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid), Rectangle(extent={{-74, 24}, {-12, 16}}, lineColor={0, 0, 0}, fillPattern=FillPattern.HorizontalCylinder, fillColor={0, 127, 255}), Ellipse(extent={{-58, 36}, {-24, 2}}, lineColor={0, 0, 255}, fillColor={255, 255, 255}, fillPattern=FillPattern.Solid), Polygon(points={{-52, 32}, {-24, 20}, {-52, 6}, {-52, 32}}, lineColor={0, 0, 255}, fillColor={0, 0, 255}, fillPattern=FillPattern.Solid)}));
+  end BaseCase;
+  model TwoRooms
+    "Model with two simple thermal zones, each having three air flow paths"
+    extends Buildings.Fluid.FMI.ExportContainers.Examples.FMUs.ThermalZones;
+    annotation(Documentation(info="<html>
 <p>
 This model extends
 <a href=\"modelica://Buildings.Fluid.FMI.ExportContainers.Examples.FMUs.ThermalZones\">
@@ -160,22 +64,18 @@ First implementation.
 </ul>
 </html>"));
   end TwoRooms;
-
 equation
-
-  connect(hvaCon.fluPor, rooCon.fluPor) annotation (Line(points={{-39.375,38.75},
-          {19.375,38.75}},                                color={0,0,255}));
-  connect(hvaCon2.fluPor, rooCon2.fluPor) annotation (Line(points={{-39.375,
-          -22.3529},{-10,-22.3529},{-10,-21.25},{19.375,-21.25}},
-                            color={0,0,255}));
-  connect(rooCon.TRad, hvaCon.TRadZon) annotation (Line(points={{19.375,28.75},
-          {-20,28.75},{-20,33.8125},{-39.3125,33.8125}}, color={0,0,127}));
-  connect(rooCon2.TRad1, hvaCon2.TRadZon[1]) annotation (Line(points={{19.375,
-          -30},{-20,-30},{-20,-26.9412},{-39.375,-26.9412}}, color={0,0,127}));
-  connect(rooCon2.TRad2, hvaCon2.TRadZon[2]) annotation (Line(points={{19.375,
-          -32.5},{-20,-32.5},{-20,-26.9412},{-39.375,-26.9412}}, color={0,0,127}));
-    annotation (
-    Documentation(info="<html>
+  connect(hvaCon.fluPor, rooCon.fluPor)
+    annotation(Line(points={{-39.375, 38.75}, {19.375, 38.75}}, color={0, 0, 255}));
+  connect(hvaCon2.fluPor, rooCon2.fluPor)
+    annotation(Line(points={{-39.375,-22.3529}, {-10,-22.3529}, {-10,-21.25}, {19.375,-21.25}}, color={0, 0, 255}));
+  connect(rooCon.TRad, hvaCon.TRadZon)
+    annotation(Line(points={{19.375, 28.75}, {-20, 28.75}, {-20, 33.8125}, {-39.3125, 33.8125}}, color={0, 0, 127}));
+  connect(rooCon2.TRad1, hvaCon2.TRadZon[1])
+    annotation(Line(points={{19.375,-30}, {-20,-30}, {-20,-26.9412}, {-39.375,-26.9412}}, color={0, 0, 127}));
+  connect(rooCon2.TRad2, hvaCon2.TRadZon[2])
+    annotation(Line(points={{19.375,-32.5}, {-20,-32.5}, {-20,-26.9412}, {-39.375,-26.9412}}, color={0, 0, 127}));
+  annotation(Documentation(info="<html>
 <p>
 This example validates the coupling of convective thermal zones with air-based HVAC systems.
 The model has the following three parts:
@@ -228,8 +128,6 @@ May 03, 2016, by Thierry S. Nouidui:<br/>
 First implementation.
 </li>
 </ul>
-</html>"),
-__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/FMI/ExportContainers/Validation/RoomHVAC.mos"
-        "Simulate and plot"),
-    experiment(StartTime=1.5552e+07, StopTime=1.56384e+07, Tolerance=1e-7));
+</html>"), __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/FMI/ExportContainers/Validation/RoomHVAC.mos"
+    "Simulate and plot"), experiment(StartTime=1.5552e+07, StopTime=1.56384e+07, Tolerance=1e-7));
 end RoomHVAC;

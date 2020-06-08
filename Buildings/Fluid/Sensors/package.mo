@@ -1,8 +1,8 @@
 within Buildings.Fluid;
-package Sensors "Package with sensor models"
+package Sensors
+  "Package with sensor models"
   extends Modelica.Icons.SensorsPackage;
-annotation (preferredView="info",
-Documentation(info="<html>
+  annotation(preferredView="info", Documentation(info="<html>
 <p>
 Package <code>Sensors</code> consists of idealized sensor components that
 provide variables of a medium as
@@ -12,8 +12,7 @@ with components of the
 Modelica.Blocks</a>
 library.
 </p>
-</html>",
-      revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li><i>22 Dec 2008</i>
     by R&uuml;diger Franke
