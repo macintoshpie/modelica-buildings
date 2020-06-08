@@ -1,27 +1,35 @@
 within Buildings.HeatTransfer.Interfaces;
-connector RadiosityInflow = input Real(min=0, final unit="W", nominal=419)
+connector RadiosityInflow=input Real(
+  min=0,
+  final unit="W",
+  nominal=419)
   "Connector for inflowing radiosity"
-  annotation(defaultComponentName = "JIn", Icon(graphics={Polygon(
-        points={{-100,100},{100,0},{-100,-100},{-100,100}},
+  annotation(
+    defaultComponentName="JIn",
+    Icon(
+      graphics={Polygon(
+        points={{-100, 100}, {100, 0}, {-100,-100}, {-100, 100}},
         pattern=LinePattern.None,
         smooth=Smooth.None,
-        fillColor={0,127,0},
+        fillColor={0, 127, 0},
         fillPattern=FillPattern.Solid)}),
-  Diagram(graphics={                    Text(
-        extent={{-38,120},{38,100}},
-        lineColor={0,127,0},
-        fillColor={0,127,0},
+    Diagram(
+      graphics={Text(
+        extent={{-38, 120}, {38, 100}},
+        lineColor={0, 127, 0},
+        fillColor={0, 127, 0},
         fillPattern=FillPattern.Solid,
-        textString="%name"),                              Polygon(
-        points={{-100,100},{100,0},{-100,-100},{-100,100}},
+        textString="%name"), Polygon(
+        points={{-100, 100}, {100, 0}, {-100,-100}, {-100, 100}},
         pattern=LinePattern.None,
         smooth=Smooth.None,
-        fillColor={0,127,0},
+        fillColor={0, 127, 0},
         fillPattern=FillPattern.Solid)}),
-  Documentation(info="<html>
+    Documentation(
+      info="<html>
 The nominal value is set to <i>&sigma; T<sup>4</sup> = &sigma; 293.15<sup>4</sup> = 419</i>.
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 June 27, 2013, by Michael Wetter:<br/>

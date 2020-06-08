@@ -1,7 +1,7 @@
 within Buildings.Electrical.AC.ThreePhasesUnbalanced.Conversion;
-model ACACConverter "AC AC converter single phase systems (YY)"
-  extends
-    Buildings.Electrical.AC.ThreePhasesUnbalanced.Conversion.BaseClasses.PartialConverterYY(
+model ACACConverter
+  "AC AC converter single phase systems (YY)"
+  extends Buildings.Electrical.AC.ThreePhasesUnbalanced.Conversion.BaseClasses.PartialConverterYY(
     redeclare Buildings.Electrical.AC.OnePhase.Conversion.ACACConverter conv1(
       conversionFactor=conversionFactor,
       eta=eta,
@@ -19,48 +19,51 @@ model ACACConverter "AC AC converter single phase systems (YY)"
       ground_2=ground_2));
   parameter Real conversionFactor
     "Ratio of QS rms voltage on side 2 / QS rms voltage on side 1";
-  parameter Modelica.SIunits.Efficiency eta(max=1)
+  parameter Modelica.SIunits.Efficiency eta(
+    max=1)
     "Converter efficiency, pLoss = (1-eta) * Ptr";
-  parameter Boolean ground_1 = false "Connect side 1 of converter to ground" annotation(Dialog(tab = "Ground", group="side 1"));
-  parameter Boolean ground_2 = true "Connect side 2 of converter to ground" annotation(Dialog(tab = "Ground", group="side 2"));
-
-  annotation (
-  defaultComponentName="conv",
- Icon(graphics={
-        Line(
-          points={{2,60},{2,60},{82,60},{2,60},{82,-60},{2,-60},{2,60},{2,-60}},
-          color={0,120,120},
-          smooth=Smooth.None),
-        Line(
-          points={{-2,60},{-2,60},{-82,60},{-2,60},{-82,-60},{-2,-60},{-2,60},{
-              -2,-60}},
-          color={11,193,87},
-          smooth=Smooth.None),
-        Text(
-          extent={{-100,92},{100,60}},
-          lineColor={0,0,0},
-          textString="%name"),
-        Text(
-          extent={{-100,-60},{100,-92}},
-          lineColor={0,0,0},
-          textString="%conversionFactor"),
-        Text(
-          extent={{-132,78},{-72,38}},
-          lineColor={11,193,87},
-          textString="1"),
-        Text(
-          extent={{-88,52},{-28,12}},
-          lineColor={11,193,87},
-          textString="AC"),
-        Text(
-          extent={{32,52},{92,12}},
-          lineColor={0,120,120},
-          textString="AC"),
-        Text(
-          extent={{70,78},{130,38}},
-          lineColor={0,120,120},
-          textString="2")}),
-    Documentation(info="<html>
+  parameter Boolean ground_1=false
+    "Connect side 1 of converter to ground"
+    annotation(
+      Dialog(
+        tab="Ground",
+        group="side 1"));
+  parameter Boolean ground_2=true
+    "Connect side 2 of converter to ground"
+    annotation(
+      Dialog(
+        tab="Ground",
+        group="side 2"));
+  annotation(
+    defaultComponentName="conv",
+    Icon(
+      graphics={Line(
+        points={{2, 60}, {2, 60}, {82, 60}, {2, 60}, {82,-60}, {2,-60}, {2, 60}, {2,-60}},
+        color={0, 120, 120},
+        smooth=Smooth.None), Line(
+        points={{-2, 60}, {-2, 60}, {-82, 60}, {-2, 60}, {-82,-60}, {-2,-60}, {-2, 60}, {-2,-60}},
+        color={11, 193, 87},
+        smooth=Smooth.None), Text(
+        extent={{-100, 92}, {100, 60}},
+        lineColor={0, 0, 0},
+        textString="%name"), Text(
+        extent={{-100,-60}, {100,-92}},
+        lineColor={0, 0, 0},
+        textString="%conversionFactor"), Text(
+        extent={{-132, 78}, {-72, 38}},
+        lineColor={11, 193, 87},
+        textString="1"), Text(
+        extent={{-88, 52}, {-28, 12}},
+        lineColor={11, 193, 87},
+        textString="AC"), Text(
+        extent={{32, 52}, {92, 12}},
+        lineColor={0, 120, 120},
+        textString="AC"), Text(
+        extent={{70, 78}, {130, 38}},
+        lineColor={0, 120, 120},
+        textString="2")}),
+    Documentation(
+      info="<html>
 <p>
 This is an AC AC converter, based on a power balance between both circuit sides.
 The parameter <i>conversionFactor</i> defines the ratio between the RMS voltages
@@ -110,7 +113,8 @@ See
 Buildings.Electrical.AC.ThreePhasesUnbalanced.Conversion.BaseClasses.PartialConverterYY</a> for
 details on the connections.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 October 3, 2014, by Marco Bonvini:<br/>

@@ -1,8 +1,11 @@
 within Buildings.Experimental.DistrictHeatingCooling.SubStations.VaporCompression;
-package Validation "Package with models for validation"
+package Validation
+  "Package with models for validation"
   extends Modelica.Icons.ExamplesPackage;
-
-annotation (preferredView="info", Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 <p>
 This package contains models that validate the chiller models.
 The examples plot various outputs, which have been verified against

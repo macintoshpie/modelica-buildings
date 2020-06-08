@@ -1,66 +1,73 @@
 within Buildings.ThermalZones.Detailed.FLEXLAB.Rooms.X3A;
-model Closet "Model of the closet connected to test cell X3A"
+model Closet
+  "Model of the closet connected to test cell X3A"
   extends Buildings.ThermalZones.Detailed.MixedAir(
-  hRoo = 3.6576,
-  AFlo = 3.93,
-  lat = 0.66098585832754,
-  nConExt = 2,
-  nConBou = 3,
-  nSurBou = 2,
-  nConExtWin = 0,
-  nConPar = 0,
-  surBou(
-    A = {3.6576 * 2.886075 - 2.39*1.22, 2.39 * 1.22},
-    each absIR = 0.9,
-    each absSol = 0.9,
-    each til=Buildings.Types.Tilt.Wall),
-  datConExt(
-    layers = {higIns, roo},
-    A = {3.6576 * 1.667, AFlo},
-    til = {Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Ceiling},
-    azi = {Buildings.Types.Azimuth.N, Buildings.Types.Azimuth.N}),
-  datConBou(
-    layers = {higIns, celDiv, slaCon},
-    A = {3.6576*1.524, 3.6576 * 1.524, 3.93},
-    til = {Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Floor},
-    azi = {Buildings.Types.Azimuth.W, Buildings.Types.Azimuth.E, Buildings.Types.Azimuth.N},
-    stateAtSurface_a = {true, false, false}));
-
-  replaceable parameter
-    Data.Constructions.OpaqueConstructions.DividingWalls.CellAndElectricalDividingWall
-                                                                      higIns
+    hRoo=3.6576,
+    AFlo=3.93,
+    lat=0.66098585832754,
+    nConExt=2,
+    nConBou=3,
+    nSurBou=2,
+    nConExtWin=0,
+    nConPar=0,
+    surBou(
+      A={3.6576*2.886075-2.39*1.22, 2.39*1.22},
+      each absIR=0.9,
+      each absSol=0.9,
+      each til=Buildings.Types.Tilt.Wall),
+    datConExt(
+      layers={higIns, roo},
+      A={3.6576*1.667, AFlo},
+      til={Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Ceiling},
+      azi={Buildings.Types.Azimuth.N, Buildings.Types.Azimuth.N}),
+    datConBou(
+      layers={higIns, celDiv, slaCon},
+      A={3.6576*1.524, 3.6576*1.524, 3.93},
+      til={Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Floor},
+      azi={Buildings.Types.Azimuth.W, Buildings.Types.Azimuth.E, Buildings.Types.Azimuth.N},
+      stateAtSurface_a={true, false, false}));
+  replaceable parameter Data.Constructions.OpaqueConstructions.DividingWalls.CellAndElectricalDividingWall higIns
     "High insulation wall. Between X3A closet and exterior, X3A closet and electrical room"
-    annotation (Placement(transformation(extent={{430,-208},{450,-188}})));
-  replaceable parameter
-    Data.Constructions.OpaqueConstructions.DividingWalls.TestCellDividngWall
-                                                                         celDiv
+    annotation(
+      Placement(
+        transformation(
+          extent={{430,-208}, {450,-188}})));
+  replaceable parameter Data.Constructions.OpaqueConstructions.DividingWalls.TestCellDividngWall celDiv
     "Wall dividing the X3A closet and the X3B closet"
-    annotation (Placement(transformation(extent={{430,-178},{450,-158}})));
-  replaceable parameter Data.Constructions.OpaqueConstructions.Roofs.ASHRAE_901_2010Roof
-                                                                   roo
+    annotation(
+      Placement(
+        transformation(
+          extent={{430,-178}, {450,-158}})));
+  replaceable parameter Data.Constructions.OpaqueConstructions.Roofs.ASHRAE_901_2010Roof roo
     "Construction of the roof of the closet in X3A"
-    annotation(Placement(transformation(extent={{430,-148},{450,-128}})));
-
-  parameter HeatTransfer.Data.OpaqueConstructions.Generic
-    slaCon(nLay=3, material={
-      Buildings.HeatTransfer.Data.Solids.Generic(
-        x=0.1524,
-        k=1.13,
-        c=1000,
-        d=1400,
-        nSta=5),
-      Buildings.HeatTransfer.Data.Solids.Generic(
-        x=0.127,
-        k=0.036,
-        c=1200,
-        d=40),
-      Buildings.HeatTransfer.Data.Solids.Generic(
-        x=0.2,
-        k=1.8,
-        c=1100,
-        d=2400)}) "Construction of the slab"
-    annotation (Placement(transformation(extent={{432,-118},{452,-98}})));
-    annotation (Documentation(info="<html>
+    annotation(
+      Placement(
+        transformation(
+          extent={{430,-148}, {450,-128}})));
+  parameter HeatTransfer.Data.OpaqueConstructions.Generic slaCon(
+    nLay=3,
+    material={Buildings.HeatTransfer.Data.Solids.Generic(
+      x=0.1524,
+      k=1.13,
+      c=1000,
+      d=1400,
+      nSta=5), Buildings.HeatTransfer.Data.Solids.Generic(
+      x=0.127,
+      k=0.036,
+      c=1200,
+      d=40), Buildings.HeatTransfer.Data.Solids.Generic(
+      x=0.2,
+      k=1.8,
+      c=1100,
+      d=2400)})
+    "Construction of the slab"
+    annotation(
+      Placement(
+        transformation(
+          extent={{432,-118}, {452,-98}})));
+  annotation(
+    Documentation(
+      info="<html>
     <p>
     This is a model for the closet attached to test cell 3A in the LBNL User Facility.
     This documentation describes the wall constructions used in the closet. Documentation
@@ -148,59 +155,55 @@ model Closet "Model of the closet connected to test cell X3A"
     </tr>
     </table>
     </html>",
-    revisions = "<html>
+      revisions="<html>
     <ul>
     <li>Sept 16, 2013 by Peter Grant:<br/>
     Added a model representing the floor.</li>
     <li>July 26, 2013 by Peter Grant:<br/>
     First implementation.</li>
     </ul>
-    </html>"), Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,
-            -200},{200,200}}), graphics={
-        Bitmap(extent={{-160,164},{162,-166}}, fileName=
-              "modelica://Buildings/Resources/Images/ThermalZones/Detailed/FLEXLAB/Rooms/icon.png"),
-        Rectangle(
-          extent={{-108,-132},{-56,-148}},
-          pattern=LinePattern.None,
-          fillColor={215,215,215},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-136,-82},{-84,-98}},
-          pattern=LinePattern.None,
-          fillColor={215,215,215},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-74,-26},{-22,-42}},
-          pattern=LinePattern.None,
-          fillColor={215,215,215},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-58,12},{-26,-8}},
-          pattern=LinePattern.None,
-          fillColor={215,215,215},
-          fillPattern=FillPattern.Solid),
-        Text(
-          extent={{-60,12},{-22,-10}},
-          lineColor={0,0,0},
-          fillColor={61,61,61},
-          fillPattern=FillPattern.Solid,
-          textString="air"),
-        Text(
-          extent={{-72,-22},{-22,-50}},
-          lineColor={0,0,0},
-          fillColor={61,61,61},
-          fillPattern=FillPattern.Solid,
-          textString="radiation"),
-        Text(
-          extent={{-104,-124},{-54,-152}},
-          lineColor={0,0,0},
-          fillColor={61,61,61},
-          fillPattern=FillPattern.Solid,
-          textString="surface"),
-        Text(
-          extent={{-138,-82},{-96,-100}},
-          lineColor={0,0,0},
-          fillColor={61,61,61},
-          fillPattern=FillPattern.Solid,
-          textString="fluid")}));
+    </html>"),
+    Icon(
+      coordinateSystem(
+        preserveAspectRatio=false,
+        extent={{-200,-200}, {200, 200}}),
+      graphics={Bitmap(
+        extent={{-160, 164}, {162,-166}},
+        fileName="modelica://Buildings/Resources/Images/ThermalZones/Detailed/FLEXLAB/Rooms/icon.png"), Rectangle(
+        extent={{-108,-132}, {-56,-148}},
+        pattern=LinePattern.None,
+        fillColor={215, 215, 215},
+        fillPattern=FillPattern.Solid), Rectangle(
+        extent={{-136,-82}, {-84,-98}},
+        pattern=LinePattern.None,
+        fillColor={215, 215, 215},
+        fillPattern=FillPattern.Solid), Rectangle(
+        extent={{-74,-26}, {-22,-42}},
+        pattern=LinePattern.None,
+        fillColor={215, 215, 215},
+        fillPattern=FillPattern.Solid), Rectangle(
+        extent={{-58, 12}, {-26,-8}},
+        pattern=LinePattern.None,
+        fillColor={215, 215, 215},
+        fillPattern=FillPattern.Solid), Text(
+        extent={{-60, 12}, {-22,-10}},
+        lineColor={0, 0, 0},
+        fillColor={61, 61, 61},
+        fillPattern=FillPattern.Solid,
+        textString="air"), Text(
+        extent={{-72,-22}, {-22,-50}},
+        lineColor={0, 0, 0},
+        fillColor={61, 61, 61},
+        fillPattern=FillPattern.Solid,
+        textString="radiation"), Text(
+        extent={{-104,-124}, {-54,-152}},
+        lineColor={0, 0, 0},
+        fillColor={61, 61, 61},
+        fillPattern=FillPattern.Solid,
+        textString="surface"), Text(
+        extent={{-138,-82}, {-96,-100}},
+        lineColor={0, 0, 0},
+        fillColor={61, 61, 61},
+        fillPattern=FillPattern.Solid,
+        textString="fluid")}));
 end Closet;

@@ -1,8 +1,10 @@
 within Buildings.Examples.ScalableBenchmarks.BuildingVAV;
-package Examples "Demonstrate model scalability"
-extends Modelica.Icons.ExamplesPackage;
-
-  annotation (Documentation(info="<html>
+package Examples
+  "Demonstrate model scalability"
+  extends Modelica.Icons.ExamplesPackage;
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This package demonstrates the scalability of the building envelope model and the
 corresponded VAV AHU system. A one zone model is implemented in
@@ -14,7 +16,7 @@ Buildings.Examples.ScalableBenchmarks.BuildingVAV.Examples.TwoFloor_TwoZone</a>.
 </p>
 
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 June 16, 2017, by Jianjun Hu:<br/>

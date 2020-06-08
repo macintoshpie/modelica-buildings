@@ -2,26 +2,35 @@ within Buildings.HeatTransfer.Windows.BaseClasses;
 model ExteriorConvectionCoefficient
   "Model for the heat transfer coefficient at the outside of the window"
   extends Modelica.Blocks.Icons.Block;
-  parameter Modelica.SIunits.Area A "Heat transfer area";
-
-  Modelica.Blocks.Interfaces.RealOutput GCon(unit="W/K")
+  parameter Modelica.SIunits.Area A
+    "Heat transfer area";
+  Modelica.Blocks.Interfaces.RealOutput GCon(
+    unit="W/K")
     "Convective thermal conductance"
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  Modelica.Blocks.Interfaces.RealInput v(unit="m/s") "Wind speed"
-    annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
-
+    annotation(
+      Placement(
+        transformation(
+          extent={{100,-10}, {120, 10}})));
+  Modelica.Blocks.Interfaces.RealInput v(
+    unit="m/s")
+    "Wind speed"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140,-20}, {-100, 20}})));
 equation
-  GCon = A*(4+4*Buildings.Utilities.Math.Functions.smoothMax(v, -v, 0.1));
-  annotation ( Icon(graphics={
-        Text(
-          extent={{-92,22},{-50,-22}},
-          lineColor={0,0,127},
-          textString="v"),
-        Text(
-          extent={{40,26},{92,-20}},
-          lineColor={0,0,127},
-          textString="GCon")}),
-           Documentation(info="<html>
+  GCon=A*(4 + 4*Buildings.Utilities.Math.Functions.smoothMax(v,-v, 0.1));
+  annotation(
+    Icon(
+      graphics={Text(
+        extent={{-92, 22}, {-50,-22}},
+        lineColor={0, 0, 127},
+        textString="v"), Text(
+        extent={{40, 26}, {92,-20}},
+        lineColor={0, 0, 127},
+        textString="GCon")}),
+    Documentation(
+      info="<html>
 Model for the convective heat transfer coefficient at the outside of a window.
 The computation is according to TARCOG 2006, which specifies the convection
 coefficient as
@@ -36,7 +45,8 @@ where <i>v</i> is the wind speed in <i>m/s</i> and
 TARCOG 2006: Carli, Inc., TARCOG: Mathematical models for calculation
 of thermal performance of glazing systems with our without
 shading devices, Technical Report, Oct. 17, 2006.
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 August 19 2010, by Michael Wetter:<br/>

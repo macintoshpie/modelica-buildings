@@ -1,8 +1,11 @@
 within Buildings.Utilities.Diagnostics;
-package Validation "Collection of models that validate the diagnostics models"
+package Validation
+  "Collection of models that validate the diagnostics models"
   extends Modelica.Icons.ExamplesPackage;
-
-annotation (preferredView="info", Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 <p>
 This package contains models that validate the diagnostics models.
 These model outputs are stored as reference data to

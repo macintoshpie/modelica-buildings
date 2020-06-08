@@ -1,8 +1,10 @@
 within Buildings.Electrical.Transmission;
-package LowVoltageCables "Package of low voltage electricity cables used in distribution grid"
+package LowVoltageCables
+  "Package of low voltage electricity cables used in distribution grid"
   extends Modelica.Icons.MaterialPropertiesPackage;
-
-annotation (Documentation(info="<html>
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This package contains records of physical properties for low
 voltage commercial cables. New cables can be added by extending the
@@ -16,7 +18,8 @@ specified. See <a href=\"modelia://Buildings.Electrical.Transmission.Base.BaseCa
 Buildings.Electrical.Transmission.Base.BaseCable</a> for a comprehensive list of
 parameters that can be specified for a cable.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 June 3, 2014, by Marco Bonvini:<br/>

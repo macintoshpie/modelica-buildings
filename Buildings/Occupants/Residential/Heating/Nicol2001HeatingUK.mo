@@ -1,61 +1,87 @@
 within Buildings.Occupants.Residential.Heating;
-model Nicol2001HeatingUK "A model to predict occupants' heating behavior with outdoor temperature"
+model Nicol2001HeatingUK
+  "A model to predict occupants' heating behavior with outdoor temperature"
   extends Modelica.Blocks.Icons.DiscreteBlock;
-  parameter Real A(final unit="1/K") = -0.514 "Slope of the logistic relation";
-  parameter Real B(final unit="1") = 5.28 "Intercept of the logistic relation";
-  parameter Integer seed = 10 "Seed for the random number generator";
-  parameter Modelica.SIunits.Time samplePeriod = 120 "Sample period";
-
+  parameter Real A(
+    final unit="1/K")=-0.514
+    "Slope of the logistic relation";
+  parameter Real B(
+    final unit="1")=5.28
+    "Intercept of the logistic relation";
+  parameter Integer seed=10
+    "Seed for the random number generator";
+  parameter Modelica.SIunits.Time samplePeriod=120
+    "Sample period";
   Modelica.Blocks.Interfaces.RealInput TOut(
     final unit="K",
-    displayUnit="degC") "Outdoor air temperature" annotation (Placement(transformation(extent={{-140,-80},{-100,-40}}),
-      iconTransformation(extent={{-140,-80},{-100,-40}})));
+    displayUnit="degC")
+    "Outdoor air temperature"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140,-80}, {-100,-40}}),
+        iconTransformation(
+          extent={{-140,-80}, {-100,-40}})));
   Modelica.Blocks.Interfaces.BooleanInput occ
     "Indoor occupancy, true for occupied"
-    annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
-
-  Modelica.Blocks.Interfaces.BooleanOutput on "State of heater"
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140, 40}, {-100, 80}})));
+  Modelica.Blocks.Interfaces.BooleanOutput on
+    "State of heater"
+    annotation(
+      Placement(
+        transformation(
+          extent={{100,-10}, {120, 10}})));
   Real p(
     final unit="1",
     final min=0,
-    final max=1) "Probability of heating being on";
-
+    final max=1)
+    "Probability of heating being on";
 protected
-  parameter Modelica.SIunits.Time t0(final fixed = false) "First sample time instant";
-  output Boolean sampleTrigger "True, if sample time instant";
-  Real curSeed "Current value for seed as a real-valued variable";
-
+  parameter Modelica.SIunits.Time t0(
+    final fixed=false)
+    "First sample time instant";
+  output Boolean sampleTrigger
+    "True, if sample time instant";
+  Real curSeed
+    "Current value for seed as a real-valued variable";
 initial equation
-  t0 = time;
-  curSeed = t0*seed;
-  p = Modelica.Math.exp(A*(TOut - 273.15)+B)/(Modelica.Math.exp(A*(TOut - 273.15)+B) + 1);
-  on = Buildings.Occupants.BaseClasses.binaryVariableGeneration(p=p, globalSeed=integer(curSeed));
-
+  t0=time;
+  curSeed=t0*seed;
+  p=Modelica.Math.exp(A*(TOut-273.15) + B)/(Modelica.Math.exp(A*(TOut-273.15) + B) + 1);
+  on=Buildings.Occupants.BaseClasses.binaryVariableGeneration(
+    p=p,
+    globalSeed=integer(curSeed));
 equation
-  sampleTrigger = sample(t0,samplePeriod);
+  sampleTrigger=sample(t0, samplePeriod);
   when sampleTrigger then
-    curSeed = seed*time;
+    curSeed=seed*time;
     if occ then
-      p = Modelica.Math.exp(A*(TOut - 273.15)+B)/(Modelica.Math.exp(A*( TOut - 273.15)+B) + 1);
-      on = Buildings.Occupants.BaseClasses.binaryVariableGeneration(p=p, globalSeed=integer(curSeed));
+      p=Modelica.Math.exp(A*(TOut-273.15) + B)/(Modelica.Math.exp(A*(TOut-273.15) + B) + 1);
+      on=Buildings.Occupants.BaseClasses.binaryVariableGeneration(
+        p=p,
+        globalSeed=integer(curSeed));
     else
-      p = 0;
-      on = false;
+      p=0;
+      on=false;
     end if;
   end when;
-
-  annotation (Icon(graphics={
-            Rectangle(extent={{-60,40},{60,-40}}, lineColor={28,108,200}), Text(
-            extent={{-40,20},{40,-20}},
-            lineColor={28,108,200},
-            fillColor={0,0,255},
-            fillPattern=FillPattern.Solid,
-            textStyle={TextStyle.Bold},
-            textString="Heater_Tout")}),
-defaultComponentName="hea",
-Documentation(info="<html>
+  annotation(
+    Icon(
+      graphics={Rectangle(
+        extent={{-60, 40}, {60,-40}},
+        lineColor={28, 108, 200}), Text(
+        extent={{-40, 20}, {40,-20}},
+        lineColor={28, 108, 200},
+        fillColor={0, 0, 255},
+        fillPattern=FillPattern.Solid,
+        textStyle={TextStyle.Bold},
+        textString="Heater_Tout")}),
+    defaultComponentName="hea",
+    Documentation(
+      info="<html>
 <p>
 Model predicting the state of the heater with the outdoor temperature
 and occupancy.
@@ -78,7 +104,7 @@ The model parameters are regressed from the field study in the UK in
 1998 from 3600 naturally ventilated buildings.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 July 20, 2018, by Zhe Wang:<br/>

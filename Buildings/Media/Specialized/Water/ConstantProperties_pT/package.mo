@@ -1,8 +1,8 @@
 within Buildings.Media.Specialized.Water;
-package ConstantProperties_pT "Package with model for liquid water with constant properties at user-provided nominal conditions"
-
+package ConstantProperties_pT
+  "Package with model for liquid water with constant properties at user-provided nominal conditions"
   extends Buildings.Media.Water(
-    mediumName="ConstantPropertyWater(p="+String(p_nominal)+",T="+String(T_nominal)+")",
+    mediumName="ConstantPropertyWater(p=" + String(p_nominal) + ",T=" + String(T_nominal) + ")",
     p_default=p_nominal,
     reference_p=p_nominal,
     cp_const=cp_nominal,
@@ -11,44 +11,25 @@ package ConstantProperties_pT "Package with model for liquid water with constant
     lambda_const=lambda_nominal,
     a_const=a_nominal,
     T_max=T_max_nominal);
-
-  constant Modelica.SIunits.Temperature T_max_nominal=
-  Modelica.Media.Water.IF97_Utilities.BaseIF97.Basic.tsat(p_nominal)
+  constant Modelica.SIunits.Temperature T_max_nominal=Modelica.Media.Water.IF97_Utilities.BaseIF97.Basic.tsat(p_nominal)
     "Maximum temperature valid for medium model";
-
-  constant Modelica.SIunits.Temperature T_nominal = 273.15 + 20
+  constant Modelica.SIunits.Temperature T_nominal=273.15 + 20
     "Nominal temperature for calculation of water properties";
-
-  constant Modelica.SIunits.VelocityOfSound a_nominal=
-    Modelica.Media.Water.IF97_Utilities.velocityOfSound_pT(p_nominal, T_nominal)
+  constant Modelica.SIunits.VelocityOfSound a_nominal=Modelica.Media.Water.IF97_Utilities.velocityOfSound_pT(p_nominal, T_nominal)
     "Constant velocity of sound";
-
-  constant Modelica.SIunits.SpecificHeatCapacity cp_nominal=
-    Modelica.Media.Water.IF97_Utilities.cp_pT(p_nominal, T_nominal)
+  constant Modelica.SIunits.SpecificHeatCapacity cp_nominal=Modelica.Media.Water.IF97_Utilities.cp_pT(p_nominal, T_nominal)
     "Specific heat capacity at nominal water conditions";
-
-  constant Modelica.SIunits.Density d_nominal=
-    Modelica.Media.Water.IF97_Utilities.rho_pT(p_nominal, T_nominal)
+  constant Modelica.SIunits.Density d_nominal=Modelica.Media.Water.IF97_Utilities.rho_pT(p_nominal, T_nominal)
     "Density at nominal water conditions";
-
-  constant Modelica.SIunits.DynamicViscosity eta_nominal=
-   Modelica.Media.Water.IF97_Utilities.dynamicViscosity(
-     d_nominal,
-     T_nominal,
-     p_nominal)
-   "Constant dynamic viscosity";
-
-  constant Modelica.SIunits.ThermalConductivity lambda_nominal=
-    Modelica.Media.Water.IF97_Utilities.thermalConductivity(
-     d_nominal,
-     T_nominal,
-     p_nominal)
+  constant Modelica.SIunits.DynamicViscosity eta_nominal=Modelica.Media.Water.IF97_Utilities.dynamicViscosity(d_nominal, T_nominal, p_nominal)
+    "Constant dynamic viscosity";
+  constant Modelica.SIunits.ThermalConductivity lambda_nominal=Modelica.Media.Water.IF97_Utilities.thermalConductivity(d_nominal, T_nominal, p_nominal)
     "Constant thermal conductivity";
-
-  constant Modelica.SIunits.AbsolutePressure p_nominal = 101325
+  constant Modelica.SIunits.AbsolutePressure p_nominal=101325
     "Nominal pressure for calculation of water properties";
-
-annotation (Documentation(info="<html>
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 Model for liquid water with constant properties at given nominal conditions.
 </p>
@@ -75,7 +56,8 @@ model.
     T_nominal=273.15+100,
     p_nominal=5e5);
 </pre>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 September 20, 2016, by Michael Wetter:<br/>
@@ -93,35 +75,32 @@ First implementation.
 </li>
 </ul>
 </html>"),
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-        graphics={
-        Polygon(
-          points={{16,-28},{32,-42},{26,-48},{10,-36},{16,-28}},
-          lineColor={95,95,95},
-          fillPattern=FillPattern.Sphere,
-          fillColor={95,95,95}),
-        Polygon(
-          points={{10,34},{26,44},{30,36},{14,26},{10,34}},
-          lineColor={95,95,95},
-          fillPattern=FillPattern.Sphere,
-          fillColor={95,95,95}),
-        Ellipse(
-          extent={{-82,52},{24,-54}},
-          lineColor={95,95,95},
-          fillPattern=FillPattern.Sphere,
-          fillColor={0,0,0}),
-        Ellipse(
-          extent={{22,82},{80,24}},
-          lineColor={0,0,0},
-          fillPattern=FillPattern.Sphere,
-          fillColor={95,95,95}),
-        Ellipse(
-          extent={{20,-30},{78,-88}},
-          lineColor={0,0,0},
-          fillPattern=FillPattern.Sphere,
-          fillColor={95,95,95}),
-        Text(
-          extent={{-110,40},{50,-36}},
-          lineColor={238,46,47},
-          textString="pT")}));
+    Icon(
+      coordinateSystem(
+        preserveAspectRatio=false,
+        extent={{-100,-100}, {100, 100}}),
+      graphics={Polygon(
+        points={{16,-28}, {32,-42}, {26,-48}, {10,-36}, {16,-28}},
+        lineColor={95, 95, 95},
+        fillPattern=FillPattern.Sphere,
+        fillColor={95, 95, 95}), Polygon(
+        points={{10, 34}, {26, 44}, {30, 36}, {14, 26}, {10, 34}},
+        lineColor={95, 95, 95},
+        fillPattern=FillPattern.Sphere,
+        fillColor={95, 95, 95}), Ellipse(
+        extent={{-82, 52}, {24,-54}},
+        lineColor={95, 95, 95},
+        fillPattern=FillPattern.Sphere,
+        fillColor={0, 0, 0}), Ellipse(
+        extent={{22, 82}, {80, 24}},
+        lineColor={0, 0, 0},
+        fillPattern=FillPattern.Sphere,
+        fillColor={95, 95, 95}), Ellipse(
+        extent={{20,-30}, {78,-88}},
+        lineColor={0, 0, 0},
+        fillPattern=FillPattern.Sphere,
+        fillColor={95, 95, 95}), Text(
+        extent={{-110, 40}, {50,-36}},
+        lineColor={238, 46, 47},
+        textString="pT")}));
 end ConstantProperties_pT;

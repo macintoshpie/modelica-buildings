@@ -1,8 +1,11 @@
 within Buildings.Media;
-package Antifreeze "Medium packages of secondary working fluids"
+package Antifreeze
+  "Medium packages of secondary working fluids"
   extends Modelica.Icons.Package;
-
-  annotation (preferredView="info", Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 <p>
 This package contains media models for liquid mixtures used in HVAC
 applications. The media models evaluate the thermophysical

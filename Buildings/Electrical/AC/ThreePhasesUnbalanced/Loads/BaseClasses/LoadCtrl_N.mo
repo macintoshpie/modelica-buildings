@@ -1,29 +1,41 @@
 within Buildings.Electrical.AC.ThreePhasesUnbalanced.Loads.BaseClasses;
 partial model LoadCtrl_N
   "Partial model of a three-phase unbalanced load with voltage controller and neutral cable"
-  extends
-    Buildings.Electrical.AC.ThreePhasesUnbalanced.Loads.BaseClasses.BaseLoadCtrl;
+  extends Buildings.Electrical.AC.ThreePhasesUnbalanced.Loads.BaseClasses.BaseLoadCtrl;
   Buildings.Electrical.AC.ThreePhasesUnbalanced.Interfaces.Terminal4_n terminal
     "Connector for three-phase unbalanced systems with neutral cable"
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Buildings.Electrical.AC.ThreePhasesUnbalanced.Interfaces.Connection3to4_n
-    connection3to4 "Connection from three-phase and neutral to three-phase"
-    annotation (Placement(transformation(extent={{-84,-10},{-64,10}})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{-110,-10}, {-90, 10}})));
+  Buildings.Electrical.AC.ThreePhasesUnbalanced.Interfaces.Connection3to4_n connection3to4
+    "Connection from three-phase and neutral to three-phase"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-84,-10}, {-64, 10}})));
 equation
-
-  connect(connection3to4.terminal3, wyeToDelta.wye) annotation (Line(
-      points={{-64,0},{-58,0},{-58,10},{-54,10}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  connect(connection3to4.terminal3, wyeToWyeGround.wye) annotation (Line(
-      points={{-64,0},{-58,0},{-58,-10},{-54,-10}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  connect(connection3to4.terminal4, terminal) annotation (Line(
-      points={{-84,0},{-100,0}},
-      color={127,0,127},
-      smooth=Smooth.None));
-    annotation (    Documentation(info="<html>
+  connect(connection3to4.terminal3, wyeToDelta.wye)
+    annotation(
+      Line(
+        points={{-64, 0}, {-58, 0}, {-58, 10}, {-54, 10}},
+        color={0, 120, 120},
+        smooth=Smooth.None));
+  connect(connection3to4.terminal3, wyeToWyeGround.wye)
+    annotation(
+      Line(
+        points={{-64, 0}, {-58, 0}, {-58,-10}, {-54,-10}},
+        color={0, 120, 120},
+        smooth=Smooth.None));
+  connect(connection3to4.terminal4, terminal)
+    annotation(
+      Line(
+        points={{-84, 0}, {-100, 0}},
+        color={127, 0, 127},
+        smooth=Smooth.None));
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This model represents a partial interface for a three-phase AC unbalanced
 load with neutral cable. The current in the neutral cable is computed as the
@@ -45,7 +57,8 @@ time if the voltage exceeds a given threshold. Mode information about the
 voltage controller can be found
 <a href=\"modelica://Buildings.Electrical.Utilities.VoltageControl\">here</a>.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 September 24, 2014, by Marco Bonvini:<br/>

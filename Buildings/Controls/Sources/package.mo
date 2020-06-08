@@ -1,8 +1,11 @@
 within Buildings.Controls;
-package Sources "Package with models for source signals that are used with controllers"
+package Sources
+  "Package with models for source signals that are used with controllers"
   extends Modelica.Icons.SourcesPackage;
-annotation (
-preferredView="info", Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 This package contains components models for sources
 that are used with controllers.
 For additional models, see also

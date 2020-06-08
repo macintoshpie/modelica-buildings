@@ -2,62 +2,96 @@ within Buildings.Examples.Tutorial.Boiler;
 model System1
   "1st part of the system model, consisting of the room with heat transfer"
   extends Modelica.Icons.Example;
-  replaceable package MediumA =
-      Buildings.Media.Air;
-
+  replaceable package MediumA=Buildings.Media.Air;
   Buildings.Fluid.MixingVolumes.MixingVolume vol(
-    redeclare package Medium = MediumA,
+    redeclare package Medium=MediumA,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     m_flow_nominal=mA_flow_nominal,
     V=V)
-    annotation (Placement(transformation(extent={{60,20},{80,40}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor theCon(G=20000/30)
+    annotation(
+      Placement(
+        transformation(
+          extent={{60, 20}, {80, 40}})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor theCon(
+    G=20000/30)
     "Thermal conductance with the ambient"
-    annotation (Placement(transformation(extent={{20,40},{40,60}})));
-  parameter Modelica.SIunits.Volume V=6*10*3 "Room volume";
-  parameter Modelica.SIunits.MassFlowRate mA_flow_nominal = V*1.2*6/3600
+    annotation(
+      Placement(
+        transformation(
+          extent={{20, 40}, {40, 60}})));
+  parameter Modelica.SIunits.Volume V=6*10*3
+    "Room volume";
+  parameter Modelica.SIunits.MassFlowRate mA_flow_nominal=V*1.2*6/3600
     "Nominal mass flow rate";
-  parameter Modelica.SIunits.HeatFlowRate QRooInt_flow = 4000
+  parameter Modelica.SIunits.HeatFlowRate QRooInt_flow=4000
     "Internal heat gains of the room";
-  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature TOut(T=263.15)
+  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature TOut(
+    T=263.15)
     "Outside temperature"
-    annotation (Placement(transformation(extent={{-20,40},{0,60}})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{-20, 40}, {0, 60}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHea
     "Prescribed heat flow"
-    annotation (Placement(transformation(extent={{20,70},{40,90}})));
-  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCap(C=2*V*1.2*1006)
+    annotation(
+      Placement(
+        transformation(
+          extent={{20, 70}, {40, 90}})));
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCap(
+    C=2*V*1.2*1006)
     "Heat capacity for furniture and walls"
-    annotation (Placement(transformation(extent={{60,50},{80,70}})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{60, 50}, {80, 70}})));
   Buildings.Controls.OBC.CDL.Continuous.Sources.TimeTable timTab(
-      extrapolation=Buildings.Controls.OBC.CDL.Types.Extrapolation.Periodic,
-      smoothness=Buildings.Controls.OBC.CDL.Types.Smoothness.ConstantSegments,
-      table=[-6, 0;
-              8, QRooInt_flow;
-             18, 0],
-      timeScale=3600) "Time table for internal heat gain"
-    annotation (Placement(transformation(extent={{-20,70},{0,90}})));
+    extrapolation=Buildings.Controls.OBC.CDL.Types.Extrapolation.Periodic,
+    smoothness=Buildings.Controls.OBC.CDL.Types.Smoothness.ConstantSegments,
+    table=[
+      -6, 0;
+      8, QRooInt_flow;
+      18, 0],
+    timeScale=3600)
+    "Time table for internal heat gain"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-20, 70}, {0, 90}})));
 equation
-  connect(TOut.port, theCon.port_a) annotation (Line(
-      points={{5.55112e-16,50},{20,50}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(theCon.port_b, vol.heatPort) annotation (Line(
-      points={{40,50},{50,50},{50,30},{60,30}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(preHea.port, vol.heatPort) annotation (Line(
-      points={{40,80},{50,80},{50,30},{60,30}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(heaCap.port, vol.heatPort) annotation (Line(
-      points={{70,50},{50,50},{50,30},{60,30}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(timTab.y[1], preHea.Q_flow) annotation (Line(
-      points={{1,80},{20,80}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  annotation (Documentation(info="<html>
+  connect(TOut.port, theCon.port_a)
+    annotation(
+      Line(
+        points={{5.55112e-16, 50}, {20, 50}},
+        color={191, 0, 0},
+        smooth=Smooth.None));
+  connect(theCon.port_b, vol.heatPort)
+    annotation(
+      Line(
+        points={{40, 50}, {50, 50}, {50, 30}, {60, 30}},
+        color={191, 0, 0},
+        smooth=Smooth.None));
+  connect(preHea.port, vol.heatPort)
+    annotation(
+      Line(
+        points={{40, 80}, {50, 80}, {50, 30}, {60, 30}},
+        color={191, 0, 0},
+        smooth=Smooth.None));
+  connect(heaCap.port, vol.heatPort)
+    annotation(
+      Line(
+        points={{70, 50}, {50, 50}, {50, 30}, {60, 30}},
+        color={191, 0, 0},
+        smooth=Smooth.None));
+  connect(timTab.y[1], preHea.Q_flow)
+    annotation(
+      Line(
+        points={{1, 80}, {20, 80}},
+        color={0, 0, 127},
+        smooth=Smooth.None));
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This part of the system model implements the room with a heat gain.
 The room is simplified as a volume of air, a prescribed heat source for
@@ -266,7 +300,8 @@ package
 Buildings.HeatTransfer.Conduction</a>
 could have been used.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 March 6, 2017, by Michael Wetter:<br/>
@@ -285,8 +320,10 @@ First implementation.
 </li>
 </ul>
 </html>"),
-    __Dymola_Commands(file=
-     "modelica://Buildings/Resources/Scripts/Dymola/Examples/Tutorial/Boiler/System1.mos"
+    __Dymola_Commands(
+      file="modelica://Buildings/Resources/Scripts/Dymola/Examples/Tutorial/Boiler/System1.mos"
         "Simulate and plot"),
-    experiment(Tolerance=1e-6, StopTime=172800));
+    experiment(
+      Tolerance=1e-6,
+      StopTime=172800));
 end System1;

@@ -1,30 +1,39 @@
 within Buildings.Fluid.Sensors.BaseClasses;
 partial model PartialAbsoluteSensor
   "Partial component to model a sensor that measures a potential variable"
-
   replaceable package Medium=Modelica.Media.Interfaces.PartialMedium
     "Medium in the sensor"
-    annotation (choices(
-        choice(redeclare package Medium = Buildings.Media.Air "Moist air"),
-        choice(redeclare package Medium = Buildings.Media.Water "Water"),
-        choice(redeclare package Medium =
-            Buildings.Media.Antifreeze.PropyleneGlycolWater (
-              property_T=293.15,
-              X_a=0.40)
-              "Propylene glycol water, 40% mass fraction")));
-
-  Modelica.Fluid.Interfaces.FluidPort_a port(redeclare package Medium=Medium, m_flow(min=0))
-    annotation (Placement(transformation(
-        origin={0,-100},
-        extent={{-10,-10},{10,10}},
-        rotation=90)));
-
+    annotation(
+      choices(
+        choice(
+          redeclare package Medium=Buildings.Media.Air
+            "Moist air"),
+        choice(
+          redeclare package Medium=Buildings.Media.Water
+            "Water"),
+        choice(
+          redeclare package Medium=Buildings.Media.Antifreeze.PropyleneGlycolWater(
+            property_T=293.15,
+            X_a=0.40)
+            "Propylene glycol water, 40% mass fraction")));
+  Modelica.Fluid.Interfaces.FluidPort_a port(
+    redeclare package Medium=Medium,
+    m_flow(
+      min=0))
+    annotation(
+      Placement(
+        transformation(
+          origin={0,-100},
+          extent={{-10,-10}, {10, 10}},
+          rotation=90)));
 equation
-  port.m_flow = 0;
-  port.h_outflow = 0;
-  port.Xi_outflow = zeros(Medium.nXi);
-  port.C_outflow = zeros(Medium.nC);
-  annotation (Documentation(info="<html>
+  port.m_flow=0;
+  port.h_outflow=0;
+  port.Xi_outflow=zeros(Medium.nXi);
+  port.C_outflow=zeros(Medium.nC);
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 Partial component to model an absolute sensor.
 The component can be used for pressure sensor models.
@@ -33,7 +42,7 @@ Use for other properties such as temperature or density is discouraged, because 
 Buildings.Fluid.Sensors.BaseClasses.PartialFlowSensor</a>.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 January 18, 2019, by Jianjun Hu:<br/>

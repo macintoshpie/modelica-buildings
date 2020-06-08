@@ -1,8 +1,11 @@
 within Buildings.Experimental.DistrictHeatingCooling;
-package Plants "Package with plant models"
+package Plants
+  "Package with plant models"
   extends Modelica.Icons.VariantsPackage;
-
-annotation (preferredView="info", Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 This package contains component models for district heating and cooling plants.
 </html>"));
 end Plants;

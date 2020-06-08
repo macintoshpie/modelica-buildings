@@ -1,13 +1,15 @@
 within Buildings.Electrical.AC.ThreePhasesBalanced.Storage;
-model Battery "Simple model of a battery"
-  extends Buildings.Electrical.AC.OnePhase.Storage.Battery(redeclare
-      Interfaces.Terminal_p terminal,
-      V_nominal(start=480),
-      redeclare Buildings.Electrical.AC.ThreePhasesBalanced.Loads.Resistive bat);
-
-  annotation (
-defaultComponentName="bat",
-Documentation(info="<html>
+model Battery
+  "Simple model of a battery"
+  extends Buildings.Electrical.AC.OnePhase.Storage.Battery(
+    redeclare Interfaces.Terminal_p terminal,
+    V_nominal(
+      start=480),
+    redeclare Buildings.Electrical.AC.ThreePhasesBalanced.Loads.Resistive bat);
+  annotation(
+    defaultComponentName="bat",
+    Documentation(
+      info="<html>
 <p>
 Simple model of a battery.
 </p>
@@ -28,7 +30,7 @@ provide a control so that only a reasonable amount of power is exchanged,
 and that the state of charge remains between zero and one.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 April 2, 2020 by Michael Wetter:<br/>

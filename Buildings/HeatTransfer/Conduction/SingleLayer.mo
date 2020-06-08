@@ -1,103 +1,84 @@
 within Buildings.HeatTransfer.Conduction;
-model SingleLayer "Model for single layer heat conductance"
+model SingleLayer
+  "Model for single layer heat conductance"
   extends Buildings.HeatTransfer.Conduction.BaseClasses.PartialConductor(
-   final R=if (material.R < Modelica.Constants.eps) then material.x/material.k/A else material.R/A);
-   // if material.R == 0, then the material specifies material.k, and this model specifies x
-   // For resistances, material.k need not be specified, and hence we use material.R
-
+    final R=if(material.R < Modelica.Constants.eps) then material.x/material.k/A else material.R/A);
+  // if material.R == 0, then the material specifies material.k, and this model specifies x
+  // For resistances, material.k need not be specified, and hence we use material.R
   // The value T[:].start is used by the solver when finding initial states
   // that satisfy dT/dt=0, which requires solving a system of nonlinear equations
   // if the convection coefficient is a function of temperature.
-  Modelica.SIunits.Temperature T[nSta](start=
-   if stateAtSurface_a then
-     cat(1,
-       {T_a_start},
-       {(T_a_start + (T_b_start - T_a_start)*UA*sum(RNod[k] for k in 1:i-1)) for i in 2:nSta})
-   else
-    {(T_a_start + (T_b_start - T_a_start)*UA*sum(RNod[k] for k in 1:i)) for i in 1:nSta},
-   each nominal=300)
+  Modelica.SIunits.Temperature T[nSta](
+    start=if stateAtSurface_a then cat(1, {T_a_start}, {(T_a_start +(T_b_start-T_a_start)*UA*sum(RNod[k] for k in 1 : i-1)) for i in 2 : nSta}) else {(T_a_start +(T_b_start-T_a_start)*UA*sum(RNod[k] for k in 1 : i)) for i in 1 : nSta},
+    each nominal=300)
     "Temperature at the states";
-
-  Modelica.SIunits.HeatFlowRate Q_flow[nSta+1](each start=0)
+  Modelica.SIunits.HeatFlowRate Q_flow[nSta + 1](
+    each start=0)
     "Heat flow rates to each state";
   Modelica.SIunits.SpecificInternalEnergy u[nSta](
     each start=2.7E5,
     each nominal=2.7E5)
     "Definition of specific internal energy";
-
   parameter Boolean stateAtSurface_a=true
     "=true, a state will be at the surface a"
-    annotation (Dialog(tab="Dynamics"),
-                Evaluate=true);
+    annotation(
+      Dialog(
+        tab="Dynamics"),
+      Evaluate=true);
   parameter Boolean stateAtSurface_b=true
     "=true, a state will be at the surface b"
-    annotation (Dialog(tab="Dynamics"),
-                Evaluate=true);
-
+    annotation(
+      Dialog(
+        tab="Dynamics"),
+      Evaluate=true);
   replaceable parameter Data.BaseClasses.Material material
     "Material from Data.Solids, Data.SolidsPCM or Data.Resistances"
-    annotation (choicesAllMatching=true, Placement(transformation(extent={{60,60},
-            {80,80}})));
-
+    annotation(
+      choicesAllMatching=true,
+      Placement(
+        transformation(
+          extent={{60, 60}, {80, 80}})));
   parameter Boolean steadyStateInitial=false
     "=true initializes dT(0)/dt=0, false initializes T(0) at fixed temperature using T_a_start and T_b_start"
-        annotation (Dialog(group="Initialization"), Evaluate=true);
+    annotation(
+      Dialog(
+        group="Initialization"),
+      Evaluate=true);
   parameter Modelica.SIunits.Temperature T_a_start=293.15
     "Initial temperature at port_a, used if steadyStateInitial = false"
-    annotation (Dialog(group="Initialization", enable=not steadyStateInitial));
+    annotation(
+      Dialog(
+        group="Initialization",
+        enable=not steadyStateInitial));
   parameter Modelica.SIunits.Temperature T_b_start=293.15
     "Initial temperature at port_b, used if steadyStateInitial = false"
-    annotation (Dialog(group="Initialization", enable=not steadyStateInitial));
+    annotation(
+      Dialog(
+        group="Initialization",
+        enable=not steadyStateInitial));
   parameter Integer nSta2=material.nSta
-  "Number of states in a material (do not overwrite, used to work around Dymola 2017 bug)"
-     annotation (Evaluate=true, HideResult=true, Dialog(enable=false, tab="Advanced"));
+    "Number of states in a material (do not overwrite, used to work around Dymola 2017 bug)"
+    annotation(
+      Evaluate=true,
+      HideResult=true,
+      Dialog(
+        enable=false,
+        tab="Advanced"));
 protected
-  final parameter Integer nSta=
-    max(nSta2,
-        if stateAtSurface_a or stateAtSurface_b then 2 else 1)
+  final parameter Integer nSta=max(nSta2, if stateAtSurface_a or stateAtSurface_b then 2 else 1)
     "Number of state variables";
-  final parameter Integer nR=nSta+1 "Number of thermal resistances";
-  parameter Modelica.SIunits.ThermalResistance RNod[nR]=
-    if (stateAtSurface_a and stateAtSurface_b) then
-      if (nSta==2) then
-        {(if i==1 or i==nR then 0 else R/(nSta-1)) for i in 1:nR}
-      else
-        {(if i==1 or i==nR then 0 elseif i==2 or i==nR-1 then R/(2*(nSta-2)) else R/(nSta-2)) for i in 1:nR}
-      elseif (stateAtSurface_a and (not stateAtSurface_b)) then
-        {(if i==1 then 0 elseif i==2 or i==nR then R/(2*(nSta-1)) else R/(nSta-1)) for i in 1:nR}
-    elseif (stateAtSurface_b and (not stateAtSurface_a)) then
-       {(if i==nR then 0 elseif i==1 or i==nR-1 then R/(2*(nSta-1)) else R/(nSta-1)) for i in 1:nR}
-    else
-      {R/(if i==1 or i==nR then (2*nSta) else nSta) for i in 1:nR}
+  final parameter Integer nR=nSta + 1
+    "Number of thermal resistances";
+  parameter Modelica.SIunits.ThermalResistance RNod[nR]=if(stateAtSurface_a and stateAtSurface_b) then if(nSta == 2) then {(if i == 1 or i == nR then 0 else R/(nSta-1)) for i in 1 : nR} else {(if i == 1 or i == nR then 0 elseif i == 2 or i == nR-1 then R/(2*(nSta-2)) else R/(nSta-2)) for i in 1 : nR} elseif(stateAtSurface_a and(not stateAtSurface_b)) then {(if i == 1 then 0 elseif i == 2 or i == nR then R/(2*(nSta-1)) else R/(nSta-1)) for i in 1 : nR} elseif(stateAtSurface_b and(not stateAtSurface_a)) then {(if i == nR then 0 elseif i == 1 or i == nR-1 then R/(2*(nSta-1)) else R/(nSta-1)) for i in 1 : nR} else {R/(if i == 1 or i == nR then(2*nSta) else nSta) for i in 1 : nR}
     "Thermal resistance";
-
-  parameter Modelica.SIunits.Mass m[nSta]=
-   (A*material.x*material.d) *
-   (if (stateAtSurface_a and stateAtSurface_b) then
-     if (nSta==2) then
-       {1/(2*(nSta-1)) for i in 1:nSta}
-     elseif (nSta==3) then
-       {1/(if i==1 or i==nSta then (2*(nSta-1)) else (nSta-1)) for i in 1:nSta}
-     else
-       {1/(if i==1 or i==nSta or i==2 or i==nSta-1 then (2*(nSta-2)) else (nSta-2)) for i in 1:nSta}
-     elseif (stateAtSurface_a and (not stateAtSurface_b)) then
-       {1/(if i==1 or i==2 then (2*(nSta-1)) else (nSta-1)) for i in 1:nSta}
-     elseif (stateAtSurface_b and (not stateAtSurface_a)) then
-       {1/(if i==nSta or i==nSta-1 then (2*(nSta-1)) else (nSta-1)) for i in 1:nSta}
-     else
-       {1/(nSta) for i in 1:nSta})
+  parameter Modelica.SIunits.Mass m[nSta]=(A*material.x*material.d)*(if(stateAtSurface_a and stateAtSurface_b) then if(nSta == 2) then {1/(2*(nSta-1)) for i in 1 : nSta} elseif(nSta == 3) then {1/(if i == 1 or i == nSta then(2*(nSta-1)) else(nSta-1)) for i in 1 : nSta} else {1/(if i == 1 or i == nSta or i == 2 or i == nSta-1 then(2*(nSta-2)) else(nSta-2)) for i in 1 : nSta} elseif(stateAtSurface_a and(not stateAtSurface_b)) then {1/(if i == 1 or i == 2 then(2*(nSta-1)) else(nSta-1)) for i in 1 : nSta} elseif(stateAtSurface_b and(not stateAtSurface_a)) then {1/(if i == nSta or i == nSta-1 then(2*(nSta-1)) else(nSta-1)) for i in 1 : nSta} else {1/(nSta) for i in 1 : nSta})
     "Mass associated with the temperature state";
-
-  final parameter Real mInv[nSta]=
-    if material.steadyState then zeros(nSta) else {1/m[i] for i in 1:nSta}
+  final parameter Real mInv[nSta]=if material.steadyState then zeros(nSta) else {1/m[i] for i in 1 : nSta}
     "Inverse of the mass associated with the temperature state";
-
-  final parameter Modelica.SIunits.HeatCapacity C[nSta] = m*material.c
+  final parameter Modelica.SIunits.HeatCapacity C[nSta]=m*material.c
     "Heat capacity associated with the temperature state";
-  final parameter Real CInv[nSta]=
-    if material.steadyState then zeros(nSta) else {1/C[i] for i in 1:nSta}
+  final parameter Real CInv[nSta]=if material.steadyState then zeros(nSta) else {1/C[i] for i in 1 : nSta}
     "Inverse of heat capacity associated with the temperature state";
-
   parameter Modelica.SIunits.SpecificInternalEnergy ud[Buildings.HeatTransfer.Conduction.nSupPCM](
     each fixed=false)
     "Support points for derivatives (used for PCM)";
@@ -108,144 +89,169 @@ protected
     each fixed=false,
     each unit="kg.K2/J")
     "Derivatives dT/du at the support points (used for PCM)";
-
 initial equation
   // The initialization is only done for materials that store energy.
-    if not material.steadyState then
-      if steadyStateInitial then
-        if material.phasechange then
-          der(u) = zeros(nSta);
-        else
-          der(T) = zeros(nSta);
-        end if;
+  if not material.steadyState then
+    if steadyStateInitial then
+      if material.phasechange then
+        der(u)=zeros(nSta);
       else
-        if stateAtSurface_a then
-          T[1] = T_a_start;
-          for i in 2:nSta loop
-            T[i] =T_a_start + (T_b_start - T_a_start)*UA*sum(RNod[k] for k in 1:i-1);
-          end for;
-        else // stateAtSurface_a == false
-          for i in 1:nSta loop
-            T[i] = T_a_start + (T_b_start - T_a_start)*UA*sum(RNod[k] for k in 1:i);
-          end for;
-        end if;
+        der(T)=zeros(nSta);
+      end if;
+    else
+      if stateAtSurface_a then
+        T[1]=T_a_start;
+        for i in 2 : nSta loop
+          T[i]=T_a_start +(T_b_start-T_a_start)*UA*sum(RNod[k] for k in 1 : i-1);
+        end for;
+      else
+        // stateAtSurface_a == false
+        for i in 1 : nSta loop
+          T[i]=T_a_start +(T_b_start-T_a_start)*UA*sum(RNod[k] for k in 1 : i);
+        end for;
       end if;
     end if;
-
-   if material.phasechange then
-     (ud, Td, dT_du) = Buildings.HeatTransfer.Conduction.BaseClasses.der_temperature_u(
-       c =  material.c,
-       TSol=material.TSol,
-       TLiq=material.TLiq,
-       LHea=material.LHea,
-       ensureMonotonicity=material.ensureMonotonicity);
-   else
-     ud    = zeros(Buildings.HeatTransfer.Conduction.nSupPCM);
-     Td    = zeros(Buildings.HeatTransfer.Conduction.nSupPCM);
-     dT_du = zeros(Buildings.HeatTransfer.Conduction.nSupPCM);
-   end if;
+  end if;
+  if material.phasechange then
+    (ud, Td, dT_du)=Buildings.HeatTransfer.Conduction.BaseClasses.der_temperature_u(
+      c=material.c,
+      TSol=material.TSol,
+      TLiq=material.TLiq,
+      LHea=material.LHea,
+      ensureMonotonicity=material.ensureMonotonicity);
+  else
+    ud=zeros(Buildings.HeatTransfer.Conduction.nSupPCM);
+    Td=zeros(Buildings.HeatTransfer.Conduction.nSupPCM);
+    dT_du=zeros(Buildings.HeatTransfer.Conduction.nSupPCM);
+  end if;
 equation
-    port_a.Q_flow = +Q_flow[1];
-    port_b.Q_flow = -Q_flow[end];
-
-    port_a.T-T[1]    = if stateAtSurface_a then 0 else Q_flow[1]*RNod[1];
-    T[nSta]-port_b.T = if stateAtSurface_b then 0 else Q_flow[end]*RNod[end];
-
-    for i in 1:nSta-1 loop
-       // Q_flow[i+1] is heat flowing from (i) to (i+1)
-       // because T[1] has Q_flow[1] and Q_flow[2] acting on it.
-       T[i]-T[i+1] = Q_flow[i+1]*RNod[i+1];
+  port_a.Q_flow=+ Q_flow[1];
+  port_b.Q_flow=-Q_flow[end];
+  port_a.T-T[1]=if stateAtSurface_a then 0 else Q_flow[1]*RNod[1];
+  T[nSta]-port_b.T=if stateAtSurface_b then 0 else Q_flow[end]*RNod[end];
+  for i in 1 : nSta-1 loop
+    // Q_flow[i+1] is heat flowing from (i) to (i+1)
+    // because T[1] has Q_flow[1] and Q_flow[2] acting on it.
+    T[i]-T[i + 1]=Q_flow[i + 1]*RNod[i + 1];
+  end for;
+  // Steady-state heat balance
+  if material.steadyState then
+    for i in 2 : nSta + 1 loop
+      Q_flow[i]=port_a.Q_flow;
     end for;
-
-    // Steady-state heat balance
-    if material.steadyState then
-      for i in 2:nSta+1 loop
-        Q_flow[i] = port_a.Q_flow;
-      end for;
-
-      for i in 1:nSta loop
-        if material.phasechange then
-          // Phase change material
-          T[i]=Buildings.HeatTransfer.Conduction.BaseClasses.temperature_u(
-                    ud=ud,
-                    Td=Td,
-                    dT_du=dT_du,
-                    u=u[i]);
-        else
-          // Regular material
-          u[i]=0; // u is not required in this case
-        end if;
-      end for;
-    else
-      // Transient heat conduction
+    for i in 1 : nSta loop
       if material.phasechange then
         // Phase change material
-        for i in 1:nSta loop
-          der(u[i]) = (Q_flow[i]-Q_flow[i+1])*mInv[i];
-          // Recalculation of temperature based on specific internal energy
-          T[i]=Buildings.HeatTransfer.Conduction.BaseClasses.temperature_u(
-                    ud=ud,
-                    Td=Td,
-                    dT_du=dT_du,
-                    u=u[i]);
-        end for;
+        T[i]=Buildings.HeatTransfer.Conduction.BaseClasses.temperature_u(
+          ud=ud,
+          Td=Td,
+          dT_du=dT_du,
+          u=u[i]);
       else
         // Regular material
-        for i in 1:nSta loop
-          der(T[i]) = (Q_flow[i]-Q_flow[i+1])*CInv[i];
-        end for;
-        for i in 1:nSta loop
-          u[i]=0; // u is not required in this case
-        end for;
+        u[i]=0;
+      // u is not required in this case
       end if;
+    end for;
+  else
+    // Transient heat conduction
+    if material.phasechange then
+      // Phase change material
+      for i in 1 : nSta loop
+        der(u[i])=(Q_flow[i]-Q_flow[i + 1])*mInv[i];
+        // Recalculation of temperature based on specific internal energy
+        T[i]=Buildings.HeatTransfer.Conduction.BaseClasses.temperature_u(
+          ud=ud,
+          Td=Td,
+          dT_du=dT_du,
+          u=u[i]);
+      end for;
+    else
+      // Regular material
+      for i in 1 : nSta loop
+        der(T[i])=(Q_flow[i]-Q_flow[i + 1])*CInv[i];
+      end for;
+      for i in 1 : nSta loop
+        u[i]=0;
+      // u is not required in this case
+      end for;
     end if;
-
-  annotation ( Icon(coordinateSystem(
-          preserveAspectRatio=false,extent={{-100,-100},{100,100}}), graphics={
-        Text(
-          extent={{-100,-80},{6,-98}},
-          lineColor={0,0,255},
-          textString="%material.x"),
-        Text(
-          extent={{8,-74},{86,-104}},
-          lineColor={0,0,255},
-          textString="%nSta"),
-   Rectangle(
-    extent={{-60,80},{60,-80}},     fillColor={215,215,215},
-   fillPattern=FillPattern.Solid,    lineColor={175,175,175}),
-   Line(points={{-92,0},{90,0}},      color = {0, 0, 0}, thickness = 0.5,
-   smooth = Smooth.None),
-   Line(points={{8,-40},{-6,-40}},        color = {0, 0, 0}, thickness = 0.5,
-   smooth = Smooth.None),
-   Line(points={{14,-32},{-12,-32}},      color = {0, 0, 0}, thickness = 0.5,
-   smooth = Smooth.None),            Line(
-          points={{0,0},{0,-32}},
-          color={0,0,0},
-          thickness=0.5,
-          smooth=Smooth.None),       Rectangle(extent={{-40,6},{-20,-6}},
-   lineColor = {0, 0, 0}, lineThickness =  0.5, fillColor = {255, 255, 255},
-   fillPattern = FillPattern.Solid), Rectangle(extent={{20,6},{40,-6}},
-   lineColor = {0, 0, 0}, lineThickness =  0.5, fillColor = {255, 255, 255},
-   fillPattern = FillPattern.Solid),
-   Line(points={{66,-40},{52,-40}},       color = {0, 0, 0}, thickness = 0.5,
-   smooth = Smooth.None,
-   visible=stateAtSurface_b),
-   Line(points={{72,-32},{46,-32}},       color = {0, 0, 0}, thickness = 0.5,
-   smooth = Smooth.None,
-   visible=stateAtSurface_b),            Line(points={{59,0},{59,-32}},
-   color = {0, 0, 0}, thickness = 0.5, smooth = Smooth.None,
-   visible=stateAtSurface_b),
-   Line(points={{-59,0},{-59,-32}},
-   color = {0, 0, 0}, thickness = 0.5, smooth = Smooth.None,
-   visible=stateAtSurface_a),
-   Line(points={{-46,-32},{-72,-32}},     color = {0, 0, 0}, thickness = 0.5,
-   smooth = Smooth.None,
-   visible=stateAtSurface_a),
-   Line(points={{-52,-40},{-66,-40}},     color = {0, 0, 0}, thickness = 0.5,
-   smooth = Smooth.None,
-   visible=stateAtSurface_a)}),
-defaultComponentName="lay",
-    Documentation(info="<html>
+  end if;
+  annotation(
+    Icon(
+      coordinateSystem(
+        preserveAspectRatio=false,
+        extent={{-100,-100}, {100, 100}}),
+      graphics={Text(
+        extent={{-100,-80}, {6,-98}},
+        lineColor={0, 0, 255},
+        textString="%material.x"), Text(
+        extent={{8,-74}, {86,-104}},
+        lineColor={0, 0, 255},
+        textString="%nSta"), Rectangle(
+        extent={{-60, 80}, {60,-80}},
+        fillColor={215, 215, 215},
+        fillPattern=FillPattern.Solid,
+        lineColor={175, 175, 175}), Line(
+        points={{-92, 0}, {90, 0}},
+        color={0, 0, 0},
+        thickness=0.5,
+        smooth=Smooth.None), Line(
+        points={{8,-40}, {-6,-40}},
+        color={0, 0, 0},
+        thickness=0.5,
+        smooth=Smooth.None), Line(
+        points={{14,-32}, {-12,-32}},
+        color={0, 0, 0},
+        thickness=0.5,
+        smooth=Smooth.None), Line(
+        points={{0, 0}, {0,-32}},
+        color={0, 0, 0},
+        thickness=0.5,
+        smooth=Smooth.None), Rectangle(
+        extent={{-40, 6}, {-20,-6}},
+        lineColor={0, 0, 0},
+        lineThickness=0.5,
+        fillColor={255, 255, 255},
+        fillPattern=FillPattern.Solid), Rectangle(
+        extent={{20, 6}, {40,-6}},
+        lineColor={0, 0, 0},
+        lineThickness=0.5,
+        fillColor={255, 255, 255},
+        fillPattern=FillPattern.Solid), Line(
+        points={{66,-40}, {52,-40}},
+        color={0, 0, 0},
+        thickness=0.5,
+        smooth=Smooth.None,
+        visible=stateAtSurface_b), Line(
+        points={{72,-32}, {46,-32}},
+        color={0, 0, 0},
+        thickness=0.5,
+        smooth=Smooth.None,
+        visible=stateAtSurface_b), Line(
+        points={{59, 0}, {59,-32}},
+        color={0, 0, 0},
+        thickness=0.5,
+        smooth=Smooth.None,
+        visible=stateAtSurface_b), Line(
+        points={{-59, 0}, {-59,-32}},
+        color={0, 0, 0},
+        thickness=0.5,
+        smooth=Smooth.None,
+        visible=stateAtSurface_a), Line(
+        points={{-46,-32}, {-72,-32}},
+        color={0, 0, 0},
+        thickness=0.5,
+        smooth=Smooth.None,
+        visible=stateAtSurface_a), Line(
+        points={{-52,-40}, {-66,-40}},
+        color={0, 0, 0},
+        thickness=0.5,
+        smooth=Smooth.None,
+        visible=stateAtSurface_a)}),
+    defaultComponentName="lay",
+    Documentation(
+      info="<html>
 <p>
 This is a model of a heat conductor for a single layer of homogeneous material
 that computes transient or steady-state heat conduction.
@@ -389,7 +395,7 @@ See the examples in
 Buildings.HeatTransfer.Examples</a>.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 August 27, 2019, by Michael Wetter:<br/>

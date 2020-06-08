@@ -1,198 +1,250 @@
 within Buildings.Utilities.Comfort;
-model Fanger "Thermal comfort model according to Fanger"
-extends Buildings.BaseClasses.BaseIcon;
-
-  Modelica.Blocks.Interfaces.RealOutput PMV "PMV"
-    annotation (Placement(transformation(extent={{100,30},{120,50}})));
-  Modelica.Blocks.Interfaces.RealOutput PPD "PPD [0.05...1]"
-    annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
-
-  parameter Modelica.SIunits.HeatFlux W(max=0)=0
+model Fanger
+  "Thermal comfort model according to Fanger"
+  extends Buildings.BaseClasses.BaseIcon;
+  Modelica.Blocks.Interfaces.RealOutput PMV
+    "PMV"
+    annotation(
+      Placement(
+        transformation(
+          extent={{100, 30}, {120, 50}})));
+  Modelica.Blocks.Interfaces.RealOutput PPD
+    "PPD [0.05...1]"
+    annotation(
+      Placement(
+        transformation(
+          extent={{100,-50}, {120,-30}})));
+  parameter Modelica.SIunits.HeatFlux W(
+    max=0)=0
     "Rate of mechanical work accomplished (must be non-positive, typically equal to 0)";
   parameter Modelica.SIunits.CoefficientOfHeatTransfer hRad(
     min=0,
-    max=10)=0.8*4.7 "Radiative heat transfer coefficient";
-
+    max=10)=0.8*4.7
+    "Radiative heat transfer coefficient";
   parameter Boolean use_vAir_in=false
     "Get the air velocity from the input connector"
-    annotation(Evaluate=true, HideResult=true,
-    Dialog(group="Conditional inputs"));
-  parameter Boolean use_M_in= false
+    annotation(
+      Evaluate=true,
+      HideResult=true,
+      Dialog(
+        group="Conditional inputs"));
+  parameter Boolean use_M_in=false
     "Get the metabolic rate from the input connector"
-    annotation(Evaluate=true, HideResult=true,
-    Dialog(group="Conditional inputs"));
-  parameter Boolean use_ICl_in= true
+    annotation(
+      Evaluate=true,
+      HideResult=true,
+      Dialog(
+        group="Conditional inputs"));
+  parameter Boolean use_ICl_in=true
     "Get the clothing insulation from the input connector"
-    annotation(Evaluate=true, HideResult=true,
-    Dialog(group="Conditional inputs"));
-  parameter Boolean use_pAir_in= false
+    annotation(
+      Evaluate=true,
+      HideResult=true,
+      Dialog(
+        group="Conditional inputs"));
+  parameter Boolean use_pAir_in=false
     "Get the air pressure from the input connector"
-    annotation(Evaluate=true, HideResult=true,
-    Dialog(group="Conditional inputs"));
-
-  parameter Modelica.SIunits.Velocity vAir= 0.05 "Fixed value for air velocity"
-     annotation (Dialog(enable = not use_vAir_in, group="Conditional inputs"));
-  parameter Modelica.SIunits.HeatFlux M = 60 "Fixed value for metabolic rate"
-     annotation (Dialog(enable = not use_M_in, group="Conditional inputs"));
-  parameter Real ICl = 0.7
+    annotation(
+      Evaluate=true,
+      HideResult=true,
+      Dialog(
+        group="Conditional inputs"));
+  parameter Modelica.SIunits.Velocity vAir=0.05
+    "Fixed value for air velocity"
+    annotation(
+      Dialog(
+        enable=not use_vAir_in,
+        group="Conditional inputs"));
+  parameter Modelica.SIunits.HeatFlux M=60
+    "Fixed value for metabolic rate"
+    annotation(
+      Dialog(
+        enable=not use_M_in,
+        group="Conditional inputs"));
+  parameter Real ICl=0.7
     "Fixed value for clothing insulation in units of clo (summer=0.5; winter=0.9)"
-     annotation (Dialog(enable = not use_ICl_in, group="Conditional inputs"));
-  parameter Modelica.SIunits.Pressure pAir = 101325
+    annotation(
+      Dialog(
+        enable=not use_ICl_in,
+        group="Conditional inputs"));
+  parameter Modelica.SIunits.Pressure pAir=101325
     "Fixed value for air pressure"
-     annotation (Dialog(enable = not use_pAir_in, group="Conditional inputs"));
-
-  Modelica.Blocks.Interfaces.RealInput TAir(final quantity="ThermodynamicTemperature",
-                                          final unit = "K", displayUnit = "degC")
+    annotation(
+      Dialog(
+        enable=not use_pAir_in,
+        group="Conditional inputs"));
+  Modelica.Blocks.Interfaces.RealInput TAir(
+    final quantity="ThermodynamicTemperature",
+    final unit="K",
+    displayUnit="degC")
     "Air temperature"
-    annotation (Placement(
-        transformation(extent={{-120,90},{-100,110}})));
-  Modelica.Blocks.Interfaces.RealInput TRad(final quantity="ThermodynamicTemperature",
-                                          final unit = "K", displayUnit = "degC")
+    annotation(
+      Placement(
+        transformation(
+          extent={{-120, 90}, {-100, 110}})));
+  Modelica.Blocks.Interfaces.RealInput TRad(
+    final quantity="ThermodynamicTemperature",
+    final unit="K",
+    displayUnit="degC")
     "Radiation temperature"
-    annotation (
-      Placement(transformation(extent={{-120,50},{-100,70}}),
-        iconTransformation(extent={{-120,50},{-100,70}})));
-
-  Modelica.SIunits.Temperature TOpe "Operative temperature";
-  Modelica.SIunits.Temperature TClo(start=273.15+40) "Surface temperature of clothing";
+    annotation(
+      Placement(
+        transformation(
+          extent={{-120, 50}, {-100, 70}}),
+        iconTransformation(
+          extent={{-120, 50}, {-100, 70}})));
+  Modelica.SIunits.Temperature TOpe
+    "Operative temperature";
+  Modelica.SIunits.Temperature TClo(
+    start=273.15 + 40)
+    "Surface temperature of clothing";
   Modelica.SIunits.Temperature TSki(
-    min=273.15+10,
-    max=273.15+42) "Skin temperature";
-
-  Modelica.Blocks.Interfaces.RealInput phi(min=0, max=1) "Relative humidity"
-    annotation (
-      Placement(transformation(extent={{-120,10},{-100,30}}),
-        iconTransformation(extent={{-120,10},{-100,30}})));
+    min=273.15 + 10,
+    max=273.15 + 42)
+    "Skin temperature";
+  Modelica.Blocks.Interfaces.RealInput phi(
+    min=0,
+    max=1)
+    "Relative humidity"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-120, 10}, {-100, 30}}),
+        iconTransformation(
+          extent={{-120, 10}, {-100, 30}})));
   Modelica.Blocks.Interfaces.RealInput pAir_in(
     final quantity="Pressure",
     final unit="Pa",
-    min=0) if use_pAir_in "Air pressure"
-    annotation (Placement(transformation(extent={{-120,
-            -110},{-100,-90}}), iconTransformation(extent={{-120,-110},{-100,-90}})));
+    min=0) if use_pAir_in
+    "Air pressure"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-120,-110}, {-100,-90}}),
+        iconTransformation(
+          extent={{-120,-110}, {-100,-90}})));
   Modelica.Blocks.Interfaces.RealInput ICl_in if use_ICl_in
     "Clothing thermal resistance in clo"
-    annotation (Placement(transformation(extent={{
-            -120,-80},{-100,-60}}), iconTransformation(extent={{-120,-80},{-100,
-            -60}})));
-  Modelica.Blocks.Interfaces.RealInput vAir_in if
-       use_vAir_in "Air velocity" annotation (
-      Placement(transformation(extent={{-120,-20},{-100,0}}),
-        iconTransformation(extent={{-120,-20},{-100,0}})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{-120,-80}, {-100,-60}}),
+        iconTransformation(
+          extent={{-120,-80}, {-100,-60}})));
+  Modelica.Blocks.Interfaces.RealInput vAir_in if use_vAir_in
+    "Air velocity"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-120,-20}, {-100, 0}}),
+        iconTransformation(
+          extent={{-120,-20}, {-100, 0}})));
   Modelica.Blocks.Interfaces.RealInput M_in(
     min=40,
     max=600,
     final quantity="HeatFlux",
     final unit="W/m2") if use_M_in
-    "Metabolic heat generation in W/m2 (not in met)" annotation (
-      Placement(transformation(extent={{-120,-50},{-100,-30}}),
-        iconTransformation(extent={{-120,-50},{-100,-30}})));
-
+    "Metabolic heat generation in W/m2 (not in met)"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-120,-50}, {-100,-30}}),
+        iconTransformation(
+          extent={{-120,-50}, {-100,-30}})));
   Modelica.SIunits.CoefficientOfHeatTransfer hCom(
     min=0,
-    max=10) "Combined heat transfer coefficient";
-
+    max=10)
+    "Combined heat transfer coefficient";
   Modelica.SIunits.CoefficientOfHeatTransfer hCon(
     min=0,
-    max=10) "Convective heat transfer coefficient";
-
+    max=10)
+    "Convective heat transfer coefficient";
   Modelica.SIunits.Pressure pSte(
     min=0,
-    max=3000) "Partial pressure of water vapor in ambient air";
-
-  Modelica.SIunits.HeatFlux L "Thermal load of the body";
-  Real fCl(min=0) "Clothing area factor (61)";
-  Modelica.SIunits.ThermalInsulance RCl "Thermal resistance of clothing (10)";
-
+    max=3000)
+    "Partial pressure of water vapor in ambient air";
+  Modelica.SIunits.HeatFlux L
+    "Thermal load of the body";
+  Real fCl(
+    min=0)
+    "Clothing area factor (61)";
+  Modelica.SIunits.ThermalInsulance RCl
+    "Thermal resistance of clothing (10)";
 protected
   Buildings.Utilities.Psychrometrics.X_pTphi steRat
     "Model to compute the steam mass fraction";
-  Real fCl1 "work variable for fCl";
-  Real fCl2 "work variable for fCl";
-
+  Real fCl1
+    "work variable for fCl";
+  Real fCl2
+    "work variable for fCl";
   Modelica.Blocks.Interfaces.RealInput vAir_in_internal
     "Needed to connect to conditional connector";
-    Modelica.Blocks.Interfaces.RealInput M_in_internal(
+  Modelica.Blocks.Interfaces.RealInput M_in_internal(
     min=40,
     max=600,
     final quantity="HeatFlux",
-    final unit="W/m2") "Needed to connect to conditional connector";
+    final unit="W/m2")
+    "Needed to connect to conditional connector";
   Modelica.Blocks.Interfaces.RealInput ICl_in_internal
     "Needed to connect to conditional connector";
   Modelica.Blocks.Interfaces.RealInput pAir_in_internal(
     final quantity="Pressure",
     final unit="Pa",
-    min=0) "Needed to connect to conditional connector";
-
+    min=0)
+    "Needed to connect to conditional connector";
 initial equation
- assert(W <= 0, "Parameter W must be equal to zero or negative.");
-
+  assert(W <= 0, "Parameter W must be equal to zero or negative.");
 equation
   // Conditional connectors
   connect(vAir_in, vAir_in_internal);
   if not use_vAir_in then
-    vAir_in_internal = vAir;
+    vAir_in_internal=vAir;
   end if;
   connect(M_in, M_in_internal);
   if not use_M_in then
-    M_in_internal = M;
+    M_in_internal=M;
   end if;
   connect(ICl_in, ICl_in_internal);
   if not use_ICl_in then
-    ICl_in_internal = ICl;
+    ICl_in_internal=ICl;
   end if;
   connect(pAir_in, pAir_in_internal);
   if not use_pAir_in then
-    pAir_in_internal = pAir;
+    pAir_in_internal=pAir;
   end if;
-
-  TSki = 308.85 - 0.0275*(M_in_internal - W);
-
+  TSki=308.85-0.0275*(M_in_internal-W);
   // partial pressure of steam
   connect(steRat.p_in, pAir_in_internal);
   connect(steRat.T, TAir);
   connect(steRat.phi, phi);
-  pSte = Psychrometrics.Functions.pW_X(X_w=steRat.X[1], p=pAir_in_internal);
-
+  pSte=Psychrometrics.Functions.pW_X(
+    X_w=steRat.X[1],
+    p=pAir_in_internal);
   // clothing insulation value
-  RCl = 0.155 * ICl_in_internal;
+  RCl=0.155*ICl_in_internal;
   // clothing area factor
-  fCl1 = 1.00 + 0.2*ICl_in_internal;
-  fCl2 = 1.05 + 0.1*ICl_in_internal;
-
+  fCl1=1.00 + 0.2*ICl_in_internal;
+  fCl2=1.05 + 0.1*ICl_in_internal;
   // fcl eq (61)
-  fCl = fCl1 + (fCl2 - fCl1)*Buildings.Utilities.Math.Functions.smoothHeaviside(
-    x=(ICl_in_internal - 0.5),
+  fCl=fCl1 +(fCl2-fCl1)*Buildings.Utilities.Math.Functions.smoothHeaviside(
+    x=(ICl_in_internal-0.5),
     delta=0.01);
-
-
-  hCon = Buildings.Utilities.Math.Functions.smoothMax(
+  hCon=Buildings.Utilities.Math.Functions.smoothMax(
     x1=12.1*sqrt(abs(vAir_in_internal)),
-    x2=2.38*abs(TClo - TAir)^0.25,
+    x2=2.38*abs(TClo-TAir)^0.25,
     deltaX=0.0001);
-
-  hCom = hRad + hCon;
-
+  hCom=hRad + hCon;
   // operative temperature (8)
-  TOpe = (hRad*TRad + hCon*TAir)/hCom;
-
+  TOpe=(hRad*TRad + hCon*TAir)/hCom;
   // Clothing temperature (59)
-  TClo = 35.7 - 0.028 * (M_in_internal-W) - RCl*((3.96E-8*fCl*((TClo)^4 - (TRad)^4))+ fCl*hCon*(TClo - TAir)) + 273.15;
-
-
-  L = (M_in_internal - W)
-       - 3.05E-3*(5733 - 6.99*(M_in_internal - W) - pSte)
-        - 0.42*((M_in_internal - W) - 58.15)
-        - 1.7E-5*M_in_internal*(5867 - pSte)
-        - 0.0014*M_in_internal*(307.15 - TAir)
-        - 3.96E-8*fCl*(TClo^4 - TRad^4)
-        - fCl*hCon*(TClo - TAir);
-
-  PMV = (0.303*Modelica.Math.exp(-0.036*M_in_internal) + 0.028)*L;
-  PPD = 1 - 0.95*Modelica.Math.exp(-(0.03353*PMV^4 + 0.2179*PMV^2));
-
-  annotation (
-defaultComponentName="com",
-    Documentation(info="<html>
+  TClo=35.7-0.028*(M_in_internal-W)-RCl*((3.96E-8*fCl*((TClo)^4-(TRad)^4)) + fCl*hCon*(TClo-TAir)) + 273.15;
+  L=(M_in_internal-W)-3.05E-3*(5733-6.99*(M_in_internal-W)-pSte)-0.42*((M_in_internal-W)-58.15)-1.7E-5*M_in_internal*(5867-pSte)-0.0014*M_in_internal*(307.15-TAir)-3.96E-8*fCl*(TClo^4-TRad^4)-fCl*hCon*(TClo-TAir);
+  PMV=(0.303*Modelica.Math.exp(-0.036*M_in_internal) + 0.028)*L;
+  PPD=1-0.95*Modelica.Math.exp(-(0.03353*PMV^4 + 0.2179*PMV^2));
+  annotation(
+    defaultComponentName="com",
+    Documentation(
+      info="<html>
 <p>
 Thermal comfort model according to Fanger, as described in
 the ASHRAE Fundamentals (2017).
@@ -353,7 +405,8 @@ Geneva, Switzerland: ISO. 1994.
 </li>
 </ul>
 
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 May 27, 2020, by Donghun Kim and Michael Wetter:<br/>
@@ -388,63 +441,51 @@ rather than computing it in model, added model to UTC library.
        First implementation.
 </li>
 </ul>
-</html>"), Icon(graphics={
-        Rectangle(
-          extent={{100,100},{-100,-100}},
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Text(
-          extent={{-108,100},{-46,80}},
-          lineColor={0,0,255},
-          textString="TAir"),
-        Text(
-          extent={{-100,68},{-38,48}},
-          lineColor={0,0,255},
-          textString="TRad"),
-        Text(
-          visible=use_vAir_in,
-          extent={{-106,0},{-44,-20}},
-          lineColor={0,0,255},
-          textString="vAir"),
-        Text(
-          visible=use_M_in,
-          extent={{-114,-30},{-52,-50}},
-          lineColor={0,0,255},
-          textString="M"),
-        Text(
-          extent={{-100,32},{-50,10}},
-          lineColor={0,0,255},
-          textString="phi"),
-        Text(
-          visible=use_pAir_in,
-          extent={{-104,-84},{-48,-100}},
-          lineColor={0,0,255},
-          textString="pAir"),
-        Text(
-          visible=use_ICl_in,
-          extent={{-108,-62},{-52,-78}},
-          lineColor={0,0,255},
-          textString="ICl"),
-        Text(
-          extent={{40,48},{102,28}},
-          lineColor={0,0,255},
-          textString="PMV"),
-        Text(
-          extent={{44,-34},{106,-54}},
-          lineColor={0,0,255},
-          textString="PPD"),
-        Line(
-          points={{-50,42},{-50,-38}},
-          color={0,0,0},
-          smooth=Smooth.None),
-        Line(
-          points={{50,-38},{-50,-38}},
-          color={0,0,0},
-          smooth=Smooth.None),
-        Line(
-          points={{-44,30},{-30,24},{-22,10},{-18,-14},{-6,-20},{2,-20},{8,-16},
-              {12,-12},{16,6},{24,24},{38,30}},
-          color={255,0,0},
-          smooth=Smooth.None)}));
+</html>"),
+    Icon(
+      graphics={Rectangle(
+        extent={{100, 100}, {-100,-100}},
+        lineColor={0, 0, 0},
+        fillColor={255, 255, 255},
+        fillPattern=FillPattern.Solid), Text(
+        extent={{-108, 100}, {-46, 80}},
+        lineColor={0, 0, 255},
+        textString="TAir"), Text(
+        extent={{-100, 68}, {-38, 48}},
+        lineColor={0, 0, 255},
+        textString="TRad"), Text(
+        visible=use_vAir_in,
+        extent={{-106, 0}, {-44,-20}},
+        lineColor={0, 0, 255},
+        textString="vAir"), Text(
+        visible=use_M_in,
+        extent={{-114,-30}, {-52,-50}},
+        lineColor={0, 0, 255},
+        textString="M"), Text(
+        extent={{-100, 32}, {-50, 10}},
+        lineColor={0, 0, 255},
+        textString="phi"), Text(
+        visible=use_pAir_in,
+        extent={{-104,-84}, {-48,-100}},
+        lineColor={0, 0, 255},
+        textString="pAir"), Text(
+        visible=use_ICl_in,
+        extent={{-108,-62}, {-52,-78}},
+        lineColor={0, 0, 255},
+        textString="ICl"), Text(
+        extent={{40, 48}, {102, 28}},
+        lineColor={0, 0, 255},
+        textString="PMV"), Text(
+        extent={{44,-34}, {106,-54}},
+        lineColor={0, 0, 255},
+        textString="PPD"), Line(
+        points={{-50, 42}, {-50,-38}},
+        color={0, 0, 0},
+        smooth=Smooth.None), Line(
+        points={{50,-38}, {-50,-38}},
+        color={0, 0, 0},
+        smooth=Smooth.None), Line(
+        points={{-44, 30}, {-30, 24}, {-22, 10}, {-18,-14}, {-6,-20}, {2,-20}, {8,-16}, {12,-12}, {16, 6}, {24, 24}, {38, 30}},
+        color={255, 0, 0},
+        smooth=Smooth.None)}));
 end Fanger;

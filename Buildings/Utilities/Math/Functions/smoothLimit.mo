@@ -2,20 +2,26 @@ within Buildings.Utilities.Math.Functions;
 function smoothLimit
   "Once continuously differentiable approximation to the limit function"
   extends Modelica.Icons.Function;
-  input Real x "Variable";
-  input Real l "Low limit";
-  input Real u "Upper limit";
-  input Real deltaX "Width of transition interval";
-  output Real y "Result";
-
+  input Real x
+    "Variable";
+  input Real l
+    "Low limit";
+  input Real u
+    "Upper limit";
+  input Real deltaX
+    "Width of transition interval";
+  output Real y
+    "Result";
 protected
   Real cor;
 algorithm
-  cor :=deltaX/10;
-  y := Buildings.Utilities.Math.Functions.smoothMax(x,l+deltaX,cor);
-  y := Buildings.Utilities.Math.Functions.smoothMin(y,u-deltaX,cor);
-  annotation (smoothOrder = 1,
-  Documentation(info="<html>
+  cor := deltaX/10;
+  y := Buildings.Utilities.Math.Functions.smoothMax(x, l + deltaX, cor);
+  y := Buildings.Utilities.Math.Functions.smoothMin(y, u-deltaX, cor);
+  annotation(
+    smoothOrder=1,
+    Documentation(
+      info="<html>
 <p>
 Once continuously differentiable approximation to the <code>limit(.,.)</code> function.
 The output is bounded to be in <i>[l, u]</i>.
@@ -25,7 +31,8 @@ Note that the limit need not be respected, such as illustrated in
 <a href=\"modelica://Buildings.Utilities.Math.Examples.SmoothMin\">
 Buildings.Utilities.Math.Examples.SmoothMin</a>.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 March 12, 2015, by Filip Jorissen:<br/>

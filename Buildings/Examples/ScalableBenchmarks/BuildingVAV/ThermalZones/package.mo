@@ -1,7 +1,9 @@
 within Buildings.Examples.ScalableBenchmarks.BuildingVAV;
-package ThermalZones "Scalable building envelope model"
-
-  annotation (Documentation(info="<html>
+package ThermalZones
+  "Scalable building envelope model"
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This package includes building envelope model that extends from
 <a href=\"modelica://Buildings.ThermalZones.Detailed.MixedAir\">
@@ -19,7 +21,7 @@ The gain schdule is specified by <code>intLoad</code>.
 Air infiltration from outside is assumed to be 0.5 ACH.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 June 16, 2017, by Jianjun Hu:<br/>

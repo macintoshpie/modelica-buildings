@@ -1,10 +1,14 @@
 within Buildings.Airflow.Multizone.BaseClasses;
-model ErrorControl "Interface that defines parameters for error control"
-  parameter Boolean forceErrorControlOnFlow = true
+model ErrorControl
+  "Interface that defines parameters for error control"
+  parameter Boolean forceErrorControlOnFlow=true
     "Flag to force error control on m_flow. Set to true if interested in flow rate"
-    annotation(Dialog(tab="Advanced"));
-
-  annotation (Documentation(info="<html>
+    annotation(
+      Dialog(
+        tab="Advanced"));
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This is an interface that defines parameters used for error control.
 </p>
@@ -25,7 +29,7 @@ By setting <code>forceErrorControlOnFlow = true</code>, such an equation is impo
 by models that extend this class.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 June 27, 2018, by Michael Wetter:<br/>

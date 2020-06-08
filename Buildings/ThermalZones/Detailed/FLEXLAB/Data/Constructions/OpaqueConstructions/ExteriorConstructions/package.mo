@@ -1,8 +1,10 @@
 within Buildings.ThermalZones.Detailed.FLEXLAB.Data.Constructions.OpaqueConstructions;
-package ExteriorConstructions "Exterior walls in FLEXLAB test cells"
+package ExteriorConstructions
+  "Exterior walls in FLEXLAB test cells"
   extends Modelica.Icons.MaterialPropertiesPackage;
-
-  annotation(Documentation(info="<html>
+  annotation(
+    Documentation(
+      info="<html>
     <p>
     This package contains constructions defining exterior walls used in
     FLEXLAB test cells. The following table lists locations in FLEXLAB test cells

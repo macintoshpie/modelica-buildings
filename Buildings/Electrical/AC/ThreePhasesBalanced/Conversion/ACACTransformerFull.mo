@@ -4,9 +4,10 @@ model ACACTransformerFull
   extends Buildings.Electrical.AC.OnePhase.Conversion.ACACTransformerFull(
     redeclare Interfaces.Terminal_n terminal_n,
     redeclare Interfaces.Terminal_p terminal_p);
-  annotation (
-defaultComponentName="traACAC",
-Documentation(info="<html>
+  annotation(
+    defaultComponentName="traACAC",
+    Documentation(
+      info="<html>
 <p>
 Model of a transformer for three-phase
 balanced AC systems. The model includes core and magnetic losses.
@@ -17,7 +18,8 @@ See model
 Buildings.Electrical.AC.OnePhase.Conversion.ACACTransformerFull</a> for more
 information.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 September 22, 2014, by Marco Bonvini:<br/>

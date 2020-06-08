@@ -2,35 +2,44 @@ within Buildings.Electrical.DC.Sources;
 model WindTurbine
   "Wind turbine with power output based on table as a function of wind speed"
   extends Buildings.Electrical.Interfaces.PartialWindTurbine(
-    redeclare package PhaseSystem =
-        Buildings.Electrical.PhaseSystems.TwoConductor,
+    redeclare package PhaseSystem=Buildings.Electrical.PhaseSystems.TwoConductor,
     redeclare Buildings.Electrical.DC.Interfaces.Terminal_p terminal);
 protected
   Loads.Conductor con(
     mode=Buildings.Electrical.Types.Load.VariableZ_P_input,
     V_nominal=V_nominal)
     "Conductor, used to interface the power with the electrical circuit"
-    annotation (Placement(transformation(extent={{60,-10},{80,10}})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{60,-10}, {80, 10}})));
 equation
-  connect(con.terminal, terminal) annotation (Line(
-      points={{60,6.66134e-16},{-20,6.66134e-16},{-20,0},{-100,0}},
-      color={0,0,255},
-      smooth=Smooth.None));
-  connect(gain.y, con.Pow) annotation (Line(
-      points={{23,30},{94,30},{94,6.66134e-16},{80,6.66134e-16}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  annotation (    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-        graphics={
-        Text(
-          extent={{-150,70},{-50,20}},
-          lineColor={0,0,0},
-          textString="+"),
-        Text(
-          extent={{-150,-12},{-50,-62}},
-          lineColor={0,0,0},
-          textString="-")}),
-    Documentation(info="<html>
+  connect(con.terminal, terminal)
+    annotation(
+      Line(
+        points={{60, 6.66134e-16}, {-20, 6.66134e-16}, {-20, 0}, {-100, 0}},
+        color={0, 0, 255},
+        smooth=Smooth.None));
+  connect(gain.y, con.Pow)
+    annotation(
+      Line(
+        points={{23, 30}, {94, 30}, {94, 6.66134e-16}, {80, 6.66134e-16}},
+        color={0, 0, 127},
+        smooth=Smooth.None));
+  annotation(
+    Icon(
+      coordinateSystem(
+        preserveAspectRatio=false,
+        extent={{-100,-100}, {100, 100}}),
+      graphics={Text(
+        extent={{-150, 70}, {-50, 20}},
+        lineColor={0, 0, 0},
+        textString="+"), Text(
+        extent={{-150,-12}, {-50,-62}},
+        lineColor={0, 0, 0},
+        textString="-")}),
+    Documentation(
+      info="<html>
 <p>
 Model of a wind turbine whose power is computed as a function of wind-speed as defined in a table.
 </p>
@@ -66,7 +75,8 @@ Below and above these wind speeds, the generated power is zero.
 <p align=\"center\">
 <img alt=\"alt-image\"  src=\"modelica://Buildings/Resources/Images/Electrical/DC/Sources/WindTurbine_Table.png\"/>
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 September 24, 2015 by Michael Wetter:<br/>

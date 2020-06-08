@@ -1,10 +1,12 @@
 within Buildings.Airflow.Multizone.Types;
-type densitySelection = enumeration(
-    fromTop "Density from top port",
-    fromBottom "Density from bottom port",
-    actual "Actual density based on flow direction")
-  "Enumeration to select density in medium column" annotation (
-    Documentation(info="<html>
+type densitySelection=enumeration(fromTop
+  "Density from top port", fromBottom
+  "Density from bottom port", actual
+  "Actual density based on flow direction")
+  "Enumeration to select density in medium column"
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 Enumeration to define the choice of valve flow coefficient
 (to be selected via choices menu):

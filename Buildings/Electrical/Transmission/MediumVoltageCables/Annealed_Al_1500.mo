@@ -1,8 +1,9 @@
 within Buildings.Electrical.Transmission.MediumVoltageCables;
-record Annealed_Al_1500 "Annealed Al cable - AWG 1500"
+record Annealed_Al_1500
+  "Annealed Al cable - AWG 1500"
   extends Buildings.Electrical.Transmission.MediumVoltageCables.Generic(
     material=Types.Material.Al,
-    M = 228.1 + 273.15,
+    M=228.1 + 273.15,
     size="1500",
     Rdc=3.87139e-5,
     T_ref=298.15,
@@ -11,7 +12,9 @@ record Annealed_Al_1500 "Annealed Al cable - AWG 1500"
     GMR=Buildings.Electrical.Transmission.Functions.computeGMR(d),
     GMD=Buildings.Electrical.Transmission.Functions.computeGMD(0.1905),
     Amp=800);
-  annotation (Documentation(info="<html>
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 Annealed aluminium cable with a cross-sectional kcmil 1500
 (thousand of Circular Mils).
@@ -24,7 +27,8 @@ d    = 34.798e-3   // Inner diameter [m]
 D    = 53.34e-3   // Outer diameter [m]
 Amp  = 800         // Ampacity [A]
 </pre>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 September 24, 2014, by Marco Bonvini:<br/>

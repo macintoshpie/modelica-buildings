@@ -1,20 +1,29 @@
 within Buildings.Utilities.Math.Functions.Examples;
 model Polynomial
   extends Modelica.Icons.Example;
-  Real x "Function value";
+  Real x
+    "Function value";
 equation
-  x=Buildings.Utilities.Math.Functions.polynomial(x=time^3-2, a={2, 4, -4, 5});
-
- annotation(experiment(StartTime=0, StopTime=4, Tolerance=1E-6),
-__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Utilities/Math/Functions/Examples/Polynomial.mos"
+  x=Buildings.Utilities.Math.Functions.polynomial(
+    x=time^3-2,
+    a={2, 4,-4, 5});
+  annotation(
+    experiment(
+      StartTime=0,
+      StopTime=4,
+      Tolerance=1E-6),
+    __Dymola_Commands(
+      file="modelica://Buildings/Resources/Scripts/Dymola/Utilities/Math/Functions/Examples/Polynomial.mos"
         "Simulate and plot"),
-    Documentation(info="<html>
+    Documentation(
+      info="<html>
 <p>
 This example verifies the correct implementation of
 <a href=\"modelica://Buildings.Utilities.Math.Functions.polynomial\">
 Buildings.Utilities.Math.Functions.polynomial</a>.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 December 14, 2016, by Michael Wetter:<br/>

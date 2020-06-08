@@ -4,11 +4,15 @@ record TestGrid2NodesMedium
   extends Buildings.Electrical.Transmission.Grids.PartialGrid(
     nNodes=2,
     nLinks=1,
-    fromTo=[[1,2]],
-    l=[200],
-    redeclare Buildings.Electrical.Transmission.MediumVoltageCables.Generic
-    cables = {MediumVoltageCables.Annealed_Al_30()});
-  annotation (Documentation(info="<html>
+    fromTo=[
+      [
+        1, 2]],
+    l=[
+      200],
+    redeclare Buildings.Electrical.Transmission.MediumVoltageCables.Generic cables={MediumVoltageCables.Annealed_Al_30()});
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This model represents a simple grid with two nodes and a single link between them.
 This model differs from
@@ -22,7 +26,8 @@ The picture below describes the grid topology.
 <p align=\"center\">
 <img alt=\"image\" src=\"modelica://Buildings/Resources/Images/Electrical/Transmission/Grids/testGrid2Nodes.png\"/>
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 September 23, 2014, by Marco Bonvini:<br/>

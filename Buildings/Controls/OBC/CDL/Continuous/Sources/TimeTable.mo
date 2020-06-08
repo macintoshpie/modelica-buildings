@@ -1,58 +1,57 @@
 within Buildings.Controls.OBC.CDL.Continuous.Sources;
 block TimeTable
   "Table look-up with respect to time and linear or periodic extrapolation"
-
-  parameter Real table[:,:]
-  "Table matrix (time = first column is time in seconds, unless timeScale <> 1)";
+  parameter Real table[:, :]
+    "Table matrix (time = first column is time in seconds, unless timeScale <> 1)";
   parameter CDL.Types.Smoothness smoothness=CDL.Types.Smoothness.LinearSegments
     "Smoothness of table interpolation";
   parameter CDL.Types.Extrapolation extrapolation=CDL.Types.Extrapolation.Periodic
     "Extrapolation of data outside the definition range";
-  parameter Real offset[:]={0} "Offsets of output signals";
+  parameter Real offset[:]={0}
+    "Offsets of output signals";
   parameter Modelica.SIunits.Time timeScale=1
     "Time scale of first table column. Set to 3600 if time in table is in hours";
-
-  Interfaces.RealOutput y[nout] "Output of the table"
-    annotation (Placement(transformation(extent={{100,-20},{140,20}})));
-
+  Interfaces.RealOutput y[nout]
+    "Output of the table"
+    annotation(
+      Placement(
+        transformation(
+          extent={{100,-20}, {140, 20}})));
 protected
   final parameter Integer nout=size(table, 2)-1
     "Dimension of output vector";
-
-  parameter Modelica.SIunits.Time t0(fixed=false)
+  parameter Modelica.SIunits.Time t0(
+    fixed=false)
     "First sample time instant";
-
   // CDL uses different enumerations for smoothness and for extrapolation
   // than the Modelica Standard Library. Hence, we cast the CDL
   // enumeration to the MSL enumaration.
   Modelica.Blocks.Sources.CombiTimeTable tab(
     final tableOnFile=false,
     final table=table,
-    final columns=2:size(tab.table, 2),
-    final smoothness=if smoothness == CDL.Types.Smoothness.LinearSegments then
-                        Modelica.Blocks.Types.Smoothness.LinearSegments
-                     else
-                        Modelica.Blocks.Types.Smoothness.ConstantSegments,
-    final extrapolation=if extrapolation == CDL.Types.Extrapolation.HoldLastPoint then
-                          Modelica.Blocks.Types.Extrapolation.HoldLastPoint
-                        elseif extrapolation == CDL.Types.Extrapolation.LastTwoPoints then
-                          Modelica.Blocks.Types.Extrapolation.LastTwoPoints
-                        else
-                          Modelica.Blocks.Types.Extrapolation.Periodic,
+    final columns=2 : size(tab.table, 2),
+    final smoothness=if smoothness == CDL.Types.Smoothness.LinearSegments then Modelica.Blocks.Types.Smoothness.LinearSegments else Modelica.Blocks.Types.Smoothness.ConstantSegments,
+    final extrapolation=if extrapolation == CDL.Types.Extrapolation.HoldLastPoint then Modelica.Blocks.Types.Extrapolation.HoldLastPoint elseif extrapolation == CDL.Types.Extrapolation.LastTwoPoints then Modelica.Blocks.Types.Extrapolation.LastTwoPoints else Modelica.Blocks.Types.Extrapolation.Periodic,
     final offset=offset,
-    final startTime=if (extrapolation == Types.Extrapolation.Periodic) then integer(t0/86400)*86400 else 0,
-    final timeScale=timeScale) "Time table"
-    annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
-
+    final startTime=if(extrapolation == Types.Extrapolation.Periodic) then integer(t0/86400)*86400 else 0,
+    final timeScale=timeScale)
+    "Time table"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-12,-10}, {8, 10}})));
 initial equation
   t0=time;
-
 equation
-  connect(tab.y, y) annotation (Line(points={{9,0},{120,0}}, color={0,0,127}));
-
-annotation (
-defaultComponentName = "timTab",
-Documentation(info="<html>
+  connect(tab.y, y)
+    annotation(
+      Line(
+        points={{9, 0}, {120, 0}},
+        color={0, 0, 127}));
+  annotation(
+    defaultComponentName="timTab",
+    Documentation(
+      info="<html>
 <p>
 Block that outputs values of a time table.
 </p>
@@ -221,7 +220,7 @@ of <i>0.5</i> seconds outputs
   y = 0, 0  , 1, ...
 </pre>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 March 13, 2020, by Michael Wetter:<br/>
@@ -245,37 +244,37 @@ Initial CDL implementation.
 </ul>
 </html>"),
     Icon(
-    coordinateSystem(preserveAspectRatio=true,
-      extent={{-100.0,-100.0},{100.0,100.0}}),
-      graphics={                Rectangle(
-        extent={{-100,-100},{100,100}},
-        lineColor={0,0,127},
-        fillColor={255,255,255},
+      coordinateSystem(
+        preserveAspectRatio=true,
+        extent={{-100.0,-100.0}, {100.0, 100.0}}),
+      graphics={Rectangle(
+        extent={{-100,-100}, {100, 100}},
+        lineColor={0, 0, 127},
+        fillColor={255, 255, 255},
         fillPattern=FillPattern.Solid), Text(
-        extent={{-150,150},{150,110}},
+        extent={{-150, 150}, {150, 110}},
         textString="%name",
-        lineColor={0,0,255}),
-    Polygon(lineColor={192,192,192},
-      fillColor={192,192,192},
-      fillPattern=FillPattern.Solid,
-      points={{-80.0,90.0},{-88.0,68.0},{-72.0,68.0},{-80.0,90.0}}),
-    Line(points={{-80.0,68.0},{-80.0,-80.0}},
-      color={192,192,192}),
-    Line(points={{-90.0,-70.0},{82.0,-70.0}},
-      color={192,192,192}),
-    Polygon(lineColor={192,192,192},
-      fillColor={192,192,192},
-      fillPattern=FillPattern.Solid,
-      points={{90.0,-70.0},{68.0,-62.0},{68.0,-78.0},{90.0,-70.0}}),
-    Rectangle(lineColor={255,255,255},
-      fillColor={255,215,136},
-      fillPattern=FillPattern.Solid,
-      extent={{-48.0,-50.0},{2.0,70.0}}),
-    Line(points={{-48.0,-50.0},{-48.0,70.0},{52.0,70.0},{52.0,-50.0},
-        {-48.0,-50.0},{-48.0,-20.0},{52.0,-20.0},{52.0,10.0},{-48.0,10.0},
-        {-48.0,40.0},{52.0,40.0},{52.0,70.0},{2.0,70.0},{2.0,-51.0}}),
-        Text(
-          extent={{226,60},{106,10}},
-          lineColor={0,0,0},
-          textString=DynamicSelect("", if (nout==1) then String(y[1], leftjustified=false, significantDigits=3) else ""))}));
+        lineColor={0, 0, 255}), Polygon(
+        lineColor={192, 192, 192},
+        fillColor={192, 192, 192},
+        fillPattern=FillPattern.Solid,
+        points={{-80.0, 90.0}, {-88.0, 68.0}, {-72.0, 68.0}, {-80.0, 90.0}}), Line(
+        points={{-80.0, 68.0}, {-80.0,-80.0}},
+        color={192, 192, 192}), Line(
+        points={{-90.0,-70.0}, {82.0,-70.0}},
+        color={192, 192, 192}), Polygon(
+        lineColor={192, 192, 192},
+        fillColor={192, 192, 192},
+        fillPattern=FillPattern.Solid,
+        points={{90.0,-70.0}, {68.0,-62.0}, {68.0,-78.0}, {90.0,-70.0}}), Rectangle(
+        lineColor={255, 255, 255},
+        fillColor={255, 215, 136},
+        fillPattern=FillPattern.Solid,
+        extent={{-48.0,-50.0}, {2.0, 70.0}}), Line(
+        points={{-48.0,-50.0}, {-48.0, 70.0}, {52.0, 70.0}, {52.0,-50.0}, {-48.0,-50.0}, {-48.0,-20.0}, {52.0,-20.0}, {52.0, 10.0}, {-48.0, 10.0}, {-48.0, 40.0}, {52.0, 40.0}, {52.0, 70.0}, {2.0, 70.0}, {2.0,-51.0}}), Text(
+        extent={{226, 60}, {106, 10}},
+        lineColor={0, 0, 0},
+        textString=DynamicSelect("", if(nout == 1) then String(y[1],
+          leftjustified=false,
+          significantDigits=3) else ""))}));
 end TimeTable;

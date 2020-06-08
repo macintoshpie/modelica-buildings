@@ -1,15 +1,24 @@
 within Buildings.Airflow.Multizone.BaseClasses;
-function powerLaw "Power law used in orifice equations"
-  input Real k "Flow coefficient, k = V_flow/ dp^m";
-  input Modelica.SIunits.PressureDifference dp(displayUnit="Pa") "Pressure difference";
-  input Real m(min=0.5, max=1)
+function powerLaw
+  "Power law used in orifice equations"
+  input Real k
+    "Flow coefficient, k = V_flow/ dp^m";
+  input Modelica.SIunits.PressureDifference dp(
+    displayUnit="Pa")
+    "Pressure difference";
+  input Real m(
+    min=0.5,
+    max=1)
     "Flow exponent, m=0.5 for turbulent, m=1 for laminar";
-  input Modelica.SIunits.PressureDifference dp_turbulent(min=0,
-                                                         displayUnit="Pa")=0.001
+  input Modelica.SIunits.PressureDifference dp_turbulent(
+    min=0,
+    displayUnit="Pa")=0.001
     "Pressure difference where regularization starts";
-  output Modelica.SIunits.VolumeFlowRate V_flow "Volume flow rate";
+  output Modelica.SIunits.VolumeFlowRate V_flow
+    "Volume flow rate";
 protected
-  constant Real gamma(min=1) = 1.5
+  constant Real gamma(
+    min=1)=1.5
     "Normalized flow rate where dphi(0)/dpi intersects phi(1)";
   Real a
     "Polynomial coefficient for regularized implementation of flow resistance";
@@ -19,25 +28,28 @@ protected
     "Polynomial coefficient for regularized implementation of flow resistance";
   Real d
     "Polynomial coefficient for regularized implementation of flow resistance";
-  Real pi "Normalized pressure";
-  Real pi2 "Square of normalized pressure";
+  Real pi
+    "Normalized pressure";
+  Real pi2
+    "Square of normalized pressure";
 algorithm
- if (dp >= dp_turbulent) then
-   V_flow := k*dp^m;
- elseif (dp <= -dp_turbulent) then
-   V_flow :=-k*(-dp)^m;
- else
-   a := gamma;
-   b := 1/8*m^2 - 3*gamma - 3/2*m + 35.0/8;
-   c := -1/4*m^2 + 3*gamma + 5/2*m - 21.0/4;
-   d := 1/8*m^2 - gamma - m + 15.0/8;
-   pi  := dp/dp_turbulent;
-   pi2 := pi*pi;
-   V_flow := k*dp_turbulent^m * pi * ( a + pi2 * ( b + pi2 * ( c + pi2 * d)));
- end if;
-
-  annotation (smoothOrder=2,
-Documentation(info="<html>
+  if(dp >= dp_turbulent) then
+    V_flow := k*dp^m;
+  elseif(dp <=-dp_turbulent) then
+    V_flow :=-k*(-dp)^m;
+  else
+    a := gamma;
+    b := 1/8*m^2-3*gamma-3/2*m + 35.0/8;
+    c :=-1/4*m^2 + 3*gamma + 5/2*m-21.0/4;
+    d := 1/8*m^2-gamma-m + 15.0/8;
+    pi := dp/dp_turbulent;
+    pi2 := pi*pi;
+    V_flow := k*dp_turbulent^m*pi*(a + pi2*(b + pi2*(c + pi2*d)));
+  end if;
+  annotation(
+    smoothOrder=2,
+    Documentation(
+      info="<html>
 <p>
 This model describes the mass flow rate and pressure difference relation
 of an orifice in the form
@@ -76,7 +88,7 @@ to compute these values outside of this function, for example as parameters
 of a model.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 January 22, 2016, by Michael Wetter:<br/>

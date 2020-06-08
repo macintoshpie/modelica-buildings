@@ -1,26 +1,31 @@
 within Buildings.HeatTransfer.Data;
-package Glasses "Package with thermophysical properties for window glas"
-    extends Modelica.Icons.MaterialPropertiesPackage;
-  record Generic "Thermal properties of window glass"
-      extends Modelica.Icons.Record;
-   parameter Modelica.SIunits.Length x=0.003 "Thickness";
-   parameter Modelica.SIunits.ThermalConductivity k=1 "Thermal conductivity";
-   parameter Modelica.SIunits.TransmissionCoefficient tauSol[:] = {0.6}
+package Glasses
+  "Package with thermophysical properties for window glas"
+  extends Modelica.Icons.MaterialPropertiesPackage;
+  record Generic
+    "Thermal properties of window glass"
+    extends Modelica.Icons.Record;
+    parameter Modelica.SIunits.Length x=0.003
+      "Thickness";
+    parameter Modelica.SIunits.ThermalConductivity k=1
+      "Thermal conductivity";
+    parameter Modelica.SIunits.TransmissionCoefficient tauSol[:]={0.6}
       "Solar transmittance";
-   parameter Modelica.SIunits.ReflectionCoefficient rhoSol_a[:] = {0.075}
+    parameter Modelica.SIunits.ReflectionCoefficient rhoSol_a[:]={0.075}
       "Solar reflectance of surface a (usually outside-facing surface)";
-   parameter Modelica.SIunits.ReflectionCoefficient rhoSol_b[:] = {0.075}
+    parameter Modelica.SIunits.ReflectionCoefficient rhoSol_b[:]={0.075}
       "Solar reflectance of surface b (usually room-facing surface)";
-   parameter Modelica.SIunits.TransmissionCoefficient tauIR = 0
+    parameter Modelica.SIunits.TransmissionCoefficient tauIR=0
       "Infrared transmissivity of glass";
-   parameter Modelica.SIunits.Emissivity absIR_a = 0.84
+    parameter Modelica.SIunits.Emissivity absIR_a=0.84
       "Infrared absorptivity of surface a (usually outside-facing surface)";
-   parameter Modelica.SIunits.Emissivity absIR_b = 0.84
+    parameter Modelica.SIunits.Emissivity absIR_b=0.84
       "Infrared absorptivity of surface b (usually room-facing surface)";
-    annotation (
-    defaultComponentPrefixes="parameter",
-    defaultComponentName="datGla",
-    Documentation(info="<html>
+    annotation(
+      defaultComponentPrefixes="parameter",
+      defaultComponentName="datGla",
+      Documentation(
+        info="<html>
 <p>
 This record implements thermophysical properties for window glass.
 See
@@ -29,7 +34,7 @@ Buildings.HeatTransfer.Data.Glasses</a>
 for instructions.
 </p>
 </html>",
-  revisions="<html>
+        revisions="<html>
 <ul>
 <li>
 August 7, 2015, by Michael Wetter:<br/>
@@ -48,74 +53,75 @@ First implementation.
 </ul>
 </html>"));
   end Generic;
-
-  record ID100 = Buildings.HeatTransfer.Data.Glasses.Generic (
-      x=0.0031,
-      k=1.0,
-      tauSol={0.646},
-      rhoSol_a={0.062},
-      rhoSol_b={0.063},
-      tauIR=0,
-      absIR_a=0.84,
-      absIR_b=0.84) "Generic Bronze Glass 3.1mm. Manufacturer: Generic."
-    annotation (
+  record ID100=Buildings.HeatTransfer.Data.Glasses.Generic(
+    x=0.0031,
+    k=1.0,
+    tauSol={0.646},
+    rhoSol_a={0.062},
+    rhoSol_b={0.063},
+    tauIR=0,
+    absIR_a=0.84,
+    absIR_b=0.84)
+    "Generic Bronze Glass 3.1mm. Manufacturer: Generic."
+    annotation(
       defaultComponentPrefixes="parameter",
       defaultComponentName="datGla");
-
-  record ID101 = Buildings.HeatTransfer.Data.Glasses.Generic (
-      x=0.0057,
-      k=1.0,
-      tauSol={0.486},
-      rhoSol_a={0.053},
-      rhoSol_b={0.053},
-      tauIR=0,
-      absIR_a=0.84,
-      absIR_b=0.84) "Generic Bronze Glass 5.7mm. Manufacturer: Generic."
-    annotation (
+  record ID101=Buildings.HeatTransfer.Data.Glasses.Generic(
+    x=0.0057,
+    k=1.0,
+    tauSol={0.486},
+    rhoSol_a={0.053},
+    rhoSol_b={0.053},
+    tauIR=0,
+    absIR_a=0.84,
+    absIR_b=0.84)
+    "Generic Bronze Glass 5.7mm. Manufacturer: Generic."
+    annotation(
       defaultComponentPrefixes="parameter",
       defaultComponentName="datGla");
-
-  record ID102 = Buildings.HeatTransfer.Data.Glasses.Generic (
-      x=0.003,
-      k=1.0,
-      tauSol={0.834},
-      rhoSol_a={0.075},
-      rhoSol_b={0.075},
-      tauIR=0,
-      absIR_a=0.84,
-      absIR_b=0.84) "Generic Clear Glass 3.048mm. Manufacturer: Generic."
-    annotation (
+  record ID102=Buildings.HeatTransfer.Data.Glasses.Generic(
+    x=0.003,
+    k=1.0,
+    tauSol={0.834},
+    rhoSol_a={0.075},
+    rhoSol_b={0.075},
+    tauIR=0,
+    absIR_a=0.84,
+    absIR_b=0.84)
+    "Generic Clear Glass 3.048mm. Manufacturer: Generic."
+    annotation(
       defaultComponentPrefixes="parameter",
       defaultComponentName="datGla");
-
-  record ID103 = Buildings.HeatTransfer.Data.Glasses.Generic (
-      x=0.0057,
-      k=1.0,
-      tauSol={0.771},
-      rhoSol_a={0.070},
-      rhoSol_b={0.070},
-      tauIR=0,
-      absIR_a=0.84,
-      absIR_b=0.84) "Generic Clear Glass 5.7mm. Manufacturer: Generic."
-    annotation (
+  record ID103=Buildings.HeatTransfer.Data.Glasses.Generic(
+    x=0.0057,
+    k=1.0,
+    tauSol={0.771},
+    rhoSol_a={0.070},
+    rhoSol_b={0.070},
+    tauIR=0,
+    absIR_a=0.84,
+    absIR_b=0.84)
+    "Generic Clear Glass 5.7mm. Manufacturer: Generic."
+    annotation(
       defaultComponentPrefixes="parameter",
       defaultComponentName="datGla");
-
-  record Electrochromic = Buildings.HeatTransfer.Data.Glasses.Generic (
-      x=0.006,
-      k=0.9,
-      tauSol={0.814, 0.111},
-      rhoSol_a={0.086, 0.179},
-      rhoSol_b={0.086, 0.179},
-      tauIR=0,
-      absIR_a=0.84,
-      absIR_b=0.84) "Electrochromic Glass 6mm. Manufacturer: Generic."
-    annotation (
+  record Electrochromic=Buildings.HeatTransfer.Data.Glasses.Generic(
+    x=0.006,
+    k=0.9,
+    tauSol={0.814, 0.111},
+    rhoSol_a={0.086, 0.179},
+    rhoSol_b={0.086, 0.179},
+    tauIR=0,
+    absIR_a=0.84,
+    absIR_b=0.84)
+    "Electrochromic Glass 6mm. Manufacturer: Generic."
+    annotation(
       defaultComponentPrefixes="parameter",
       defaultComponentName="datGla");
-
-annotation(preferredView="info",
-Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 <p>
 This package implements thermophysical properties for window glass.
 </p>
@@ -198,7 +204,7 @@ model
 Buildings.HeatTransfer.Windows.BaseClasses.StateInterpolator</a>.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 September 9, 2010, by Michael Wetter:<br/>

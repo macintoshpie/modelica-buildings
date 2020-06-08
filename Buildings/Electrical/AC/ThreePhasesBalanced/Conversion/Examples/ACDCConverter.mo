@@ -5,58 +5,86 @@ model ACDCConverter
   Buildings.Electrical.DC.Loads.Resistor res(
     R=1,
     V_nominal=120,
-    i(each start=0))
-    "Resistive load" annotation (Placement(
+    i(
+      each start=0))
+    "Resistive load"
+    annotation(
+      Placement(
         transformation(
-        extent={{10,-10},{-10,10}},
-        rotation=180,
-        origin={50,10})));
+          extent={{10,-10}, {-10, 10}},
+          rotation=180,
+          origin={50, 10})));
   Buildings.Electrical.AC.ThreePhasesBalanced.Conversion.ACDCConverter conversion(
     eta=0.9,
     ground_AC=false,
     ground_DC=true,
-    conversionFactor=120/480) "AC/DC transformer"
-    annotation (Placement(transformation(extent={{-10,0},{10,20}})));
+    conversionFactor=120/480)
+    "AC/DC transformer"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-10, 0}, {10, 20}})));
   Buildings.Electrical.AC.ThreePhasesBalanced.Sources.FixedVoltage sou(
     definiteReference=true,
     f=60,
-    V=480) "Voltage source"
-    annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        origin={-62,10})));
+    V=480)
+    "Voltage source"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-10,-10}, {10, 10}},
+          origin={-62, 10})));
   Buildings.Electrical.DC.Loads.Conductor load(
     mode=Buildings.Electrical.Types.Load.VariableZ_P_input,
-    V_nominal=120) "Variable resistive load"
-    annotation (Placement(
+    V_nominal=120)
+    "Variable resistive load"
+    annotation(
+      Placement(
         transformation(
-        extent={{10,-10},{-10,10}},
-        rotation=180,
-        origin={50,-10})));
+          extent={{10,-10}, {-10, 10}},
+          rotation=180,
+          origin={50,-10})));
   Modelica.Blocks.Sources.Ramp pow(
     duration=0.5,
     startTime=0.2,
     offset=-200,
-    height=5200) "Variable load profile"
-    annotation (Placement(transformation(extent={{90,-20},{70,0}})));
+    height=5200)
+    "Variable load profile"
+    annotation(
+      Placement(
+        transformation(
+          extent={{90,-20}, {70, 0}})));
 equation
-  connect(sou.terminal, conversion.terminal_n) annotation (Line(
-      points={{-52,10},{-10,10}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  connect(conversion.terminal_p, res.terminal) annotation (Line(
-      points={{10,10},{40,10}},
-      color={0,0,255},
-      smooth=Smooth.None));
-  connect(conversion.terminal_p, load.terminal) annotation (Line(
-      points={{10,10},{30,10},{30,-10},{40,-10}},
-      color={0,0,255},
-      smooth=Smooth.None));
-  connect(pow.y, load.Pow) annotation (Line(
-      points={{69,-10},{60,-10}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  annotation ( experiment(StopTime=1.0, Tolerance=1e-6),
-Documentation(info="<html>
+  connect(sou.terminal, conversion.terminal_n)
+    annotation(
+      Line(
+        points={{-52, 10}, {-10, 10}},
+        color={0, 120, 120},
+        smooth=Smooth.None));
+  connect(conversion.terminal_p, res.terminal)
+    annotation(
+      Line(
+        points={{10, 10}, {40, 10}},
+        color={0, 0, 255},
+        smooth=Smooth.None));
+  connect(conversion.terminal_p, load.terminal)
+    annotation(
+      Line(
+        points={{10, 10}, {30, 10}, {30,-10}, {40,-10}},
+        color={0, 0, 255},
+        smooth=Smooth.None));
+  connect(pow.y, load.Pow)
+    annotation(
+      Line(
+        points={{69,-10}, {60,-10}},
+        color={0, 0, 127},
+        smooth=Smooth.None));
+  annotation(
+    experiment(
+      StopTime=1.0,
+      Tolerance=1e-6),
+    Documentation(
+      info="<html>
 <p>
 This example illustrates the use of a model that converts AC voltage to DC voltage.
 The transformer model assumes a linear loss when transmitting the power.
@@ -79,7 +107,7 @@ First implementation.
 </li>
 </ul>
 </html>"),
-    __Dymola_Commands(file=
-          "modelica://Buildings/Resources/Scripts/Dymola/Electrical/AC/ThreePhasesBalanced/Conversion/Examples/ACDCConverter.mos"
+    __Dymola_Commands(
+      file="modelica://Buildings/Resources/Scripts/Dymola/Electrical/AC/ThreePhasesBalanced/Conversion/Examples/ACDCConverter.mos"
         "Simulate and plot"));
 end ACDCConverter;

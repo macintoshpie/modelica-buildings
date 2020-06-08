@@ -1,23 +1,36 @@
 within Buildings.BoundaryConditions.SolarGeometry.BaseClasses;
-block Declination "Declination angle"
+block Declination
+  "Declination angle"
   extends Modelica.Blocks.Icons.Block;
-  Modelica.Blocks.Interfaces.RealInput nDay(quantity="Time", unit="s")
+  Modelica.Blocks.Interfaces.RealInput nDay(
+    quantity="Time",
+    unit="s")
     "Day number with units of seconds"
-    annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140,-20}, {-100, 20}})));
   Modelica.Blocks.Interfaces.RealOutput decAng(
     final quantity="Angle",
     final unit="rad",
-    displayUnit="deg") "Solar declination angle"
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+    displayUnit="deg")
+    "Solar declination angle"
+    annotation(
+      Placement(
+        transformation(
+          extent={{100,-10}, {120, 10}})));
 protected
-  constant Real k1 = sin(23.45*2*Modelica.Constants.pi/360) "Constant";
-  constant Real k2 = 2*Modelica.Constants.pi/365.25 "Constant";
+  constant Real k1=sin(23.45*2*Modelica.Constants.pi/360)
+    "Constant";
+  constant Real k2=2*Modelica.Constants.pi/365.25
+    "Constant";
 equation
-  decAng = Modelica.Math.asin(-k1 * Modelica.Math.cos((nDay/86400 + 10)*k2))
+  decAng=Modelica.Math.asin(-k1*Modelica.Math.cos((nDay/86400 + 10)*k2))
     "(A4.5)";
-  annotation (
+  annotation(
     defaultComponentName="decAng",
-    Documentation(info="<html>
+    Documentation(
+      info="<html>
 <p>
 This component computes the solar declination, which is
 the angle between the equatorial plane and the solar beam.
@@ -33,7 +46,8 @@ A validation with a more detailed calculation can be found at
 <a href=\"modelica://Buildings.BoundaryConditions.SolarGeometry.BaseClasses.Examples.Declination\">
 Buildings.BoundaryConditions.SolarGeometry.BaseClasses.Examples.Declination</a>.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 January 6, 2015, by Michael Wetter:<br/>
@@ -61,11 +75,14 @@ First implementation.
 </li>
 </ul>
 </html>"),
-    Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,
-            100}}), graphics={  Bitmap(extent={{-90,-90},{90,90}}, fileName=
-              "modelica://Buildings/Resources/Images/BoundaryConditions/SolarGeometry/BaseClasses/Declination.png"),
-                              Text(
-          extent={{-150,110},{150,150}},
-          textString="%name",
-          lineColor={0,0,255})}));
+    Icon(
+      coordinateSystem(
+        preserveAspectRatio=true,
+        extent={{-100,-100}, {100, 100}}),
+      graphics={Bitmap(
+        extent={{-90,-90}, {90, 90}},
+        fileName="modelica://Buildings/Resources/Images/BoundaryConditions/SolarGeometry/BaseClasses/Declination.png"), Text(
+        extent={{-150, 110}, {150, 150}},
+        textString="%name",
+        lineColor={0, 0, 255})}));
 end Declination;

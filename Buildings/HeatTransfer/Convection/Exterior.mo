@@ -1,29 +1,46 @@
 within Buildings.HeatTransfer.Convection;
-model Exterior "Model for a exterior (outside) convective heat transfer"
+model Exterior
+  "Model for a exterior (outside) convective heat transfer"
   extends Buildings.HeatTransfer.Convection.BaseClasses.PartialConvection;
-
-  parameter Buildings.HeatTransfer.Types.ExteriorConvection conMod=
-    Buildings.HeatTransfer.Types.ExteriorConvection.TemperatureWind
+  parameter Buildings.HeatTransfer.Types.ExteriorConvection conMod=Buildings.HeatTransfer.Types.ExteriorConvection.TemperatureWind
     "Convective heat transfer model"
-  annotation(Evaluate=true);
-
+    annotation(
+      Evaluate=true);
   parameter Modelica.SIunits.CoefficientOfHeatTransfer hFixed=3
     "Constant convection coefficient"
-   annotation (Dialog(enable=(conMod == Buildings.HeatTransfer.Types.ExteriorConvection.Fixed)));
-
-  parameter Buildings.HeatTransfer.Types.SurfaceRoughness roughness=
-    Buildings.HeatTransfer.Types.SurfaceRoughness.Medium "Surface roughness"
-    annotation (Dialog(enable=(conMod <> Buildings.HeatTransfer.Types.ExteriorConvection.Fixed)));
-  parameter Modelica.SIunits.Angle azi "Surface azimuth";
-
-   parameter Modelica.SIunits.Angle til(displayUnit="deg") "Surface tilt"
-    annotation (Dialog(enable=(conMod <> Buildings.HeatTransfer.Types.ExteriorConvection.Fixed)));
-
-  Modelica.Blocks.Interfaces.RealInput v(unit="m/s") "Wind speed"
-    annotation (Placement(transformation(extent={{-140,80},{-100,120}})));
-  Modelica.Blocks.Interfaces.RealInput dir(unit="rad", displayUnit="deg",
-     min=0, max=2*Modelica.Constants.pi) "Wind direction (0=wind from North)"
-    annotation (Placement(transformation(extent={{-140,30},{-100,70}})));
+    annotation(
+      Dialog(
+        enable=(conMod == Buildings.HeatTransfer.Types.ExteriorConvection.Fixed)));
+  parameter Buildings.HeatTransfer.Types.SurfaceRoughness roughness=Buildings.HeatTransfer.Types.SurfaceRoughness.Medium
+    "Surface roughness"
+    annotation(
+      Dialog(
+        enable=(conMod <> Buildings.HeatTransfer.Types.ExteriorConvection.Fixed)));
+  parameter Modelica.SIunits.Angle azi
+    "Surface azimuth";
+  parameter Modelica.SIunits.Angle til(
+    displayUnit="deg")
+    "Surface tilt"
+    annotation(
+      Dialog(
+        enable=(conMod <> Buildings.HeatTransfer.Types.ExteriorConvection.Fixed)));
+  Modelica.Blocks.Interfaces.RealInput v(
+    unit="m/s")
+    "Wind speed"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140, 80}, {-100, 120}})));
+  Modelica.Blocks.Interfaces.RealInput dir(
+    unit="rad",
+    displayUnit="deg",
+    min=0,
+    max=2*Modelica.Constants.pi)
+    "Wind direction (0=wind from North)"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140, 30}, {-100, 70}})));
   Modelica.SIunits.CoefficientOfHeatTransfer hF
     "Convective heat transfer coefficient due to forced convection";
   Modelica.SIunits.HeatFlux qN_flow
@@ -31,115 +48,142 @@ model Exterior "Model for a exterior (outside) convective heat transfer"
   Modelica.SIunits.HeatFlux qF_flow
     "Convective heat flux from solid -> fluid due to forced convection";
 protected
-  constant Modelica.SIunits.Velocity v_small = 0.5
+  constant Modelica.SIunits.Velocity v_small=0.5
     "Small value for wind velocity below which equations are regularized";
-  final parameter Real cosTil=Modelica.Math.cos(til) "Cosine of window tilt";
-  final parameter Real sinTil=Modelica.Math.sin(til) "Sine of window tilt";
-  final parameter Boolean isCeiling = abs(sinTil) < 10E-10 and cosTil > 0
+  final parameter Real cosTil=Modelica.Math.cos(til)
+    "Cosine of window tilt";
+  final parameter Real sinTil=Modelica.Math.sin(til)
+    "Sine of window tilt";
+  final parameter Boolean isCeiling=abs(sinTil) < 10E-10 and cosTil > 0
     "Flag, true if the surface is a ceiling";
-  final parameter Boolean isFloor = abs(sinTil) < 10E-10 and cosTil < 0
+  final parameter Boolean isFloor=abs(sinTil) < 10E-10 and cosTil < 0
     "Flag, true if the surface is a floor";
-
-  parameter Real R(fixed=false) "Surface roughness";
-
-  Real W(min=0.5, max=1) "Wind direction modifier";
-
+  parameter Real R(
+    fixed=false)
+    "Surface roughness";
+  Real W(
+    min=0.5,
+    max=1)
+    "Wind direction modifier";
 initial equation
-  if (roughness == Buildings.HeatTransfer.Types.SurfaceRoughness.VeryRough) then
+  if(roughness == Buildings.HeatTransfer.Types.SurfaceRoughness.VeryRough) then
     R=2.17;
-  elseif (roughness == Buildings.HeatTransfer.Types.SurfaceRoughness.Rough) then
+  elseif(roughness == Buildings.HeatTransfer.Types.SurfaceRoughness.Rough) then
     R=1.67;
-  elseif (roughness == Buildings.HeatTransfer.Types.SurfaceRoughness.Medium) then
+  elseif(roughness == Buildings.HeatTransfer.Types.SurfaceRoughness.Medium) then
     R=1.52;
-  elseif (roughness == Buildings.HeatTransfer.Types.SurfaceRoughness.MediumSmooth) then
+  elseif(roughness == Buildings.HeatTransfer.Types.SurfaceRoughness.MediumSmooth) then
     R=1.13;
-  elseif (roughness == Buildings.HeatTransfer.Types.SurfaceRoughness.Smooth) then
+  elseif(roughness == Buildings.HeatTransfer.Types.SurfaceRoughness.Smooth) then
     R=1.11;
-  elseif (roughness == Buildings.HeatTransfer.Types.SurfaceRoughness.VerySmooth) then
+  elseif(roughness == Buildings.HeatTransfer.Types.SurfaceRoughness.VerySmooth) then
     R=1.00;
   else
     R=0;
   end if;
 equation
-  if (conMod == Buildings.HeatTransfer.Types.ExteriorConvection.Fixed) then
-    qN_flow = hFixed * dT;
-    W = 1;
-    hF = 0;
-    qF_flow = 0;
+  if(conMod == Buildings.HeatTransfer.Types.ExteriorConvection.Fixed) then
+    qN_flow=hFixed*dT;
+    W=1;
+    hF=0;
+    qF_flow=0;
   else
     // Even if hCon is a step function with a step at zero,
     // the product hCon*dT is differentiable at zero with
     // a continuous first derivative
     if isCeiling then
-       qN_flow = Buildings.HeatTransfer.Convection.Functions.HeatFlux.ceiling(dT=dT);
+      qN_flow=Buildings.HeatTransfer.Convection.Functions.HeatFlux.ceiling(
+        dT=dT);
     elseif isFloor then
-       qN_flow = Buildings.HeatTransfer.Convection.Functions.HeatFlux.floor(dT=dT);
+      qN_flow=Buildings.HeatTransfer.Convection.Functions.HeatFlux.floor(
+        dT=dT);
     else
-       qN_flow = Buildings.HeatTransfer.Convection.Functions.HeatFlux.wall(dT=dT);
+      qN_flow=Buildings.HeatTransfer.Convection.Functions.HeatFlux.wall(
+        dT=dT);
     end if;
     // Forced convection
-    W = Buildings.Utilities.Math.Functions.regStep(
-          x = v-v_small/2,
-          y1 = Buildings.HeatTransfer.Convection.Functions.windDirectionModifier(
-            azi=azi,
-            dir=dir),
-          y2 = 0.75,
-          x_small=v_small/4);
-    hF = 2.537 * W * R * 2 / A^(0.25) *
-       Buildings.Utilities.Math.Functions.regNonZeroPower(
-           x=v,
-           n=0.5,
-           delta=v_small);
-    qF_flow = hF*dT;
+    W=Buildings.Utilities.Math.Functions.regStep(
+      x=v-v_small/2,
+      y1=Buildings.HeatTransfer.Convection.Functions.windDirectionModifier(
+        azi=azi,
+        dir=dir),
+      y2=0.75,
+      x_small=v_small/4);
+    hF=2.537*W*R*2/A^(0.25)*Buildings.Utilities.Math.Functions.regNonZeroPower(
+      x=v,
+      n=0.5,
+      delta=v_small);
+    qF_flow=hF*dT;
   end if;
-  q_flow = qN_flow + qF_flow;
-
-  annotation ( Icon(coordinateSystem(
-          preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics={
-        Rectangle(
-          extent={{-100,100},{100,-100}},
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-90,80},{-60,-80}},
-          lineColor={0,0,0},
-          fillColor={192,192,192},
-          fillPattern=FillPattern.Backward),
-        Line(points={{100,0},{100,0}}, color={0,127,255}),
-        Line(points={{100,0},{100,0}}, color={0,127,255}),
-        Line(points={{100,0},{100,0}}, color={0,127,255}),
-        Text(
-          extent={{-35,42},{-5,20}},
-          lineColor={255,0,0},
-          textString="Q_flow"),
-        Line(points={{-60,20},{76,20}}, color={191,0,0}),
-        Line(points={{-60,-20},{76,-20}}, color={191,0,0}),
-        Line(points={{-34,80},{-34,-80}}, color={0,127,255}),
-        Line(points={{6,80},{6,-80}}, color={0,127,255}),
-        Line(points={{40,80},{40,-80}}, color={0,127,255}),
-        Line(points={{76,80},{76,-80}}, color={0,127,255}),
-        Line(points={{-34,-80},{-44,-60}}, color={0,127,255}),
-        Line(points={{-34,-80},{-24,-60}}, color={0,127,255}),
-        Line(points={{6,-80},{-4,-60}}, color={0,127,255}),
-        Line(points={{6,-80},{16,-60}}, color={0,127,255}),
-        Line(points={{40,-80},{30,-60}}, color={0,127,255}),
-        Line(points={{40,-80},{50,-60}}, color={0,127,255}),
-        Line(points={{76,-80},{66,-60}}, color={0,127,255}),
-        Line(points={{76,-80},{86,-60}}, color={0,127,255}),
-        Line(points={{56,-30},{76,-20}}, color={191,0,0}),
-        Line(points={{56,-10},{76,-20}}, color={191,0,0}),
-        Line(points={{56,10},{76,20}}, color={191,0,0}),
-        Line(points={{56,30},{76,20}}, color={191,0,0}),
-                                         Text(
-          extent={{-102,128},{-64,98}},
-          lineColor={0,0,127},
-          textString="v"),               Text(
-          extent={{-100,64},{-62,34}},
-          lineColor={0,0,127},
-          textString="dir")}),
+  q_flow=qN_flow + qF_flow;
+  annotation(
+    Icon(
+      coordinateSystem(
+        preserveAspectRatio=true,
+        extent={{-100,-100}, {100, 100}}),
+      graphics={Rectangle(
+        extent={{-100, 100}, {100,-100}},
+        lineColor={0, 0, 0},
+        fillColor={255, 255, 255},
+        fillPattern=FillPattern.Solid), Rectangle(
+        extent={{-90, 80}, {-60,-80}},
+        lineColor={0, 0, 0},
+        fillColor={192, 192, 192},
+        fillPattern=FillPattern.Backward), Line(
+        points={{100, 0}, {100, 0}},
+        color={0, 127, 255}), Line(
+        points={{100, 0}, {100, 0}},
+        color={0, 127, 255}), Line(
+        points={{100, 0}, {100, 0}},
+        color={0, 127, 255}), Text(
+        extent={{-35, 42}, {-5, 20}},
+        lineColor={255, 0, 0},
+        textString="Q_flow"), Line(
+        points={{-60, 20}, {76, 20}},
+        color={191, 0, 0}), Line(
+        points={{-60,-20}, {76,-20}},
+        color={191, 0, 0}), Line(
+        points={{-34, 80}, {-34,-80}},
+        color={0, 127, 255}), Line(
+        points={{6, 80}, {6,-80}},
+        color={0, 127, 255}), Line(
+        points={{40, 80}, {40,-80}},
+        color={0, 127, 255}), Line(
+        points={{76, 80}, {76,-80}},
+        color={0, 127, 255}), Line(
+        points={{-34,-80}, {-44,-60}},
+        color={0, 127, 255}), Line(
+        points={{-34,-80}, {-24,-60}},
+        color={0, 127, 255}), Line(
+        points={{6,-80}, {-4,-60}},
+        color={0, 127, 255}), Line(
+        points={{6,-80}, {16,-60}},
+        color={0, 127, 255}), Line(
+        points={{40,-80}, {30,-60}},
+        color={0, 127, 255}), Line(
+        points={{40,-80}, {50,-60}},
+        color={0, 127, 255}), Line(
+        points={{76,-80}, {66,-60}},
+        color={0, 127, 255}), Line(
+        points={{76,-80}, {86,-60}},
+        color={0, 127, 255}), Line(
+        points={{56,-30}, {76,-20}},
+        color={191, 0, 0}), Line(
+        points={{56,-10}, {76,-20}},
+        color={191, 0, 0}), Line(
+        points={{56, 10}, {76, 20}},
+        color={191, 0, 0}), Line(
+        points={{56, 30}, {76, 20}},
+        color={191, 0, 0}), Text(
+        extent={{-102, 128}, {-64, 98}},
+        lineColor={0, 0, 127},
+        textString="v"), Text(
+        extent={{-100, 64}, {-62, 34}},
+        lineColor={0, 0, 127},
+        textString="dir")}),
     defaultComponentName="con",
-    Documentation(info="<html>
+    Documentation(
+      info="<html>
 <p>
 This is a model for a convective heat transfer for exterior, outside-facing surfaces.
 The parameter <code>conMod</code> determines the model that is used to compute
@@ -228,7 +272,8 @@ Walton, G. N. 1981. Passive Solar Extension of the Building Loads Analysis and S
 Thermodynamics (BLAST) Program, Technical Report, United States Army Construction
 Engineering Research Laboratory, Champaign, IL.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 May 7, 2020, by Michael Wetter:<br/>

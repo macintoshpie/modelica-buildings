@@ -1,6 +1,9 @@
 within Buildings.HeatTransfer.Convection.Functions;
-package HeatFlux "Correlations for convective heat flux"
-  annotation (Documentation(info="<html>
+package HeatFlux
+  "Correlations for convective heat flux"
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This package contains functions for the convective heat transfer.
 Input into the functions is the temperature difference between
@@ -13,7 +16,8 @@ such as buoyancy driven flow at a horizontal surface. However, the
 product of convective heat transfer coefficient times temperature
 difference is differentiable around zero.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 March 8 2010, by Michael Wetter:<br/>

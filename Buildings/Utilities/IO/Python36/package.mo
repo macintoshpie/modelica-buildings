@@ -1,8 +1,11 @@
 within Buildings.Utilities.IO;
-package Python36 "Package to call Python functions"
+package Python36
+  "Package to call Python functions"
   extends Modelica.Icons.VariantsPackage;
-
-annotation (preferredView="info", Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 <p>
 This package contains blocks and functions that embed Python 3.6 in Modelica.
 Data can be sent to Python functions and received from Python functions.

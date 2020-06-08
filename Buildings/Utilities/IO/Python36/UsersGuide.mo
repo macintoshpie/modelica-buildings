@@ -1,9 +1,11 @@
 within Buildings.Utilities.IO.Python36;
-package UsersGuide "User's Guide"
+package UsersGuide
+  "User's Guide"
   extends Modelica.Icons.Information;
-
-annotation (preferredView="info",
-Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 <p>
 This package contains classes that call Python functions.
 The classes can be used to send data to Python functions,

@@ -1,60 +1,83 @@
 within Buildings.Occupants.Office.Lighting;
-model Love1998Light1 "A model to predict occupants' lighting behavior with illuminance"
+model Love1998Light1
+  "A model to predict occupants' lighting behavior with illuminance"
   extends Modelica.Blocks.Icons.DiscreteBlock;
-  parameter Real B = 5.85 "Intercept for logistic regression";
-  parameter Real M = -11.9 "Slope for logistic regression";
-  parameter Integer seed = 30 "Seed for the random number generator";
-  parameter Modelica.SIunits.Time samplePeriod = 120 "Sample period";
-
-  Modelica.Blocks.Interfaces.RealInput ill "Daylight illuminance level on the deskin units of lux" annotation (
-       Placement(transformation(extent={{-140,-80},{-100,-40}}),
-      iconTransformation(extent={{-140,-80},{-100,-40}})));
+  parameter Real B=5.85
+    "Intercept for logistic regression";
+  parameter Real M=-11.9
+    "Slope for logistic regression";
+  parameter Integer seed=30
+    "Seed for the random number generator";
+  parameter Modelica.SIunits.Time samplePeriod=120
+    "Sample period";
+  Modelica.Blocks.Interfaces.RealInput ill
+    "Daylight illuminance level on the deskin units of lux"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140,-80}, {-100,-40}}),
+        iconTransformation(
+          extent={{-140,-80}, {-100,-40}})));
   Modelica.Blocks.Interfaces.BooleanInput occ
     "Indoor occupancy, true for occupied"
-    annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
-  Modelica.Blocks.Interfaces.BooleanOutput on "State of lighting"
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140, 40}, {-100, 80}})));
+  Modelica.Blocks.Interfaces.BooleanOutput on
+    "State of lighting"
+    annotation(
+      Placement(
+        transformation(
+          extent={{100,-10}, {120, 10}})));
   Real p(
     final unit="1",
     final min=0,
-    final max=1) "Probability of switch on the lighting";
-
+    final max=1)
+    "Probability of switch on the lighting";
 protected
-  parameter Modelica.SIunits.Time t0(final fixed = false) "First sample time instant";
-  output Boolean sampleTrigger "True, if sample time instant";
-  Real curSeed "Current value for seed as a real-valued variable";
-
+  parameter Modelica.SIunits.Time t0(
+    final fixed=false)
+    "First sample time instant";
+  output Boolean sampleTrigger
+    "True, if sample time instant";
+  Real curSeed
+    "Current value for seed as a real-valued variable";
 initial equation
-  t0 = time;
-  curSeed = t0*seed;
-  on = false;
-
+  t0=time;
+  curSeed=t0*seed;
+  on=false;
 equation
-  p = Modelica.Math.exp(B+M*Modelica.Math.log10(ill))/(1 - Modelica.Math.exp(B+M*Modelica.Math.log10(ill)))*100;
-  sampleTrigger = sample(t0, samplePeriod);
+  p=Modelica.Math.exp(B + M*Modelica.Math.log10(ill))/(1-Modelica.Math.exp(B + M*Modelica.Math.log10(ill)))*100;
+  sampleTrigger=sample(t0, samplePeriod);
   when {occ, sampleTrigger} then
-    curSeed = seed*time;
+    curSeed=seed*time;
     if sampleTrigger then
       if occ then
-        on = pre(on);
+        on=pre(on);
       else
-        on = false;
+        on=false;
       end if;
     else
-      on = Buildings.Occupants.BaseClasses.binaryVariableGeneration(p=p, globalSeed=integer(curSeed));
+      on=Buildings.Occupants.BaseClasses.binaryVariableGeneration(
+        p=p,
+        globalSeed=integer(curSeed));
     end if;
   end when;
-  annotation (Icon(graphics={
-            Rectangle(extent={{-60,40},{60,-40}}, lineColor={28,108,200}), Text(
-            extent={{-40,20},{40,-20}},
-            lineColor={28,108,200},
-            fillColor={0,0,255},
-            fillPattern=FillPattern.Solid,
-            textStyle={TextStyle.Bold},
-            textString="Light_Illu")}),
-defaultComponentName="lig",
-Documentation(info="<html>
+  annotation(
+    Icon(
+      graphics={Rectangle(
+        extent={{-60, 40}, {60,-40}},
+        lineColor={28, 108, 200}), Text(
+        extent={{-40, 20}, {40,-20}},
+        lineColor={28, 108, 200},
+        fillColor={0, 0, 255},
+        fillPattern=FillPattern.Solid,
+        textStyle={TextStyle.Bold},
+        textString="Light_Illu")}),
+    defaultComponentName="lig",
+    Documentation(
+      info="<html>
 <p>
 Model predicting the state of the lighting with the daylight illuminance level on the desk
 and occupancy.
@@ -81,7 +104,7 @@ The parameters recorded in the paper seem to be problematic and unable to reprod
 function illustrated in the paper.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 July 27, 2018, by Zhe Wang:<br/>

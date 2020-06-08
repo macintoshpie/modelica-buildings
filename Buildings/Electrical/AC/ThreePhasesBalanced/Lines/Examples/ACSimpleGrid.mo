@@ -1,54 +1,80 @@
 within Buildings.Electrical.AC.ThreePhasesBalanced.Lines.Examples;
-model ACSimpleGrid "Test model for a network model"
+model ACSimpleGrid
+  "Test model for a network model"
   extends Modelica.Icons.Example;
   ThreePhasesBalanced.Lines.Network network(
     redeclare Buildings.Electrical.Transmission.Grids.TestGrid2Nodes grid,
-      V_nominal=480)
+    V_nominal=480)
     "Network model that represents the connection between the source and the load"
-    annotation (Placement(transformation(extent={{20,-10},{0,10}})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{20,-10}, {0, 10}})));
   ThreePhasesBalanced.Loads.Inductive load(
     P_nominal=2500,
     mode=Types.Load.VariableZ_P_input,
-    V_nominal=480) "Load connected to the network"
-    annotation (Placement(transformation(extent={{-28,10},{-48,30}})));
-  ThreePhasesBalanced.Sources.FixedVoltage E(f=60, V=480) "Voltage source"
-   annotation (Placement(
+    V_nominal=480)
+    "Load connected to the network"
+    annotation(
+      Placement(
         transformation(
-        extent={{10,10},{-10,-10}},
-        rotation=180,
-        origin={-70,0})));
+          extent={{-28, 10}, {-48, 30}})));
+  ThreePhasesBalanced.Sources.FixedVoltage E(
+    f=60,
+    V=480)
+    "Voltage source"
+    annotation(
+      Placement(
+        transformation(
+          extent={{10, 10}, {-10,-10}},
+          rotation=180,
+          origin={-70, 0})));
   Modelica.Blocks.Sources.Ramp load_inputs(
     height=5000,
     duration=2,
     offset=-2000,
-    startTime=0.5) "Input signal for the power consumption of the loads"
-    annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
+    startTime=0.5)
+    "Input signal for the power consumption of the loads"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-80, 20}, {-60, 40}})));
 equation
-  connect(load.terminal, network.terminal[2]) annotation (Line(
-      points={{-28,20},{-20,20},{-20,4.44089e-16},{-4.44089e-16,4.44089e-16}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  connect(E.terminal, network.terminal[1]) annotation (Line(
-      points={{-60,-1.33227e-15},{-56,-1.33227e-15},{-56,4.44089e-16},{
-          -4.44089e-16,4.44089e-16}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  connect(load_inputs.y, load.Pow) annotation (Line(
-      points={{-59,30},{-54,30},{-54,20},{-48,20}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  annotation (experiment(StopTime=1.0, Tolerance=1e-6),
-__Dymola_Commands(file=
-          "modelica://Buildings/Resources/Scripts/Dymola/Electrical/AC/ThreePhasesBalanced/Lines/Examples/ACSimpleGrid.mos"
+  connect(load.terminal, network.terminal[2])
+    annotation(
+      Line(
+        points={{-28, 20}, {-20, 20}, {-20, 4.44089e-16}, {-4.44089e-16, 4.44089e-16}},
+        color={0, 120, 120},
+        smooth=Smooth.None));
+  connect(E.terminal, network.terminal[1])
+    annotation(
+      Line(
+        points={{-60,-1.33227e-15}, {-56,-1.33227e-15}, {-56, 4.44089e-16}, {-4.44089e-16, 4.44089e-16}},
+        color={0, 120, 120},
+        smooth=Smooth.None));
+  connect(load_inputs.y, load.Pow)
+    annotation(
+      Line(
+        points={{-59, 30}, {-54, 30}, {-54, 20}, {-48, 20}},
+        color={0, 0, 127},
+        smooth=Smooth.None));
+  annotation(
+    experiment(
+      StopTime=1.0,
+      Tolerance=1e-6),
+    __Dymola_Commands(
+      file="modelica://Buildings/Resources/Scripts/Dymola/Electrical/AC/ThreePhasesBalanced/Lines/Examples/ACSimpleGrid.mos"
         "Simulate and plot"),
-Documentation(revisions="<html>
+    Documentation(
+      revisions="<html>
 <ul>
 <li>
 September 22, 2014, by Marco Bonvini:<br/>
 Documentation and example revised.
 </li>
 </ul>
-</html>", info="<html>
+</html>",
+      info="<html>
 <p>
 This example demonstrates how to use a network model to connect
 a source to a load. In this simple case the network has two nodes

@@ -1,10 +1,11 @@
 within Buildings;
-package Applications "Package with models for different application domains"
+package Applications
+  "Package with models for different application domains"
   extends Modelica.Icons.VariantsPackage;
-
-annotation (
-preferredView="info",
-Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 <p>
 This package contains packages for different application domains.
 Currently, it contains

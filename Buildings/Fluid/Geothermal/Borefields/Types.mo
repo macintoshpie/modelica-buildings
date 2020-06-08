@@ -1,16 +1,15 @@
 within Buildings.Fluid.Geothermal.Borefields;
-package Types "Package with type definitions"
+package Types
+  "Package with type definitions"
   extends Modelica.Icons.TypesPackage;
-
-  type BoreholeConfiguration = enumeration(
-      SingleUTube
-    "Single U-tube configuration",
-      DoubleUTubeParallel
-    "Double U-tube configuration with pipes connected in parallel",
-      DoubleUTubeSeries
+  type BoreholeConfiguration=enumeration(SingleUTube
+    "Single U-tube configuration", DoubleUTubeParallel
+    "Double U-tube configuration with pipes connected in parallel", DoubleUTubeSeries
     "Double U-tube configuration with pipes connected in series")
-  "Enumaration to define the borehole configurations"
-  annotation (Documentation(info="<html>
+    "Enumaration to define the borehole configurations"
+    annotation(
+      Documentation(
+        info="<html>
 <p>
 Enumeration that defines the pipe configuration in the borehole.
 </p>
@@ -25,7 +24,7 @@ The following pipe configurations are available in this enumeration:
 <tr><td>DoubleUTubeSeries</td><td>Double U-tube configuration with pipes connected in series</td></tr>
 </table>
 </html>",
-  revisions="<html>
+        revisions="<html>
 <ul>
 <li>
 July 15, 2018, by Michael Wetter:<br/>
@@ -33,7 +32,10 @@ First implementation.
 </li>
 </ul>
 </html>"));
-  annotation (preferredView="info", Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
  <p>
  This package contains type definitions.
  </p>

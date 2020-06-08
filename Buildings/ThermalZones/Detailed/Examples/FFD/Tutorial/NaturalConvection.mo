@@ -1,104 +1,153 @@
 within Buildings.ThermalZones.Detailed.Examples.FFD.Tutorial;
-model NaturalConvection "Tutorial for Natural Convection case"
+model NaturalConvection
+  "Tutorial for Natural Convection case"
   extends Modelica.Icons.Example;
-  package MediumA =
-      Buildings.Media.Air (
-        T_default=283.15) "Medium model";
-  parameter Integer nConExtWin=0 "Number of constructions with a window";
+  package MediumA=Buildings.Media.Air(
+    T_default=283.15)
+    "Medium model";
+  parameter Integer nConExtWin=0
+    "Number of constructions with a window";
   parameter Integer nConBou=0
     "Number of surface that are connected to constructions that are modeled inside the room";
   parameter Integer nSurBou=6
     "Number of surface that are connected to the room air volume";
   parameter Integer nConExt=0
     "Number of exterior constructions withour a window";
-  parameter Integer nConPar=0 "Number of partition constructions";
-  Modelica.Blocks.Sources.Constant qRadGai_flow(k=0) "Radiative heat gain"
-    annotation (Placement(transformation(extent={{-60,0},{-40,20}})));
-  Modelica.Blocks.Sources.Constant qConGai_flow(k=0) "Convective heat gain"
-    annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
-  Modelica.Blocks.Sources.Constant qLatGai_flow(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{-60,-80},{-40,-60}})));
+  parameter Integer nConPar=0
+    "Number of partition constructions";
+  Modelica.Blocks.Sources.Constant qRadGai_flow(
+    k=0)
+    "Radiative heat gain"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-60, 0}, {-40, 20}})));
+  Modelica.Blocks.Sources.Constant qConGai_flow(
+    k=0)
+    "Convective heat gain"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-60,-40}, {-40,-20}})));
+  Modelica.Blocks.Sources.Constant qLatGai_flow(
+    k=0)
+    "Latent heat gain"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-60,-80}, {-40,-60}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_1
-    annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
-  BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
-      TDryBul=293.15)
-    annotation (Placement(transformation(extent={{120,40},{140,60}})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{0,-40}, {20,-20}})));
+  BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
+    filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
+    TDryBul=293.15)
+    annotation(
+      Placement(
+        transformation(
+          extent={{120, 40}, {140, 60}})));
   Buildings.ThermalZones.Detailed.CFD roo(
-   redeclare package Medium = MediumA,
-   surBou(
-   name={"East Wall","West Wall","North Wall","South Wall","Ceiling","Floor"},
-   each A=1*1,
-   til={Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,
-        Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,
-        Buildings.Types.Tilt.Ceiling,Buildings.Types.Tilt.Floor},
-   each absIR=1e-5,
-   each absSol=1e-5,
-   boundaryCondition={Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature,
-       Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature,Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.HeatFlowRate,
-       Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.HeatFlowRate,
-       Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.HeatFlowRate,
-       Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.HeatFlowRate}),
-   AFlo = 1*1,
-   hRoo = 1,
-   linearizeRadiation = false,
-   useCFD = true,
-   sensorName = {"Occupied zone air temperature", "Velocity"},
-   cfdFilNam = "modelica://Buildings/Resources/Data/ThermalZones/Detailed/Examples/FFD/Tutorial/NaturalConvection.ffd",
-   nConExt = nConExt,
-   nConExtWin = nConExtWin,
-   nConPar = nConPar,
-   nConBou = nConBou,
-   nSurBou = nSurBou,
-   samplePeriod = 60,
+    redeclare package Medium=MediumA,
+    surBou(
+      name={"East Wall", "West Wall", "North Wall", "South Wall", "Ceiling", "Floor"},
+      each A=1*1,
+      til={Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Wall, Buildings.Types.Tilt.Ceiling, Buildings.Types.Tilt.Floor},
+      each absIR=1e-5,
+      each absSol=1e-5,
+      boundaryCondition={Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature, Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.Temperature, Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.HeatFlowRate, Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.HeatFlowRate, Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.HeatFlowRate, Buildings.ThermalZones.Detailed.Types.CFDBoundaryConditions.HeatFlowRate}),
+    AFlo=1*1,
+    hRoo=1,
+    linearizeRadiation=false,
+    useCFD=true,
+    sensorName={"Occupied zone air temperature", "Velocity"},
+    cfdFilNam="modelica://Buildings/Resources/Data/ThermalZones/Detailed/Examples/FFD/Tutorial/NaturalConvection.ffd",
+    nConExt=nConExt,
+    nConExtWin=nConExtWin,
+    nConPar=nConPar,
+    nConBou=nConBou,
+    nSurBou=nSurBou,
+    samplePeriod=60,
     lat=0.012787839282646,
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
-  annotation (Placement(transformation(extent={{60,-58},{100,-18}})));
-  HeatTransfer.Sources.FixedTemperature           TWesWal(T=274.15)
-    "Boundary condition for the west wall" annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        origin={130,-110})));
-  HeatTransfer.Sources.FixedTemperature           TEasWal(T=273.15)
-    "Temperature of east wall"            annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        origin={130,-70})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{60,-58}, {100,-18}})));
+  HeatTransfer.Sources.FixedTemperature TWesWal(
+    T=274.15)
+    "Boundary condition for the west wall"
+    annotation(
+      Placement(
+        transformation(
+          extent={{10,-10}, {-10, 10}},
+          origin={130,-110})));
+  HeatTransfer.Sources.FixedTemperature TEasWal(
+    T=273.15)
+    "Temperature of east wall"
+    annotation(
+      Placement(
+        transformation(
+          extent={{10,-10}, {-10, 10}},
+          origin={130,-70})));
 equation
-  connect(qRadGai_flow.y, multiplex3_1.u1[1]) annotation (Line(
-      points={{-39,10},{-10,10},{-10,-23},{-2,-23}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(qConGai_flow.y, multiplex3_1.u2[1]) annotation (Line(
-      points={{-39,-30},{-2,-30}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(qLatGai_flow.y, multiplex3_1.u3[1]) annotation (Line(
-      points={{-39,-70},{-12,-70},{-12,-37},{-2,-37}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
-      points={{21,-30},{58.4,-30}},
-      color={0,0,127},
-      smooth=Smooth.None));
+  connect(qRadGai_flow.y, multiplex3_1.u1[1])
+    annotation(
+      Line(
+        points={{-39, 10}, {-10, 10}, {-10,-23}, {-2,-23}},
+        color={0, 0, 127},
+        smooth=Smooth.None));
+  connect(qConGai_flow.y, multiplex3_1.u2[1])
+    annotation(
+      Line(
+        points={{-39,-30}, {-2,-30}},
+        color={0, 0, 127},
+        smooth=Smooth.None));
+  connect(qLatGai_flow.y, multiplex3_1.u3[1])
+    annotation(
+      Line(
+        points={{-39,-70}, {-12,-70}, {-12,-37}, {-2,-37}},
+        color={0, 0, 127},
+        smooth=Smooth.None));
+  connect(multiplex3_1.y, roo.qGai_flow)
+    annotation(
+      Line(
+        points={{21,-30}, {58.4,-30}},
+        color={0, 0, 127},
+        smooth=Smooth.None));
   connect(TEasWal.port, roo.surf_surBou[1])
-    annotation (Line(
-      points={{120,-70},{76.2,-70},{76.2,-52}},
-      color={191,0,0},
-      smooth=Smooth.None));
+    annotation(
+      Line(
+        points={{120,-70}, {76.2,-70}, {76.2,-52}},
+        color={191, 0, 0},
+        smooth=Smooth.None));
   connect(TWesWal.port, roo.surf_surBou[2])
-    annotation (Line(
-      points={{120,-110},{76.2,-110},{76.2,-52}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(weaDat.weaBus, roo.weaBus) annotation (Line(
-      points={{140,50},{154,50},{154,-20.1},{97.9,-20.1}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None));
-  annotation (Diagram(coordinateSystem(extent={{-80,-140},{180,80}},
-          preserveAspectRatio=false)),
-          __Dymola_Commands(file =    "modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Examples/FFD/Tutorial/NaturalConvection.mos"
+    annotation(
+      Line(
+        points={{120,-110}, {76.2,-110}, {76.2,-52}},
+        color={191, 0, 0},
+        smooth=Smooth.None));
+  connect(weaDat.weaBus, roo.weaBus)
+    annotation(
+      Line(
+        points={{140, 50}, {154, 50}, {154,-20.1}, {97.9,-20.1}},
+        color={255, 204, 51},
+        thickness=0.5,
+        smooth=Smooth.None));
+  annotation(
+    Diagram(
+      coordinateSystem(
+        extent={{-80,-140}, {180, 80}},
+        preserveAspectRatio=false)),
+    __Dymola_Commands(
+      file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Examples/FFD/Tutorial/NaturalConvection.mos"
         "Simulate and plot"),
-        experiment(Tolerance=1e-06, StopTime=7200),
-       Documentation(info="<html>
+    experiment(
+      Tolerance=1e-06,
+      StopTime=7200),
+    Documentation(
+      info="<html>
 <p>
 This tutorial gives step by step instructions for building and simulating a natural convection model.
 The model tests the coupled simulation of
@@ -332,7 +381,8 @@ that will generate the temperature contour and velocity vectors shown in the Fig
 Note: Tecplot is needed for this.
 </li>
 </ol>
-</html>",revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 September 07, 2017, by Thierry Nouidui:<br/>

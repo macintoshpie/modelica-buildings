@@ -1,98 +1,99 @@
 within Buildings.Electrical.AC.OnePhase.Conversion;
-model ACACConverter "AC AC converter single phase systems"
+model ACACConverter
+  "AC AC converter single phase systems"
   extends Buildings.Electrical.Icons.RefAngleConversion;
   extends Buildings.Electrical.Interfaces.PartialConversion(
-    redeclare package PhaseSystem_p = PhaseSystems.OnePhase,
-    redeclare package PhaseSystem_n = PhaseSystems.OnePhase,
-    redeclare replaceable Interfaces.Terminal_n terminal_n
-      constrainedby Interfaces.Terminal_n(
-      i(start = zeros(PhaseSystem_n.n),
-      each stateSelect = StateSelect.prefer)),
-    redeclare replaceable Interfaces.Terminal_p terminal_p
-      constrainedby Interfaces.Terminal_p(
-      i(start = zeros(PhaseSystem_p.n),
-      each stateSelect = StateSelect.prefer)));
-  parameter Real conversionFactor(min = Modelica.Constants.eps)
+    redeclare package PhaseSystem_p=PhaseSystems.OnePhase,
+    redeclare package PhaseSystem_n=PhaseSystems.OnePhase,
+    redeclare replaceable Interfaces.Terminal_n terminal_n constrainedby Interfaces.Terminal_n(
+      i(
+        start=zeros(PhaseSystem_n.n),
+        each stateSelect=StateSelect.prefer)),
+    redeclare replaceable Interfaces.Terminal_p terminal_p constrainedby Interfaces.Terminal_p(
+      i(
+        start=zeros(PhaseSystem_p.n),
+        each stateSelect=StateSelect.prefer)));
+  parameter Real conversionFactor(
+    min=Modelica.Constants.eps)
     "Ratio of QS rms voltage on side 2 / QS rms voltage on side 1";
-  parameter Real eta(min=0, max=1)
+  parameter Real eta(
+    min=0,
+    max=1)
     "Converter efficiency, pLoss = (1-eta) * Ptr";
-  parameter Boolean ground_1 = false
+  parameter Boolean ground_1=false
     "If true, connect side 1 of converter to ground"
-     annotation(Evaluate=true,Dialog(tab = "Ground", group="side 1"));
-  parameter Boolean ground_2 = true
+    annotation(
+      Evaluate=true,
+      Dialog(
+        tab="Ground",
+        group="side 1"));
+  parameter Boolean ground_2=true
     "If true, connect side 2 of converter to ground"
-    annotation(Evaluate=true, Dialog(tab = "Ground", group="side 2"));
-  Modelica.SIunits.Power LossPower[2] "Loss power";
+    annotation(
+      Evaluate=true,
+      Dialog(
+        tab="Ground",
+        group="side 2"));
+  Modelica.SIunits.Power LossPower[2]
+    "Loss power";
 protected
-  Modelica.SIunits.Power P_p[2] = PhaseSystem_p.phasePowers_vi(terminal_p.v, terminal_p.i)
+  Modelica.SIunits.Power P_p[2]=PhaseSystem_p.phasePowers_vi(terminal_p.v, terminal_p.i)
     "Power transmitted at pin p";
-  Modelica.SIunits.Power P_n[2] = PhaseSystem_n.phasePowers_vi(terminal_n.v, terminal_n.i)
+  Modelica.SIunits.Power P_n[2]=PhaseSystem_n.phasePowers_vi(terminal_n.v, terminal_n.i)
     "Power transmitted at pin n";
 equation
-
   // Ideal transformation
-  terminal_p.v = conversionFactor*terminal_n.v;
-
+  terminal_p.v=conversionFactor*terminal_n.v;
   // Power loss term
-  terminal_p.i[1] = terminal_n.i[1]/conversionFactor*
-    Buildings.Utilities.Math.Functions.spliceFunction(eta-2, 1/(eta-2), P_p[1], deltax=0.1);
-  terminal_p.i[2] = terminal_n.i[2]/conversionFactor*
-    Buildings.Utilities.Math.Functions.spliceFunction(eta-2, 1/(eta-2), P_p[1], deltax=0.1);
-  LossPower = P_p + P_n;
-
+  terminal_p.i[1]=terminal_n.i[1]/conversionFactor*Buildings.Utilities.Math.Functions.spliceFunction(eta-2, 1/(eta-2), P_p[1],
+    deltax=0.1);
+  terminal_p.i[2]=terminal_n.i[2]/conversionFactor*Buildings.Utilities.Math.Functions.spliceFunction(eta-2, 1/(eta-2), P_p[1],
+    deltax=0.1);
+  LossPower=P_p + P_n;
   // The two sides have the same reference angle
-  terminal_p.theta = terminal_n.theta;
-
+  terminal_p.theta=terminal_n.theta;
   if ground_1 then
     Connections.potentialRoot(terminal_n.theta);
   end if;
   if ground_2 then
     Connections.root(terminal_p.theta);
   end if;
-
-  annotation (
-  defaultComponentName="conACAC",
- Icon(coordinateSystem(preserveAspectRatio=false,
-          extent={{-100,-100},{100,100}}),
-                                      graphics={
-        Line(
-          points={{2,60},{2,60},{82,60},{2,60},{82,-60},{2,-60},{2,60},{2,-60}},
-          color={0,120,120},
-          smooth=Smooth.None),
-        Line(
-          points={{-2,60},{-2,60},{-82,60},{-2,60},{-82,-60},{-2,-60},{-2,60},{
-              -2,-60}},
-          color={11,193,87},
-          smooth=Smooth.None),
-        Text(
-          extent={{-100,92},{100,60}},
-          lineColor={0,0,0},
-          textString="%name"),
-        Text(
-          extent={{-100,-60},{100,-92}},
-          lineColor={0,0,0},
-          textString="%conversionFactor"),
-        Text(
-          extent={{-100,-100},{100,-132}},
-          lineColor={0,120,120},
-          textString="%eta"),
-        Text(
-          extent={{-132,78},{-72,38}},
-          lineColor={11,193,87},
-          textString="1"),
-        Text(
-          extent={{-88,52},{-28,12}},
-          lineColor={11,193,87},
-          textString="AC"),
-        Text(
-          extent={{32,52},{92,12}},
-          lineColor={0,120,120},
-          textString="AC"),
-        Text(
-          extent={{70,78},{130,38}},
-          lineColor={0,120,120},
-          textString="2")}),
-    Documentation(info="<html>
+  annotation(
+    defaultComponentName="conACAC",
+    Icon(
+      coordinateSystem(
+        preserveAspectRatio=false,
+        extent={{-100,-100}, {100, 100}}),
+      graphics={Line(
+        points={{2, 60}, {2, 60}, {82, 60}, {2, 60}, {82,-60}, {2,-60}, {2, 60}, {2,-60}},
+        color={0, 120, 120},
+        smooth=Smooth.None), Line(
+        points={{-2, 60}, {-2, 60}, {-82, 60}, {-2, 60}, {-82,-60}, {-2,-60}, {-2, 60}, {-2,-60}},
+        color={11, 193, 87},
+        smooth=Smooth.None), Text(
+        extent={{-100, 92}, {100, 60}},
+        lineColor={0, 0, 0},
+        textString="%name"), Text(
+        extent={{-100,-60}, {100,-92}},
+        lineColor={0, 0, 0},
+        textString="%conversionFactor"), Text(
+        extent={{-100,-100}, {100,-132}},
+        lineColor={0, 120, 120},
+        textString="%eta"), Text(
+        extent={{-132, 78}, {-72, 38}},
+        lineColor={11, 193, 87},
+        textString="1"), Text(
+        extent={{-88, 52}, {-28, 12}},
+        lineColor={11, 193, 87},
+        textString="AC"), Text(
+        extent={{32, 52}, {92, 12}},
+        lineColor={0, 120, 120},
+        textString="AC"), Text(
+        extent={{70, 78}, {130, 38}},
+        lineColor={0, 120, 120},
+        textString="2")}),
+    Documentation(
+      info="<html>
 <p>
 This is an AC/AC converter, based on a power balance between both circuit sides.
 The parameter <i>conversionFactor</i> defines the ratio between the RMS voltages
@@ -128,7 +129,8 @@ This model is derived from
 <a href=\"modelica://Modelica.Electrical.QuasiStationary.SinglePhase.Utilities.IdealACDCConverter\">
 Modelica.Electrical.QuasiStationary.SinglePhase.Utilities.IdealACDCConverter</a>.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 January 30, 2019, by Michael Wetter:<br/>

@@ -1,9 +1,10 @@
 within Buildings.Electrical.AC.ThreePhasesUnbalanced.Validation.IEEETests;
-package Test4NodesFeeder "This package contains models for the IEEE 4 nodes test feeder"
-extends Modelica.Icons.ExamplesPackage;
-
-
-annotation (Documentation(info="<html>
+package Test4NodesFeeder
+  "This package contains models for the IEEE 4 nodes test feeder"
+  extends Modelica.Icons.ExamplesPackage;
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This package contains examples that shows the validation of the models
 against the IEEE four-nodes test feeder validation procedure <a href=\"#\"></a>.
@@ -100,7 +101,8 @@ Radial distribution test feeders</a><br/>
 <i>Power Engineering Society Winter Meeting (2) p. 908-912, 2001. IEEE</i><br/>
 </p>
 
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 October 8, 2014, by Marco Bonvini:<br/>

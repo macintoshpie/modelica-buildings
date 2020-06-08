@@ -7,23 +7,21 @@ function isentropicExponentVap_Tv
     "Specific volume of refrigerant";
   output Modelica.SIunits.IsentropicExponent k
     "Specific isobaric heat capacity";
-
 protected
   Modelica.SIunits.SpecificHeatCapacity cp
     "Specific isobaric heat capacity";
-
   Modelica.SIunits.SpecificHeatCapacity cv
     "Specific isochoric heat capacity";
-
 algorithm
   // Evaluate the specific isobaric and isochoric heat capacities
   cp := Buildings.Media.Refrigerants.R410A.specificIsobaricHeatCapacityVap_Tv(T, v);
   cv := Buildings.Media.Refrigerants.R410A.specificIsochoricHeatCapacityVap_Tv(T, v);
-
-  k := cp / cv;
-
-annotation (smoothOrder=1,
-preferredView="info",Documentation(info="<HTML>
+  k := cp/cv;
+  annotation(
+    smoothOrder=1,
+    preferredView="info",
+    Documentation(
+      info="<HTML>
 <p>
 Function that calculates the isentropic exponent of R410A vapor based on temperature and specific volume. The isentropic exponent is equal to the ratio of specific heat capacities:
 </p>
@@ -48,7 +46,8 @@ Thermodynamic properties of DuPont Suva 410A:
 https://www.chemours.com/Refrigerants/en_US/assets/downloads/h64423_Suva410A_thermo_prop_si.pdf
 </a>
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 October 31, 2016, by Massimo Cimmino:<br/>

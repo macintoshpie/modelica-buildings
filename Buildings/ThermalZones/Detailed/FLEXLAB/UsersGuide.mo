@@ -1,10 +1,11 @@
 within Buildings.ThermalZones.Detailed.FLEXLAB;
-package UsersGuide "User's Guide"
+package UsersGuide
+  "User's Guide"
   extends Modelica.Icons.Information;
-
-
-  annotation(preferredView="info",
-  Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
   <p>
   The <code>Buildings.ThermalZones.Detailed.FLEXLAB</code> package contains models of rooms, wall constructions, window
   constructions, and examples demonstrating their use. These models are

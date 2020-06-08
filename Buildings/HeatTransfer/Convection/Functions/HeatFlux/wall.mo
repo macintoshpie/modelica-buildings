@@ -1,13 +1,13 @@
 within Buildings.HeatTransfer.Convection.Functions.HeatFlux;
-function wall "Free convection, wall"
-  extends
-    Buildings.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux;
+function wall
+  "Free convection, wall"
+  extends Buildings.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux;
 algorithm
-  q_flow := noEvent(smooth(1, if (dT > 0) then 1.3*dT^1.3333 else -1.3*(-dT)^1.3333));
-
-annotation (smoothOrder=1,
-Documentation(info=
-"<html>
+  q_flow := noEvent(smooth(1, if(dT > 0) then 1.3*dT^1.3333 else-1.3*(-dT)^1.3333));
+  annotation(
+    smoothOrder=1,
+    Documentation(
+      info="<html>
 <p>
 This function computes the buoyancy-driven convective heat flux as
 </p>
@@ -24,7 +24,7 @@ for a wall, computed as
 h=1.3 |&Delta;T|<sup>0.3333</sup>.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 July 28, 2014, by Michael Wetter:<br/>

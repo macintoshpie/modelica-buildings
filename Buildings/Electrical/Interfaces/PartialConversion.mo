@@ -2,18 +2,22 @@ within Buildings.Electrical.Interfaces;
 model PartialConversion
   "Model representing a generic two port system for conversion"
   extends Buildings.Electrical.Interfaces.PartialTwoPort;
-  Modelica.SIunits.Voltage v_p "Voltage drop between the two positive pins";
-  Modelica.SIunits.Voltage v_n "Voltage drop between the two negative pins";
-  Modelica.SIunits.Current i_p "Current flowing through the positive pins";
-  Modelica.SIunits.Current i_n "Current flowing through the negative pins";
+  Modelica.SIunits.Voltage v_p
+    "Voltage drop between the two positive pins";
+  Modelica.SIunits.Voltage v_n
+    "Voltage drop between the two negative pins";
+  Modelica.SIunits.Current i_p
+    "Current flowing through the positive pins";
+  Modelica.SIunits.Current i_n
+    "Current flowing through the negative pins";
 equation
-  i_p = PhaseSystem_p.systemCurrent(terminal_p.i);
-  i_n = PhaseSystem_n.systemCurrent(terminal_n.i);
-
-  v_p = PhaseSystem_p.systemVoltage(terminal_p.v);
-  v_n = PhaseSystem_n.systemVoltage(terminal_n.v);
-
-  annotation (Documentation(revisions="<html>
+  i_p=PhaseSystem_p.systemCurrent(terminal_p.i);
+  i_n=PhaseSystem_n.systemCurrent(terminal_n.i);
+  v_p=PhaseSystem_p.systemVoltage(terminal_p.v);
+  v_n=PhaseSystem_n.systemVoltage(terminal_n.v);
+  annotation(
+    Documentation(
+      revisions="<html>
 <ul>
 <li>
 May 15, 2014, by Marco Bonvini:<br/>
@@ -24,7 +28,8 @@ October 31, 2013, by Marco Bonvini:<br/>
 Model included in the Buildings library.
 </li>
 </ul>
-</html>", info="<html>
+</html>",
+      info="<html>
 <p>
 This model extends the base class
 <a href=\"Buildings.Electrical.Interfaces.PartialTwoPort\">

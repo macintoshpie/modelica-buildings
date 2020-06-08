@@ -1,8 +1,9 @@
 within Buildings.Electrical.Transmission.MediumVoltageCables;
-record Annealed_Al_40 "Annealed Al cable - AWG 4/0"
+record Annealed_Al_40
+  "Annealed Al cable - AWG 4/0"
   extends Buildings.Electrical.Transmission.MediumVoltageCables.Generic(
     material=Types.Material.Al,
-    M = 228.1 + 273.15,
+    M=228.1 + 273.15,
     size="4/0",
     Rdc=0.274278e-3,
     T_ref=298.15,
@@ -11,7 +12,9 @@ record Annealed_Al_40 "Annealed Al cable - AWG 4/0"
     GMR=Buildings.Electrical.Transmission.Functions.computeGMR(d),
     GMD=Buildings.Electrical.Transmission.Functions.computeGMD(0.1905),
     Amp=285);
-  annotation (Documentation(info="<html>
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 Annealed aluminium cable with a cross-sectional AWG 4/0
 (American Wire Gauge).
@@ -24,7 +27,8 @@ d    = 13.005e-3   // Inner diameter [m]
 D    = 30.353e-3   // Outer diameter [m]
 Amp  = 285         // Ampacity [A]
 </pre>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 September 24, 2014, by Marco Bonvini:<br/>

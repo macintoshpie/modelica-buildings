@@ -1,120 +1,142 @@
 within Buildings.Electrical.Interfaces;
-model Load "Partial model for a generic load"
-  replaceable package PhaseSystem =
-      Buildings.Electrical.PhaseSystems.PartialPhaseSystem constrainedby
-    Buildings.Electrical.PhaseSystems.PartialPhaseSystem "Phase system"
-    annotation (choicesAllMatching=true);
-  parameter Boolean linearized = false "If true, the load model is linearized"
-    annotation(Evaluate=true,Dialog(group="Modeling assumption"));
+model Load
+  "Partial model for a generic load"
+  replaceable package PhaseSystem=Buildings.Electrical.PhaseSystems.PartialPhaseSystem constrainedby Buildings.Electrical.PhaseSystems.PartialPhaseSystem
+    "Phase system"
+    annotation(
+      choicesAllMatching=true);
+  parameter Boolean linearized=false
+    "If true, the load model is linearized"
+    annotation(
+      Evaluate=true,
+      Dialog(
+        group="Modeling assumption"));
   parameter Buildings.Electrical.Types.Load mode(
     min=Buildings.Electrical.Types.Load.FixedZ_steady_state,
-    max=Buildings.Electrical.Types.Load.VariableZ_y_input) = Buildings.Electrical.Types.Load.FixedZ_steady_state
+    max=Buildings.Electrical.Types.Load.VariableZ_y_input)=Buildings.Electrical.Types.Load.FixedZ_steady_state
     "Type of load model (e.g., steady state, dynamic, prescribed power consumption, etc.)"
-    annotation (Evaluate=true, Dialog(group="Modeling assumption"));
-
-  parameter Modelica.SIunits.Power P_nominal = 0
-    "Nominal power (negative if consumed, positive if generated). Used if mode <> Buildings.Electrical.Types.Load.VariableZ_P_input"
-    annotation(Dialog(group="Nominal conditions",
-        enable = mode <> Buildings.Electrical.Types.Load.VariableZ_P_input));
-
-  parameter Modelica.SIunits.Voltage V_nominal(min=0, start=110)
-    "Nominal voltage (V_nominal >= 0)"
-    annotation (
+    annotation(
       Evaluate=true,
-      Dialog(group="Nominal conditions",
-      enable = (mode==Buildings.Electrical.Types.Load.FixedZ_dynamic or linearized)));
+      Dialog(
+        group="Modeling assumption"));
+  parameter Modelica.SIunits.Power P_nominal=0
+    "Nominal power (negative if consumed, positive if generated). Used if mode <> Buildings.Electrical.Types.Load.VariableZ_P_input"
+    annotation(
+      Dialog(
+        group="Nominal conditions",
+        enable=mode <> Buildings.Electrical.Types.Load.VariableZ_P_input));
+  parameter Modelica.SIunits.Voltage V_nominal(
+    min=0,
+    start=110)
+    "Nominal voltage (V_nominal >= 0)"
+    annotation(
+      Evaluate=true,
+      Dialog(
+        group="Nominal conditions",
+        enable=(mode == Buildings.Electrical.Types.Load.FixedZ_dynamic or linearized)));
   parameter Buildings.Electrical.Types.InitMode initMode(
-  min=Buildings.Electrical.Types.InitMode.zero_current,
-  max=Buildings.Electrical.Types.InitMode.linearized) = Buildings.Electrical.Types.InitMode.zero_current
-    "Initialization mode for homotopy operator"  annotation(Dialog(tab = "Initialization"));
-
-  Modelica.SIunits.Voltage v[:](start = PhaseSystem.phaseVoltages(V_nominal)) = terminal.v
+    min=Buildings.Electrical.Types.InitMode.zero_current,
+    max=Buildings.Electrical.Types.InitMode.linearized)=Buildings.Electrical.Types.InitMode.zero_current
+    "Initialization mode for homotopy operator"
+    annotation(
+      Dialog(
+        tab="Initialization"));
+  Modelica.SIunits.Voltage v[:](
+    start=PhaseSystem.phaseVoltages(V_nominal))=terminal.v
     "Voltage vector";
-  Modelica.SIunits.Current i[:](each start=0) = terminal.i
+  Modelica.SIunits.Current i[:](
+    each start=0)=terminal.i
     "Current vector";
-  Modelica.SIunits.Power S[PhaseSystem.n] = PhaseSystem.phasePowers_vi(v, -i)
+  Modelica.SIunits.Power S[PhaseSystem.n]=PhaseSystem.phasePowers_vi(v,-i)
     "Phase powers";
-  Modelica.SIunits.Power P(start=0)
+  Modelica.SIunits.Power P(
+    start=0)
     "Power of the load (negative if consumed, positive if fed into the electrical grid)";
-
-  Modelica.Blocks.Interfaces.RealInput y(min=0, max=1, unit="1") if
-       (mode == Buildings.Electrical.Types.Load.VariableZ_y_input)
-    "Fraction of the nominal power consumed" annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=180,
-        origin={100,0}), iconTransformation(
-        extent={{-20,-20},{20,20}},
-        rotation=180,
-        origin={100,0})));
-  Modelica.Blocks.Interfaces.RealInput Pow(unit="W") if
-       (mode == Buildings.Electrical.Types.Load.VariableZ_P_input)
-    "Power consumed" annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=180,
-        origin={100,0}), iconTransformation(
-        extent={{-20,-20},{20,20}},
-        rotation=180,
-        origin={100,0})));
+  Modelica.Blocks.Interfaces.RealInput y(
+    min=0,
+    max=1,
+    unit="1") if(mode == Buildings.Electrical.Types.Load.VariableZ_y_input)
+    "Fraction of the nominal power consumed"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-20,-20}, {20, 20}},
+          rotation=180,
+          origin={100, 0}),
+        iconTransformation(
+          extent={{-20,-20}, {20, 20}},
+          rotation=180,
+          origin={100, 0})));
+  Modelica.Blocks.Interfaces.RealInput Pow(
+    unit="W") if(mode == Buildings.Electrical.Types.Load.VariableZ_P_input)
+    "Power consumed"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-20,-20}, {20, 20}},
+          rotation=180,
+          origin={100, 0}),
+        iconTransformation(
+          extent={{-20,-20}, {20, 20}},
+          rotation=180,
+          origin={100, 0})));
   replaceable Buildings.Electrical.Interfaces.Terminal terminal(
-    redeclare replaceable package PhaseSystem = PhaseSystem)
+    redeclare replaceable package PhaseSystem=PhaseSystem)
     "Generalized electric terminal"
-    annotation (Placement(transformation(extent={{-108,-8},{-92,8}}),
-        iconTransformation(extent={{-108,-8},{-92,8}})));
-
+    annotation(
+      Placement(
+        transformation(
+          extent={{-108,-8}, {-92, 8}}),
+        iconTransformation(
+          extent={{-108,-8}, {-92, 8}})));
 protected
   Modelica.Blocks.Interfaces.RealInput y_internal
     "Hidden value of the input load for the conditional connector";
   Modelica.Blocks.Interfaces.RealInput P_internal
     "Hidden value of the input power for the conditional connector";
-  Real load(min=eps, max=1)
+  Real load(
+    min=eps,
+    max=1)
     "Internal representation of control signal, used to avoid singularity";
-  constant Real eps = 1E-10
+  constant Real eps=1E-10
     "Small number used to avoid a singularity if the power is zero";
-  constant Real oneEps = 1-eps
+  constant Real oneEps=1-eps
     "Small number used to avoid a singularity if the power is zero";
-
 initial equation
   if mode == Buildings.Electrical.Types.Load.VariableZ_P_input then
-    assert(abs(P_nominal) < 1E-10, "*** Warning: P_nominal = " + String(P_nominal) + ", but this value will be ignored.",
-           AssertionLevel.warning);
+    assert(abs(P_nominal) < 1E-10, "*** Warning: P_nominal = " + String(P_nominal) + ", but this value will be ignored.", AssertionLevel.warning);
   end if;
-
 equation
-  assert(y_internal>=0 and y_internal<=1+eps, "The power load fraction P (input of the model) must be within [0,1]");
-
+  assert(y_internal >= 0 and y_internal <= 1 + eps, "The power load fraction P (input of the model) must be within [0,1]");
   // Connection between the conditional and inner connector
-  connect(y,y_internal);
-  connect(Pow,P_internal);
-
+  connect(y, y_internal);
+  connect(Pow, P_internal);
   // If the power is fixed, inner connector value is equal to 1
-  if mode==Buildings.Electrical.Types.Load.FixedZ_steady_state or
-     mode==Buildings.Electrical.Types.Load.FixedZ_dynamic then
-    y_internal   = 1;
-    P_internal = 0;
-  elseif mode==Buildings.Electrical.Types.Load.VariableZ_y_input then
-    P_internal = 0;
-  elseif mode==Buildings.Electrical.Types.Load.VariableZ_P_input then
-    y_internal = 1;
+  if mode == Buildings.Electrical.Types.Load.FixedZ_steady_state or mode == Buildings.Electrical.Types.Load.FixedZ_dynamic then
+    y_internal=1;
+    P_internal=0;
+  elseif mode == Buildings.Electrical.Types.Load.VariableZ_y_input then
+    P_internal=0;
+  elseif mode == Buildings.Electrical.Types.Load.VariableZ_P_input then
+    y_internal=1;
   end if;
-
   // Value of the load, depending on the type: fixed or variable
-  if mode==Buildings.Electrical.Types.Load.VariableZ_y_input then
-    load = eps + oneEps*y_internal;
+  if mode == Buildings.Electrical.Types.Load.VariableZ_y_input then
+    load=eps + oneEps*y_internal;
   else
-    load = 1;
+    load=1;
   end if;
-
   // Power consumption
-  if mode==Buildings.Electrical.Types.Load.FixedZ_steady_state or
-     mode==Buildings.Electrical.Types.Load.FixedZ_dynamic then
-    P = P_nominal;
-  elseif mode==Buildings.Electrical.Types.Load.VariableZ_P_input then
-    P = P_internal;
+  if mode == Buildings.Electrical.Types.Load.FixedZ_steady_state or mode == Buildings.Electrical.Types.Load.FixedZ_dynamic then
+    P=P_nominal;
+  elseif mode == Buildings.Electrical.Types.Load.VariableZ_P_input then
+    P=P_internal;
   else
-    P = P_nominal*load;
+    P=P_nominal*load;
   end if;
-
-  annotation ( Documentation(revisions="<html>
+  annotation(
+    Documentation(
+      revisions="<html>
 <ul>
 <li>
 January 30, 2019, by Michael Wetter:<br/>
@@ -170,7 +192,8 @@ October 31, 2013, by Marco Bonvini:<br/>
 Model included in the Buildings library.
 </li>
 </ul>
-</html>", info="<html>
+</html>",
+      info="<html>
 <p>
 This model represents a generic load that can be extended to represent
 either a DC or an AC load.

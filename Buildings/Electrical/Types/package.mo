@@ -1,13 +1,14 @@
 within Buildings.Electrical;
-package Types "This package contains new types used within the Electrical package"
+package Types
+  "This package contains new types used within the Electrical package"
   extends Modelica.Icons.TypesPackage;
-
-annotation (preferredView="info",
-Documentation(
-info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 This package contains type definitions.
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 June 17, 2014, by Marco Bonvini:<br/>

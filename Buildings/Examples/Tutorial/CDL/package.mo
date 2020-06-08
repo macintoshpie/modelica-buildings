@@ -1,8 +1,11 @@
 within Buildings.Examples.Tutorial;
-package CDL "Package with examples for how to implement a control sequence using CDL"
+package CDL
+  "Package with examples for how to implement a control sequence using CDL"
   extends Modelica.Icons.ExamplesPackage;
-
-annotation (preferredView="info", Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 <p>
 This package contains examples with step-by-step instructions for how to
 implement control sequences using the Control Description Language (CDL).

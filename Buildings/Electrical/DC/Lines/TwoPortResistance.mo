@@ -1,42 +1,48 @@
 within Buildings.Electrical.DC.Lines;
-model TwoPortResistance "Model of a two port DC resistance"
-  extends
-    Buildings.Electrical.Transmission.BaseClasses.PartialTwoPortResistance(
-    redeclare package PhaseSystem_p = PhaseSystems.TwoConductor,
-    redeclare package PhaseSystem_n = PhaseSystems.TwoConductor,
+model TwoPortResistance
+  "Model of a two port DC resistance"
+  extends Buildings.Electrical.Transmission.BaseClasses.PartialTwoPortResistance(
+    redeclare package PhaseSystem_p=PhaseSystems.TwoConductor,
+    redeclare package PhaseSystem_n=PhaseSystems.TwoConductor,
     redeclare Interfaces.Terminal_n terminal_n,
     redeclare Interfaces.Terminal_p terminal_p);
 equation
   // Voltage drop on the resistance lumped on connection between terminals
   // p.v[1] and n.v[1]
-  terminal_p.v[1] - terminal_n.v[1] = terminal_p.i[1]*R_actual;
-  terminal_p.v[2] = terminal_n.v[2];
-
+  terminal_p.v[1]-terminal_n.v[1]=terminal_p.i[1]*R_actual;
+  terminal_p.v[2]=terminal_n.v[2];
   // Joule losses
-  LossPower = R_actual*terminal_p.i[1]^2;
-
-  annotation (Diagram(graphics={
-          Rectangle(extent={{-70,30},{70,-30}}, lineColor={0,0,255}),
-          Line(points={{-90,0},{-70,0}}, color={0,0,255}),
-          Line(points={{70,0},{90,0}},   color={0,0,255})}), Icon(
-        coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-                                                                  graphics={
-          Text(
-            extent={{-144,97},{156,57}},
-            lineColor={0,0,0},
-          textString="%name"),
-          Text(
-            extent={{-142,-30},{144,-62}},
-            lineColor={0,0,0},
-          textString="R=%R"),
-          Line(points={{-90,0},{-70,0}}, color={0,0,255}),
-          Line(points={{70,0},{90,0}},   color={0,0,255}),
-        Rectangle(
-          extent={{-70,30},{70,-30}},
-          lineColor={0,0,255},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid)}),
-    Documentation(info="<html>
+  LossPower=R_actual*terminal_p.i[1]^2;
+  annotation(
+    Diagram(
+      graphics={Rectangle(
+        extent={{-70, 30}, {70,-30}},
+        lineColor={0, 0, 255}), Line(
+        points={{-90, 0}, {-70, 0}},
+        color={0, 0, 255}), Line(
+        points={{70, 0}, {90, 0}},
+        color={0, 0, 255})}),
+    Icon(
+      coordinateSystem(
+        preserveAspectRatio=false,
+        extent={{-100,-100}, {100, 100}}),
+      graphics={Text(
+        extent={{-144, 97}, {156, 57}},
+        lineColor={0, 0, 0},
+        textString="%name"), Text(
+        extent={{-142,-30}, {144,-62}},
+        lineColor={0, 0, 0},
+        textString="R=%R"), Line(
+        points={{-90, 0}, {-70, 0}},
+        color={0, 0, 255}), Line(
+        points={{70, 0}, {90, 0}},
+        color={0, 0, 255}), Rectangle(
+        extent={{-70, 30}, {70,-30}},
+        lineColor={0, 0, 255},
+        fillColor={255, 255, 255},
+        fillPattern=FillPattern.Solid)}),
+    Documentation(
+      info="<html>
 <p>
 This model represents a resistance that connect two DC interfaces. This model can be used
 to represent a cable in a DC grid.
@@ -47,7 +53,8 @@ The model represents the lumped resistance as shown in the figure below.
 <p align=\"center\">
 <img alt=\"image\" src=\"modelica://Buildings/Resources/Images/Electrical/DC/Lines/twoPortR.png\"/>
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 March 19, 2015, by Michael Wetter:<br/>

@@ -1,22 +1,29 @@
 within Buildings.Electrical.AC.ThreePhasesUnbalanced.Loads.BaseClasses;
 partial model Impedance
   "Partial model of a three-phase unbalanced impedance without neutral cable"
-  extends
-    Buildings.Electrical.AC.ThreePhasesUnbalanced.Loads.BaseClasses.BaseImpedance;
+  extends Buildings.Electrical.AC.ThreePhasesUnbalanced.Loads.BaseClasses.BaseImpedance;
   Buildings.Electrical.AC.ThreePhasesUnbalanced.Interfaces.Terminal_n terminal
     "Electrical connector"
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-
+    annotation(
+      Placement(
+        transformation(
+          extent={{-110,-10}, {-90, 10}})));
 equation
-  connect(terminal, wyeToDelta.wye) annotation (Line(
-      points={{-100,0},{-80,0},{-80,10},{-64,10}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  connect(terminal, wyeToWyeGround.wye) annotation (Line(
-      points={{-100,0},{-80,0},{-80,-10},{-64,-10}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  annotation (    Documentation(info="<html>
+  connect(terminal, wyeToDelta.wye)
+    annotation(
+      Line(
+        points={{-100, 0}, {-80, 0}, {-80, 10}, {-64, 10}},
+        color={0, 120, 120},
+        smooth=Smooth.None));
+  connect(terminal, wyeToWyeGround.wye)
+    annotation(
+      Line(
+        points={{-100, 0}, {-80, 0}, {-80,-10}, {-64,-10}},
+        color={0, 120, 120},
+        smooth=Smooth.None));
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This model represents a partial interface for a three-phase AC
 unbalanced impedance without neutral cable.
@@ -47,7 +54,8 @@ The values of the impedances are computed starting from the parameters <code>R</
 flags <code>use_R_in</code>, <code>use_L_in</code>, and <code>use_C_in</code> that can
 be used to specify time varying impedances.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 September 24, 2014, by Marco Bonvini:<br/>

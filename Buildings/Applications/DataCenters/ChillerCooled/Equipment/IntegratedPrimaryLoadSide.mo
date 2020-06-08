@@ -2,64 +2,95 @@ within Buildings.Applications.DataCenters.ChillerCooled.Equipment;
 model IntegratedPrimaryLoadSide
   "Integrated water-side economizer on the load side in a primary-only chilled water system"
   extends Buildings.Applications.DataCenters.ChillerCooled.Equipment.BaseClasses.PartialIntegratedPrimary(
-    final m_flow_nominal={m1_flow_chi_nominal,m2_flow_chi_nominal,m1_flow_wse_nominal,
-      m2_flow_chi_nominal,numChi*m2_flow_chi_nominal,m2_flow_wse_nominal},
-    rhoStd = {Medium1.density_pTX(101325, 273.15+4, Medium1.X_default),
-            Medium2.density_pTX(101325, 273.15+4, Medium2.X_default),
-            Medium1.density_pTX(101325, 273.15+4, Medium1.X_default),
-            Medium2.density_pTX(101325, 273.15+4, Medium2.X_default),
-            Medium2.density_pTX(101325, 273.15+4, Medium2.X_default),
-            Medium2.density_pTX(101325, 273.15+4, Medium2.X_default)});
-
- //Dynamics
-  parameter Modelica.SIunits.Time tauPump = 1
+    final m_flow_nominal={m1_flow_chi_nominal, m2_flow_chi_nominal, m1_flow_wse_nominal, m2_flow_chi_nominal, numChi*m2_flow_chi_nominal, m2_flow_wse_nominal},
+    rhoStd={Medium1.density_pTX(101325, 273.15 + 4, Medium1.X_default), Medium2.density_pTX(101325, 273.15 + 4, Medium2.X_default), Medium1.density_pTX(101325, 273.15 + 4, Medium1.X_default), Medium2.density_pTX(101325, 273.15 + 4, Medium2.X_default), Medium2.density_pTX(101325, 273.15 + 4, Medium2.X_default), Medium2.density_pTX(101325, 273.15 + 4, Medium2.X_default)});
+  //Dynamics
+  parameter Modelica.SIunits.Time tauPump=1
     "Time constant of fluid volume for nominal flow in pumps, used if energy or mass balance is dynamic"
-     annotation (Dialog(tab = "Dynamics", group="Pump",
-     enable=not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState));
+    annotation(
+      Dialog(
+        tab="Dynamics",
+        group="Pump",
+        enable=not energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState));
   //Pump
-  parameter Integer numPum = numChi "Number of pumps"
-    annotation(Dialog(group="Pump"));
+  parameter Integer numPum=numChi
+    "Number of pumps"
+    annotation(
+      Dialog(
+        group="Pump"));
   replaceable parameter Buildings.Fluid.Movers.Data.Generic perPum[numPum]
-   "Performance data for the pumps"
-    annotation (Dialog(group="Pump"),
-          Placement(transformation(extent={{38,78},{58,98}})));
-  parameter Boolean addPowerToMedium = true
+    "Performance data for the pumps"
+    annotation(
+      Dialog(
+        group="Pump"),
+      Placement(
+        transformation(
+          extent={{38, 78}, {58, 98}})));
+  parameter Boolean addPowerToMedium=true
     "Set to false to avoid any power (=heat and flow work) being added to medium (may give simpler equations)"
-    annotation (Dialog(group="Pump"));
-  parameter Modelica.SIunits.Time riseTimePump = 30
+    annotation(
+      Dialog(
+        group="Pump"));
+  parameter Modelica.SIunits.Time riseTimePump=30
     "Rise time of the filter (time to reach 99.6 % of an opening step)"
-    annotation(Dialog(tab="Dynamics", group="Filtered speed",enable=use_inputFilter));
-  parameter Modelica.Blocks.Types.Init initPum = initValve
+    annotation(
+      Dialog(
+        tab="Dynamics",
+        group="Filtered speed",
+        enable=use_inputFilter));
+  parameter Modelica.Blocks.Types.Init initPum=initValve
     "Type of initialization (no init/steady state/initial state/initial output)"
-    annotation(Dialog(tab="Dynamics", group="Filtered speed",enable=use_inputFilter));
-  parameter Real[numPum] yPum_start = fill(0,numPum)
+    annotation(
+      Dialog(
+        tab="Dynamics",
+        group="Filtered speed",
+        enable=use_inputFilter));
+  parameter Real[numPum] yPum_start=fill(0, numPum)
     "Initial value of output:0-closed, 1-fully opened"
-    annotation(Dialog(tab="Dynamics", group="Filtered speed",enable=use_inputFilter));
-  parameter Real[numPum] yValPum_start = fill(0,numPum)
+    annotation(
+      Dialog(
+        tab="Dynamics",
+        group="Filtered speed",
+        enable=use_inputFilter));
+  parameter Real[numPum] yValPum_start=fill(0, numPum)
     "Initial value of output:0-closed, 1-fully opened"
-    annotation(Dialog(tab="Dynamics", group="Filtered opening",enable=use_inputFilter));
-  parameter Real lValPum = 0.0001
+    annotation(
+      Dialog(
+        tab="Dynamics",
+        group="Filtered opening",
+        enable=use_inputFilter));
+  parameter Real lValPum=0.0001
     "Valve leakage, l=Kv(y=0)/Kv(y=1)"
-    annotation(Dialog(group="Pump"));
-  parameter Real kFixedValPum = pum.m_flow_nominal/sqrt(pum.dpValve_nominal)
+    annotation(
+      Dialog(
+        group="Pump"));
+  parameter Real kFixedValPum=pum.m_flow_nominal/sqrt(pum.dpValve_nominal)
     "Flow coefficient of fixed resistance that may be in series with valve,
     k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)."
-    annotation(Dialog(group="Pump"));
+    annotation(
+      Dialog(
+        group="Pump"));
   Modelica.Blocks.Interfaces.RealInput yPum[numPum](
-    each final unit = "1",
+    each final unit="1",
     each min=0,
     each max=1)
     "Constant normalized rotational speed"
-    annotation (Placement(transformation(extent={{-140,-60},{-100,-20}}),
-        iconTransformation(extent={{-132,-28},{-100,-60}})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140,-60}, {-100,-20}}),
+        iconTransformation(
+          extent={{-132,-28}, {-100,-60}})));
   Modelica.Blocks.Interfaces.RealOutput powPum[numPum](
     each final quantity="Power",
     each final unit="W")
     "Electrical power consumed by the pumps"
-    annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
-
+    annotation(
+      Placement(
+        transformation(
+          extent={{100,-50}, {120,-30}})));
   Buildings.Applications.DataCenters.ChillerCooled.Equipment.FlowMachine_y pum(
-    redeclare final package Medium = Medium2,
+    redeclare final package Medium=Medium2,
     final p_start=p2_start,
     final T_start=T2_start,
     final X_start=X2_start,
@@ -90,22 +121,34 @@ model IntegratedPrimaryLoadSide
     final homotopyInitialization=homotopyInitialization,
     final linearizeFlowResistance=linearizeFlowResistance2)
     "Pumps"
-    annotation (Placement(transformation(extent={{10,-50},{-10,-30}})));
-
+    annotation(
+      Placement(
+        transformation(
+          extent={{10,-50}, {-10,-30}})));
 equation
   connect(val5.port_b, pum.port_a)
-    annotation (Line(points={{40,-20},{20,-20},{20,-40},{10,-40}},
-                          color={0,127,255}));
-  connect(pum.port_b,val6.port_a)
-    annotation (Line(points={{-10,-40},{-20,-40},{-20,-20},{-40,-20}},
-                                color={0,127,255}));
+    annotation(
+      Line(
+        points={{40,-20}, {20,-20}, {20,-40}, {10,-40}},
+        color={0, 127, 255}));
+  connect(pum.port_b, val6.port_a)
+    annotation(
+      Line(
+        points={{-10,-40}, {-20,-40}, {-20,-20}, {-40,-20}},
+        color={0, 127, 255}));
   connect(yPum, pum.u)
-    annotation (Line(points={{-120,-40},{-30,-40},{-30,-28},{
-          18,-28},{18,-36},{12,-36}}, color={0,0,127}));
-  connect(pum.P, powPum) annotation (Line(points={{-11,-36},{-14,-36},{-14,-66},
-          {86,-66},{86,-40},{110,-40}},
-                                      color={0,0,127}));
-  annotation (Documentation(revisions="<html>
+    annotation(
+      Line(
+        points={{-120,-40}, {-30,-40}, {-30,-28}, {18,-28}, {18,-36}, {12,-36}},
+        color={0, 0, 127}));
+  connect(pum.P, powPum)
+    annotation(
+      Line(
+        points={{-11,-36}, {-14,-36}, {-14,-66}, {86,-66}, {86,-40}, {110,-40}},
+        color={0, 0, 127}));
+  annotation(
+    Documentation(
+      revisions="<html>
 <ul>
 <li>
 January 12, 2019, by Michael Wetter:<br/>
@@ -116,7 +159,8 @@ July 1, 2017, by Yangyang Fu:<br/>
 First implementation.
 </li>
 </ul>
-</html>", info="<html>
+</html>",
+      info="<html>
 <p>
 This model implements an integrated water-side economizer (WSE)
 on the load side of the primary-only chilled water system, as shown in the following figure.
@@ -195,39 +239,41 @@ For Fully Mechanical Cooling (FMC) Mode:
  Design and Control Considerations.<i>ASHRAE Transactions</i>, 115(2).
  </li>
 </ul>
-</html>"), Icon(graphics={
-        Polygon(
-          points={{-58,40},{-58,40}},
-          lineColor={0,0,0},
-          fillColor={0,0,0},
-          fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{-7,-6},{9,-6},{0,3},{-7,-6}},
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid,
-          origin={46,-45},
-          rotation=90),
-        Polygon(
-          points={{-6,-7},{-6,9},{3,0},{-6,-7}},
-          lineColor={0,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid,
-          origin={42,-45}),
-        Ellipse(
-          extent={{-14,-32},{8,-54}},
-          lineColor={0,0,0},
-          fillPattern=FillPattern.Sphere,
-          fillColor={0,128,255}),
-        Polygon(
-          points={{-14,-44},{-2,-54},{-2,-32},{-14,-44}},
-          lineColor={0,0,0},
-          pattern=LinePattern.None,
-          fillPattern=FillPattern.HorizontalCylinder,
-          fillColor={255,255,255}),
-        Line(points={{12,6},{12,0}}, color={0,128,255}),
-        Line(points={{-70,0}}, color={0,0,0}),
-        Line(points={{-18,-44}}, color={0,0,0}),
-        Line(points={{-18,-44},{-14,-44}}, color={0,128,255}),
-        Line(points={{8,-44},{12,-44}}, color={0,128,255})}));
+</html>"),
+    Icon(
+      graphics={Polygon(
+        points={{-58, 40}, {-58, 40}},
+        lineColor={0, 0, 0},
+        fillColor={0, 0, 0},
+        fillPattern=FillPattern.Solid), Polygon(
+        points={{-7,-6}, {9,-6}, {0, 3}, {-7,-6}},
+        lineColor={0, 0, 0},
+        fillColor={255, 255, 255},
+        fillPattern=FillPattern.Solid,
+        origin={46,-45},
+        rotation=90), Polygon(
+        points={{-6,-7}, {-6, 9}, {3, 0}, {-6,-7}},
+        lineColor={0, 0, 0},
+        fillColor={255, 255, 255},
+        fillPattern=FillPattern.Solid,
+        origin={42,-45}), Ellipse(
+        extent={{-14,-32}, {8,-54}},
+        lineColor={0, 0, 0},
+        fillPattern=FillPattern.Sphere,
+        fillColor={0, 128, 255}), Polygon(
+        points={{-14,-44}, {-2,-54}, {-2,-32}, {-14,-44}},
+        lineColor={0, 0, 0},
+        pattern=LinePattern.None,
+        fillPattern=FillPattern.HorizontalCylinder,
+        fillColor={255, 255, 255}), Line(
+        points={{12, 6}, {12, 0}},
+        color={0, 128, 255}), Line(
+        points={{-70, 0}},
+        color={0, 0, 0}), Line(
+        points={{-18,-44}},
+        color={0, 0, 0}), Line(
+        points={{-18,-44}, {-14,-44}},
+        color={0, 128, 255}), Line(
+        points={{8,-44}, {12,-44}},
+        color={0, 128, 255})}));
 end IntegratedPrimaryLoadSide;

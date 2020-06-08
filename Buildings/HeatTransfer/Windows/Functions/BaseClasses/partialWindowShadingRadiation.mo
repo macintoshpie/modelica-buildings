@@ -1,12 +1,15 @@
 within Buildings.HeatTransfer.Windows.Functions.BaseClasses;
 partial function partialWindowShadingRadiation
   "Partial function for window radiation property with shading device"
-  input Real traRef[3, N, N, HEM, NSta](each min=0, each max=1)
+  input Real traRef[3, N, N, HEM, NSta](
+    each min=0,
+    each max=1)
     "Transmittance and reflectance with exterior irradiation and no shading";
-  input Real traRefShaDev[2, 2](each min=0, each max=1)
+  input Real traRefShaDev[2, 2](
+    each min=0,
+    each max=1)
     "Transmittance and reflectance of shading device";
-  extends
-    Buildings.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation;
+  extends Buildings.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation;
 protected
   Real traExtShaDev=traRefShaDev[1, 1]
     "Transmittance of the exterior shading device";
@@ -16,10 +19,13 @@ protected
     "Transmittance of the interior shading device";
   Real refIntShaDev=traRefShaDev[2, 2]
     "Reflectance of the interior shading device";
-  annotation (preferredView="info",
-  Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 This is a partial function that is used to implement the radiation functions for windows. It defines basic input variables and parameters.
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 August 7, 2015, by Michael Wetter:<br/>

@@ -1,36 +1,71 @@
 within Buildings.Examples.Tutorial.CDL;
-model System1 "Open loop model"
+model System1
+  "Open loop model"
   extends Buildings.Examples.Tutorial.CDL.BaseClasses.PartialOpenLoop;
-
-  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant y1(k=mRad_flow_nominal)
+  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant y1(
+    k=mRad_flow_nominal)
     "Control signal of 1"
-    annotation (Placement(transformation(extent={{-120,-80},{-100,-60}})));
-
-  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant y2(k=1)
+    annotation(
+      Placement(
+        transformation(
+          extent={{-120,-80}, {-100,-60}})));
+  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant y2(
+    k=1)
     "Control signal of 1"
-    annotation (Placement(transformation(extent={{100,-210},{120,-190}})));
-
-  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant y3(k=1)
+    annotation(
+      Placement(
+        transformation(
+          extent={{100,-210}, {120,-190}})));
+  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant y3(
+    k=1)
     "Constant control signal of 1"
-    annotation (Placement(transformation(extent={{-120,-260},{-100,-240}})));
-  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant y4(k=1)
+    annotation(
+      Placement(
+        transformation(
+          extent={{-120,-260}, {-100,-240}})));
+  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant y4(
+    k=1)
     "Control signal of 1"
-    annotation (Placement(transformation(extent={{-120,-160},{-100,-140}})));
-  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant y5(k=mBoi_flow_nominal)
+    annotation(
+      Placement(
+        transformation(
+          extent={{-120,-160}, {-100,-140}})));
+  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant y5(
+    k=mBoi_flow_nominal)
     "Control signal of 1"
-    annotation (Placement(transformation(extent={{-120,-290},{-100,-270}})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{-120,-290}, {-100,-270}})));
 equation
   connect(y1.y, pumRad.m_flow_in)
-    annotation (Line(points={{-98,-70},{-62,-70}}, color={0,0,127}));
-  connect(y3.y, boi.y) annotation (Line(points={{-98,-250},{32,-250},{32,-302},{
-          22,-302}}, color={0,0,127}));
-  connect(y2.y, valBoi.y) annotation (Line(points={{122,-200},{130,-200},{130,-230},
-          {72,-230}}, color={0,0,127}));
+    annotation(
+      Line(
+        points={{-98,-70}, {-62,-70}},
+        color={0, 0, 127}));
+  connect(y3.y, boi.y)
+    annotation(
+      Line(
+        points={{-98,-250}, {32,-250}, {32,-302}, {22,-302}},
+        color={0, 0, 127}));
+  connect(y2.y, valBoi.y)
+    annotation(
+      Line(
+        points={{122,-200}, {130,-200}, {130,-230}, {72,-230}},
+        color={0, 0, 127}));
   connect(y4.y, valRad.y)
-    annotation (Line(points={{-98,-150},{-62,-150}}, color={0,0,127}));
-  connect(y5.y, pumBoi.m_flow_in) annotation (Line(points={{-98,-280},{-80,-280},
-          {-80,-280},{-62,-280}}, color={0,0,127}));
-  annotation (Documentation(info="<html>
+    annotation(
+      Line(
+        points={{-98,-150}, {-62,-150}},
+        color={0, 0, 127}));
+  connect(y5.y, pumBoi.m_flow_in)
+    annotation(
+      Line(
+        points={{-98,-280}, {-80,-280}, {-80,-280}, {-62,-280}},
+        color={0, 0, 127}));
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This model extends from the open loop partial model
 <a href=\"modelica://Buildings.Examples.Tutorial.CDL.BaseClasses.PartialOpenLoop\">
@@ -65,7 +100,7 @@ stop time of <i>1382400</i> seconds.
 <img alt=\"Open loop temperatures.\" src=\"modelica://Buildings/Resources/Images/Examples/Tutorial/CDL/System1/OpenLoopTemperatures.png\" border=\"1\"/>
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 February 18, 2020, by Michael Wetter:<br/>
@@ -73,8 +108,8 @@ First implementation.
 </li>
 </ul>
 </html>"),
-    __Dymola_Commands(file=
-     "modelica://Buildings/Resources/Scripts/Dymola/Examples/Tutorial/CDL/System1.mos"
+    __Dymola_Commands(
+      file="modelica://Buildings/Resources/Scripts/Dymola/Examples/Tutorial/CDL/System1.mos"
         "Simulate and plot"),
     experiment(
       StartTime=1296000,

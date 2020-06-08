@@ -1,8 +1,11 @@
 within Buildings.Electrical;
-package UsersGuide "Electrical package user's guide"
+package UsersGuide
+  "Electrical package user's guide"
   extends Modelica.Icons.Information;
-  annotation (preferredView="info",
-Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 
 <h4>Overview</h4>
 <p>
@@ -264,7 +267,8 @@ Hans Olsson, Martin Otter, Sven Erik Mattson and Hilding Elmqvist.<br/>
 Balanced Models in Modelica 3.0 for Increased Model Quality</a>.<br/>
 Proc. of the 7th Modelica Conference, Bielefeld, Germany, March 2008.<br/>
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 May 15, 2014, by Marco Bonvini:<br/>

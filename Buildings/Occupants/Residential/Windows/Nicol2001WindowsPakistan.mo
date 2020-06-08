@@ -1,58 +1,85 @@
 within Buildings.Occupants.Residential.Windows;
-model Nicol2001WindowsPakistan "A model to predict occupants' window behavior with outdoor temperature"
+model Nicol2001WindowsPakistan
+  "A model to predict occupants' window behavior with outdoor temperature"
   extends Modelica.Blocks.Icons.DiscreteBlock;
-  parameter Real A(final unit="1/K") = 0.118 "Slope of the logistic relation";
-  parameter Real B(final unit="1") = -3.73 "Intercept of the logistic relation";
-  parameter Integer seed = 5 "Seed for the random number generator";
-  parameter Modelica.SIunits.Time samplePeriod = 120 "Sample period";
-
+  parameter Real A(
+    final unit="1/K")=0.118
+    "Slope of the logistic relation";
+  parameter Real B(
+    final unit="1")=-3.73
+    "Intercept of the logistic relation";
+  parameter Integer seed=5
+    "Seed for the random number generator";
+  parameter Modelica.SIunits.Time samplePeriod=120
+    "Sample period";
   Modelica.Blocks.Interfaces.RealInput TOut(
     final unit="K",
-    displayUnit="degC") "Outdoor air temperature" annotation (Placement(transformation(extent={{-140,-80},{-100,-40}}),
-      iconTransformation(extent={{-140,-80},{-100,-40}})));
+    displayUnit="degC")
+    "Outdoor air temperature"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140,-80}, {-100,-40}}),
+        iconTransformation(
+          extent={{-140,-80}, {-100,-40}})));
   Modelica.Blocks.Interfaces.BooleanInput occ
     "Indoor occupancy, true for occupied"
-    annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
-  Modelica.Blocks.Interfaces.BooleanOutput on "State of window"
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140, 40}, {-100, 80}})));
+  Modelica.Blocks.Interfaces.BooleanOutput on
+    "State of window"
+    annotation(
+      Placement(
+        transformation(
+          extent={{100,-10}, {120, 10}})));
   Real p(
     unit="1",
     min=0,
-    max=1) "Probability of window opened";
-
+    max=1)
+    "Probability of window opened";
 protected
-  parameter Modelica.SIunits.Time t0(final fixed = false) "First sample time instant";
-  output Boolean sampleTrigger "True, if sample time instant";
-  Real curSeed "Current value for seed as a real-valued variable";
+  parameter Modelica.SIunits.Time t0(
+    final fixed=false)
+    "First sample time instant";
+  output Boolean sampleTrigger
+    "True, if sample time instant";
+  Real curSeed
+    "Current value for seed as a real-valued variable";
 initial equation
-  t0 = time;
-  curSeed = t0*seed;
-  p = Modelica.Math.exp(A*(TOut - 273.15)+B)/(Modelica.Math.exp(A*(TOut - 273.15)+B) + 1);
-  on = Buildings.Occupants.BaseClasses.binaryVariableGeneration(p, globalSeed=integer(curSeed));
+  t0=time;
+  curSeed=t0*seed;
+  p=Modelica.Math.exp(A*(TOut-273.15) + B)/(Modelica.Math.exp(A*(TOut-273.15) + B) + 1);
+  on=Buildings.Occupants.BaseClasses.binaryVariableGeneration(p,
+    globalSeed=integer(curSeed));
 equation
-  sampleTrigger = sample(t0,samplePeriod);
+  sampleTrigger=sample(t0, samplePeriod);
   when sampleTrigger then
-    curSeed = seed*time;
+    curSeed=seed*time;
     if occ then
-      p = Modelica.Math.exp(A*(TOut - 273.15)+B)/(Modelica.Math.exp(A*(TOut - 273.15)+B) + 1);
-      on = Buildings.Occupants.BaseClasses.binaryVariableGeneration(p, globalSeed=integer(curSeed));
+      p=Modelica.Math.exp(A*(TOut-273.15) + B)/(Modelica.Math.exp(A*(TOut-273.15) + B) + 1);
+      on=Buildings.Occupants.BaseClasses.binaryVariableGeneration(p,
+        globalSeed=integer(curSeed));
     else
-      p = 0;
-      on = false;
+      p=0;
+      on=false;
     end if;
   end when;
-
-  annotation (Icon(graphics={
-            Rectangle(extent={{-60,40},{60,-40}}, lineColor={28,108,200}), Text(
-            extent={{-40,20},{40,-20}},
-            lineColor={28,108,200},
-            fillColor={0,0,255},
-            fillPattern=FillPattern.Solid,
-            textStyle={TextStyle.Bold},
-            textString="WindowAll_Tout")}),
-defaultComponentName="win",
-Documentation(info="<html>
+  annotation(
+    Icon(
+      graphics={Rectangle(
+        extent={{-60, 40}, {60,-40}},
+        lineColor={28, 108, 200}), Text(
+        extent={{-40, 20}, {40,-20}},
+        lineColor={28, 108, 200},
+        fillColor={0, 0, 255},
+        fillPattern=FillPattern.Solid,
+        textStyle={TextStyle.Bold},
+        textString="WindowAll_Tout")}),
+    defaultComponentName="win",
+    Documentation(
+      info="<html>
 <p>
 Model predicting the state of the window with the outdoor air temperature
 and occupancy.
@@ -76,7 +103,7 @@ The model parameters are regressed from the field study in 7000 naturally
 ventilated buildings in Pakistan.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 July 25, 2018, by Zhe Wang:<br/>

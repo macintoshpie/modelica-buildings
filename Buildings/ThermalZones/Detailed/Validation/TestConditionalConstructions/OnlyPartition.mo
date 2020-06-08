@@ -1,25 +1,32 @@
 within Buildings.ThermalZones.Detailed.Validation.TestConditionalConstructions;
-model OnlyPartition "Test model for room model"
+model OnlyPartition
+  "Test model for room model"
   extends Modelica.Icons.Example;
   extends BaseClasses.PartialTestModel(
-   nConExt=0,
-   nConExtWin=0,
-   nConPar=1,
-   nConBou=0,
-   nSurBou=0,
-   roo(
-    datConPar(layers={matLayPar}, each A=10,
-    each til=Buildings.Types.Tilt.Floor,
-    each azi=Buildings.Types.Azimuth.W)));
-
-   annotation(__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/TestConditionalConstructions/OnlyPartition.mos"
+    nConExt=0,
+    nConExtWin=0,
+    nConPar=1,
+    nConBou=0,
+    nSurBou=0,
+    roo(
+      datConPar(
+        layers={matLayPar},
+        each A=10,
+        each til=Buildings.Types.Tilt.Floor,
+        each azi=Buildings.Types.Azimuth.W)));
+  annotation(
+    __Dymola_Commands(
+      file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/TestConditionalConstructions/OnlyPartition.mos"
         "Simulate and plot"),
-   Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{
-            200,160}})),
+    Diagram(
+      coordinateSystem(
+        preserveAspectRatio=true,
+        extent={{-100,-100}, {200, 160}})),
     experiment(
       StopTime=86400,
       Tolerance=1e-06),
-    Documentation(info="<html>
+    Documentation(
+      info="<html>
 <p>
 This model tests
 <a href=\"modelica://Buildings.ThermalZones.Detailed.MixedAir\">Buildings.ThermalZones.Detailed.MixedAir</a>

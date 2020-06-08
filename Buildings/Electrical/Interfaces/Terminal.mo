@@ -1,14 +1,21 @@
 within Buildings.Electrical.Interfaces;
-connector Terminal "Generalized electric terminal"
+connector Terminal
+  "Generalized electric terminal"
   extends Buildings.Electrical.Interfaces.BaseTerminal;
-replaceable package PhaseSystem = PhaseSystems.PartialPhaseSystem
+  replaceable package PhaseSystem=PhaseSystems.PartialPhaseSystem
     "Phase system"
-  annotation (choicesAllMatching=true);
-PhaseSystem.Voltage v[PhaseSystem.n] "Voltage vector";
-flow PhaseSystem.Current i[PhaseSystem.n](each start=0) "Current vector";
-PhaseSystem.ReferenceAngle theta[PhaseSystem.m]
+    annotation(
+      choicesAllMatching=true);
+  PhaseSystem.Voltage v[PhaseSystem.n]
+    "Voltage vector";
+  flow PhaseSystem.Current i[PhaseSystem.n](
+    each start=0)
+    "Current vector";
+  PhaseSystem.ReferenceAngle theta[PhaseSystem.m]
     "Optional vector of phase angles";
-  annotation (Documentation(revisions="<html>
+  annotation(
+    Documentation(
+      revisions="<html>
 <ul>
 <li>
 May 15, 2014, by Marco Bonvini:<br/>
@@ -19,7 +26,8 @@ October 31, 2013, by Marco Bonvini:<br/>
 Model included into the Buildings library.
 </li>
 </ul>
-</html>", info="<html>
+</html>",
+      info="<html>
 <p>
 This connector represents a generalized electric terminal. The generalization is made possible by the
 replaceable package <a href=\"modelica://Buildings.Electrical.Interfaces.Terminal.PhaseSystem\">

@@ -2,185 +2,263 @@ within Buildings.Examples.Tutorial.Boiler;
 model System2
   "2nd part of the system model, consisting of the room with heat transfer and a radiator"
   extends Modelica.Icons.Example;
-  replaceable package MediumA =
-      Buildings.Media.Air;
-
-//-------------------------Step 2: Water as medium-------------------------//
-  replaceable package MediumW =
-      Buildings.Media.Water "Medium model";
-//-------------------------------------------------------------------------//
-
-//------------------------Step 4: Design conditions------------------------//
-  parameter Modelica.SIunits.HeatFlowRate Q_flow_nominal = 20000
+  replaceable package MediumA=Buildings.Media.Air;
+  //-------------------------Step 2: Water as medium-------------------------//
+  replaceable package MediumW=Buildings.Media.Water
+    "Medium model";
+  //-------------------------------------------------------------------------//
+  //------------------------Step 4: Design conditions------------------------//
+  parameter Modelica.SIunits.HeatFlowRate Q_flow_nominal=20000
     "Nominal heat flow rate of radiator";
-  parameter Modelica.SIunits.Temperature TRadSup_nominal = 273.15+50
+  parameter Modelica.SIunits.Temperature TRadSup_nominal=273.15 + 50
     "Radiator nominal supply water temperature";
-  parameter Modelica.SIunits.Temperature TRadRet_nominal = 273.15+40
+  parameter Modelica.SIunits.Temperature TRadRet_nominal=273.15 + 40
     "Radiator nominal return water temperature";
-  parameter Modelica.SIunits.MassFlowRate mRad_flow_nominal=
-    Q_flow_nominal/4200/(TRadSup_nominal-TRadRet_nominal)
+  parameter Modelica.SIunits.MassFlowRate mRad_flow_nominal=Q_flow_nominal/4200/(TRadSup_nominal-TRadRet_nominal)
     "Radiator nominal mass flow rate";
-//------------------------------------------------------------------------//
-
+  //------------------------------------------------------------------------//
   Buildings.Fluid.MixingVolumes.MixingVolume vol(
-    redeclare package Medium = MediumA,
+    redeclare package Medium=MediumA,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     m_flow_nominal=mA_flow_nominal,
     V=V)
-    annotation (Placement(transformation(extent={{60,20},{80,40}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor theCon(G=20000/30)
+    annotation(
+      Placement(
+        transformation(
+          extent={{60, 20}, {80, 40}})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor theCon(
+    G=20000/30)
     "Thermal conductance with the ambient"
-    annotation (Placement(transformation(extent={{20,40},{40,60}})));
-  parameter Modelica.SIunits.Volume V=6*10*3 "Room volume";
-  parameter Modelica.SIunits.MassFlowRate mA_flow_nominal = V*1.2*6/3600
+    annotation(
+      Placement(
+        transformation(
+          extent={{20, 40}, {40, 60}})));
+  parameter Modelica.SIunits.Volume V=6*10*3
+    "Room volume";
+  parameter Modelica.SIunits.MassFlowRate mA_flow_nominal=V*1.2*6/3600
     "Nominal mass flow rate";
-  parameter Modelica.SIunits.HeatFlowRate QRooInt_flow = 4000
+  parameter Modelica.SIunits.HeatFlowRate QRooInt_flow=4000
     "Internal heat gains of the room";
-  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature TOut(T=263.15)
+  Modelica.Thermal.HeatTransfer.Sources.FixedTemperature TOut(
+    T=263.15)
     "Outside temperature"
-    annotation (Placement(transformation(extent={{-20,40},{0,60}})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{-20, 40}, {0, 60}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHea
     "Prescribed heat flow"
-    annotation (Placement(transformation(extent={{20,70},{40,90}})));
-  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCap(C=2*V*1.2*1006)
+    annotation(
+      Placement(
+        transformation(
+          extent={{20, 70}, {40, 90}})));
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor heaCap(
+    C=2*V*1.2*1006)
     "Heat capacity for furniture and walls"
-    annotation (Placement(transformation(extent={{60,50},{80,70}})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{60, 50}, {80, 70}})));
   Buildings.Controls.OBC.CDL.Continuous.Sources.TimeTable timTab(
-      extrapolation=Buildings.Controls.OBC.CDL.Types.Extrapolation.Periodic,
-      smoothness=Buildings.Controls.OBC.CDL.Types.Smoothness.ConstantSegments,
-      table=[-6, 0;
-              8, QRooInt_flow;
-             18, 0],
-      timeScale=3600) "Time table for internal heat gain"
-    annotation (Placement(transformation(extent={{-20,70},{0,90}})));
-
-//-------------------------Step 5: Radiator Model-------------------------//
- Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad(
-    redeclare package Medium = MediumW,
+    extrapolation=Buildings.Controls.OBC.CDL.Types.Extrapolation.Periodic,
+    smoothness=Buildings.Controls.OBC.CDL.Types.Smoothness.ConstantSegments,
+    table=[
+      -6, 0;
+      8, QRooInt_flow;
+      18, 0],
+    timeScale=3600)
+    "Time table for internal heat gain"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-20, 70}, {0, 90}})));
+  //-------------------------Step 5: Radiator Model-------------------------//
+  Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad(
+    redeclare package Medium=MediumW,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     Q_flow_nominal=Q_flow_nominal,
     T_a_nominal=TRadSup_nominal,
-    T_b_nominal=TRadRet_nominal) "Radiator"
-    annotation (Placement(transformation(extent={{0,-20},{20,0}})));
-//------------------------------------------------------------------------//
-
-  Buildings.Fluid.Sources.Boundary_pT sin(nPorts=1, redeclare package Medium = MediumW)
-    "Sink for mass flow rate"           annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={50,-50})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort temSup(redeclare package Medium = MediumW,
-      m_flow_nominal=mRad_flow_nominal) "Supply water temperature"
-                                          annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={-50,-40})));
+    T_b_nominal=TRadRet_nominal)
+    "Radiator"
+    annotation(
+      Placement(
+        transformation(
+          extent={{0,-20}, {20, 0}})));
+  //------------------------------------------------------------------------//
+  Buildings.Fluid.Sources.Boundary_pT sin(
+    nPorts=1,
+    redeclare package Medium=MediumW)
+    "Sink for mass flow rate"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-10,-10}, {10, 10}},
+          rotation=90,
+          origin={50,-50})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort temSup(
+    redeclare package Medium=MediumW,
+    m_flow_nominal=mRad_flow_nominal)
+    "Supply water temperature"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-10,-10}, {10, 10}},
+          rotation=90,
+          origin={-50,-40})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temRoo
-    "Room temperature" annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        origin={-40,30})));
-
-//------------------------Step 5: Pump for radiator-----------------------//
-Buildings.Fluid.Movers.FlowControlled_m_flow pumRad(
-    redeclare package Medium = MediumW,
+    "Room temperature"
+    annotation(
+      Placement(
+        transformation(
+          extent={{10,-10}, {-10, 10}},
+          origin={-40, 30})));
+  //------------------------Step 5: Pump for radiator-----------------------//
+  Buildings.Fluid.Movers.FlowControlled_m_flow pumRad(
+    redeclare package Medium=MediumW,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    m_flow_nominal=mRad_flow_nominal) "Pump for radiator"
-      annotation (Placement(transformation(
-      extent={{-10,-10},{10,10}},
-      rotation=90,
-      origin={-50,-70})));
-
-//------------------------------------------------------------------------//
-
+    m_flow_nominal=mRad_flow_nominal)
+    "Pump for radiator"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-10,-10}, {10, 10}},
+          rotation=90,
+          origin={-50,-70})));
+  //------------------------------------------------------------------------//
   Buildings.Fluid.Sources.Boundary_pT sou(
     nPorts=1,
-    redeclare package Medium = MediumW,
-    T=TRadSup_nominal) "Sink for mass flow rate"
-                                        annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={-50,-110})));
-
-//--------------------------Step 6: Pump control--------------------------//
+    redeclare package Medium=MediumW,
+    T=TRadSup_nominal)
+    "Sink for mass flow rate"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-10,-10}, {10, 10}},
+          rotation=90,
+          origin={-50,-110})));
+  //--------------------------Step 6: Pump control--------------------------//
   Buildings.Controls.OBC.CDL.Continuous.Hysteresis hysPum(
     uLow=273.15 + 19,
     uHigh=273.15 + 21)
     "Pump hysteresis"
-    annotation (Placement(transformation(extent={{-220,-80},{-200,-60}})));
-
-  Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToReaRad(realTrue=mRad_flow_nominal)
+    annotation(
+      Placement(
+        transformation(
+          extent={{-220,-80}, {-200,-60}})));
+  Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToReaRad(
+    realTrue=mRad_flow_nominal)
     "Radiator pump signal"
-    annotation (Placement(transformation(extent={{-140,-80},{-120,-60}})));
-  Buildings.Controls.OBC.CDL.Logical.Not not1 "Negate output of hysteresis"
-    annotation (Placement(transformation(extent={{-180,-80},{-160,-60}})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140,-80}, {-120,-60}})));
+  Buildings.Controls.OBC.CDL.Logical.Not not1
+    "Negate output of hysteresis"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-180,-80}, {-160,-60}})));
 //------------------------------------------------------------------------//
-
 equation
-  connect(TOut.port, theCon.port_a) annotation (Line(
-      points={{5.55112e-16,50},{20,50}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(theCon.port_b, vol.heatPort) annotation (Line(
-      points={{40,50},{50,50},{50,30},{60,30}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(preHea.port, vol.heatPort) annotation (Line(
-      points={{40,80},{50,80},{50,30},{60,30}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(heaCap.port, vol.heatPort) annotation (Line(
-      points={{70,50},{50,50},{50,30},{60,30}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(timTab.y[1], preHea.Q_flow) annotation (Line(
-      points={{2,80},{20,80}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(temSup.port_b, rad.port_a) annotation (Line(
-      points={{-50,-30},{-50,-10},{-5.55112e-16,-10}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(rad.port_b, sin.ports[1]) annotation (Line(
-      points={{20,-10},{50,-10},{50,-40}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(temRoo.port, vol.heatPort) annotation (Line(
-      points={{-30,30},{60,30}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(rad.heatPortCon, vol.heatPort) annotation (Line(
-      points={{8,-2.8},{8,30},{60,30}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(rad.heatPortRad, vol.heatPort) annotation (Line(
-      points={{12,-2.8},{12,30},{60,30}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(sou.ports[1], pumRad.port_a) annotation (Line(
-      points={{-50,-100},{-50,-80}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(pumRad.port_b, temSup.port_a) annotation (Line(
-      points={{-50,-60},{-50,-50}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(temRoo.T, hysPum.u) annotation (Line(
-      points={{-50,30},{-234,30},{-234,-70},{-222,-70}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(hysPum.y, not1.u) annotation (Line(
-      points={{-198,-70},{-182,-70}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(not1.y, booToReaRad.u) annotation (Line(
-      points={{-158,-70},{-142,-70}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(booToReaRad.y, pumRad.m_flow_in) annotation (Line(
-      points={{-118,-70},{-90.5,-70},{-90.5,-70},{-62,-70}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  annotation (Documentation(info="<html>
+  connect(TOut.port, theCon.port_a)
+    annotation(
+      Line(
+        points={{5.55112e-16, 50}, {20, 50}},
+        color={191, 0, 0},
+        smooth=Smooth.None));
+  connect(theCon.port_b, vol.heatPort)
+    annotation(
+      Line(
+        points={{40, 50}, {50, 50}, {50, 30}, {60, 30}},
+        color={191, 0, 0},
+        smooth=Smooth.None));
+  connect(preHea.port, vol.heatPort)
+    annotation(
+      Line(
+        points={{40, 80}, {50, 80}, {50, 30}, {60, 30}},
+        color={191, 0, 0},
+        smooth=Smooth.None));
+  connect(heaCap.port, vol.heatPort)
+    annotation(
+      Line(
+        points={{70, 50}, {50, 50}, {50, 30}, {60, 30}},
+        color={191, 0, 0},
+        smooth=Smooth.None));
+  connect(timTab.y[1], preHea.Q_flow)
+    annotation(
+      Line(
+        points={{2, 80}, {20, 80}},
+        color={0, 0, 127},
+        smooth=Smooth.None));
+  connect(temSup.port_b, rad.port_a)
+    annotation(
+      Line(
+        points={{-50,-30}, {-50,-10}, {-5.55112e-16,-10}},
+        color={0, 127, 255},
+        smooth=Smooth.None));
+  connect(rad.port_b, sin.ports[1])
+    annotation(
+      Line(
+        points={{20,-10}, {50,-10}, {50,-40}},
+        color={0, 127, 255},
+        smooth=Smooth.None));
+  connect(temRoo.port, vol.heatPort)
+    annotation(
+      Line(
+        points={{-30, 30}, {60, 30}},
+        color={191, 0, 0},
+        smooth=Smooth.None));
+  connect(rad.heatPortCon, vol.heatPort)
+    annotation(
+      Line(
+        points={{8,-2.8}, {8, 30}, {60, 30}},
+        color={191, 0, 0},
+        smooth=Smooth.None));
+  connect(rad.heatPortRad, vol.heatPort)
+    annotation(
+      Line(
+        points={{12,-2.8}, {12, 30}, {60, 30}},
+        color={191, 0, 0},
+        smooth=Smooth.None));
+  connect(sou.ports[1], pumRad.port_a)
+    annotation(
+      Line(
+        points={{-50,-100}, {-50,-80}},
+        color={0, 127, 255},
+        smooth=Smooth.None));
+  connect(pumRad.port_b, temSup.port_a)
+    annotation(
+      Line(
+        points={{-50,-60}, {-50,-50}},
+        color={0, 127, 255},
+        smooth=Smooth.None));
+  connect(temRoo.T, hysPum.u)
+    annotation(
+      Line(
+        points={{-50, 30}, {-234, 30}, {-234,-70}, {-222,-70}},
+        color={0, 0, 127},
+        smooth=Smooth.None));
+  connect(hysPum.y, not1.u)
+    annotation(
+      Line(
+        points={{-198,-70}, {-182,-70}},
+        color={255, 0, 255},
+        smooth=Smooth.None));
+  connect(not1.y, booToReaRad.u)
+    annotation(
+      Line(
+        points={{-158,-70}, {-142,-70}},
+        color={255, 0, 255},
+        smooth=Smooth.None));
+  connect(booToReaRad.y, pumRad.m_flow_in)
+    annotation(
+      Line(
+        points={{-118,-70}, {-90.5,-70}, {-90.5,-70}, {-62,-70}},
+        color={0, 0, 127},
+        smooth=Smooth.None));
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This part of the system model adds a radiator with a prescribed mass flow
 rate to the system that is implemented in
@@ -386,7 +464,8 @@ package
 Buildings.HeatTransfer.Conduction</a>
 could have been used.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 March 6, 2017, by Michael Wetter:<br/>
@@ -405,10 +484,14 @@ First implementation.
 </li>
 </ul>
 </html>"),
-    Diagram(coordinateSystem(preserveAspectRatio=true,
-            extent={{-240,-160},{100,100}})),
-    __Dymola_Commands(file=
-     "modelica://Buildings/Resources/Scripts/Dymola/Examples/Tutorial/Boiler/System2.mos"
+    Diagram(
+      coordinateSystem(
+        preserveAspectRatio=true,
+        extent={{-240,-160}, {100, 100}})),
+    __Dymola_Commands(
+      file="modelica://Buildings/Resources/Scripts/Dymola/Examples/Tutorial/Boiler/System2.mos"
         "Simulate and plot"),
-    experiment(Tolerance=1e-6, StopTime=172800));
+    experiment(
+      Tolerance=1e-6,
+      StopTime=172800));
 end System2;

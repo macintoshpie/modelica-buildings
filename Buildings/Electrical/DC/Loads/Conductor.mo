@@ -1,42 +1,42 @@
 within Buildings.Electrical.DC.Loads;
-model Conductor "Model of a generic DC load"
-    extends Buildings.Electrical.Interfaces.ResistiveLoad(
-     redeclare package PhaseSystem = PhaseSystems.TwoConductor,
-     redeclare Interfaces.Terminal_n terminal);
+model Conductor
+  "Model of a generic DC load"
+  extends Buildings.Electrical.Interfaces.ResistiveLoad(
+    redeclare package PhaseSystem=PhaseSystems.TwoConductor,
+    redeclare Interfaces.Terminal_n terminal);
 protected
-    Modelica.SIunits.Voltage absDV
+  Modelica.SIunits.Voltage absDV
     "Absolute value of the voltage difference between the two conductors (used by the linearized model)";
 equation
-
-  absDV = abs(terminal.v[1]-terminal.v[2]);
-
+  absDV=abs(terminal.v[1]-terminal.v[2]);
   if linearized then
-
     // Linearized version of the model
-    if absDV <= (8/9)*V_nominal then
-      terminal.i[1] + P*(2/(0.8*V_nominal) - (terminal.v[1]-terminal.v[2])/(0.8*V_nominal)^2) = 0;
-    elseif absDV >= (12/11)*V_nominal then
-      terminal.i[1] + P*(2/(1.2*V_nominal) - (terminal.v[1]-terminal.v[2])/(1.2*V_nominal)^2) = 0;
+    if absDV <=(8/9)*V_nominal then
+      terminal.i[1] + P*(2/(0.8*V_nominal)-(terminal.v[1]-terminal.v[2])/(0.8*V_nominal)^2)=0;
+    elseif absDV >=(12/11)*V_nominal then
+      terminal.i[1] + P*(2/(1.2*V_nominal)-(terminal.v[1]-terminal.v[2])/(1.2*V_nominal)^2)=0;
     else
-      terminal.i[1] + P*(2/V_nominal - (terminal.v[1]-terminal.v[2])/V_nominal^2) = 0;
+      terminal.i[1] + P*(2/V_nominal-(terminal.v[1]-terminal.v[2])/V_nominal^2)=0;
     end if;
-
   else
     // Full nonlinear version of the model
     // PhaseSystem.activePower(terminal.v, terminal.i) + P = 0;
     if initMode == Buildings.Electrical.Types.InitMode.zero_current then
-      i[1] = - homotopy(actual= P/(v[1] - v[2]),  simplified= 0);
+      i[1]=-homotopy(
+        actual=P/(v[1]-v[2]),
+        simplified=0);
     else
-      i[1] = - homotopy(actual= P/(v[1] - v[2]),  simplified= P*(2/V_nominal - (v[1]-v[2])/V_nominal^2));
+      i[1]=-homotopy(
+        actual=P/(v[1]-v[2]),
+        simplified=P*(2/V_nominal-(v[1]-v[2])/V_nominal^2));
     end if;
-
   end if;
-
   // Since the connector is a two conductor, the sum of the currents at the terminal
   // is null
-  sum(i) = 0;
-  annotation (
-    Documentation(info="<html>
+  sum(i)=0;
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 Model of a generic DC load. The load can be either constant or variable depending on the value of the
 parameter <code>mode</code>.
@@ -128,7 +128,8 @@ The points are at <i>0.8 V<sub>nom</sub></i> and <i>1.2 V<sub>nom</sub></i>.
 </tr>
 </table>
 
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>May 14, 2015, by Marco Bonvini:<br/>
 Changed parent class to <a href=\"modelica://Buildings.Electrical.Interfaces.ResistiveLoad\">
@@ -155,30 +156,36 @@ Added and revised documentation.
 </li>
 </ul>
 </html>"),
-    Icon(coordinateSystem(
+    Icon(
+      coordinateSystem(
         preserveAspectRatio=true,
-        extent={{-100,-100},{100,100}},
-        grid={2,2}), graphics={
-          Rectangle(
-            extent={{-70,30},{70,-30}},
-            fillColor={255,255,255},
-            fillPattern=FillPattern.Solid,
-            lineColor={0,0,255}),
-          Rectangle(extent={{-70,30},{70,-30}}, lineColor={0,0,255}),
-          Line(points={{-90,0},{-70,0}}, color={0,0,255}),
-          Text(
-            extent={{-152,87},{148,47}},
-            lineColor={0,0,0},
-          textString="%name"),
-          Text(
-            extent={{-144,-38},{142,-70}},
-            lineColor={0,0,0},
-            textString="G=%G")}),
-    Diagram(coordinateSystem(
+        extent={{-100,-100}, {100, 100}},
+        grid={2, 2}),
+      graphics={Rectangle(
+        extent={{-70, 30}, {70,-30}},
+        fillColor={255, 255, 255},
+        fillPattern=FillPattern.Solid,
+        lineColor={0, 0, 255}), Rectangle(
+        extent={{-70, 30}, {70,-30}},
+        lineColor={0, 0, 255}), Line(
+        points={{-90, 0}, {-70, 0}},
+        color={0, 0, 255}), Text(
+        extent={{-152, 87}, {148, 47}},
+        lineColor={0, 0, 0},
+        textString="%name"), Text(
+        extent={{-144,-38}, {142,-70}},
+        lineColor={0, 0, 0},
+        textString="G=%G")}),
+    Diagram(
+      coordinateSystem(
         preserveAspectRatio=false,
-        extent={{-100,-100},{100,100}},
-        grid={2,2}), graphics={
-          Line(points={{-96,0},{-70,0}}, color={0,0,255}),
-          Line(points={{70,0},{96,0}}, color={0,0,255}),
-          Rectangle(extent={{-70,30},{70,-30}}, lineColor={0,0,255})}));
+        extent={{-100,-100}, {100, 100}},
+        grid={2, 2}),
+      graphics={Line(
+        points={{-96, 0}, {-70, 0}},
+        color={0, 0, 255}), Line(
+        points={{70, 0}, {96, 0}},
+        color={0, 0, 255}), Rectangle(
+        extent={{-70, 30}, {70,-30}},
+        lineColor={0, 0, 255})}));
 end Conductor;

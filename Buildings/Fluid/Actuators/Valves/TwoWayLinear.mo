@@ -1,14 +1,16 @@
 within Buildings.Fluid.Actuators.Valves;
-model TwoWayLinear "Two way valve with linear flow characteristics"
-  extends BaseClasses.PartialTwoWayValveKv(phi=max(0, l + y_actual*(1 - l)));
-
+model TwoWayLinear
+  "Two way valve with linear flow characteristics"
+  extends BaseClasses.PartialTwoWayValveKv(
+    phi=max(0, l + y_actual*(1-l)));
 initial equation
   // Since the flow model Buildings.Fluid.BaseClasses.FlowModels.basicFlowFunction_m_flow computes
   // 1/k^2, the parameter l must not be zero.
   assert(l > 0, "Valve leakage parameter l must be bigger than zero.");
-annotation (
-defaultComponentName="val",
-Documentation(info="<html>
+  annotation(
+    defaultComponentName="val",
+    Documentation(
+      info="<html>
 <p>
 Two way valve with linear opening characteristic.
 </p><p>
@@ -19,7 +21,7 @@ Check this model for more information, such
 as the regularization near the origin.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 November 9, 2019, by Filip Jorissen:<br/>

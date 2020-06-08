@@ -1,74 +1,103 @@
 within Buildings.Occupants.Office.Windows;
-model Yun2008WindowsTOut "A model to predict occupants' window behavior with outdoor temperature"
+model Yun2008WindowsTOut
+  "A model to predict occupants' window behavior with outdoor temperature"
   extends Modelica.Blocks.Icons.DiscreteBlock;
-  parameter Real AOpen = 0.009 "Slope of the logistic relation for opening the window";
-  parameter Real BOpen = -0.115 "Intercept of the logistic relation for opening the window";
-  parameter Real AClose = 0 "Slope of the logistic relation for closing the window";
-  parameter Real BClose = -0.040 "Intercept of the logistic relation for closing the window";
-  parameter Integer seed = 30 "Seed for the random number generator";
-  parameter Modelica.SIunits.Time samplePeriod = 120 "Sample period";
-
+  parameter Real AOpen=0.009
+    "Slope of the logistic relation for opening the window";
+  parameter Real BOpen=-0.115
+    "Intercept of the logistic relation for opening the window";
+  parameter Real AClose=0
+    "Slope of the logistic relation for closing the window";
+  parameter Real BClose=-0.040
+    "Intercept of the logistic relation for closing the window";
+  parameter Integer seed=30
+    "Seed for the random number generator";
+  parameter Modelica.SIunits.Time samplePeriod=120
+    "Sample period";
   Modelica.Blocks.Interfaces.RealInput TOut(
     final unit="K",
-    displayUnit="degC") "Outdoor air temperature" annotation (Placement(transformation(extent={{-140,-80},{-100,-40}}),
-      iconTransformation(extent={{-140,-80},{-100,-40}})));
+    displayUnit="degC")
+    "Outdoor air temperature"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140,-80}, {-100,-40}}),
+        iconTransformation(
+          extent={{-140,-80}, {-100,-40}})));
   Modelica.Blocks.Interfaces.BooleanInput occ
     "Indoor occupancy, true for occupied"
-    annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
-  Modelica.Blocks.Interfaces.BooleanOutput on "State of window, true for open"
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140, 40}, {-100, 80}})));
+  Modelica.Blocks.Interfaces.BooleanOutput on
+    "State of window, true for open"
+    annotation(
+      Placement(
+        transformation(
+          extent={{100,-10}, {120, 10}})));
   Real pOpen(
     unit="1",
     min=0,
-    max=1) "Probability of opening the window";
+    max=1)
+    "Probability of opening the window";
   Real pClose(
     unit="1",
     min=0,
-    max=1) "Probability of closing the window";
-
+    max=1)
+    "Probability of closing the window";
 protected
-  parameter Modelica.SIunits.Time t0(final fixed = false) "First sample time instant";
-  output Boolean sampleTrigger "True, if sample time instant";
-  Real curSeed "Current value for seed as a real-valued variable";
+  parameter Modelica.SIunits.Time t0(
+    final fixed=false)
+    "First sample time instant";
+  output Boolean sampleTrigger
+    "True, if sample time instant";
+  Real curSeed
+    "Current value for seed as a real-valued variable";
 initial equation
-  t0 = time;
-  curSeed = t0*seed;
-  on = false;
-  pOpen = Modelica.Math.exp(AOpen*(TOut - 273.15)+BOpen)/(Modelica.Math.exp(AOpen*(TOut - 273.15)+BOpen) + 1);
-  pClose = Modelica.Math.exp(AClose*(TOut - 273.15)+BClose)/(Modelica.Math.exp(AClose*(TOut - 273.15)+BClose) + 1);
-
+  t0=time;
+  curSeed=t0*seed;
+  on=false;
+  pOpen=Modelica.Math.exp(AOpen*(TOut-273.15) + BOpen)/(Modelica.Math.exp(AOpen*(TOut-273.15) + BOpen) + 1);
+  pClose=Modelica.Math.exp(AClose*(TOut-273.15) + BClose)/(Modelica.Math.exp(AClose*(TOut-273.15) + BClose) + 1);
 equation
-  sampleTrigger = sample(t0,samplePeriod);
+  sampleTrigger=sample(t0, samplePeriod);
   when sampleTrigger then
-    curSeed = seed*time;
+    curSeed=seed*time;
     if occ then
-      pOpen = Modelica.Math.exp(AOpen*(TOut - 273.15)+BOpen)/(Modelica.Math.exp(AOpen*(TOut - 273.15)+BOpen) + 1);
-      pClose = Modelica.Math.exp(AClose*(TOut - 273.15)+BClose)/(Modelica.Math.exp(AClose*(TOut - 273.15)+BClose) + 1);
+      pOpen=Modelica.Math.exp(AOpen*(TOut-273.15) + BOpen)/(Modelica.Math.exp(AOpen*(TOut-273.15) + BOpen) + 1);
+      pClose=Modelica.Math.exp(AClose*(TOut-273.15) + BClose)/(Modelica.Math.exp(AClose*(TOut-273.15) + BClose) + 1);
       if pre(on) then
-        on = not Buildings.Occupants.BaseClasses.binaryVariableGeneration(p=pClose, globalSeed=integer(curSeed));
+        on=not Buildings.Occupants.BaseClasses.binaryVariableGeneration(
+          p=pClose,
+          globalSeed=integer(curSeed));
       elseif pre(on) == false and TOut > 288.15 then
-        on = Buildings.Occupants.BaseClasses.binaryVariableGeneration(p=pOpen, globalSeed=integer(curSeed));
+        on=Buildings.Occupants.BaseClasses.binaryVariableGeneration(
+          p=pOpen,
+          globalSeed=integer(curSeed));
       else
-        on = pre(on);
+        on=pre(on);
       end if;
     else
-      pOpen = 0;
-      pClose = 0;
-      on = false;
+      pOpen=0;
+      pClose=0;
+      on=false;
     end if;
   end when;
-
-  annotation (Icon(graphics={
-            Rectangle(extent={{-60,40},{60,-40}}, lineColor={28,108,200}), Text(
-            extent={{-40,20},{40,-20}},
-            lineColor={28,108,200},
-            fillColor={0,0,255},
-            fillPattern=FillPattern.Solid,
-            textStyle={TextStyle.Bold},
-            textString="WindowAll_TOut")}),
-defaultComponentName="win",
-Documentation(info="<html>
+  annotation(
+    Icon(
+      graphics={Rectangle(
+        extent={{-60, 40}, {60,-40}},
+        lineColor={28, 108, 200}), Text(
+        extent={{-40, 20}, {40,-20}},
+        lineColor={28, 108, 200},
+        fillColor={0, 0, 255},
+        fillPattern=FillPattern.Solid,
+        textStyle={TextStyle.Bold},
+        textString="WindowAll_TOut")}),
+    defaultComponentName="win",
+    Documentation(
+      info="<html>
 <p>
 Model predicting the state of the window with the outdoor air temperature 
 and occupancy through Markov approach.
@@ -91,7 +120,7 @@ night ventilation, located in Cambridge, UK in summer time (13 Jun. to 15
 Sep., 2006).
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 July 26, 2018, by Zhe Wang:<br/>

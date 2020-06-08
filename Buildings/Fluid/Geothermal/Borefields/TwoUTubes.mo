@@ -3,9 +3,10 @@ model TwoUTubes
   "Borefield model containing double U-tube boreholes"
   extends Buildings.Fluid.Geothermal.Borefields.BaseClasses.PartialBorefield(
     redeclare Buildings.Fluid.Geothermal.Borefields.BaseClasses.Boreholes.TwoUTube borHol);
-  annotation (
-  defaultComponentName="borFie",
-  Documentation(info="<html>
+  annotation(
+    defaultComponentName="borFie",
+    Documentation(
+      info="<html>
 <p>
 This model simulates a borefield containing one or many double U-tube boreholes
 using the parameters in the <code>borFieDat</code> record.
@@ -18,7 +19,8 @@ borehole itself using an axial discretization and a resistance-capacitance
 network for the internal thermal resistances between the individual pipes and
 between each pipe and the borehole wall.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 July 2018, by Alex Laferri&egrave;re:<br/>

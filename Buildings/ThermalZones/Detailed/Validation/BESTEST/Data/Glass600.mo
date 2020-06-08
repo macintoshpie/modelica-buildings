@@ -1,22 +1,24 @@
 within Buildings.ThermalZones.Detailed.Validation.BESTEST.Data;
-record Glass600 = Buildings.HeatTransfer.Data.Glasses.Generic (
-    x=0.003175,
-    k=1.06,
-    tauSol={0.86156},
-    rhoSol_a={0.0434},
-    rhoSol_b={0.0434},
-    tauIR=0,
-    absIR_a=0.9,
-    absIR_b=0.9) "Thermal properties of window glass"
-  annotation (
-defaultComponentPrefixes="parameter",
-defaultComponentName="datGla",
-Documentation(info="<html>
+record Glass600=Buildings.HeatTransfer.Data.Glasses.Generic(
+  x=0.003175,
+  k=1.06,
+  tauSol={0.86156},
+  rhoSol_a={0.0434},
+  rhoSol_b={0.0434},
+  tauIR=0,
+  absIR_a=0.9,
+  absIR_b=0.9)
+  "Thermal properties of window glass"
+  annotation(
+    defaultComponentPrefixes="parameter",
+    defaultComponentName="datGla",
+    Documentation(
+      info="<html>
 <p>
 This record declares the glass properties for the BESTEST model.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 August 7, 2015, by Michael Wetter:<br/>

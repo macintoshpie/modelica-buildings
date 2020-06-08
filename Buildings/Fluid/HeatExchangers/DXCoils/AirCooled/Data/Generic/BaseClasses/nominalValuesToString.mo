@@ -2,12 +2,12 @@ within Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.BaseClasses
 function nominalValuesToString
   "Converts the nominal values to a string representation"
   extends Modelica.Icons.Function;
-  input
-    Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.BaseClasses.NominalValues
-    nomVal "Nominal values";
-  output String s "A string representation of the nominal values";
+  input Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.BaseClasses.NominalValues nomVal
+    "Nominal values";
+  output String s
+    "A string representation of the nominal values";
 algorithm
- s :="Nominal values:
+  s := "Nominal values:
     Q_flow_nominal = " + String(nomVal.Q_flow_nominal) + "
     COP_nominal    = " + String(nomVal.COP_nominal) + "
     m_flow_nominal = " + String(nomVal.m_flow_nominal) + "
@@ -18,12 +18,14 @@ algorithm
     gamma          = " + String(nomVal.gamma) + "
     p_nominal      = " + String(nomVal.p_nominal) + "
 ";
-
-  annotation (Documentation(info="<html>
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 Returns a string representation of the nominal values.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 October 2, 2012 by Michael Wetter:<br/>

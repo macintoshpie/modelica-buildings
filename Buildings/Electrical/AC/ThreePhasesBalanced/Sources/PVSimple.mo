@@ -1,13 +1,15 @@
 within Buildings.Electrical.AC.ThreePhasesBalanced.Sources;
-model PVSimple "Model of a simple PV panel"
+model PVSimple
+  "Model of a simple PV panel"
   extends Buildings.Electrical.AC.OnePhase.Sources.PVSimple(
     redeclare Interfaces.Terminal_p terminal,
     redeclare Buildings.Electrical.AC.ThreePhasesBalanced.Loads.Capacitive load,
-    V_nominal(start=480));
-
-  annotation (
+    V_nominal(
+      start=480));
+  annotation(
     defaultComponentName="pv",
-    Documentation(revisions="<html>
+    Documentation(
+      revisions="<html>
 <ul>
 <li>
 October 7, 2019, by Michael Wetter:<br/>
@@ -20,7 +22,8 @@ August 24, 2014, by Marco Bonvini:<br/>
 Revised documentation.
 </li>
 </ul>
-</html>", info="<html>
+</html>",
+      info="<html>
 <p>
 Model of a simple photovoltaic array.
 </p>

@@ -1,10 +1,11 @@
 within Buildings.Applications;
-package DataCenters "Package with models for data centers"
+package DataCenters
+  "Package with models for data centers"
   extends Modelica.Icons.VariantsPackage;
-
-annotation (
-preferredView="info",
-Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 <p>
 This package contains models for data centers.
 They have been developed as part of the project

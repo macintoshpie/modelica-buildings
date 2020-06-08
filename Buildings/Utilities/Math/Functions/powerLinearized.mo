@@ -2,19 +2,23 @@ within Buildings.Utilities.Math.Functions;
 function powerLinearized
   "Power function that is linearized below a user-defined threshold"
   extends Modelica.Icons.Function;
-
- input Real x "Abscissa value";
- input Real n "Exponent";
- input Real x0 "Abscissa value below which linearization occurs";
- output Real y "Function value";
+  input Real x
+    "Abscissa value";
+  input Real n
+    "Exponent";
+  input Real x0
+    "Abscissa value below which linearization occurs";
+  output Real y
+    "Function value";
 algorithm
   if x > x0 then
-   y := x^n;
+    y := x^n;
   else
-   y := x0^n * (1-n) + n * x0^(n-1) * x;
+    y := x0^n*(1-n) + n*x0^(n-1)*x;
   end if;
-  annotation (
-    Documentation(info="<html>
+  annotation(
+    Documentation(
+      info="<html>
 Function that approximates <i>y=x<sup>n</sup></i>
 where <i>0 &lt; n</i> so that
 <ul>
@@ -35,12 +39,15 @@ when a solver may be far from a solution and hence <i>T4 &lt; 0</i>.
 <p>
 See the package <code>Examples</code> for the graph.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 February 3, 2011, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
-</html>"),  smoothOrder=1, Inline=true);
+</html>"),
+    smoothOrder=1,
+    Inline=true);
 end powerLinearized;

@@ -1,26 +1,42 @@
 within Buildings.ThermalZones.Detailed.Validation.BESTEST.Cases9xx;
-model Case940 "Case 900, but with heating schedule"
+model Case940
+  "Case 900, but with heating schedule"
   extends Case900(
-    TSetHea(table=[      0, 273.15 + 10;
-                    7*3600, 273.15 + 10;
-                    7*3600, 273.15 + 20;
-                   23*3600, 273.15 + 20;
-                   23*3600,273.15 + 10;
-                   24*3600,273.15 + 10]),
+    TSetHea(
+      table=[
+        0, 273.15 + 10;
+        7*3600, 273.15 + 10;
+        7*3600, 273.15 + 20;
+        23*3600, 273.15 + 20;
+        23*3600, 273.15 + 10;
+        24*3600, 273.15 + 10]),
     staRes(
-      annualHea(Min=0.793*3.6e9, Max=1.411*3.6e9, Mean=1.160*3.6e9),
-      annualCoo(Min=-2.079*3.6e9, Max=-3.241*3.6e9, Mean=-2.578*3.6e9),
-      peakHea(Min=3.980*1000, Max=6.428*1000, Mean=5.494*1000),
-      peakCoo(Min=-2.886*1000, Max=-3.871*1000, Mean=-3.390*1000)));
-
-    annotation (
-       __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases9xx/Case940.mos"
+      annualHea(
+        Min=0.793*3.6e9,
+        Max=1.411*3.6e9,
+        Mean=1.160*3.6e9),
+      annualCoo(
+        Min=-2.079*3.6e9,
+        Max=-3.241*3.6e9,
+        Mean=-2.578*3.6e9),
+      peakHea(
+        Min=3.980*1000,
+        Max=6.428*1000,
+        Mean=5.494*1000),
+      peakCoo(
+        Min=-2.886*1000,
+        Max=-3.871*1000,
+        Mean=-3.390*1000)));
+  annotation(
+    __Dymola_Commands(
+      file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases9xx/Case940.mos"
         "Simulate and plot"),
-        experiment(
+    experiment(
       StopTime=3.1536e+07,
       Interval=3600,
       Tolerance=1e-06),
-    Documentation(revisions="<html>
+    Documentation(
+      revisions="<html>
 <ul>
 <li>
 July 16, 2012, by Michael Wetter:<br/>
@@ -32,7 +48,8 @@ June 26, 2012, by Rainer Czetina and Rafael Velazquez:<br/>
 First implementation.
 </li>
 </ul>
-</html>", info="<html>
+</html>",
+      info="<html>
 <p>
 This model is used for the basic test case 940 of the BESTEST validation suite.
 Case940 is the same as Case900, but with the following modifications:

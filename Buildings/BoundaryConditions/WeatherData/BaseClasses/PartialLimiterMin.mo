@@ -2,14 +2,16 @@ within Buildings.BoundaryConditions.WeatherData.BaseClasses;
 partial block PartialLimiterMin
   "Partial block to limit a signal"
   extends Modelica.Blocks.Icons.Block;
-
-  Modelica.Blocks.Interfaces.RealInput u "Connector of Real input signal"
-  annotation (Placement(
-        transformation(extent={{-140,-20},{-100,20}})));
-
-annotation (
-defaultComponentName="limMin",
-Documentation(info="<html>
+  Modelica.Blocks.Interfaces.RealInput u
+    "Connector of Real input signal"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140,-20}, {-100, 20}})));
+  annotation(
+    defaultComponentName="limMin",
+    Documentation(
+      info="<html>
 <p>
 Partial block that is used to limit a signal by a minimum value.
 </p>
@@ -25,7 +27,7 @@ Without this construct, the weather data bus would simply show
 \"Connector of Real output signal\".
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 April 14, 2020, by Michael Wetter:<br/>
@@ -34,9 +36,8 @@ First implementation.
 </ul>
 </html>"),
     Icon(
-      graphics={
-        Text(
-          extent={{-100,30},{98,-16}},
-          lineColor={0,0,0},
-          textString="0 <= u")}));
+      graphics={Text(
+        extent={{-100, 30}, {98,-16}},
+        lineColor={0, 0, 0},
+        textString="0 <= u")}));
 end PartialLimiterMin;

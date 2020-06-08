@@ -3,28 +3,33 @@ partial model PartialPlantParallel
   "Partial source plant model with associated valves"
   extends Buildings.Applications.DataCenters.ChillerCooled.Equipment.BaseClasses.PartialPlantParallelInterface;
   extends Buildings.Applications.DataCenters.ChillerCooled.Equipment.BaseClasses.ValvesParameters(
-    final numVal = 2,
-    final m_flow_nominal = {m1_flow_nominal,m2_flow_nominal},
-    rhoStd = {Medium1.density_pTX(101325, 273.15+4, Medium1.X_default),
-            Medium2.density_pTX(101325, 273.15+4, Medium2.X_default)},
+    final numVal=2,
+    final m_flow_nominal={m1_flow_nominal, m2_flow_nominal},
+    rhoStd={Medium1.density_pTX(101325, 273.15 + 4, Medium1.X_default), Medium2.density_pTX(101325, 273.15 + 4, Medium2.X_default)},
     final deltaM=deltaM1);
   extends Buildings.Applications.DataCenters.ChillerCooled.Equipment.BaseClasses.SignalFilter(
     final numFil=num);
-
-  constant Boolean homotopyInitialization = true "= true, use homotopy method"
-    annotation(HideResult=true);
-
+  constant Boolean homotopyInitialization=true
+    "= true, use homotopy method"
+    annotation(
+      HideResult=true);
   // Isolation valve parameters
-  parameter Real l[2](each min=1e-10, each max=1) = {0.0001,0.0001}
+  parameter Real l[2](
+    each min=1e-10,
+    each max=1)={0.0001, 0.0001}
     "Valve leakage, l=Kv(y=0)/Kv(y=1)"
-    annotation(Dialog(group="Two-way valve"));
-  parameter Real kFixed[2](each unit="", each min=0)=
-    {m1_flow_nominal,m2_flow_nominal} ./ sqrt({dp1_nominal,  dp2_nominal})
+    annotation(
+      Dialog(
+        group="Two-way valve"));
+  parameter Real kFixed[2](
+    each unit="",
+    each min=0)={m1_flow_nominal, m2_flow_nominal} ./ sqrt({dp1_nominal, dp2_nominal})
     "Flow coefficient of fixed resistance that may be in series with valve 1, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)."
-   annotation(Dialog(group="Two-way valve"));
-
+    annotation(
+      Dialog(
+        group="Two-way valve"));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear val2[num](
-    redeclare each replaceable package Medium = Medium2,
+    redeclare each replaceable package Medium=Medium2,
     each final allowFlowReversal=allowFlowReversal2,
     each final m_flow_nominal=m2_flow_nominal,
     each dpFixed_nominal=dp2_nominal,
@@ -43,12 +48,14 @@ partial model PartialPlantParallel
     each final rhoStd=rhoStd[2],
     each final dpValve_nominal=dpValve_nominal[2])
     "Isolation valves on medium 2 side for on/off use"
-    annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=270,
-        origin={-40,-32})));
+    annotation(
+      Placement(
+        transformation(
+          extent={{-10,-10}, {10, 10}},
+          rotation=270,
+          origin={-40,-32})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear val1[num](
-    redeclare each replaceable package Medium = Medium1,
+    redeclare each replaceable package Medium=Medium1,
     each final allowFlowReversal=allowFlowReversal1,
     each final m_flow_nominal=m1_flow_nominal,
     each dpFixed_nominal=dp1_nominal,
@@ -67,43 +74,59 @@ partial model PartialPlantParallel
     each final linearized=linearizeFlowResistance1,
     each final rhoStd=rhoStd[1])
     "Isolation valves on medium 1 side for on/off use"
-    annotation (
-      Placement(transformation(
-        extent={{10,10},{-10,-10}},
-        rotation=270,
-        origin={40,32})));
-
+    annotation(
+      Placement(
+        transformation(
+          extent={{10, 10}, {-10,-10}},
+          rotation=270,
+          origin={40, 32})));
 initial equation
-  assert(homotopyInitialization, "In " + getInstanceName() +
-    ": The constant homotopyInitialization has been modified from its default value. This constant will be removed in future releases.",
-    level = AssertionLevel.warning);
-
+  assert(homotopyInitialization, "In " + getInstanceName() + ": The constant homotopyInitialization has been modified from its default value. This constant will be removed in future releases.",
+    level=AssertionLevel.warning);
 equation
-  for i in 1:num loop
+  for i in 1 : num loop
     connect(val1[i].port_b, port_b1)
-      annotation (Line(points={{40,42},{40,60},{100,60}}, color={0,127,255}));
+      annotation(
+        Line(
+          points={{40, 42}, {40, 60}, {100, 60}},
+          color={0, 127, 255}));
     connect(val2[i].port_b, port_b2)
-      annotation (Line(points={{-40,-42},{-40,-60},{-100,-60}},
-        color={0,127,255}));
+      annotation(
+        Line(
+          points={{-40,-42}, {-40,-60}, {-100,-60}},
+          color={0, 127, 255}));
   end for;
   if use_inputFilter then
     connect(booToRea.y, filter.u)
-      annotation (Line(points={{-67.4,40},{-60,40},{-60,84},{-55.2,84}},
-        color={0,0,127}));
+      annotation(
+        Line(
+          points={{-67.4, 40}, {-60, 40}, {-60, 84}, {-55.2, 84}},
+          color={0, 0, 127}));
   else
     connect(booToRea.y, y_actual)
-      annotation (Line(points={{-67.4,40},{-60,40},{-60,74},{-20,74}},
-        color={0,0,127}));
+      annotation(
+        Line(
+          points={{-67.4, 40}, {-60, 40}, {-60, 74}, {-20, 74}},
+          color={0, 0, 127}));
   end if;
   connect(on, booToRea.u)
-    annotation (Line(points={{-120,40},{-81.2,40},{-81.2,40}},
-      color={255,0,255}));
+    annotation(
+      Line(
+        points={{-120, 40}, {-81.2, 40}, {-81.2, 40}},
+        color={255, 0, 255}));
   connect(y_actual, val1.y)
-    annotation (Line(points={{-20,74},{-20,66},{20,66},
-          {20,32},{28,32}},color={0,0,127}));
+    annotation(
+      Line(
+        points={{-20, 74}, {-20, 66}, {20, 66}, {20, 32}, {28, 32}},
+        color={0, 0, 127}));
   connect(y_actual, val2.y)
-    annotation (Line(points={{-20,74},{-20,-32},{-28,-32}}, color={0,0,127}));
-  annotation (    Documentation(info="<html>
+    annotation(
+      Line(
+        points={{-20, 74}, {-20,-32}, {-28,-32}},
+        color={0, 0, 127}));
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 Partial model that can be extended to construct parallel chillers such as
 <a href=\"modelica://Buildings.Applications.DataCenters.ChillerCooled.Equipment.ElectricChillerParallel\">
@@ -121,7 +144,7 @@ The valve parameters can be specified differently.
 The signal filter is used to smoothe the on/off signal for the valves.
 </p>
 </html>",
-        revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 April 14, 2020, by Michael Wetter:<br/>

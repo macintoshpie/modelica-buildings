@@ -1,14 +1,16 @@
 within Buildings.Electrical.AC.ThreePhasesBalanced.Sources;
-model PVSimpleOriented "Model of a simple PV panel with orientation"
+model PVSimpleOriented
+  "Model of a simple PV panel with orientation"
   extends Buildings.Electrical.AC.OnePhase.Sources.PVSimpleOriented(
     redeclare Interfaces.Terminal_p terminal,
-    redeclare Buildings.Electrical.AC.ThreePhasesBalanced.Sources.PVSimple
-    panel(V_nominal = V_nominal),
-    V_nominal(start=480));
-
-  annotation (
+    redeclare Buildings.Electrical.AC.ThreePhasesBalanced.Sources.PVSimple panel(
+      V_nominal=V_nominal),
+    V_nominal(
+      start=480));
+  annotation(
     defaultComponentName="pv",
-    Documentation(revisions="<html>
+    Documentation(
+      revisions="<html>
 <ul>
 <li>
 October 7, 2019, by Michael Wetter:<br/>
@@ -21,7 +23,8 @@ August 24, 2014, by Marco Bonvini:<br/>
 Revised documentation.
 </li>
 </ul>
-</html>", info="<html>
+</html>",
+      info="<html>
 <p>
 Model of a simple photovoltaic array.
 </p>

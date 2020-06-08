@@ -1,14 +1,22 @@
 within Buildings.Utilities.Math;
-block Biquadratic "Biquadratic function"
+block Biquadratic
+  "Biquadratic function"
   extends Modelica.Blocks.Interfaces.SI2SO;
-  parameter Real a[6] "Coefficients";
+  parameter Real a[6]
+    "Coefficients";
 equation
-  y =  Buildings.Utilities.Math.Functions.biquadratic(a=a, x1=u1, x2=u2);
-  annotation (Icon(graphics={Text(
-          extent={{-88,40},{92,-32}},
-          lineColor={160,160,164},
-          textString="biquadratic()")}),
-Documentation(info="<html>
+  y=Buildings.Utilities.Math.Functions.biquadratic(
+    a=a,
+    x1=u1,
+    x2=u2);
+  annotation(
+    Icon(
+      graphics={Text(
+        extent={{-88, 40}, {92,-32}},
+        lineColor={160, 160, 164},
+        textString="biquadratic()")}),
+    Documentation(
+      info="<html>
 <p>
 This block computes
 </p>
@@ -19,7 +27,7 @@ This block computes
         + a<sub>6</sub>  x<sub>1</sub>  x<sub>2</sub>
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 Sep. 8, 2010, by Michael Wetter:<br/>

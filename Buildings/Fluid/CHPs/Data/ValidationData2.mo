@@ -1,11 +1,12 @@
 within Buildings.Fluid.CHPs.Data;
-record ValidationData2 "Validation data set 2"
+record ValidationData2
+  "Validation data set 2"
   extends Buildings.Fluid.CHPs.Data.Generic(
-    coeEtaQ={0.66,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    coeEtaE={0.27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    coeEtaQ={0.66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    coeEtaE={0.27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     compute_coolingWaterFlowRate=true,
-    coeMasWat={0.4,0,0,0,0,0},
-    coeMasAir={0,2,-10000},
+    coeMasWat={0.4, 0, 0, 0, 0, 0},
+    coeMasAir={0, 2,-10000},
     UAHex=741,
     UALos=13.7,
     capEng=63605.6,
@@ -26,11 +27,12 @@ record ValidationData2 "Validation data set 2"
     PStaBy=100,
     PCooDow=200,
     LHVFue=47.614e6);
-  annotation (
-  defaultComponentPrefixes = "parameter",
-  defaultComponentName = "per",
-  Documentation(preferredView="info",
-  info="<html>
+  annotation(
+    defaultComponentPrefixes="parameter",
+    defaultComponentName="per",
+    Documentation(
+      preferredView="info",
+      info="<html>
 <p>
 This is the record of parameters for CHP models derived from the parameters of
 EnergyPlus example <code>MicroCogeneration</code>, with following changes:
@@ -49,7 +51,8 @@ changed electric power consumptions during standby <code>PStaBy</code> and cool-
 <code>PCooDow</code> mode from 0 W to 100 W and 200 W respectively.
 </li>
 </ul>
-</html>",revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 March 08, 2019, by Tea Zakula:<br/>

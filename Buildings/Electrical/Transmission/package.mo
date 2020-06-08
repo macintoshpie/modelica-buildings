@@ -1,26 +1,28 @@
 within Buildings.Electrical;
-package Transmission "Package with models for transmission lines"
+package Transmission
+  "Package with models for transmission lines"
   extends Modelica.Icons.Package;
-
-annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-          {100,100}}), graphics={
-      Ellipse(
-        extent={{40,8},{16,-28}},
-        lineColor={0,0,0},
-        fillColor={255,255,255},
-        fillPattern=FillPattern.Solid),
-      Line(
-        points={{28,8},{-54,8},{-64,8},{-72,-10},{-64,-28},{-52,-28},{28,-28}},
-        color={0,0,0},
-        smooth=Smooth.Bezier),
-      Line(
-        points={{-70,-10},{-88,-10}},
-        color={0,0,0},
-        smooth=Smooth.None),
-      Line(
-        points={{54,-10},{28,-10}},
-        color={0,0,0},
-        smooth=Smooth.None)}), Documentation(info="<html>
+  annotation(
+    Icon(
+      coordinateSystem(
+        preserveAspectRatio=false,
+        extent={{-100,-100}, {100, 100}}),
+      graphics={Ellipse(
+        extent={{40, 8}, {16,-28}},
+        lineColor={0, 0, 0},
+        fillColor={255, 255, 255},
+        fillPattern=FillPattern.Solid), Line(
+        points={{28, 8}, {-54, 8}, {-64, 8}, {-72,-10}, {-64,-28}, {-52,-28}, {28,-28}},
+        color={0, 0, 0},
+        smooth=Smooth.Bezier), Line(
+        points={{-70,-10}, {-88,-10}},
+        color={0, 0, 0},
+        smooth=Smooth.None), Line(
+        points={{54,-10}, {28,-10}},
+        color={0, 0, 0},
+        smooth=Smooth.None)}),
+    Documentation(
+      info="<html>
 <p>
 This package contains cables that can be used
 to represent a line in a electric grid. The package contains
@@ -63,7 +65,8 @@ A wire 200 mils in diameter is 40 kcmil. kcmil is generally used for very
 large-diameter wire. Most wires use AWG.
 </p>
 
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 June 3, 2014, by Marco Bonvini:<br/>

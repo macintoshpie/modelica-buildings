@@ -1,46 +1,60 @@
 within Buildings.Electrical.AC.OnePhase.Loads;
-model Resistive "Model of a resistive load"
+model Resistive
+  "Model of a resistive load"
   extends Buildings.Electrical.Interfaces.ResistiveLoad(
-    redeclare package PhaseSystem = PhaseSystems.OnePhase,
+    redeclare package PhaseSystem=PhaseSystems.OnePhase,
     redeclare replaceable Interfaces.Terminal_n terminal,
-    V_nominal(start = 110));
+    V_nominal(
+      start=110));
 equation
-
   if linearized then
-    i[1] = -homotopy(actual = v[1]*P/V_nominal^2, simplified = v[1]*Modelica.Constants.eps*1e3);
-    i[2] = -homotopy(actual = v[2]*P/V_nominal^2, simplified = v[2]*Modelica.Constants.eps*1e3);
+    i[1]=-homotopy(
+      actual=v[1]*P/V_nominal^2,
+      simplified=v[1]*Modelica.Constants.eps*1e3);
+    i[2]=-homotopy(
+      actual=v[2]*P/V_nominal^2,
+      simplified=v[2]*Modelica.Constants.eps*1e3);
   else
     if initMode == Buildings.Electrical.Types.InitMode.zero_current then
-      i[1] = -homotopy(actual= v[1]*P/(v[1]^2 + v[2]^2),  simplified= 0.0);
-      i[2] = -homotopy(actual= v[2]*P/(v[1]^2 + v[2]^2),  simplified= 0.0);
+      i[1]=-homotopy(
+        actual=v[1]*P/(v[1]^2 + v[2]^2),
+        simplified=0.0);
+      i[2]=-homotopy(
+        actual=v[2]*P/(v[1]^2 + v[2]^2),
+        simplified=0.0);
     else
-      i[1] = -homotopy(actual= v[1]*P/(v[1]^2 + v[2]^2),
-                       simplified= v[1]*P/V_nominal^2);
-      i[2] = -homotopy(actual= v[2]*P/(v[1]^2 + v[2]^2),
-                       simplified= v[2]*P/V_nominal^2);
+      i[1]=-homotopy(
+        actual=v[1]*P/(v[1]^2 + v[2]^2),
+        simplified=v[1]*P/V_nominal^2);
+      i[2]=-homotopy(
+        actual=v[2]*P/(v[1]^2 + v[2]^2),
+        simplified=v[2]*P/V_nominal^2);
     end if;
   end if;
-  annotation (
+  annotation(
     defaultComponentName="loa",
-    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-            {100,100}}), graphics={Rectangle(extent={{-100,100},{100,-100}},
-            lineColor={255,255,255}),
-          Rectangle(
-            extent={{-80,40},{80,-40}},
-            lineColor={0,0,0},
-            fillColor={255,255,255},
-            fillPattern=FillPattern.Solid,
-          origin={0,3.55271e-15},
-          rotation=180),
-          Line(points={{-6.85214e-44,-8.39117e-60},{12,1.46953e-15}},
-                                       color={0,0,0},
-          origin={-80,0},
-          rotation=180),
-        Text(
-          extent={{-120,80},{120,40}},
-          lineColor={0,0,0},
-          textString="%name")}),
-          Documentation(info="<html>
+    Icon(
+      coordinateSystem(
+        preserveAspectRatio=false,
+        extent={{-100,-100}, {100, 100}}),
+      graphics={Rectangle(
+        extent={{-100, 100}, {100,-100}},
+        lineColor={255, 255, 255}), Rectangle(
+        extent={{-80, 40}, {80,-40}},
+        lineColor={0, 0, 0},
+        fillColor={255, 255, 255},
+        fillPattern=FillPattern.Solid,
+        origin={0, 3.55271e-15},
+        rotation=180), Line(
+        points={{-6.85214e-44,-8.39117e-60}, {12, 1.46953e-15}},
+        color={0, 0, 0},
+        origin={-80, 0},
+        rotation=180), Text(
+        extent={{-120, 80}, {120, 40}},
+        lineColor={0, 0, 0},
+        textString="%name")}),
+    Documentation(
+      info="<html>
 <p>
 Model of a resistive load. It may be used to model a load that has
 a power factor of one.
@@ -156,7 +170,8 @@ the assumption to use during the initialization phase by the homotopy operator.
 The choices are between a null current or the linearized model.
 </p>
 
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 January 29, 2019, by Michael Wetter:<br/>

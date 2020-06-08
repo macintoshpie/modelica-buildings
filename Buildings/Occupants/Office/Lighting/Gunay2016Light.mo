@@ -1,74 +1,99 @@
 within Buildings.Occupants.Office.Lighting;
-model Gunay2016Light "A model to predict occupants' lighting behavior with illuminance"
+model Gunay2016Light
+  "A model to predict occupants' lighting behavior with illuminance"
   extends Modelica.Blocks.Icons.DiscreteBlock;
-  parameter Real AArriv = -0.009 "Slope of logistic regression arrival";
-  parameter Real BArriv = 1.6 "Intercept of logistic regression arrival";
-  parameter Real AInter = -0.002 "Slope of logistic regression intermediate";
-  parameter Real BInter = -3.9 "Intercept of logistic regression intermediate";
-  parameter Integer seed = 30 "Seed for the random number generator";
-  parameter Modelica.SIunits.Time samplePeriod = 120 "Sample period";
-
+  parameter Real AArriv=-0.009
+    "Slope of logistic regression arrival";
+  parameter Real BArriv=1.6
+    "Intercept of logistic regression arrival";
+  parameter Real AInter=-0.002
+    "Slope of logistic regression intermediate";
+  parameter Real BInter=-3.9
+    "Intercept of logistic regression intermediate";
+  parameter Integer seed=30
+    "Seed for the random number generator";
+  parameter Modelica.SIunits.Time samplePeriod=120
+    "Sample period";
   Modelica.Blocks.Interfaces.RealInput ill
-    "Illuminance on the working planein units of lux" annotation (
-       Placement(transformation(extent={{-140,-80},{-100,-40}}),
-      iconTransformation(extent={{-140,-80},{-100,-40}})));
+    "Illuminance on the working planein units of lux"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140,-80}, {-100,-40}}),
+        iconTransformation(
+          extent={{-140,-80}, {-100,-40}})));
   Modelica.Blocks.Interfaces.BooleanInput occ
     "Indoor occupancy, true for occupied"
-    annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
-  Modelica.Blocks.Interfaces.BooleanOutput on "State of lighting"
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-
+    annotation(
+      Placement(
+        transformation(
+          extent={{-140, 40}, {-100, 80}})));
+  Modelica.Blocks.Interfaces.BooleanOutput on
+    "State of lighting"
+    annotation(
+      Placement(
+        transformation(
+          extent={{100,-10}, {120, 10}})));
   Real pArriv(
     final unit="1",
     final min=0,
-    final max=1) "Probability of switch on the lighting upon arrival";
+    final max=1)
+    "Probability of switch on the lighting upon arrival";
   Real pInter(
     final unit="1",
     final min=0,
-    final max=1) "Intermediate robability of switch on the lighting";
-
+    final max=1)
+    "Intermediate robability of switch on the lighting";
 protected
-  parameter Modelica.SIunits.Time t0(final fixed = false) "First sample time instant";
-  output Boolean sampleTrigger "True, if sample time instant";
-  Real curSeed "Current value for seed as a real-valued variable";
-
+  parameter Modelica.SIunits.Time t0(
+    final fixed=false)
+    "First sample time instant";
+  output Boolean sampleTrigger
+    "True, if sample time instant";
+  Real curSeed
+    "Current value for seed as a real-valued variable";
 initial equation
-  t0 = time;
-  curSeed = t0*seed;
-  on = false;
-
+  t0=time;
+  curSeed=t0*seed;
+  on=false;
 equation
-  pArriv = Modelica.Math.exp(AArriv*ill + BArriv)/(1+Modelica.Math.exp(AArriv*ill + BArriv));
-  pInter = Modelica.Math.exp(AInter*ill + BInter)/(1+Modelica.Math.exp(AInter*ill + BInter));
-  sampleTrigger = sample(t0,samplePeriod);
+  pArriv=Modelica.Math.exp(AArriv*ill + BArriv)/(1 + Modelica.Math.exp(AArriv*ill + BArriv));
+  pInter=Modelica.Math.exp(AInter*ill + BInter)/(1 + Modelica.Math.exp(AInter*ill + BInter));
+  sampleTrigger=sample(t0, samplePeriod);
   when {occ, sampleTrigger} then
-    curSeed = seed*time;
+    curSeed=seed*time;
     if sampleTrigger then
       if occ then
         if not pre(on) then
-          on = Buildings.Occupants.BaseClasses.binaryVariableGeneration(p=pInter, globalSeed=integer(curSeed));
+          on=Buildings.Occupants.BaseClasses.binaryVariableGeneration(
+            p=pInter,
+            globalSeed=integer(curSeed));
         else
-          on = true;
+          on=true;
         end if;
       else
-        on = false;
+        on=false;
       end if;
     else
-      on = Buildings.Occupants.BaseClasses.binaryVariableGeneration(p=pArriv, globalSeed=integer(curSeed));
+      on=Buildings.Occupants.BaseClasses.binaryVariableGeneration(
+        p=pArriv,
+        globalSeed=integer(curSeed));
     end if;
   end when;
-
-
-  annotation (Icon(graphics={
-            Rectangle(extent={{-60,40},{60,-40}}, lineColor={28,108,200}), Text(
-            extent={{-40,20},{40,-20}},
-            lineColor={28,108,200},
-            fillColor={0,0,255},
-            fillPattern=FillPattern.Solid,
-            textStyle={TextStyle.Bold},
-            textString="Light_Illu")}),
-defaultComponentName="lig",
-Documentation(info="<html>
+  annotation(
+    Icon(
+      graphics={Rectangle(
+        extent={{-60, 40}, {60,-40}},
+        lineColor={28, 108, 200}), Text(
+        extent={{-40, 20}, {40,-20}},
+        lineColor={28, 108, 200},
+        fillColor={0, 0, 255},
+        fillPattern=FillPattern.Solid,
+        textStyle={TextStyle.Bold},
+        textString="Light_Illu")}),
+    defaultComponentName="lig",
+    Documentation(
+      info="<html>
 <p>
 Model predicting the state of the lighting with the illuminance on the working plane
 and occupancy.
@@ -103,7 +128,7 @@ The model parameters are utilized as inputs for the lighting behavior models dev
 Gunay et al.
 </p>
 </html>",
-revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 July 27, 2018, by Zhe Wang:<br/>

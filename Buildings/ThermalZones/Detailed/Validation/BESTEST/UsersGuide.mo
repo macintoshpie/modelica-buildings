@@ -1,9 +1,11 @@
 within Buildings.ThermalZones.Detailed.Validation.BESTEST;
-package UsersGuide "User's Guide"
+package UsersGuide
+  "User's Guide"
   extends Modelica.Icons.Information;
-
-  annotation(preferredView="info",
-  Documentation(info="<html>
+  annotation(
+    preferredView="info",
+    Documentation(
+      info="<html>
 <p>
 The package <a href=\"modelica://Buildings.ThermalZones.Detailed.Validation.BESTEST\">
 Buildings.ThermalZones.Detailed.Validation.BESTEST</a> contains the models

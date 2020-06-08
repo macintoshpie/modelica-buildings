@@ -1,12 +1,15 @@
 within Buildings.HeatTransfer.Types;
-type SurfaceRoughness = enumeration(
-    VeryRough "Very rough",
-    Rough "Rough",
-    Medium "Medium rough",
-    MediumSmooth "Medium smooth",
-    Smooth "Smooth",
-    VerySmooth "Very smooth") "Enumeration defining the surface roughness"
-  annotation (Documentation(info="<html>
+type SurfaceRoughness=enumeration(VeryRough
+  "Very rough", Rough
+  "Rough", Medium
+  "Medium rough", MediumSmooth
+  "Medium smooth", Smooth
+  "Smooth", VerySmooth
+  "Very smooth")
+  "Enumeration defining the surface roughness"
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This enumeration is used to define the surface roughness
 which may be used to compute the convective heat transfer coefficients of
@@ -32,7 +35,7 @@ The possible surface roughness are
 <tr><td>VerySmooth</td>    <td>Glass</td></tr>
 </table>
 </html>",
-  revisions="<html>
+      revisions="<html>
 <ul>
 <li>
 November 30 2010, by Michael Wetter:<br/>

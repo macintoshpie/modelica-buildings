@@ -1,57 +1,83 @@
 within Buildings.Electrical.AC.ThreePhasesBalanced.Lines.Examples;
-model ACSimpleGridMedium "Test model for a network model with medium voltage"
+model ACSimpleGridMedium
+  "Test model for a network model with medium voltage"
   extends Modelica.Icons.Example;
   ThreePhasesBalanced.Lines.Network network(
-      redeclare Buildings.Electrical.Transmission.Grids.TestGrid2NodesMedium grid,
-      lines(redeclare
-        Buildings.Electrical.Transmission.MediumVoltageCables.Generic
-        commercialCable = network.grid.cables,
-        each V_nominal = network.V_nominal),
+    redeclare Buildings.Electrical.Transmission.Grids.TestGrid2NodesMedium grid,
+    lines(
+      redeclare Buildings.Electrical.Transmission.MediumVoltageCables.Generic commercialCable=network.grid.cables,
+      each V_nominal=network.V_nominal),
     V_nominal=15000)
     "Network model that represents the connection between the source and the load"
-    annotation (Placement(transformation(extent={{20,-10},{0,10}})));
-  ThreePhasesBalanced.Loads.Inductive load(mode=Types.Load.VariableZ_P_input,
-    P_nominal=250000,
-    V_nominal=15000) "Load connected to the network"
-    annotation (Placement(transformation(extent={{-28,10},{-48,30}})));
-  ThreePhasesBalanced.Sources.FixedVoltage E(V=15000, f=60) "Voltage source"
-                                                              annotation (Placement(
+    annotation(
+      Placement(
         transformation(
-        extent={{10,-10},{-10,10}},
-        rotation=180,
-        origin={-70,0})));
+          extent={{20,-10}, {0, 10}})));
+  ThreePhasesBalanced.Loads.Inductive load(
+    mode=Types.Load.VariableZ_P_input,
+    P_nominal=250000,
+    V_nominal=15000)
+    "Load connected to the network"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-28, 10}, {-48, 30}})));
+  ThreePhasesBalanced.Sources.FixedVoltage E(
+    V=15000,
+    f=60)
+    "Voltage source"
+    annotation(
+      Placement(
+        transformation(
+          extent={{10,-10}, {-10, 10}},
+          rotation=180,
+          origin={-70, 0})));
   Modelica.Blocks.Sources.Ramp load_inputs(
     height=5000,
     duration=2,
     offset=-2000,
-    startTime=0.5) "Input signal for the power consumption of the loads"
-    annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
+    startTime=0.5)
+    "Input signal for the power consumption of the loads"
+    annotation(
+      Placement(
+        transformation(
+          extent={{-80, 20}, {-60, 40}})));
 equation
-  connect(load.terminal, network.terminal[2]) annotation (Line(
-      points={{-28,20},{-20,20},{-20,4.44089e-16},{-4.44089e-16,4.44089e-16}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  connect(E.terminal, network.terminal[1]) annotation (Line(
-      points={{-60,-8.88178e-16},{-56,-8.88178e-16},{-56,4.44089e-16},{-4.44089e-16,
-          4.44089e-16}},
-      color={0,120,120},
-      smooth=Smooth.None));
-  connect(load_inputs.y, load.Pow) annotation (Line(
-      points={{-59,30},{-54,30},{-54,20},{-48,20}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  annotation (experiment(StopTime=1.0, Tolerance=1e-6),
-__Dymola_Commands(file=
-          "modelica://Buildings/Resources/Scripts/Dymola/Electrical/AC/ThreePhasesBalanced/Lines/Examples/ACSimpleGridMedium.mos"
+  connect(load.terminal, network.terminal[2])
+    annotation(
+      Line(
+        points={{-28, 20}, {-20, 20}, {-20, 4.44089e-16}, {-4.44089e-16, 4.44089e-16}},
+        color={0, 120, 120},
+        smooth=Smooth.None));
+  connect(E.terminal, network.terminal[1])
+    annotation(
+      Line(
+        points={{-60,-8.88178e-16}, {-56,-8.88178e-16}, {-56, 4.44089e-16}, {-4.44089e-16, 4.44089e-16}},
+        color={0, 120, 120},
+        smooth=Smooth.None));
+  connect(load_inputs.y, load.Pow)
+    annotation(
+      Line(
+        points={{-59, 30}, {-54, 30}, {-54, 20}, {-48, 20}},
+        color={0, 0, 127},
+        smooth=Smooth.None));
+  annotation(
+    experiment(
+      StopTime=1.0,
+      Tolerance=1e-6),
+    __Dymola_Commands(
+      file="modelica://Buildings/Resources/Scripts/Dymola/Electrical/AC/ThreePhasesBalanced/Lines/Examples/ACSimpleGridMedium.mos"
         "Simulate and plot"),
-Documentation(revisions="<html>
+    Documentation(
+      revisions="<html>
 <ul>
 <li>
 September 23, 2014, by Marco Bonvini:<br/>
 Documentation and example added.
 </li>
 </ul>
-</html>", info="<html>
+</html>",
+      info="<html>
 <p>
 This example demonstrates how to use a network model to connect
 a source to a load (using a medium voltage cable). In this simple case the network has two nodes

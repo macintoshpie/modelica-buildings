@@ -1,8 +1,9 @@
 within Buildings.Examples.Tutorial.CDL.Controls;
 package Validation
   extends Modelica.Icons.ExamplesPackage;
-
-  annotation (Documentation(info="<html>
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 This package contains models that validate the controls models.
 The examples plot various outputs, which have been verified against

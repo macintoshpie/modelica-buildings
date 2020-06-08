@@ -1,24 +1,31 @@
 within Buildings.Electrical.AC.OnePhase.Sources;
-model PVSimpleOriented "Simple PV model with orientation"
+model PVSimpleOriented
+  "Simple PV model with orientation"
   extends Buildings.Electrical.Interfaces.PartialAcDcParameters;
   extends Buildings.Electrical.Interfaces.PartialPVOriented(
-    redeclare package PhaseSystem = Buildings.Electrical.PhaseSystems.OnePhase,
-      V_nominal(start = 110),
-      redeclare replaceable Interfaces.Terminal_p terminal,
-      redeclare replaceable Buildings.Electrical.AC.OnePhase.Sources.PVSimple panel(
-        pf=pf,
-        eta_DCAC=eta_DCAC,
-        V_nominal=V_nominal,
-        linearized=linearized));
-  parameter Boolean linearized=false "If =true, linearize the load";
-  annotation (
-defaultComponentName="pv",
-    Icon(coordinateSystem(
+    redeclare package PhaseSystem=Buildings.Electrical.PhaseSystems.OnePhase,
+    V_nominal(
+      start=110),
+    redeclare replaceable Interfaces.Terminal_p terminal,
+    redeclare replaceable Buildings.Electrical.AC.OnePhase.Sources.PVSimple panel(
+      pf=pf,
+      eta_DCAC=eta_DCAC,
+      V_nominal=V_nominal,
+      linearized=linearized));
+  parameter Boolean linearized=false
+    "If =true, linearize the load";
+  annotation(
+    defaultComponentName="pv",
+    Icon(
+      coordinateSystem(
         preserveAspectRatio=false,
-        extent={{-100,-100},{100,100}},
-        grid={1,1}), graphics={
-        Line(points={{-90,0},{-59,0}}, color={0,0,0})}),
-    Documentation(revisions="<html>
+        extent={{-100,-100}, {100, 100}},
+        grid={1, 1}),
+      graphics={Line(
+        points={{-90, 0}, {-59, 0}},
+        color={0, 0, 0})}),
+    Documentation(
+      revisions="<html>
 <ul>
 <li>
 October 7, 2019, by Michael Wetter:<br/>
@@ -44,7 +51,7 @@ First implementation.
 </li>
 </ul>
 </html>",
-info="<html>
+      info="<html>
 <p>
 Model of a simple photovoltaic array.
 </p>

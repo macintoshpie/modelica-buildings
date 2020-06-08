@@ -1,9 +1,12 @@
 within Buildings.Controls.OBC.CDL.Types;
-type Reset = enumeration(
-    Disabled "Disabled",
-    Parameter "Use parameter value",
-    Input "Use input signal") "Options for integrator reset" annotation (
-    Documentation(info="<html>
+type Reset=enumeration(Disabled
+  "Disabled", Parameter
+  "Use parameter value", Input
+  "Use input signal")
+  "Options for integrator reset"
+  annotation(
+    Documentation(
+      info="<html>
 <p>
 Enumeration to define the choice of integrator reset.
 Possible values are:
@@ -25,7 +28,8 @@ Use this setting to use reset the integrator to the value of the parameter.
 from the input signal.
 </td></tr>
  </table>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 March 23, 2017, by Jianjun Hu:<br/>

@@ -1,20 +1,21 @@
 within Buildings.Electrical;
-package PhaseSystems "Phase systems used in power connectors"
+package PhaseSystems
+  "Phase systems used in power connectors"
   extends Modelica.Icons.Package;
-  import SI = Modelica.SIunits;
+  import SI=Modelica.SIunits;
   import Modelica.Constants.pi;
-
-
-  annotation (Icon(graphics={Line(
-          points={{-70,-52},{50,-52}},
-          color={95,95,95},
-          smooth=Smooth.None), Line(
-          points={{-70,8},{-58,28},{-38,48},{-22,28},{-10,8},{2,-12},{22,-32},{
-              40,-12},{50,8}},
-          color={95,95,95},
-          smooth=Smooth.Bezier)}),
-preferredView="info",
-Documentation(info="<html>
+  annotation(
+    Icon(
+      graphics={Line(
+        points={{-70,-52}, {50,-52}},
+        color={95, 95, 95},
+        smooth=Smooth.None), Line(
+        points={{-70, 8}, {-58, 28}, {-38, 48}, {-22, 28}, {-10, 8}, {2,-12}, {22,-32}, {40,-12}, {50, 8}},
+        color={95, 95, 95},
+        smooth=Smooth.Bezier)}),
+    preferredView="info",
+    Documentation(
+      info="<html>
 <p>
 This package contains a list of packages that represent different type of electric systems.
 Each package inherits from <a href=\"modelica://Buildings.Electrical.PhaseSystems.PartialPhaseSystem\">
@@ -61,7 +62,8 @@ Ruediger Franke and Hansjurg Wiesmann.<br/>
 Flexible modeling of electrical power systems - the Modelica PowerSystems library</a>.<br/>
 Proc. of the 10th Modelica Conference, Lund, Sweden, March 2014.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 May 27, 2014, by Marco Bonvini:<br/>

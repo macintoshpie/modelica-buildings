@@ -2,8 +2,9 @@ within Buildings.ThermalZones.ReducedOrder.Validation;
 package VDI6007
   "Validation according to VDI 6007-1"
   extends Modelica.Icons.ExamplesPackage;
-
-annotation (Documentation(info="<html>
+  annotation(
+    Documentation(
+      info="<html>
   <p>This package contains validation cases for Reduced Order Models according to
   Guideline VDI 6007 Part 1 (VDI, 2012). The guideline defines twelve test cases
   that consecutively test different aspects of building pyhsics behaviour. All

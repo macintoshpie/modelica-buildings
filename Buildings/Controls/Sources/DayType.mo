@@ -1,62 +1,67 @@
 within Buildings.Controls.Sources;
-model DayType "Block that outputs a signal that indicates week-day or week-end"
+model DayType
+  "Block that outputs a signal that indicates week-day or week-end"
   extends Modelica.Blocks.Icons.DiscreteBlock;
-  parameter Integer nout = 2
+  parameter Integer nout=2
     "Number of days to output. Set to two for one day predictions";
-  parameter Buildings.Controls.Types.Day[:] days={
-    Buildings.Controls.Types.Day.WorkingDay,
-    Buildings.Controls.Types.Day.WorkingDay,
-    Buildings.Controls.Types.Day.WorkingDay,
-    Buildings.Controls.Types.Day.WorkingDay,
-    Buildings.Controls.Types.Day.WorkingDay,
-    Buildings.Controls.Types.Day.NonWorkingDay,
-    Buildings.Controls.Types.Day.NonWorkingDay}
+  parameter Buildings.Controls.Types.Day[:] days={Buildings.Controls.Types.Day.WorkingDay, Buildings.Controls.Types.Day.WorkingDay, Buildings.Controls.Types.Day.WorkingDay, Buildings.Controls.Types.Day.WorkingDay, Buildings.Controls.Types.Day.WorkingDay, Buildings.Controls.Types.Day.NonWorkingDay, Buildings.Controls.Types.Day.NonWorkingDay}
     "Array where each element is a day indicator";
-   parameter Integer iStart(min=1, max=size(days, 1)) = 1
+  parameter Integer iStart(
+    min=1,
+    max=size(days, 1))=1
     "Index of element in days at simulation start";
-
   Interfaces.DayTypeOutput y[nout]
     "Type of the day for the current and the next (nout-1) days"
-    annotation (Placement(transformation(extent={{100,-10},
-            {120,10}}), iconTransformation(extent={{100,-10},{120,10}})));
-
+    annotation(
+      Placement(
+        transformation(
+          extent={{100,-10}, {120, 10}}),
+        iconTransformation(
+          extent={{100,-10}, {120, 10}})));
 protected
   parameter Modelica.SIunits.Time samplePeriod=86400
     "Sample period of the component";
-  output Integer iDay(min=1, max=size(days, 1))
+  output Integer iDay(
+    min=1,
+    max=size(days, 1))
     "Pointer to days that determines what day type is sent to the output";
-  parameter Modelica.SIunits.Time firstSample(fixed=false)
+  parameter Modelica.SIunits.Time firstSample(
+    fixed=false)
     "Time when the sampling starts";
-  output Boolean sampleTrigger "True, if sample time instant";
+  output Boolean sampleTrigger
+    "True, if sample time instant";
   output Boolean skipIDayIncrement
     "If true, don't increment iDay in first sample";
-
 initial equation
-  iDay = iStart;
-  firstSample = ceil(time/86400)*86400;
+  iDay=iStart;
+  firstSample=ceil(time/86400)*86400;
   // skipIDayIncrement is true if the simulation starts at midnight.
-  skipIDayIncrement = abs(firstSample-time) < 1E-8;
+  skipIDayIncrement=abs(firstSample-time) < 1E-8;
 equation
-  for i in 1:nout loop
-    y[i] = days[ mod(iDay+i-2, size(days, 1))+1];
+  for i in 1 : nout loop
+    y[i]=days[mod(iDay + i-2, size(days, 1)) + 1];
   end for;
-  sampleTrigger = sample(firstSample, samplePeriod);
+  sampleTrigger=sample(firstSample, samplePeriod);
   when sampleTrigger then
-    skipIDayIncrement = false;
+    skipIDayIncrement=false;
     if pre(skipIDayIncrement) then
-      iDay = pre(iDay);
+      iDay=pre(iDay);
     else
-      iDay = mod(pre(iDay), size(days, 1))+1;
+      iDay=mod(pre(iDay), size(days, 1)) + 1;
     end if;
   end when;
-  annotation (
-  defaultComponentName="dayType",
-  Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-            {100,100}}), graphics={Text(
-          extent={{-68,54},{68,-38}},
-          lineColor={0,0,255},
-          textString="day")}),
-    Documentation(info="<html>
+  annotation(
+    defaultComponentName="dayType",
+    Icon(
+      coordinateSystem(
+        preserveAspectRatio=false,
+        extent={{-100,-100}, {100, 100}}),
+      graphics={Text(
+        extent={{-68, 54}, {68,-38}},
+        lineColor={0, 0, 255},
+        textString="day")}),
+    Documentation(
+      info="<html>
 <p>
 This block outputs a periodic signal that indicates the type of the day.
 It can for example be used to generate a signal that indicates whether
@@ -79,7 +84,8 @@ is a multiple of <i>1</i> day. Hence, if the simulation starts for example
 at <i>t=-3600</i> seconds, then the first transition to another day will be
 at <i>t=0</i>.
 </p>
-</html>", revisions="<html>
+</html>",
+      revisions="<html>
 <ul>
 <li>
 March 20, 2014 by Michael Wetter:<br/>
