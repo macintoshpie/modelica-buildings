@@ -4,9 +4,9 @@ model CoolingIndirectClosedBuildingLoop
   extends Modelica.Icons.Example;
   package Medium=Buildings.Media.Water
     "Water medium";
-  parameter Modelica.SIunits.MassFlowRate mDis_flow_nominal=0.5
+  parameter Modelica.SIunits.MassFlowRate mDis_flow_nominal=mBui_flow_nominal*5/9
     "Nominal mass flow rate on district-side (primary)";
-  parameter Modelica.SIunits.MassFlowRate mBui_flow_nominal=0.5
+  parameter Modelica.SIunits.MassFlowRate mBui_flow_nominal=1.5
     "Nominal mass flow rate on building-side (secondary)";
   parameter Modelica.SIunits.SpecificHeatCapacity cp=Medium.specificHeatCapacityCp(
     Medium.setState_pTX(
@@ -41,7 +41,8 @@ model CoolingIndirectClosedBuildingLoop
     dp2_nominal=500,
     Q_flow_nominal=18514,
     T_a1_nominal=278.15,
-    T_a2_nominal=289.15,
+    T_a2_nominal= 285.15,
+    eta=1,
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     k=0.1,
     Ti=40,
@@ -76,8 +77,7 @@ model CoolingIndirectClosedBuildingLoop
     dp_nominal=100)
     "Aggregate building cooling load"
     annotation (Placement(transformation(extent={{40,-86},{60,-66}})));
-  Modelica.Blocks.Math.Gain gai(
-    k=-1/(cp*(16-7)))
+  Modelica.Blocks.Math.Gain gai(k=-1/(cp*(12 - 7)))
     "Multiplier gain for calculating m_flow"
     annotation (Placement(transformation(extent={{-60,-20},{-40,0}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow pumBui(
