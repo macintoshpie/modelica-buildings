@@ -23,6 +23,10 @@ model ChilledWaterPumpSpeed
     startTime=150)
     "Total chilled water mass flow rate"
     annotation (Placement(transformation(extent={{-60,20},{-40,40}})));
+initial equation
+  Modelica.Utilities.Streams.print(
+    "Warning:\n  In " + getInstanceName() +
+    ": This model is a beta version and is not fully validated yet.");
 equation
   connect(dpMea.y,chiWatPumSpe.dpMea)
     annotation (Line(points={{-39,-30},{-30,-30},{-30,-4},{-12,-4}},color={0,0,127}));
@@ -36,7 +40,7 @@ equation
       coordinateSystem(
         preserveAspectRatio=false)),
     experiment(
-      StopTime=86400,
+      StopTime=1200,
       Tolerance=1e-06),
     __Dymola_Commands(
       file="Resources/Scripts/Dymola/Experimental/DHC/CentralPlants/Cooling/Controls/Validation/ChilledWaterPumpSpeed.mos" "Simulate and Plot"),
@@ -50,6 +54,9 @@ First implementation.
 </ul>
 </html>",
       info="<html>
-<p>This model validates the variable speed pump control logic implemented in <a href=\"modelica://Buildings.Applications.DHC.CentralPlants.Cooling.Controls.ChilledWaterPumpSpeed\">Buildings.Applications.DHC.CentralPlants.Cooling.Controls.ChilledWaterPumpSpeed</a>.</p>
+<p>This model validates the variable speed pump control logic implemented in 
+<a href=\"modelica://Buildings.Experimental.DHC.CentralPlants.Cooling.Controls.ChilledWaterPumpSpeed\">
+Buildings.Experimental.DHC.CentralPlants.Cooling.Controls.ChilledWaterPumpSpeed</a>.
+</p>
 </html>"));
 end ChilledWaterPumpSpeed;
